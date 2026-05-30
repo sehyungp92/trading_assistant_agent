@@ -1,0 +1,12 @@
+{
+  "version": "crypto_raw_perp_policy_v1",
+  "source": "Hyperliquid raw perpetual candles",
+  "effective_date": "2026-05-30",
+  "markets_covered": ["crypto_perp"],
+  "instruments_covered": ["BTC", "ETH", "SOL"],
+  "formula": "No price adjustment is applied. Candle timestamps are UTC candle open times parsed from source millisecond ts.",
+  "known_limitations": [
+    "Does not include liquidation, depth, or mark/index series unless separately normalized."
+  ]
+}
+

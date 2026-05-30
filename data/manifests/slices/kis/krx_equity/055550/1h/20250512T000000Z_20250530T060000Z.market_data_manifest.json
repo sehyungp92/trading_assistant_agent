@@ -1,0 +1,99 @@
+{
+  "manifest_id": "e004f1064d464eee",
+  "source": "kis",
+  "market": "krx_equity",
+  "symbol": "055550",
+  "timeframe": "1h",
+  "start_ts": "2025-05-12T00:00:00Z",
+  "end_ts": "2025-05-30T06:00:00Z",
+  "expected_bars": 90,
+  "actual_bars": 105,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [
+    {
+      "start_ts": "2025-05-12T07:00:00Z",
+      "end_ts": "2025-05-12T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-13T07:00:00Z",
+      "end_ts": "2025-05-13T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-14T07:00:00Z",
+      "end_ts": "2025-05-14T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-15T07:00:00Z",
+      "end_ts": "2025-05-15T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-16T07:00:00Z",
+      "end_ts": "2025-05-18T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-19T07:00:00Z",
+      "end_ts": "2025-05-19T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-20T07:00:00Z",
+      "end_ts": "2025-05-20T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-21T07:00:00Z",
+      "end_ts": "2025-05-21T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-22T07:00:00Z",
+      "end_ts": "2025-05-22T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-23T07:00:00Z",
+      "end_ts": "2025-05-25T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-26T07:00:00Z",
+      "end_ts": "2025-05-26T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-27T07:00:00Z",
+      "end_ts": "2025-05-27T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-28T07:00:00Z",
+      "end_ts": "2025-05-28T23:00:00Z",
+      "reason": "gap>60min"
+    },
+    {
+      "start_ts": "2025-05-29T07:00:00Z",
+      "end_ts": "2025-05-29T23:00:00Z",
+      "reason": "gap>60min"
+    }
+  ],
+  "session_calendar": "krx_equities_v1",
+  "timezone": "Asia/Seoul",
+  "checksum": "8bf3d675ff22dee138014c028d3e12dc1b3f6e16ab41d14393f5c6a8284308a5",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "KRX intraday timestamp/session audit required before authority",
+    "missing ranges present",
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T21:37:34.880156Z"
+}

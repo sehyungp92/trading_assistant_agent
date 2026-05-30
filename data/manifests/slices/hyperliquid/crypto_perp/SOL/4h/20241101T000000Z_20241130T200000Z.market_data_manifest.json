@@ -1,0 +1,26 @@
+{
+  "manifest_id": "2d971dd98ced123e",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "SOL",
+  "timeframe": "4h",
+  "start_ts": "2024-11-01T00:00:00Z",
+  "end_ts": "2024-11-30T20:00:00Z",
+  "expected_bars": 180,
+  "actual_bars": 180,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "6f5e749006a38a5b671f8e3e05c234687a0b0e6a9d8d22f3a13a522ee94708a8",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:02:26.005627Z"
+}

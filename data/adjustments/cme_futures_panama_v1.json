@@ -1,0 +1,12 @@
+{
+  "version": "cme_futures_panama_v1",
+  "source": "Ported from _references/trading/libs/market_data/futures_roll.py and panama.py",
+  "effective_date": "2026-05-30",
+  "markets_covered": ["cme_futures"],
+  "instruments_covered": ["NQ", "MNQ", "ES"],
+  "formula": "Quarterly contracts roll four calendar days before third-Friday expiry. Backward Panama offsets use the new-open minus old-close gap rounded to tick size, with an implausible-gap guard.",
+  "known_limitations": [
+    "Continuous files are not authoritative unless roll schedule and Panama adjustment checksum are included in the slice manifest."
+  ]
+}
+

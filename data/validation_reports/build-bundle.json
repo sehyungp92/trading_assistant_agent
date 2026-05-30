@@ -1,0 +1,16 @@
+{
+  "bundle_checksum": "16ea31fb39b9cc0dd29bee03b05091aa35ee8d25803074c3c47e725d99d7063c",
+  "bundle_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\crypto_portfolio\\btc_1m\\data_bundle_manifest.json",
+  "dry_run": false,
+  "slice_index_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\crypto_portfolio\\btc_1m\\slice_index.json",
+  "status": "diagnostics_only",
+  "validation": {
+    "errors": [
+      "data_repo_commit_sha",
+      "slice_manifests[0].authoritative"
+    ],
+    "status": "diagnostics_only",
+    "valid": false,
+    "warnings": []
+  }
+}

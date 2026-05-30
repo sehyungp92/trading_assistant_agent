@@ -1,0 +1,173 @@
+{
+  "manifest_id": "97fe46d7ca02e5fc",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "SOL",
+  "timeframe": "funding_8h",
+  "start_ts": "2023-05-12T00:00:00.048000Z",
+  "end_ts": "2023-05-31T16:00:00.323000Z",
+  "expected_bars": 60,
+  "actual_bars": 60,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [
+    {
+      "start_ts": "2023-05-12T08:00:00.048000Z",
+      "end_ts": "2023-05-12T00:00:00.388000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-13T00:00:00.253000Z",
+      "end_ts": "2023-05-12T16:00:00.278000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-14T00:00:00.054000Z",
+      "end_ts": "2023-05-13T16:00:00.087000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-14T08:00:00.087000Z",
+      "end_ts": "2023-05-14T00:00:00.271000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-14T16:00:00.271000Z",
+      "end_ts": "2023-05-14T08:00:00.380000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-15T16:00:00.045000Z",
+      "end_ts": "2023-05-15T08:00:00.409000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-16T00:00:00.409000Z",
+      "end_ts": "2023-05-15T16:00:00.447000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-16T16:00:00.126000Z",
+      "end_ts": "2023-05-16T08:00:00.731000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-17T08:00:00.067000Z",
+      "end_ts": "2023-05-17T00:00:00.279000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-18T00:00:00.024000Z",
+      "end_ts": "2023-05-17T16:00:00.048000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-18T16:00:00.038000Z",
+      "end_ts": "2023-05-18T08:00:00.052000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-19T08:00:00.026000Z",
+      "end_ts": "2023-05-19T00:00:00.158000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-19T16:00:00.158000Z",
+      "end_ts": "2023-05-19T08:00:00.396000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-20T08:00:00.029000Z",
+      "end_ts": "2023-05-20T00:00:00.111000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-20T16:00:00.111000Z",
+      "end_ts": "2023-05-20T08:00:00.345000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-21T16:00:00.013000Z",
+      "end_ts": "2023-05-21T08:00:00.088000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-22T08:00:00.066000Z",
+      "end_ts": "2023-05-22T00:00:00.290000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-23T08:00:00.022000Z",
+      "end_ts": "2023-05-23T00:23:53.040000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-25T00:00:00.001000Z",
+      "end_ts": "2023-05-24T16:00:00.233000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-25T08:00:00.233000Z",
+      "end_ts": "2023-05-25T00:00:00.374000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-26T16:00:00.044000Z",
+      "end_ts": "2023-05-26T08:00:00.180000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-27T08:00:00.015000Z",
+      "end_ts": "2023-05-27T00:00:00.106000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-28T00:00:00.044000Z",
+      "end_ts": "2023-05-27T16:00:00.362000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-28T16:00:00.081000Z",
+      "end_ts": "2023-05-28T08:00:00.156000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-29T16:00:00.068000Z",
+      "end_ts": "2023-05-29T08:00:00.081000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-30T00:00:00.081000Z",
+      "end_ts": "2023-05-29T16:00:00.148000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-30T08:00:00.148000Z",
+      "end_ts": "2023-05-30T00:00:00.206000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-31T08:00:00.047000Z",
+      "end_ts": "2023-05-31T00:00:00.219000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-05-31T16:00:00.219000Z",
+      "end_ts": "2023-05-31T08:00:00.323000Z",
+      "reason": "gap>480min"
+    }
+  ],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "2b0bb9a1116928df136479a2dbe3db2c261bfdbd17d5a84cef54cb1e0068215f",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "missing ranges present",
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:02:35.101072Z"
+}

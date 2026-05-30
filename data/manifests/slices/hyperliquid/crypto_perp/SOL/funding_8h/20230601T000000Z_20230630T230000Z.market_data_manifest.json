@@ -1,0 +1,83 @@
+{
+  "manifest_id": "9aae653ca05582b0",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "SOL",
+  "timeframe": "funding_8h",
+  "start_ts": "2023-06-01T00:00:00.139000Z",
+  "end_ts": "2023-06-30T23:00:00.500000Z",
+  "expected_bars": 90,
+  "actual_bars": 573,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [
+    {
+      "start_ts": "2023-06-01T16:00:00.067000Z",
+      "end_ts": "2023-06-01T08:00:00.096000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-02T00:00:00.096000Z",
+      "end_ts": "2023-06-01T16:00:00.428000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-03T00:00:00.038000Z",
+      "end_ts": "2023-06-02T16:00:00.055000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-03T08:00:00.055000Z",
+      "end_ts": "2023-06-03T00:00:00.071000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-04T00:00:00.011000Z",
+      "end_ts": "2023-06-03T16:00:00.341000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-04T16:00:00.084000Z",
+      "end_ts": "2023-06-04T08:00:00.195000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-05T08:00:00.078000Z",
+      "end_ts": "2023-06-05T00:00:00.375000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-06T00:00:00.060000Z",
+      "end_ts": "2023-06-05T16:00:00.279000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-06T16:00:00.072000Z",
+      "end_ts": "2023-06-06T08:00:00.128000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-07T00:00:00.128000Z",
+      "end_ts": "2023-06-06T16:00:00.420000Z",
+      "reason": "gap>480min"
+    },
+    {
+      "start_ts": "2023-06-08T00:00:00.026000Z",
+      "end_ts": "2023-06-07T16:00:00.254000Z",
+      "reason": "gap>480min"
+    }
+  ],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "b9aae7930075a173a9ba3cc17008c8db19260c0c026b8d0e541bec3d26a69219",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "missing ranges present",
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:02:35.166646Z"
+}

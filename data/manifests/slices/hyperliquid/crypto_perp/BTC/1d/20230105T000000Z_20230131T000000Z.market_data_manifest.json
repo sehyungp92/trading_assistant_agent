@@ -1,0 +1,26 @@
+{
+  "manifest_id": "35ee847ef5f4bbe7",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "BTC",
+  "timeframe": "1d",
+  "start_ts": "2023-01-05T00:00:00Z",
+  "end_ts": "2023-01-31T00:00:00Z",
+  "expected_bars": 27,
+  "actual_bars": 27,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "c1737ad8cc0ef496a7e1cd599d8af728b9ece628bc3227ec67d46b9a0f128b91",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:02:00.272499Z"
+}

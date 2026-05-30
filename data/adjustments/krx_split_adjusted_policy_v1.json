@@ -1,0 +1,12 @@
+{
+  "version": "krx_split_adjusted_policy_v1",
+  "source": "KIS/LRS reference snapshot policy seed",
+  "effective_date": "2026-05-30",
+  "markets_covered": ["krx_equity"],
+  "instruments_covered": ["KRX equities"],
+  "formula": "Daily and intraday KRX bars preserve source adjustment state; authority requires explicit source adjustment audit.",
+  "known_limitations": [
+    "KIS intraday timestamp/session semantics must be audited before authority."
+  ]
+}
+
