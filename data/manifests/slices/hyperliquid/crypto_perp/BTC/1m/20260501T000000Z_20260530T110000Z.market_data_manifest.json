@@ -14,13 +14,11 @@
   "timezone": "UTC",
   "checksum": "a6a70858e3694f889c8e75ff8627625eacef3d5d0259c6790d76633991afdeb1",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "a4b376c4e1417784a1e59c3c128a8ddca37fd4b3",
   "adjustment_policy": "crypto_raw_perp_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
-  "usable_for_authoritative_validation": false,
-  "blocking_reasons": [
-    "source_version is not a data repo commit SHA"
-  ],
+  "usable_for_authoritative_validation": true,
+  "blocking_reasons": [],
   "generated_at": "2026-05-30T22:02:04.415331Z"
 }
