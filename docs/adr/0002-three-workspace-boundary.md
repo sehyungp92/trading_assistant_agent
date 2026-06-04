@@ -17,9 +17,7 @@ would also make the package boundary look weaker than the runtime boundary. The 
 most important contract is not a Python import contract; it is the manifest and artifact
 handoff between separately runnable workspaces.
 
-The current checkout has those workspaces as root-level sibling directories. The final
-monorepo target moves them under `packages/` while preserving the same sibling
-relationship inside that directory.
+The checkout has those workspaces as sibling package directories under `packages/`.
 
 ## Decision
 
@@ -32,22 +30,22 @@ packages/trading_assistant_data/
 packages/trading_assistant_backtest/
 ```
 
-Use `src/` layout inside independently packaged workspaces where it is already safe:
+Use `src/` layout inside independently packaged workspaces:
 
 ```text
-trading_assistant_data/src/trading_assistant_data/
-trading_assistant_backtest/src/trading_assistant_backtest/
+packages/trading_assistant/src/trading_assistant/
+packages/trading_assistant_data/src/trading_assistant_data/
+packages/trading_assistant_backtest/src/trading_assistant_backtest/
 ```
 
-Preserve the control plane's existing root-level import packages until a dedicated
-namespace migration rewrites imports and path-resolution assumptions together.
+The control plane imports through the `trading_assistant.*` namespace; the old
+root-level control-plane imports are not supported.
 
 Add lightweight guardrails so the workspaces do not start importing each other's runtime
 internals. Cross-workspace handoffs should stay manifest-driven.
 
 ## Consequences
 
-During the transition, the layout remains slightly mixed internally, but the
-architectural boundary is explicit and stable. The data and backtest workspaces can
-remain independently installable and versionable. The control-plane namespace can be
-migrated later without coupling that risk to the initial boundary cleanup.
+The architectural boundary is explicit and stable. All three workspaces are
+independently installable and versionable, while cross-workspace behavior remains
+manifest-driven instead of import-driven.

@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  workspace-gates:
+    name: Workspace gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install editable packages
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ./packages/trading_assistant_data
+          python -m pip install -e ./packages/trading_assistant_backtest
+          python -m pip install -e "./packages/trading_assistant[dev,notifications]"
+      - name: Structure guard
+        run: python tools/run_workspace_checks.py structure --layout final
+      - name: Import boundary and smoke imports
+        run: python tools/run_workspace_checks.py imports
+      - name: CLI entrypoint smoke tests
+        run: python tools/run_workspace_checks.py cli-smoke
+      - name: Focused monthly validation tests
+        run: python tools/run_workspace_checks.py monthly-focused
+      - name: Data contract tests
+        run: python tools/run_workspace_checks.py data-contracts
+      - name: Backtest monthly runner tests
+        run: python tools/run_workspace_checks.py backtest-monthly
+      - name: Backtest approval-grade audit tests
+        run: python tools/run_workspace_checks.py backtest-approval
+      - name: Manifest validate-only smoke
+        run: python tools/run_workspace_checks.py manifest-validate
+      - name: Data reproduction smoke
+        run: python tools/run_workspace_checks.py data-reproduction-smoke
+      - name: Validation matrix smoke
+        run: python tools/run_workspace_checks.py validation-matrix
+
+  control-tests:
+    name: Control package tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install editable packages
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ./packages/trading_assistant_data
+          python -m pip install -e ./packages/trading_assistant_backtest
+          python -m pip install -e "./packages/trading_assistant[dev,notifications]"
+      - name: Run control tests
+        working-directory: packages/trading_assistant
+        run: python -m pytest -o addopts=
+
+  data-tests:
+    name: Data package tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install editable packages
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ./packages/trading_assistant_data
+          python -m pip install -e ./packages/trading_assistant_backtest
+          python -m pip install -e "./packages/trading_assistant[dev,notifications]"
+      - name: Run data tests
+        working-directory: packages/trading_assistant_data
+        run: python -m pytest
+
+  backtest-tests:
+    name: Backtest package tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install editable packages
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ./packages/trading_assistant_data
+          python -m pip install -e ./packages/trading_assistant_backtest
+          python -m pip install -e "./packages/trading_assistant[dev,notifications]"
+      - name: Run backtest tests
+        working-directory: packages/trading_assistant_backtest
+        run: python -m pytest

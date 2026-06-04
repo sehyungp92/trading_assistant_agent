@@ -15,6 +15,10 @@ workspace in this checkout.
 The final package-structure plan expects a true monorepo: one parent Git repository
 with no accidental nested `.git` directories under the package workspaces.
 
+Update: the package-path migration has completed, and normal development now uses
+`packages/trading_assistant`, `packages/trading_assistant_data`, and
+`packages/trading_assistant_backtest`.
+
 ## Decision
 
 Make `trading_assistant_agent` the owning Git repository. Preserve the existing
@@ -40,4 +44,3 @@ but normal development should happen from the parent repository after this conve
 
 The package-path migration remains reversible and independently testable because it
 will start from a parent-repo checkpoint instead of from nested repositories.
-

@@ -46,7 +46,7 @@ handoffs, artifact validation, and approval gates continue to work after the mov
 - Do not delete historical docs or artifacts unless a later cleanup plan explicitly
   classifies them as generated or obsolete.
 
-## Current State Summary
+## Pre-Migration State Summary
 
 - The parent `trading_assistant_agent` directory is not currently a git repository.
 - `trading_assistant` is a nested git repo and has existing uncommitted changes.
@@ -190,39 +190,39 @@ Purpose: make the current state recoverable before moving files.
 
 Checklist:
 
-- [ ] 0.1 Record `git status --short --branch` for `trading_assistant`.
-- [ ] 0.2 Record `git status --short --branch` for `trading_assistant_data`.
-- [ ] 0.3 Record the absence or presence of `.git` under `trading_assistant_backtest`.
-- [ ] 0.4 Record whether root `trading_assistant_agent` will become a git repo before
+- [x] 0.1 Record `git status --short --branch` for `trading_assistant`.
+- [x] 0.2 Record `git status --short --branch` for `trading_assistant_data`.
+- [x] 0.3 Record the absence or presence of `.git` under `trading_assistant_backtest`.
+- [x] 0.4 Record whether root `trading_assistant_agent` will become a git repo before
       the move.
-- [ ] 0.5 Decide whether root history should be created with `git init`, `git subtree`,
+- [x] 0.5 Decide whether root history should be created with `git init`, `git subtree`,
       or historyless file moves.
-- [ ] 0.6 If preserving nested repo history, create git bundles or subtree imports for
+- [x] 0.6 If preserving nested repo history, create git bundles or subtree imports for
       `trading_assistant` and `trading_assistant_data`.
-- [ ] 0.7 If not preserving nested repo history, explicitly document that decision in a
+- [x] 0.7 If not preserving nested repo history, explicitly document that decision in a
       new ADR.
-- [ ] 0.8 Ensure no untracked generated caches are included in the migration plan:
+- [x] 0.8 Ensure no untracked generated caches are included in the migration plan:
       `.pytest_cache/`, `.ruff_cache/`, `__pycache__/`.
-- [ ] 0.9 Inventory checkout-time import shims:
+- [x] 0.9 Inventory checkout-time import shims:
       `rg -n "checkout shim|Source-tree convenience|sys.path.insert|__path__"`.
-- [ ] 0.10 Inventory hardcoded workspace paths:
+- [x] 0.10 Inventory hardcoded workspace paths:
       `rg -n "trading_assistant_data|trading_assistant_backtest|trading_backtests|BACKTEST_REPO_PATH|MARKET_DATA_ROOT"`.
-- [ ] 0.11 Inventory `Path(__file__)` package-root assumptions:
+- [x] 0.11 Inventory `Path(__file__)` package-root assumptions:
       `rg -n "Path\\(__file__\\)|parents\\[|parent\\.parent"`.
-- [ ] 0.12 Save baseline output for:
+- [x] 0.12 Save baseline output for:
       `python tools/check_workspace_structure.py --layout current`.
-- [ ] 0.13 Save expected failing output for:
+- [x] 0.13 Save expected failing output for:
       `python tools/check_workspace_structure.py --layout final`.
-- [ ] 0.14 Save baseline help output for:
+- [x] 0.14 Save baseline help output for:
       `python -m trading_assistant_data --help`.
-- [ ] 0.15 Save baseline help output for:
+- [x] 0.15 Save baseline help output for:
       `python -m trading_assistant_backtest.monthly --help`.
-- [ ] 0.16 Save baseline help output for:
+- [x] 0.16 Save baseline help output for:
       `python -m backtests.shared.monthly_repair --help`.
-- [ ] 0.17 Run and save baseline focused tests for each workspace.
-- [ ] 0.18 Decide whether large data changes in `trading_assistant_data/data/` must be
+- [x] 0.17 Run and save baseline focused tests for each workspace.
+- [x] 0.18 Decide whether large data changes in `trading_assistant_data/data/` must be
       committed, stashed, copied, or excluded before the move.
-- [ ] 0.19 Create a migration branch or root checkpoint before file moves.
+- [x] 0.19 Create a migration branch or root checkpoint before file moves.
 
 Exit criteria:
 
@@ -236,24 +236,24 @@ Purpose: make the root the coordination layer before moving packages.
 
 Checklist:
 
-- [ ] 1.1 Create or update root `README.md` to describe the final `packages/` layout.
-- [ ] 1.2 Create root `packages/` directory.
-- [ ] 1.3 Create or update root `.gitignore` to cover Python caches, local env files,
+- [x] 1.1 Create or update root `README.md` to describe the final `packages/` layout.
+- [x] 1.2 Create root `packages/` directory.
+- [x] 1.3 Create or update root `.gitignore` to cover Python caches, local env files,
       generated run artifacts, and workspace-local virtual environments.
-- [ ] 1.4 Create root `pyproject.toml` if using shared tooling.
-- [ ] 1.5 Add root tooling config only for workspace orchestration, not package runtime
+- [x] 1.4 Create root `pyproject.toml` if using shared tooling.
+- [x] 1.5 Add root tooling config only for workspace orchestration, not package runtime
       metadata.
-- [ ] 1.6 Keep `tools/check_workspace_structure.py --layout current` passing before any
+- [x] 1.6 Keep `tools/check_workspace_structure.py --layout current` passing before any
       package move.
-- [ ] 1.7 Keep `tools/check_workspace_structure.py --layout final` failing cleanly with
+- [x] 1.7 Keep `tools/check_workspace_structure.py --layout final` failing cleanly with
       actionable missing-path errors before the package move.
-- [ ] 1.8 Keep cross-workspace import checks inside the structure guard unless the logic
+- [x] 1.8 Keep cross-workspace import checks inside the structure guard unless the logic
       becomes large enough to split into `tools/check_no_cross_workspace_imports.py`.
-- [ ] 1.9 Add documentation that root scripts must call package commands with explicit
+- [x] 1.9 Add documentation that root scripts must call package commands with explicit
       working directories.
-- [ ] 1.10 Add a root command for `python tools/check_workspace_structure.py --layout either`.
-- [ ] 1.11 Add a root test command script only after package-local tests still pass.
-- [ ] 1.12 Commit or checkpoint the foundation before package moves.
+- [x] 1.10 Add a root command for `python tools/check_workspace_structure.py --layout either`.
+- [x] 1.11 Add a root test command script only after package-local tests still pass.
+- [x] 1.12 Commit or checkpoint the foundation before package moves.
 
 Exit criteria:
 
@@ -278,34 +278,34 @@ packages/trading_assistant_data/
 
 Checklist:
 
-- [ ] 2.1 Move `trading_assistant_data/` to `packages/trading_assistant_data/`.
-- [ ] 2.2 Preserve `src/trading_assistant_data/` exactly.
-- [ ] 2.3 Preserve `data/` exactly unless `.gitignore` explicitly classifies generated
+- [x] 2.1 Move `trading_assistant_data/` to `packages/trading_assistant_data/`.
+- [x] 2.2 Preserve `src/trading_assistant_data/` exactly.
+- [x] 2.3 Preserve `data/` exactly unless `.gitignore` explicitly classifies generated
       files.
-- [ ] 2.4 Preserve `tests/`, `docs/`, `.env.example`, `.gitattributes`, and README.
-- [ ] 2.5 Add an explicit `[build-system]` to `packages/trading_assistant_data/pyproject.toml`
+- [x] 2.4 Preserve `tests/`, `docs/`, `.env.example`, `.gitattributes`, and README.
+- [x] 2.5 Add an explicit `[build-system]` to `packages/trading_assistant_data/pyproject.toml`
       if it is still absent.
-- [ ] 2.6 Decide whether package assets under
+- [x] 2.6 Decide whether package assets under
       `src/trading_assistant_data/requirements/*.yaml` are package data or
       repo-relative resources; encode that decision in packaging metadata or tests.
-- [ ] 2.7 Remove or relocate the agent-root checkout shim after root-level command
+- [x] 2.7 Remove or relocate the agent-root checkout shim after root-level command
       compatibility is replaced. The final preferred mechanism is editable install, not
       top-level root shims.
-- [ ] 2.8 Update docs that reference `trading_assistant_data/...` to either:
+- [x] 2.8 Update docs that reference `trading_assistant_data/...` to either:
       `packages/trading_assistant_data/...`, or a root variable such as
       `DATA_REPO_PATH=packages/trading_assistant_data`.
-- [ ] 2.9 Update tests with hardcoded `agent_root / "trading_assistant_data"`.
-- [ ] 2.10 Update default environment examples that point at the data repo.
-- [ ] 2.11 Run `python -m pytest` from `packages/trading_assistant_data`.
-- [ ] 2.12 Run `python -m trading_assistant_data --help` from
+- [x] 2.9 Update tests with hardcoded `agent_root / "trading_assistant_data"`.
+- [x] 2.10 Update default environment examples that point at the data repo.
+- [x] 2.11 Run `python -m pytest` from `packages/trading_assistant_data`.
+- [x] 2.12 Run `python -m trading_assistant_data --help` from
       `packages/trading_assistant_data`.
-- [ ] 2.13 Run `python -m pip install -e .` from `packages/trading_assistant_data` in a
+- [x] 2.13 Run `python -m pip install -e .` from `packages/trading_assistant_data` in a
       clean environment or throwaway virtual environment.
-- [ ] 2.14 Run the data CLI help command from outside the package root after editable
+- [x] 2.14 Run the data CLI help command from outside the package root after editable
       install, to prove packaging rather than cwd behavior.
-- [ ] 2.15 Run the data reproduction tests or smoke commands that do not require live
+- [x] 2.15 Run the data reproduction tests or smoke commands that do not require live
       credentials.
-- [ ] 2.16 Confirm `packages/trading_assistant_data/src/trading_assistant_data/__init__.py`
+- [x] 2.16 Confirm `packages/trading_assistant_data/src/trading_assistant_data/__init__.py`
       exists. Do not require the full final-layout guard to pass yet; the other
       workspaces have not moved.
 
@@ -334,37 +334,37 @@ packages/trading_assistant_backtest/
 
 Checklist:
 
-- [ ] 3.1 Move `trading_assistant_backtest/` to
+- [x] 3.1 Move `trading_assistant_backtest/` to
       `packages/trading_assistant_backtest/`.
-- [ ] 3.2 Preserve `src/trading_assistant_backtest/` exactly.
-- [ ] 3.3 Preserve `backtests/` until the control plane no longer invokes
+- [x] 3.2 Preserve `src/trading_assistant_backtest/` exactly.
+- [x] 3.3 Preserve `backtests/` until the control plane no longer invokes
       `python -m backtests.shared.monthly_repair`.
-- [ ] 3.4 Preserve `contracts/` and all bridge metadata paths.
-- [ ] 3.5 Preserve `artifacts/` unless explicitly classified as generated.
-- [ ] 3.6 Update `pyproject.toml` package list to include both
+- [x] 3.4 Preserve `contracts/` and all bridge metadata paths.
+- [x] 3.5 Preserve `artifacts/` unless explicitly classified as generated.
+- [x] 3.6 Update `pyproject.toml` package list to include both
       `src/trading_assistant_backtest` and `backtests`.
-- [ ] 3.7 Replace hardcoded validation matrix defaults for
+- [x] 3.7 Replace hardcoded validation matrix defaults for
       `trading_assistant_data/...` and `trading_assistant_backtest/artifacts/...` with
       helpers that resolve from `--agent-root` and support both current and final
       layouts during transition.
-- [ ] 3.8 Replace backtest tests that compute `AGENT_ROOT / "trading_assistant_data"`
+- [x] 3.8 Replace backtest tests that compute `AGENT_ROOT / "trading_assistant_data"`
       or `AGENT_ROOT / "trading_assistant_backtest"` with a shared test helper.
-- [ ] 3.9 Update tests with hardcoded `agent_root / "trading_assistant_backtest"`.
-- [ ] 3.10 Update docs that reference `trading_assistant_backtest/...` to
+- [x] 3.9 Update tests with hardcoded `agent_root / "trading_assistant_backtest"`.
+- [x] 3.10 Update docs that reference `trading_assistant_backtest/...` to
       `packages/trading_assistant_backtest/...`, or a root variable such as
       `BACKTEST_REPO_PATH=packages/trading_assistant_backtest`.
-- [ ] 3.11 Update deployment metadata installer docs to use the new contract path.
-- [ ] 3.12 Run `python -m trading_assistant_backtest.monthly --help` from the backtest
+- [x] 3.11 Update deployment metadata installer docs to use the new contract path.
+- [x] 3.12 Run `python -m trading_assistant_backtest.monthly --help` from the backtest
       package root.
-- [ ] 3.13 Run `python -m backtests.shared.monthly_repair --help` from the backtest
+- [x] 3.13 Run `python -m backtests.shared.monthly_repair --help` from the backtest
       package root.
-- [ ] 3.14 Run `python -m pip install -e .` from `packages/trading_assistant_backtest`
+- [x] 3.14 Run `python -m pip install -e .` from `packages/trading_assistant_backtest`
       in a clean environment or throwaway virtual environment.
-- [ ] 3.15 Run native and compatibility CLI help commands from outside the package root
+- [x] 3.15 Run native and compatibility CLI help commands from outside the package root
       after editable install.
-- [ ] 3.16 Run backtest unit tests.
-- [ ] 3.17 Run approval-grade audit tests.
-- [ ] 3.18 Confirm `packages/trading_assistant_backtest/src/trading_assistant_backtest/__init__.py`
+- [x] 3.16 Run backtest unit tests.
+- [x] 3.17 Run approval-grade audit tests.
+- [x] 3.18 Confirm `packages/trading_assistant_backtest/src/trading_assistant_backtest/__init__.py`
       exists and `packages/trading_assistant_backtest/backtests/` still exists if the
       compatibility runner is still supported. Do not require the full final-layout
       guard to pass yet; the control workspace has not completed its namespace migration.
@@ -400,27 +400,27 @@ packages/trading_assistant/
 
 Checklist:
 
-- [ ] 4.1 Move `trading_assistant/` to `packages/trading_assistant/`.
-- [ ] 4.2 Preserve all root-level control-plane packages in their old relative shape.
-- [ ] 4.3 Update root docs and scripts to call commands from
+- [x] 4.1 Move `trading_assistant/` to `packages/trading_assistant/`.
+- [x] 4.2 Preserve all root-level control-plane packages in their old relative shape.
+- [x] 4.3 Update root docs and scripts to call commands from
       `packages/trading_assistant`.
-- [ ] 4.4 Update environment examples:
+- [x] 4.4 Update environment examples:
       old values such as `BACKTEST_REPO_PATH=../trading_backtests` must become paths
       that resolve from `packages/trading_assistant`, most likely
       `../trading_assistant_backtest` if both are siblings under `packages/`.
-- [ ] 4.5 Update any absolute docs paths under `/opt/trading_assistant_agent/...`.
-- [ ] 4.6 Update `.env.example` values for `BACKTEST_REPO_PATH`,
+- [x] 4.5 Update any absolute docs paths under `/opt/trading_assistant_agent/...`.
+- [x] 4.6 Update `.env.example` values for `BACKTEST_REPO_PATH`,
       `MARKET_DATA_ROOT`, `BACKTEST_ARTIFACT_ROOT`, and any contract paths.
-- [ ] 4.7 Update tests with hardcoded `Path(__file__).parents[...]` assumptions only
+- [x] 4.7 Update tests with hardcoded `Path(__file__).parents[...]` assumptions only
       when they fail under the moved package.
-- [ ] 4.8 Run focused control-plane tests.
-- [ ] 4.9 Run the full control-plane test suite if practical.
-- [ ] 4.10 Confirm monthly manifest generation still points to the moved data/backtest
+- [x] 4.8 Run focused control-plane tests.
+- [x] 4.9 Run the full control-plane test suite if practical.
+- [x] 4.10 Confirm monthly manifest generation still points to the moved data/backtest
       locations.
-- [ ] 4.11 Confirm `orchestrator/config.py` still resolves `.env` at the package root.
-- [ ] 4.12 Confirm `orchestrator/strategy_registry_loader.py` still resolves
+- [x] 4.11 Confirm `orchestrator/config.py` still resolves `.env` at the package root.
+- [x] 4.12 Confirm `orchestrator/strategy_registry_loader.py` still resolves
       `data/strategy_profiles.yaml`.
-- [ ] 4.13 Confirm startup scripts under `scripts/` still resolve package-local paths.
+- [x] 4.13 Confirm startup scripts under `scripts/` still resolve package-local paths.
 
 Exit criteria:
 
@@ -453,70 +453,70 @@ packages/trading_assistant/
 
 Checklist:
 
-- [ ] 5.1 Create `packages/trading_assistant/src/trading_assistant/`.
-- [ ] 5.2 Move `analysis/` into `src/trading_assistant/analysis/`.
-- [ ] 5.3 Move `comms/` into `src/trading_assistant/comms/`.
-- [ ] 5.4 Move `contracts/` into `src/trading_assistant/contracts/`.
-- [ ] 5.5 Move `orchestrator/` into `src/trading_assistant/orchestrator/`.
-- [ ] 5.6 Move `schemas/` into `src/trading_assistant/schemas/`.
-- [ ] 5.7 Move `skills/` into `src/trading_assistant/skills/`.
-- [ ] 5.8 Keep `data/`, `memory/`, `scripts/`, `docs/`, and `tests/` at the package root
+- [x] 5.1 Create `packages/trading_assistant/src/trading_assistant/`.
+- [x] 5.2 Move `analysis/` into `src/trading_assistant/analysis/`.
+- [x] 5.3 Move `comms/` into `src/trading_assistant/comms/`.
+- [x] 5.4 Move `contracts/` into `src/trading_assistant/contracts/`.
+- [x] 5.5 Move `orchestrator/` into `src/trading_assistant/orchestrator/`.
+- [x] 5.6 Move `schemas/` into `src/trading_assistant/schemas/`.
+- [x] 5.7 Move `skills/` into `src/trading_assistant/skills/`.
+- [x] 5.8 Keep `data/`, `memory/`, `scripts/`, `docs/`, and `tests/` at the package root
       unless there is a specific packaging reason to move them.
-- [ ] 5.9 Update `pyproject.toml` package discovery to `where = ["src"]`.
-- [ ] 5.10 Update console scripts, if any, to use `trading_assistant...` module paths.
-- [ ] 5.11 Rewrite module-string entrypoints:
+- [x] 5.9 Update `pyproject.toml` package discovery to `where = ["src"]`.
+- [x] 5.10 Update console scripts, if any, to use `trading_assistant...` module paths.
+- [x] 5.11 Rewrite module-string entrypoints:
       `orchestrator.app:app` -> `trading_assistant.orchestrator.app:app`.
-- [ ] 5.12 Rewrite startup process detection patterns that look for
+- [x] 5.12 Rewrite startup process detection patterns that look for
       `orchestrator.app:app`.
-- [ ] 5.13 Rewrite subprocess or scheduler command strings that invoke root-level
+- [x] 5.13 Rewrite subprocess or scheduler command strings that invoke root-level
       control-plane modules.
-- [ ] 5.14 Rewrite absolute imports:
+- [x] 5.14 Rewrite absolute imports:
       `from schemas.x` -> `from trading_assistant.schemas.x`.
-- [ ] 5.15 Rewrite absolute imports:
+- [x] 5.15 Rewrite absolute imports:
       `import schemas.x` -> `import trading_assistant.schemas.x`.
-- [ ] 5.16 Rewrite absolute imports:
+- [x] 5.16 Rewrite absolute imports:
       `from orchestrator.x` -> `from trading_assistant.orchestrator.x`.
-- [ ] 5.17 Rewrite absolute imports:
+- [x] 5.17 Rewrite absolute imports:
       `from skills.x` -> `from trading_assistant.skills.x`.
-- [ ] 5.18 Rewrite absolute imports:
+- [x] 5.18 Rewrite absolute imports:
       `from analysis.x` -> `from trading_assistant.analysis.x`.
-- [ ] 5.19 Rewrite absolute imports:
+- [x] 5.19 Rewrite absolute imports:
       `from comms.x` -> `from trading_assistant.comms.x`.
-- [ ] 5.20 Rewrite absolute imports:
+- [x] 5.20 Rewrite absolute imports:
       `from contracts.x` -> `from trading_assistant.contracts.x`.
-- [ ] 5.21 Update test imports the same way.
-- [ ] 5.22 Add temporary import compatibility shims only if needed to keep external
+- [x] 5.21 Update test imports the same way.
+- [x] 5.22 Add temporary import compatibility shims only if needed to keep external
       callers working during one release window.
-- [ ] 5.23 Update `Path(__file__).resolve().parent.parent` assumptions inside moved
+- [x] 5.23 Update `Path(__file__).resolve().parent.parent` assumptions inside moved
       modules.
-- [ ] 5.24 Introduce a central `trading_assistant.paths` helper for package root, repo
+- [x] 5.24 Introduce a central `trading_assistant.paths` helper for package root, repo
       root, data root, memory root, and docs root.
-- [ ] 5.25 Replace repeated package-root calculations with the new path helper where
+- [x] 5.25 Replace repeated package-root calculations with the new path helper where
       they break under `src/`.
-- [ ] 5.26 Update permission gate path patterns if they currently expect
+- [x] 5.26 Update permission gate path patterns if they currently expect
       `skills/*` or `orchestrator/*`.
-- [ ] 5.27 Decide whether permission gates should use logical paths
+- [x] 5.27 Decide whether permission gates should use logical paths
       `skills/foo.py` or physical paths `src/trading_assistant/skills/foo.py`.
-- [ ] 5.28 Update `orchestrator/skills_registry.py`, `skills/repo_change_guard.py`,
+- [x] 5.28 Update `orchestrator/skills_registry.py`, `skills/repo_change_guard.py`,
       `orchestrator/permission_gates.py`, and their tests together so approval behavior
       is unchanged.
-- [ ] 5.29 Update skills registry forbidden path tests accordingly.
-- [ ] 5.30 Update docs references from `schemas/...` to
+- [x] 5.29 Update skills registry forbidden path tests accordingly.
+- [x] 5.30 Update docs references from `schemas/...` to
       `src/trading_assistant/schemas/...` only where they are physical file paths.
-- [ ] 5.31 Keep user-facing logical references as `schemas/...` if they describe
+- [x] 5.31 Keep user-facing logical references as `schemas/...` if they describe
       control-plane concepts rather than physical paths.
-- [ ] 5.32 Run `rg "^(from|import) (schemas|orchestrator|skills|analysis|comms|contracts)(\\.| import|$)" src tests`.
+- [x] 5.32 Run `rg "^(from|import) (schemas|orchestrator|skills|analysis|comms|contracts)(\\.| import|$)" src tests`.
       This must return no runtime imports after the namespace migration.
-- [ ] 5.33 Run import smoke tests:
+- [x] 5.33 Run import smoke tests:
       `python -c "import trading_assistant.schemas.monthly_run_manifest"`.
-- [ ] 5.34 Run import smoke tests:
+- [x] 5.34 Run import smoke tests:
       `python -c "import trading_assistant.orchestrator.config"`.
-- [ ] 5.35 Run import smoke tests:
+- [x] 5.35 Run import smoke tests:
       `python -c "import trading_assistant.skills.monthly_validation_orchestrator"`.
-- [ ] 5.36 Run all focused monthly tests.
-- [ ] 5.37 Run all startup/config tests.
-- [ ] 5.38 Run all permission gate and skills registry tests.
-- [ ] 5.39 Run the full control-plane test suite.
+- [x] 5.36 Run all focused monthly tests.
+- [x] 5.37 Run all startup/config tests.
+- [x] 5.38 Run all permission gate and skills registry tests.
+- [x] 5.39 Run the full control-plane test suite.
 
 Exit criteria:
 
@@ -530,29 +530,29 @@ Purpose: make all commands use the final paths.
 
 Checklist:
 
-- [ ] 6.1 Update root docs to install packages from:
+- [x] 6.1 Update root docs to install packages from:
       `packages/trading_assistant`,
       `packages/trading_assistant_data`,
       `packages/trading_assistant_backtest`.
-- [ ] 6.2 Update `.env.example` files with final relative paths.
-- [ ] 6.3 Update `BACKTEST_REPO_PATH` defaults or examples.
-- [ ] 6.4 Update `MARKET_DATA_ROOT` examples if they point to the old data path.
-- [ ] 6.5 Update `BACKTEST_ARTIFACT_ROOT` examples if they point to the old backtest
+- [x] 6.2 Update `.env.example` files with final relative paths.
+- [x] 6.3 Update `BACKTEST_REPO_PATH` defaults or examples.
+- [x] 6.4 Update `MARKET_DATA_ROOT` examples if they point to the old data path.
+- [x] 6.5 Update `BACKTEST_ARTIFACT_ROOT` examples if they point to the old backtest
       path.
-- [ ] 6.6 Update `MONTHLY_STRATEGY_PLUGIN_CONTRACT_PATH` examples if they point to old
+- [x] 6.6 Update `MONTHLY_STRATEGY_PLUGIN_CONTRACT_PATH` examples if they point to old
       `trading_assistant_backtest/contracts/...` paths.
-- [ ] 6.7 Update service files or deployment docs that reference the old workspace path.
-- [ ] 6.8 Update compatibility commands in docs:
+- [x] 6.7 Update service files or deployment docs that reference the old workspace path.
+- [x] 6.8 Update compatibility commands in docs:
       `python -m backtests.shared.monthly_repair`.
-- [ ] 6.9 Decide whether the compatibility runner remains supported after migration.
-- [ ] 6.10 If it remains supported, keep packaging and tests for `backtests`.
-- [ ] 6.11 If it is retired, update control-plane default command to
+- [x] 6.9 Decide whether the compatibility runner remains supported after migration.
+- [x] 6.10 If it remains supported, keep packaging and tests for `backtests`.
+- [x] 6.11 If it is retired, update control-plane default command to
       `python -m trading_assistant_backtest.monthly`.
-- [ ] 6.12 Run native monthly runner help command.
-- [ ] 6.13 Run compatibility monthly runner help command if still supported.
-- [ ] 6.14 Run data CLI help command.
-- [ ] 6.15 Run one validate-only monthly manifest fixture.
-- [ ] 6.16 Run one data bundle reproduction fixture.
+- [x] 6.12 Run native monthly runner help command.
+- [x] 6.13 Run compatibility monthly runner help command if still supported.
+- [x] 6.14 Run data CLI help command.
+- [x] 6.15 Run one validate-only monthly manifest fixture.
+- [x] 6.16 Run one data bundle reproduction fixture.
 
 Exit criteria:
 
@@ -565,15 +565,15 @@ Purpose: remove temporary compatibility surfaces once final imports and entrypoi
 
 Checklist:
 
-- [ ] 7.1 Remove top-level package shims that only existed for the old sibling layout.
-- [ ] 7.2 Remove `sys.path` mutations added solely for checkout-time compatibility.
-- [ ] 7.3 Remove old root-level control-plane import aliases if they were added in
+- [x] 7.1 Remove top-level package shims that only existed for the old sibling layout.
+- [x] 7.2 Remove `sys.path` mutations added solely for checkout-time compatibility.
+- [x] 7.3 Remove old root-level control-plane import aliases if they were added in
       Phase 5.
-- [ ] 7.4 Remove or demote current-layout support in `tools/check_workspace_structure.py`
+- [x] 7.4 Remove or demote current-layout support in `tools/check_workspace_structure.py`
       after the final layout is fully adopted.
-- [ ] 7.5 Update docs to say the final layout is the only supported checkout shape.
-- [ ] 7.6 Run import-boundary guard.
-- [ ] 7.7 Run full package test suites.
+- [x] 7.5 Update docs to say the final layout is the only supported checkout shape.
+- [x] 7.6 Run import-boundary guard.
+- [x] 7.7 Run full package test suites.
 
 Exit criteria:
 
@@ -586,18 +586,18 @@ Purpose: make the final layout easy to maintain.
 
 Checklist:
 
-- [ ] 8.1 Add root command for structure guard.
-- [ ] 8.2 Add root command for all package tests.
-- [ ] 8.3 Add root command for focused monthly validation tests.
-- [ ] 8.4 Add root command for data contract tests.
-- [ ] 8.5 Add root command for backtest approval-grade audit tests.
-- [ ] 8.6 Add CI job for `packages/trading_assistant`.
-- [ ] 8.7 Add CI job for `packages/trading_assistant_data`.
-- [ ] 8.8 Add CI job for `packages/trading_assistant_backtest`.
-- [ ] 8.9 Add CI job for cross-workspace import boundary checks.
-- [ ] 8.10 Add CI job for CLI entrypoint smoke tests.
-- [ ] 8.11 Document local setup from a fresh checkout.
-- [ ] 8.12 Document which generated paths are expected to be ignored.
+- [x] 8.1 Add root command for structure guard.
+- [x] 8.2 Add root command for all package tests.
+- [x] 8.3 Add root command for focused monthly validation tests.
+- [x] 8.4 Add root command for data contract tests.
+- [x] 8.5 Add root command for backtest approval-grade audit tests.
+- [x] 8.6 Add CI job for `packages/trading_assistant`.
+- [x] 8.7 Add CI job for `packages/trading_assistant_data`.
+- [x] 8.8 Add CI job for `packages/trading_assistant_backtest`.
+- [x] 8.9 Add CI job for cross-workspace import boundary checks.
+- [x] 8.10 Add CI job for CLI entrypoint smoke tests.
+- [x] 8.11 Document local setup from a fresh checkout.
+- [x] 8.12 Document which generated paths are expected to be ignored.
 
 Exit criteria:
 
@@ -610,26 +610,26 @@ Purpose: prove the final structure preserves the system's capabilities.
 
 Checklist:
 
-- [ ] 9.1 Run `python tools/check_workspace_structure.py --layout final`.
-- [ ] 9.2 Run all control-plane tests.
-- [ ] 9.3 Run all data package tests.
-- [ ] 9.4 Run all backtest package tests.
-- [ ] 9.5 Run data CLI help.
-- [ ] 9.6 Run backtest native CLI help.
-- [ ] 9.7 Run backtest compatibility CLI help if still supported.
-- [ ] 9.8 Run control-plane import smoke tests.
-- [ ] 9.9 Run data import smoke tests.
-- [ ] 9.10 Run backtest import smoke tests.
-- [ ] 9.11 Run monthly runner contract conformance tests.
-- [ ] 9.12 Run approval-grade audit tests.
-- [ ] 9.13 Run data bundle reproduction tests or smoke fixture.
-- [ ] 9.14 Run a manifest validate-only backtest fixture.
-- [ ] 9.15 Confirm docs no longer instruct users to use removed top-level workspace
+- [x] 9.1 Run `python tools/check_workspace_structure.py --layout final`.
+- [x] 9.2 Run all control-plane tests.
+- [x] 9.3 Run all data package tests.
+- [x] 9.4 Run all backtest package tests.
+- [x] 9.5 Run data CLI help.
+- [x] 9.6 Run backtest native CLI help.
+- [x] 9.7 Run backtest compatibility CLI help if still supported.
+- [x] 9.8 Run control-plane import smoke tests.
+- [x] 9.9 Run data import smoke tests.
+- [x] 9.10 Run backtest import smoke tests.
+- [x] 9.11 Run monthly runner contract conformance tests.
+- [x] 9.12 Run approval-grade audit tests.
+- [x] 9.13 Run data bundle reproduction tests or smoke fixture.
+- [x] 9.14 Run a manifest validate-only backtest fixture.
+- [x] 9.15 Confirm docs no longer instruct users to use removed top-level workspace
       paths.
-- [ ] 9.16 Confirm root `README.md` and implementation docs agree on final paths.
-- [ ] 9.17 Confirm no nested `.git` directories remain under `packages/` unless the
+- [x] 9.16 Confirm root `README.md` and implementation docs agree on final paths.
+- [x] 9.17 Confirm no nested `.git` directories remain under `packages/` unless the
       repo intentionally uses submodules.
-- [ ] 9.18 Mark this plan complete with the final command outputs.
+- [x] 9.18 Mark this plan complete with the final command outputs.
 
 Exit criteria:
 
@@ -715,17 +715,45 @@ Do not start with the control-plane namespace migration. The safest order is:
 
 This migration is complete when all of the following are true:
 
-- [ ] The final `packages/` layout exists.
-- [ ] All three packages install in editable mode.
-- [ ] All package-local tests pass.
-- [ ] Structure and import-boundary guards pass.
-- [ ] Monthly manifest validation still works.
-- [ ] Data bundle reproduction still works.
-- [ ] Backtest artifact validation still works.
-- [ ] Approval-grade audit tests still pass.
-- [ ] Docs and `.env.example` files reference final paths.
-- [ ] Temporary shims are removed or explicitly documented as supported compatibility.
-- [ ] No old top-level workspace paths are required for normal operation.
-- [ ] `python tools/check_workspace_structure.py --layout final` passes.
-- [ ] Old root-level control-plane imports are absent except for explicitly documented
-      compatibility shims.
+- [x] The final `packages/` layout exists.
+- [x] All three packages install in editable mode.
+- [x] All package-local tests pass.
+- [x] Structure and import-boundary guards pass.
+- [x] Monthly manifest validation still works.
+- [x] Data bundle reproduction still works.
+- [x] Backtest artifact validation still works.
+- [x] Approval-grade audit tests still pass.
+- [x] Docs and `.env.example` files reference final paths.
+- [x] Temporary shims are removed or explicitly documented as supported compatibility.
+- [x] No old top-level workspace paths are required for normal operation.
+
+## Implementation Completion Record
+
+Completed on 2026-06-04. The final `packages/` layout is the supported checkout
+shape.
+
+Final validation highlights:
+
+- `python tools/check_workspace_structure.py --layout final` passed.
+- `python tools/run_workspace_checks.py all-tests` passed:
+  `packages/trading_assistant` 3841 passed,
+  `packages/trading_assistant_data` 91 passed,
+  `packages/trading_assistant_backtest` 63 passed / 1 skipped.
+- Editable installs passed from all three package roots.
+- Import smokes passed for `trading_assistant.*`, `trading_assistant_data.cli`,
+  and `trading_assistant_backtest.monthly`.
+- CLI smokes passed for data, native backtest monthly, and the documented
+  compatibility runner `backtests.shared.monthly_repair`.
+- Focused monthly tests, data contract tests, monthly runner tests,
+  approval-grade audit tests, validation matrix tests, data reproduction, and
+  manifest validate-only smokes passed.
+- No nested `.git` directories exist under `packages/`.
+- The final structure guard rejects recreated old top-level workspace roots.
+- Old root-level control-plane imports are absent except for explicitly documented
+  compatibility shims.
+- Second-pass hardening added final-layout path normalization for retained
+  manifests, artifact indexes, validation matrix reports, optimizer evidence, and
+  data reproduction smoke discovery.
+- CI workspace gates include manifest validate-only, data reproduction, and
+  validation matrix smokes.
+- Active setup docs and `.env.example` files point to final package paths.

@@ -1,20 +1,23 @@
 # Trading Assistant Agent Workspace
 
-This checkout is a multi-workspace trading-assistant system. The important invariant is
-three strict runtime boundaries:
+This checkout is a monorepo for the trading-assistant system. The important invariant
+is three strict runtime boundaries:
 
 ```text
 trading_assistant_agent/
-  trading_assistant/           # current control-plane workspace
-  trading_assistant_data/      # current data-product workspace
-  trading_assistant_backtest/  # current replay-lab workspace
+  README.md
   docs/
+  tools/
   artifacts/
-  _references/
+  packages/
+    trading_assistant/           # control-plane workspace
+    trading_assistant_data/      # data-product workspace
+    trading_assistant_backtest/  # replay-lab workspace
+  _references/                   # local external strategy references, ignored
 ```
 
-The current root-level sibling shape is transitional. The final monorepo target moves
-those three workspaces under `packages/` while preserving the same boundaries:
+The package workspaces live under `packages/` and communicate through frozen JSON
+manifests, contracts, and artifact directories, not by importing each other in-process:
 
 ```text
 trading_assistant_agent/
@@ -27,10 +30,8 @@ trading_assistant_agent/
       src/trading_assistant_backtest/
 ```
 
-See
-`docs/2026-06-04-final-monorepo-package-structure-implementation-plan.md`
-for the staged migration plan. The packages should communicate through frozen JSON
-manifests, contracts, and artifact directories, not by importing each other in-process.
+See `docs/2026-06-04-final-monorepo-package-structure-implementation-plan.md` for the
+staged migration plan.
 
 ## Workspace Roles
 
@@ -48,33 +49,67 @@ manifests and data bundles, emits retained artifacts and parity evidence, and re
 fail-closed until contract maturity and approval gates hold. It does not approve, deploy,
 or place orders.
 
-## Current Packaging Shape
+## Package Layout
 
-The data and backtest workspaces use standard `src/` layout:
+All runtime packages use standard package-local metadata. The control plane is the
+application coordinator; data and backtest remain separate installable packages:
 
 ```text
-trading_assistant_data/src/trading_assistant_data/
-trading_assistant_backtest/src/trading_assistant_backtest/
+packages/trading_assistant/src/trading_assistant/
+packages/trading_assistant_data/src/trading_assistant_data/
+packages/trading_assistant_backtest/src/trading_assistant_backtest/
 ```
 
-The control-plane workspace currently keeps its established root-level import packages
-such as `orchestrator`, `schemas`, `skills`, `analysis`, `comms`, and `contracts`.
-Changing that to `src/trading_assistant/...` would require a coordinated namespace and
-path-resolution migration. The final plan schedules that as a separate phase after the
-lower-risk data and backtest moves.
+The root owns documentation, coordination scripts, and guardrails. Root scripts should
+call package commands with explicit working directories; they should not rely on the
+process current directory accidentally making a package importable.
+
+## Fresh Checkout Setup
+
+From the repository root, create one virtual environment and install all three
+packages from `packages/`:
+
+```bash
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e ./packages/trading_assistant_data
+python -m pip install -e ./packages/trading_assistant_backtest
+python -m pip install -e "./packages/trading_assistant[dev,notifications]"
+```
+
+Local external strategy checkouts belong under `_references/`. Runtime outputs are
+package-local: `packages/trading_assistant/runs/`, `packages/trading_assistant/logs/`,
+`packages/trading_assistant/memory/findings/`,
+`packages/trading_assistant_data/data/validation_reports/`, and
+`packages/trading_assistant_backtest/artifacts/`. These paths are either ignored or
+treated as generated evidence, not as additional package roots.
 
 ## Useful Checks
 
 Run the structure guard from this directory:
 
 ```bash
-python tools/check_workspace_structure.py --layout current
+python tools/check_workspace_structure.py --layout final
+python tools/run_workspace_checks.py structure --layout final
 ```
 
 Run each workspace's own tests from its workspace root:
 
 ```bash
-cd trading_assistant && python -m pytest
+cd packages/trading_assistant && python -m pytest
 cd ../trading_assistant_data && python -m pytest
 cd ../trading_assistant_backtest && python -m pytest
+```
+
+Root-level orchestration commands are available for the acceptance suites:
+
+```bash
+python tools/run_workspace_checks.py monthly-focused
+python tools/run_workspace_checks.py data-contracts
+python tools/run_workspace_checks.py backtest-monthly
+python tools/run_workspace_checks.py backtest-approval
+python tools/run_workspace_checks.py cli-smoke
+python tools/run_workspace_checks.py imports
+python tools/run_workspace_checks.py all-tests
 ```

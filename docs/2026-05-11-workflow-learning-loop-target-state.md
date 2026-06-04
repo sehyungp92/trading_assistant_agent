@@ -543,8 +543,8 @@ Execution boundary:
   the host of every strategy backtest engine;
 - full-fidelity engines should live in the versioned
   `trading_assistant_backtest` package workspace, not inside the control plane;
-- the current root-level sibling checkout is a transitional shape; the final
-  monorepo target is `packages/trading_assistant_backtest/` with
+- the current supported checkout is the final `packages/` monorepo shape;
+  `packages/trading_assistant_backtest/` is the backtest package workspace with
   `src/trading_assistant_backtest/`;
 - monthly runs should invoke the backtest package through a stable CLI or API
   with a frozen manifest, then ingest standard artifacts;
@@ -560,6 +560,8 @@ trading_assistant_agent/
   README.md
   docs/
   artifacts/
+  tools/
+  _references/
   packages/
     trading_assistant/
       pyproject.toml
@@ -584,8 +586,8 @@ trading_assistant_agent/
 - `packages/trading_assistant_backtest` is the replay and optimizer evidence
   package workspace.
 - The package workspaces may be independently versioned, released, or
-  submoduled later, but the normal local development shape should be the
-  `packages/` monorepo layout.
+  submoduled later, but the normal local development shape is the `packages/`
+  monorepo layout.
 - Cross-workspace runtime communication should remain file/manifest/artifact
   based. Direct imports across `trading_assistant`,
   `trading_assistant_data`, and `trading_assistant_backtest` should be blocked
@@ -939,8 +941,8 @@ Deliverables:
 - confirm `objective_weights_v1` as the canonical selection and measurement
   objective;
 - define which workflows remain weekly and which become monthly;
-- confirm the final monorepo package layout under `packages/` and record the
-  current root-level sibling checkout as transitional;
+- record that the `packages/` monorepo layout is now the supported checkout
+  shape;
 - confirm the backtest-engine boundary as the
   `packages/trading_assistant_backtest` package workspace, invoked through a
   stable CLI/API and configured by `BACKTEST_REPO_PATH`;
@@ -1355,7 +1357,7 @@ autonomous trading mutator.
 
 It should:
 
-- live in a final monorepo structure with explicit package workspaces under
+- live in the supported monorepo structure with explicit package workspaces under
   `packages/trading_assistant`, `packages/trading_assistant_data`, and
   `packages/trading_assistant_backtest`;
 - keep those package workspaces coupled through frozen manifests and artifacts,

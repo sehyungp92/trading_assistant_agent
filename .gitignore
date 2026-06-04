@@ -6,12 +6,19 @@
 # Common local caches.
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
+.tox/
+.nox/
 __pycache__/
 *.py[cod]
 .venv/
 build/
 dist/
 *.egg-info/
+.coverage
+coverage.xml
+htmlcov/
+*.log
 
 # Local agent and reference workspaces.
 .agents/

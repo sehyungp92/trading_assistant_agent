@@ -1,0 +1,17 @@
+[tool.trading_assistant.workspace]
+layout = "packages"
+packages = [
+  "packages/trading_assistant",
+  "packages/trading_assistant_data",
+  "packages/trading_assistant_backtest",
+]
+
+[tool.trading_assistant.workspace.commands]
+structure = "python tools/check_workspace_structure.py --layout either"
+monthly_focused = "python tools/run_workspace_checks.py monthly-focused"
+data_contracts = "python tools/run_workspace_checks.py data-contracts"
+backtest_monthly = "python tools/run_workspace_checks.py backtest-monthly"
+backtest_approval = "python tools/run_workspace_checks.py backtest-approval"
+cli_smoke = "python tools/run_workspace_checks.py cli-smoke"
+imports = "python tools/run_workspace_checks.py imports"
+all_tests = "python tools/run_workspace_checks.py all-tests"

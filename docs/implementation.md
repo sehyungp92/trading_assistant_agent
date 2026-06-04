@@ -9,6 +9,36 @@ backtest wiring required for the monthly evidence loop.
 
 ---
 
+## Current Status And Next Steps
+
+The monorepo implementation spine is complete enough for deployment work to be
+the optimal next step. The supported checkout is the three-package `packages/`
+layout; the data, backtest, and control-plane packages have runnable entrypoints;
+the active validation lanes pass the five-test matrix; and runtime deployment
+metadata can be emitted and installed through fail-closed tooling.
+
+The next work should therefore be deployment and promotion, not additional
+optimizer or adapter implementation, unless deployment evidence exposes a
+specific defect. The deployment sequence is:
+
+1. Deploy the relay and bot sidecars.
+2. Run non-dry-run source refreshes and keep authoritative bundle reproduction
+   reports current for the promoted scope.
+3. Emit live/VPS deployment metadata from the bot checkout and install it with
+   `trading-assistant-backtest-install-deployment-metadata --install`.
+4. Run scheduled shadow monthly validation with the live metadata installed.
+5. Promote exactly one bridge from `shadow_validated` to `approval_ready` only
+   after the validation matrix and approval-grade audit pass for that scope.
+6. Flip `MONTHLY_VALIDATION_MODE=approval_gated`, enable deployment monitoring,
+   and complete one approval-card flow against a known-safe candidate.
+
+Implementation work after this point should be limited to fixing concrete
+deployment findings: source-refresh failures, runtime metadata mismatches,
+fixture gaps revealed by production parity, scheduler/service issues, or
+approval-audit failures.
+
+---
+
 ## Architecture
 
 ```text
@@ -18,9 +48,12 @@ Bot VPSes   -> Sidecars            -> Relay VPS         -> Local Orchestrator
                                                               -> Worker -> Handlers
                                                               -> AgentRunner)
 
-trading_assistant_data       -> ../trading_data/market           (MARKET_DATA_ROOT)
-trading_assistant_backtest   -> ../trading_data/runs/monthly_*   (BACKTEST_ARTIFACT_ROOT)
-                                ../trading_backtests             (BACKTEST_REPO_PATH)
+packages/trading_assistant_data     -> ../trading_assistant_data/data/export
+                                         (MARKET_DATA_ROOT from packages/trading_assistant)
+packages/trading_assistant_backtest -> ../trading_assistant_backtest
+                                         (BACKTEST_REPO_PATH from packages/trading_assistant)
+                                      -> ../trading_assistant_backtest/artifacts
+                                         (BACKTEST_ARTIFACT_ROOT from packages/trading_assistant)
 ```
 
 Data flow (live path): bot writes JSONL -> sidecar HMAC-signs + POSTs to
@@ -48,9 +81,9 @@ outcome measurement.
 
 ### Generate shared secrets
 
-You need two relay-side secrets — HMAC (bot -> relay) and API key
-(orchestrator -> relay), plus an `ORCHESTRATOR_API_KEY` for the local control
-plane:
+You need two relay-side secrets: HMAC for bot-to-relay writes and API key for
+orchestrator-to-relay reads, plus an `ORCHESTRATOR_API_KEY` for the local
+control plane:
 
 ```bash
 python3 -c "import secrets; print(secrets.token_hex(32))"   # run three times
@@ -175,9 +208,9 @@ python -m venv .venv
 # source .venv/bin/activate                      # macOS/Linux
 
 # Editable installs
-pip install -e ./trading_assistant_data
-pip install -e ./trading_assistant_backtest
-pip install -e "./trading_assistant[dev,notifications]"
+pip install -e ./packages/trading_assistant_data
+pip install -e ./packages/trading_assistant_backtest
+pip install -e "./packages/trading_assistant[dev,notifications]"
 ```
 
 `notifications` adds Telegram, Discord, and email adapters. Drop it if you
@@ -189,17 +222,17 @@ example `python -m trading_assistant_backtest.validation.approval_grade_audit`.
 ### 3.1 Smoke-test each package
 
 ```bash
-pytest trading_assistant_data/tests -q
-pytest trading_assistant_backtest/tests -q
-pytest trading_assistant/tests -q     # ~3370 tests, all should pass
+pytest packages/trading_assistant_data/tests -q
+pytest packages/trading_assistant_backtest/tests -q
+pytest packages/trading_assistant/tests -q     # ~3370 tests, all should pass
 ```
 
 ---
 
 ## Step 4: Configure the Orchestrator (`trading_assistant`)
 
-Copy `trading_assistant/.env.example` to `trading_assistant/.env`. Minimum
-non-shadow configuration:
+Copy `packages/trading_assistant/.env.example` to
+`packages/trading_assistant/.env`. Minimum local deployment configuration:
 
 ```bash
 # --- Bots ---
@@ -227,9 +260,9 @@ TELEGRAM_CHAT_ID=...
 # --- Monthly evidence loop (shadow first, see Step 6) ---
 MONTHLY_VALIDATION_ENABLED=true
 MONTHLY_VALIDATION_MODE=shadow
-MARKET_DATA_ROOT=../trading_data/market
-BACKTEST_REPO_PATH=../trading_backtests
-BACKTEST_ARTIFACT_ROOT=../trading_data/runs/monthly_validation
+MARKET_DATA_ROOT=../trading_assistant_data/data/export
+BACKTEST_REPO_PATH=../trading_assistant_backtest
+BACKTEST_ARTIFACT_ROOT=../trading_assistant_backtest/artifacts/monthly_validation
 ```
 
 ### 4.1 Startup invariants
@@ -244,11 +277,11 @@ The lifespan in `orchestrator/config.py` refuses to boot when:
 
 ### 4.2 Create the data tree
 
-`DATA_DIR` defaults to `data` inside `trading_assistant/`. Resolved paths are
+`DATA_DIR` defaults to `data` inside `packages/trading_assistant/`. Resolved paths are
 logged at startup as `Resolved data dirs: ...`.
 
 ```bash
-cd trading_assistant
+cd packages/trading_assistant
 mkdir data\raw data\curated data\benchmarks runs memory\findings logs .assistant
 ```
 
@@ -257,7 +290,7 @@ mkdir data\raw data\curated data\benchmarks runs memory\findings logs .assistant
 ### 4.3 Bring it up
 
 ```bash
-uvicorn orchestrator.app:app --host 127.0.0.1 --port 8000
+uvicorn trading_assistant.orchestrator.app:app --host 127.0.0.1 --port 8000
 ```
 
 ```bash
@@ -310,7 +343,7 @@ Rebuild the source-request manifest whenever imported legacy files or strategy
 requirements change:
 
 ```bash
-trading-assistant-data --repo-root trading_assistant_data \
+trading-assistant-data --repo-root packages/trading_assistant_data \
   declare-source-requests --snapshot 2026-05-30 --json
 ```
 
@@ -322,21 +355,21 @@ or LRS local research imports. It is also the filter used by live syncs.
 
 ```bash
 # Crypto phased optimizer data: BTC/ETH/SOL candles and funding.
-trading-assistant-data --repo-root trading_assistant_data \
+trading-assistant-data --repo-root packages/trading_assistant_data \
   sync hyperliquid --symbols BTC,ETH,SOL --intervals 15m,30m,1h,4h,1d \
   --latest --funding --json
 
 # Momentum: retention-covered live TWS lane for resolvable CME contracts.
-trading-assistant-data --repo-root trading_assistant_data \
+trading-assistant-data --repo-root packages/trading_assistant_data \
   sync ibkr --families trading_momentum \
   --ibkr-coverage-mode retention-covered --json
 
 # Swing and stock: IBKR read-only historical equity/ETF bars.
-trading-assistant-data --repo-root trading_assistant_data \
+trading-assistant-data --repo-root packages/trading_assistant_data \
   sync ibkr --families trading_swing,trading_stock --json
 
 # k_stock: KIS read-only intraday incremental append/repair.
-trading-assistant-data --repo-root trading_assistant_data \
+trading-assistant-data --repo-root packages/trading_assistant_data \
   sync kis --families k_stock_kis_intraday --intraday --json
 ```
 
@@ -351,23 +384,23 @@ any required slice is stale, unindexed, non-authoritative, checksum-mismatched,
 or has unexplained missing ranges.
 
 ```bash
-trading-assistant-data --repo-root trading_assistant_data build-bundle \
+trading-assistant-data --repo-root packages/trading_assistant_data build-bundle \
   --run-month 2026-05 --bot-id crypto_portfolio --strategy-id phased_optimizer \
   --requirements-file data/requirements/strategies/crypto_portfolio/phased_optimizer.json --json
 
-trading-assistant-data --repo-root trading_assistant_data build-bundle \
+trading-assistant-data --repo-root packages/trading_assistant_data build-bundle \
   --run-month 2026-05 --bot-id trading_momentum_family --strategy-id portfolio \
   --requirements-file data/requirements/strategies/trading_momentum/portfolio.json --json
 
-trading-assistant-data --repo-root trading_assistant_data build-bundle \
+trading-assistant-data --repo-root packages/trading_assistant_data build-bundle \
   --run-month 2026-05 --bot-id trading_swing_family --strategy-id portfolio \
   --requirements-file data/requirements/strategies/trading_swing/portfolio.json --json
 
-trading-assistant-data --repo-root trading_assistant_data build-bundle \
+trading-assistant-data --repo-root packages/trading_assistant_data build-bundle \
   --run-month 2026-05 --bot-id trading_stock_family --strategy-id portfolio \
   --requirements-file data/requirements/strategies/trading_stock/portfolio.json --json
 
-trading-assistant-data --repo-root trading_assistant_data build-bundle \
+trading-assistant-data --repo-root packages/trading_assistant_data build-bundle \
   --run-month 2026-05 --bot-id k_stock_olr_kalcb --strategy-id portfolio \
   --requirements-file data/requirements/strategies/k_stock/portfolio.json --json
 ```
@@ -375,13 +408,13 @@ trading-assistant-data --repo-root trading_assistant_data build-bundle \
 Then emit durable reproduction and legacy-source reports:
 
 ```bash
-trading-assistant-data --repo-root trading_assistant_data audit-coverage \
+trading-assistant-data --repo-root packages/trading_assistant_data audit-coverage \
   --run-month 2026-05 --json
 
-trading-assistant-data --repo-root trading_assistant_data reproduce-bundle \
+trading-assistant-data --repo-root packages/trading_assistant_data reproduce-bundle \
   --bundle-manifest data/bundles/monthly/2026-05/crypto_portfolio/phased_optimizer/data_bundle_manifest.json --json
 
-trading-assistant-data --repo-root trading_assistant_data compare-legacy-source \
+trading-assistant-data --repo-root packages/trading_assistant_data compare-legacy-source \
   --families trading_momentum,trading_swing,trading_stock,k_stock_kis_intraday,crypto_portfolio \
   --latest-only --json
 ```
@@ -404,19 +437,20 @@ seven active strategy bridge contracts (see
 ### 6.1 Workspace layout
 
 ```bash
-mkdir ..\trading_backtests
-mkdir ..\trading_data\runs\monthly_validation
+# From the repo root:
+mkdir packages\trading_assistant_backtest\artifacts\monthly_validation
 ```
 
-- `BACKTEST_REPO_PATH=../trading_backtests` is the per-candidate isolated
-  workspaces Symphony-style runner creates (`auto/`, `repair/`).
-- `BACKTEST_ARTIFACT_ROOT=../trading_data/runs/monthly_validation` is for frozen
+- `BACKTEST_REPO_PATH=../trading_assistant_backtest` points at the sibling
+  backtest package under `packages/`.
+- `BACKTEST_ARTIFACT_ROOT=../trading_assistant_backtest/artifacts/monthly_validation`
+  is for frozen
   replay outputs, parity reports, and the artifact index.
 
 ### 6.2 Register strategy contracts
 
 Each active bridge has a `strategy_plugin_contract.json` under
-`trading_assistant_backtest/contracts/`: crypto trend/momentum/breakout,
+`packages/trading_assistant_backtest/contracts/`: crypto trend/momentum/breakout,
 k_stock OLR/KALCB, trading stock, trading momentum, and trading swing. They
 are currently `shadow_validated` until live metadata, scheduled shadow
 evidence, fixture breadth, and the approval audit justify manual promotion.
@@ -436,7 +470,7 @@ from the live bot checkout at startup or deploy time:
 ```bash
 trading-assistant-backtest-emit-deployment-metadata \
   --repo-path /opt/crypto_trader \
-  --contract /opt/trading_assistant_agent/trading_assistant_backtest/contracts/crypto_trend_v1/strategy_plugin_contract.json \
+  --contract /opt/trading_assistant_agent/packages/trading_assistant_backtest/contracts/crypto_trend_v1/strategy_plugin_contract.json \
   --config /opt/crypto_trader/config/live_config.json \
   --output /opt/crypto_trader/runtime/deployment_metadata.crypto_trend_v1.json \
   --bot-id crypto_portfolio \
@@ -584,7 +618,7 @@ is set.
 ### 10.1 Windows auto-start (recommended for the local workstation)
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File trading_assistant\scripts\install-startup.ps1
+powershell -ExecutionPolicy Bypass -File packages\trading_assistant\scripts\install-startup.ps1
 ```
 
 Behaviour: interpreter resolution (`.venv` -> `venv` -> `PATH`), single-instance
@@ -604,9 +638,9 @@ After=network.target
 [Service]
 Type=simple
 User=your_user
-WorkingDirectory=/path/to/trading_assistant_agent/trading_assistant
-EnvironmentFile=/path/to/trading_assistant_agent/trading_assistant/.env
-ExecStart=/path/to/trading_assistant_agent/.venv/bin/uvicorn orchestrator.app:app --host 127.0.0.1 --port 8000
+WorkingDirectory=/path/to/trading_assistant_agent/packages/trading_assistant
+EnvironmentFile=/path/to/trading_assistant_agent/packages/trading_assistant/.env
+ExecStart=/path/to/trading_assistant_agent/.venv/bin/uvicorn trading_assistant.orchestrator.app:app --host 127.0.0.1 --port 8000
 Restart=always
 RestartSec=10
 [Install]
@@ -614,8 +648,8 @@ WantedBy=multi-user.target
 ```
 
 Logs: `journalctl -u trading-orchestrator -f`,
-`trading_assistant/logs/events-YYYY-MM-DD.jsonl`,
-`trading_assistant/memory/heartbeat.md`, and per-bot
+`packages/trading_assistant/logs/events-YYYY-MM-DD.jsonl`,
+`packages/trading_assistant/memory/heartbeat.md`, and per-bot
 `instrumentation/data/instrumentation.log`.
 
 ---
@@ -644,7 +678,7 @@ portfolio being promoted:
 Then promote:
 
 ```bash
-# In trading_assistant/.env
+# In packages/trading_assistant/.env
 MONTHLY_VALIDATION_MODE=approval_gated
 DEPLOYMENT_MONITORING_ENABLED=true
 ```
@@ -758,10 +792,10 @@ URL. Multi-relay setups are not supported by the orchestrator (single
 
 | Variable | Default | Owner |
 |----------|---------|-------|
-| `DATA_DIR` | `data` | `trading_assistant` runtime data |
-| `MARKET_DATA_ROOT` | `../trading_data/market` | `trading_assistant_data` bundles |
-| `BACKTEST_REPO_PATH` | `../trading_backtests` | per-candidate workspaces |
-| `BACKTEST_ARTIFACT_ROOT` | `../trading_data/runs/monthly_validation` | frozen replay outputs |
+| `DATA_DIR` | `data` | `packages/trading_assistant` runtime data |
+| `MARKET_DATA_ROOT` | `../trading_assistant_data/data/export` | `packages/trading_assistant_data` bundles |
+| `BACKTEST_REPO_PATH` | `../trading_assistant_backtest` | sibling backtest package |
+| `BACKTEST_ARTIFACT_ROOT` | `../trading_assistant_backtest/artifacts/monthly_validation` | frozen replay outputs |
 
 ### Ports
 

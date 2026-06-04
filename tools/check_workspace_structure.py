@@ -8,6 +8,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
+FINAL_ROOT_DIRECTORIES = ("packages", "docs", "artifacts")
+FINAL_ROOT_FILES = ("README.md",)
+
 LAYOUTS = {
     "current": {
         "trading_assistant": ROOT / "trading_assistant",
@@ -41,6 +44,16 @@ RUNTIME_DIRS = {
     },
 }
 
+LEGACY_CONTROL_IMPORT_ROOTS = {
+    "analysis",
+    "comms",
+    "contracts",
+    "orchestrator",
+    "schemas",
+    "skills",
+}
+FINAL_CONTROL_NAMESPACE_SCAN_DIRS = ("src/trading_assistant", "tests")
+
 FORBIDDEN_IMPORTS = {
     "current": {
         "trading_assistant": {"trading_assistant_data", "trading_assistant_backtest"},
@@ -49,12 +62,6 @@ FORBIDDEN_IMPORTS = {
     },
     "final": {
         "trading_assistant": {
-            "analysis",
-            "comms",
-            "contracts",
-            "orchestrator",
-            "schemas",
-            "skills",
             "trading_assistant_data",
             "trading_assistant_backtest",
         },
@@ -90,6 +97,24 @@ def _check_exists(workspaces: dict[str, Path], errors: list[str]) -> None:
         errors.append("missing backtest src package")
 
 
+def _check_final_root_layout(errors: list[str]) -> None:
+    for relative in FINAL_ROOT_DIRECTORIES:
+        if not (ROOT / relative).is_dir():
+            errors.append(f"missing final root directory: {relative}")
+    for relative in FINAL_ROOT_FILES:
+        if not (ROOT / relative).is_file():
+            errors.append(f"missing final root file: {relative}")
+
+
+def _check_no_legacy_workspace_roots(errors: list[str]) -> None:
+    for name, path in LAYOUTS["current"].items():
+        if path.exists():
+            errors.append(
+                "obsolete top-level workspace exists in final layout: "
+                f"{name} ({_rel(path)})"
+            )
+
+
 def _check_packaging(layout: str, workspaces: dict[str, Path], errors: list[str]) -> None:
     if layout == "final":
         control_pyproject = workspaces["trading_assistant"] / "pyproject.toml"
@@ -105,6 +130,15 @@ def _check_packaging(layout: str, workspaces: dict[str, Path], errors: list[str]
         )
         if control_where != ["src"]:
             errors.append("trading_assistant should discover packages from src in final layout")
+        control_include = (
+            control.get("tool", {})
+            .get("setuptools", {})
+            .get("packages", {})
+            .get("find", {})
+            .get("include", [])
+        )
+        if "trading_assistant*" not in control_include:
+            errors.append("trading_assistant package discovery should include trading_assistant*")
 
         control_src = workspaces["trading_assistant"] / "src" / "trading_assistant"
         if not (control_src / "__init__.py").is_file():
@@ -116,6 +150,9 @@ def _check_packaging(layout: str, workspaces: dict[str, Path], errors: list[str]
         return
 
     data = _load_toml(workspaces["trading_assistant_data"] / "pyproject.toml")
+    data_build_backend = data.get("build-system", {}).get("build-backend")
+    if data_build_backend != "setuptools.build_meta":
+        errors.append("trading_assistant_data should use setuptools.build_meta")
     data_where = (
         data.get("tool", {})
         .get("setuptools", {})
@@ -127,6 +164,9 @@ def _check_packaging(layout: str, workspaces: dict[str, Path], errors: list[str]
         errors.append("trading_assistant_data should discover packages from src")
 
     backtest = _load_toml(workspaces["trading_assistant_backtest"] / "pyproject.toml")
+    backtest_build_backend = backtest.get("build-system", {}).get("build-backend")
+    if backtest_build_backend != "hatchling.build":
+        errors.append("trading_assistant_backtest should use hatchling.build")
     wheel_packages = (
         backtest.get("tool", {})
         .get("hatch", {})
@@ -180,6 +220,7 @@ def _check_import_boundaries(
     runtime_dirs: dict[str, list[str]],
     forbidden_imports: dict[str, set[str]],
     errors: list[str],
+    violation_label: str = "forbidden workspace package(s)",
 ) -> None:
     for workspace, forbidden in forbidden_imports.items():
         for path in _iter_python_files(
@@ -196,14 +237,30 @@ def _check_import_boundaries(
             illegal = sorted(_import_roots(tree) & forbidden)
             if illegal:
                 errors.append(
-                    f"{_rel(path)} imports forbidden workspace package(s): "
+                    f"{_rel(path)} imports {violation_label}: "
                     + ", ".join(illegal)
                 )
+
+
+def _check_final_control_namespace_imports(
+    workspaces: dict[str, Path],
+    errors: list[str],
+) -> None:
+    _check_import_boundaries(
+        workspaces=workspaces,
+        runtime_dirs={"trading_assistant": list(FINAL_CONTROL_NAMESPACE_SCAN_DIRS)},
+        forbidden_imports={"trading_assistant": LEGACY_CONTROL_IMPORT_ROOTS},
+        errors=errors,
+        violation_label="legacy control-plane root(s)",
+    )
 
 
 def _check_layout(layout: str) -> list[str]:
     errors: list[str] = []
     workspaces = LAYOUTS[layout]
+    if layout == "final":
+        _check_final_root_layout(errors)
+        _check_no_legacy_workspace_roots(errors)
     _check_exists(workspaces, errors)
     _check_packaging(layout, workspaces, errors)
     _check_import_boundaries(
@@ -212,7 +269,73 @@ def _check_layout(layout: str) -> list[str]:
         forbidden_imports=FORBIDDEN_IMPORTS[layout],
         errors=errors,
     )
+    if layout == "final":
+        _check_final_control_namespace_imports(workspaces, errors)
     return errors
+
+
+def _check_transition_layout() -> tuple[str, list[str]]:
+    """Validate an intentional in-flight migration layout.
+
+    Data and backtest may already live under packages/ while the control plane
+    may still be either top-level, packages/ with its old package roots, or
+    fully migrated to packages/.../src/trading_assistant.
+    """
+
+    errors: list[str] = []
+    workspaces: dict[str, Path] = {}
+    runtime_dirs: dict[str, list[str]] = {}
+    forbidden_imports: dict[str, set[str]] = {}
+    states: dict[str, str] = {}
+
+    for name in LAYOUTS["current"]:
+        final_path = LAYOUTS["final"][name]
+        current_path = LAYOUTS["current"][name]
+        workspace = final_path if final_path.is_dir() else current_path
+        workspaces[name] = workspace
+
+        if name == "trading_assistant":
+            if (workspace / "src" / "trading_assistant").is_dir():
+                state = "final"
+                runtime_dirs[name] = RUNTIME_DIRS["final"][name]
+                forbidden_imports[name] = FORBIDDEN_IMPORTS["final"][name]
+            else:
+                state = "transitional" if workspace == final_path else "current"
+                runtime_dirs[name] = RUNTIME_DIRS["current"][name]
+                forbidden_imports[name] = FORBIDDEN_IMPORTS["current"][name]
+        else:
+            state = "final" if workspace == final_path else "current"
+            runtime_dirs[name] = RUNTIME_DIRS[state][name]
+            forbidden_imports[name] = FORBIDDEN_IMPORTS[state][name]
+        states[name] = state
+
+    _check_exists(workspaces, errors)
+
+    if states["trading_assistant"] == "final":
+        _check_packaging("final", workspaces, errors)
+    else:
+        _check_packaging("current", workspaces, errors)
+
+    if states["trading_assistant"] == "transitional":
+        missing = [
+            relative
+            for relative in RUNTIME_DIRS["current"]["trading_assistant"]
+            if not (workspaces["trading_assistant"] / relative).is_dir()
+        ]
+        if missing:
+            errors.append(
+                "transitional control workspace is missing runtime dirs: "
+                + ", ".join(missing)
+            )
+
+    _check_import_boundaries(
+        workspaces=workspaces,
+        runtime_dirs=runtime_dirs,
+        forbidden_imports=forbidden_imports,
+        errors=errors,
+    )
+    label = ", ".join(f"{name}={state}" for name, state in sorted(states.items()))
+    return label, errors
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -220,8 +343,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--layout",
         choices=("current", "final", "either"),
-        default="current",
-        help="Workspace layout to validate. Use 'final' after the packages/ migration.",
+        default="final",
+        help=(
+            "Workspace layout to validate. The final packages/ layout is the "
+            "supported checkout shape; current/either are historical migration checks."
+        ),
     )
     args = parser.parse_args(argv)
 
@@ -234,10 +360,16 @@ def main(argv: list[str] | None = None) -> int:
         if not final_errors:
             print("workspace structure OK (final layout)")
             return 0
+        transition_label, transition_errors = _check_transition_layout()
+        if not transition_errors:
+            print(f"workspace structure OK (transition layout: {transition_label})")
+            return 0
         for error in current_errors:
             print(f"CURRENT ERROR: {error}")
         for error in final_errors:
             print(f"FINAL ERROR: {error}")
+        for error in transition_errors:
+            print(f"TRANSITION ERROR: {error}")
         return 1
 
     errors = _check_layout(args.layout)
