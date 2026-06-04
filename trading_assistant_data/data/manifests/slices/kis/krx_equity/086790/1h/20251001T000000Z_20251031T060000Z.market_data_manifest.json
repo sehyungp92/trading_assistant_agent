@@ -9,106 +9,29 @@
   "expected_bars": 108,
   "actual_bars": 126,
   "coverage_ratio": 1.0,
-  "missing_ranges": [
-    {
-      "start_ts": "2025-10-01T07:00:00Z",
-      "end_ts": "2025-10-01T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-02T07:00:00Z",
-      "end_ts": "2025-10-09T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-10T07:00:00Z",
-      "end_ts": "2025-10-12T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-13T07:00:00Z",
-      "end_ts": "2025-10-13T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-14T07:00:00Z",
-      "end_ts": "2025-10-14T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-15T07:00:00Z",
-      "end_ts": "2025-10-15T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-16T07:00:00Z",
-      "end_ts": "2025-10-16T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-17T07:00:00Z",
-      "end_ts": "2025-10-19T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-20T07:00:00Z",
-      "end_ts": "2025-10-20T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-21T07:00:00Z",
-      "end_ts": "2025-10-21T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-22T07:00:00Z",
-      "end_ts": "2025-10-22T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-23T07:00:00Z",
-      "end_ts": "2025-10-23T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-24T07:00:00Z",
-      "end_ts": "2025-10-26T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-27T07:00:00Z",
-      "end_ts": "2025-10-27T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-28T07:00:00Z",
-      "end_ts": "2025-10-28T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-29T07:00:00Z",
-      "end_ts": "2025-10-29T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-10-30T07:00:00Z",
-      "end_ts": "2025-10-30T23:00:00Z",
-      "reason": "gap>60min"
-    }
-  ],
-  "session_calendar": "krx_equities_v1",
+  "missing_ranges": [],
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
   "timezone": "Asia/Seoul",
   "checksum": "386ffaaad165bcbedb7d01e873420ea180451d931cf5828b1912d89a88f71578",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "krx_split_adjusted_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/086790/086790_1h_20250512_20260512.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "kis_intraday_exchange_timestamp_v1_unverified"
+  },
   "usable_for_authoritative_validation": false,
   "blocking_reasons": [
-    "KRX intraday timestamp/session audit required before authority",
-    "missing ranges present",
-    "source_version is not a data repo commit SHA"
+    "KRX intraday timestamp/session audit required before authority"
   ],
-  "generated_at": "2026-05-30T21:39:35.055487Z"
+  "generated_at": "2026-05-31T15:30:33.796951Z"
 }

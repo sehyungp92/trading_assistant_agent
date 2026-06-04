@@ -1,0 +1,49 @@
+{
+  "bundle_checksum": "443132ca746da35f0ed41613c6da1aeac39ca9555b7cf53dd7e08de34b40f65e",
+  "generated_at": "2026-06-02T01:35:30.495194+00:00",
+  "schema_version": "bundle_slice_index_v1",
+  "slices": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=us_equity/source=ibkr/kind=read_only_authority/symbol=GLD/timeframe=15m/year=2021/month=02/part.parquet"
+      ],
+      "manifest_id": "f0425921f6e88b4a",
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/GLD/15m/20210208T090000Z_20260501T230000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=us_equity/source=ibkr/kind=read_only_authority/symbol=GLD/timeframe=1d/year=2021/month=02/part.parquet"
+      ],
+      "manifest_id": "226f69093c67266b",
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/GLD/1d/20210208T000000Z_20260501T000000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=us_equity/source=ibkr/kind=read_only_authority/symbol=GLD/timeframe=1h/year=2021/month=02/part.parquet"
+      ],
+      "manifest_id": "183cfdf195a0d57e",
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/GLD/1h/20210208T090000Z_20260501T230000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=us_equity/source=ibkr/kind=read_only_authority/symbol=QQQ/timeframe=15m/year=2021/month=02/part.parquet"
+      ],
+      "manifest_id": "01c2db19c4d5161a",
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/QQQ/15m/20210208T090000Z_20260501T230000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=us_equity/source=ibkr/kind=read_only_authority/symbol=QQQ/timeframe=1d/year=2021/month=02/part.parquet"
+      ],
+      "manifest_id": "8201d65d6a460ac2",
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/QQQ/1d/20210208T000000Z_20260501T000000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=us_equity/source=ibkr/kind=read_only_authority/symbol=QQQ/timeframe=1h/year=2021/month=02/part.parquet"
+      ],
+      "manifest_id": "da9315f765337645",
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/QQQ/1h/20210208T090000Z_20260501T230000Z.market_data_manifest.json"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "request_count": 3,
+  "requests": [
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_funding_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_funding_1h_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "not_applicable_funding_series_v1"
+      },
+      "data_kind": "funding",
+      "download_request": {
+        "coin": "BTC",
+        "end": "2026-05-30T11:00:00.024000+00:00",
+        "provider": "hyperliquid",
+        "request_type": "funding_history",
+        "start": "2023-05-12T00:00:00.048000+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/BTC.parquet",
+      "legacy_row_count": 26178,
+      "legacy_sha256": "4e932c0a8051db3282608dad300c55d701fa8c13205c281d9d0a42d46067fb1a",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00.024000+00:00",
+        "start": "2023-05-12T00:00:00.048000+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_69493f2d26f21b5e4d7215e8",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/funding/BTC",
+      "source_kind": "hyperliquid_funding",
+      "symbol": "BTC",
+      "timeframe": "funding_1h"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_funding_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_funding_1h_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "not_applicable_funding_series_v1"
+      },
+      "data_kind": "funding",
+      "download_request": {
+        "coin": "ETH",
+        "end": "2026-05-30T11:00:00.024000+00:00",
+        "provider": "hyperliquid",
+        "request_type": "funding_history",
+        "start": "2023-05-12T00:00:00.048000+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/ETH.parquet",
+      "legacy_row_count": 26178,
+      "legacy_sha256": "00d3001520cc9fce22b8082c9ba48f340b003fd86515e915a21f5d1dc0363794",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00.024000+00:00",
+        "start": "2023-05-12T00:00:00.048000+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_dba023fcea170a664705cf8d",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/funding/ETH",
+      "source_kind": "hyperliquid_funding",
+      "symbol": "ETH",
+      "timeframe": "funding_1h"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_funding_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_funding_1h_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "not_applicable_funding_series_v1"
+      },
+      "data_kind": "funding",
+      "download_request": {
+        "coin": "SOL",
+        "end": "2026-05-30T11:00:00.024000+00:00",
+        "provider": "hyperliquid",
+        "request_type": "funding_history",
+        "start": "2023-05-12T00:00:00.048000+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/SOL.parquet",
+      "legacy_row_count": 26178,
+      "legacy_sha256": "d88b7bda473a9e9f6648ed1089c639fe213a65a04428d25abb3732d6bb6d67fd",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00.024000+00:00",
+        "start": "2023-05-12T00:00:00.048000+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_9bfaf1a87086d0be5d08d728",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/funding/SOL",
+      "source_kind": "hyperliquid_funding",
+      "symbol": "SOL",
+      "timeframe": "funding_1h"
+    }
+  ],
+  "schema_version": "source_request_manifest_v1",
+  "snapshot": "2026-05-30",
+  "source_kind": "hyperliquid_funding"
+}

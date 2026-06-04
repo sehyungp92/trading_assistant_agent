@@ -1,0 +1,40 @@
+{
+  "manifest_id": "a467ba3a21bbd652",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "SOL",
+  "timeframe": "funding_1h",
+  "start_ts": "2023-07-01T00:00:00Z",
+  "end_ts": "2023-07-31T23:00:00Z",
+  "expected_bars": 744,
+  "actual_bars": 743,
+  "coverage_ratio": 0.9986559139784946,
+  "missing_ranges": [
+    {
+      "start_ts": "2023-07-02T20:00:00Z",
+      "end_ts": "2023-07-02T20:00:00Z",
+      "reason": "missing expected bar"
+    }
+  ],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "980ff8dd597232de0672bb5f6ef4e07dc940632476651e421591f36886ebab87",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/SOL.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "missing ranges present"
+  ],
+  "generated_at": "2026-06-01T20:20:11.107672Z"
+}

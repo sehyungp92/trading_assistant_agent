@@ -1,5 +1,5 @@
 {
-  "manifest_id": "52f37cb755684d5c",
+  "manifest_id": "9f5c1e46de8c39c3",
   "source": "hyperliquid",
   "market": "crypto_perp",
   "symbol": "BTC",
@@ -12,15 +12,21 @@
   "missing_ranges": [],
   "session_calendar": "crypto_utc_24_7_v1",
   "timezone": "UTC",
-  "checksum": "1e5cd60a87a7fe289e6038df2ca02f6c7fcf7c52a594efa41fd14282ecfa744a",
+  "checksum": "b481590541d1a8329f53188ae045834a2270e291b38cd54c441acd4dbadcc3e5",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "crypto_raw_perp_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
-  "usable_for_authoritative_validation": false,
-  "blocking_reasons": [
-    "source_version is not a data repo commit SHA"
-  ],
-  "generated_at": "2026-05-30T22:02:01.692995Z"
+  "lineage": {
+    "authority_status": "archived_reference_snapshot_plus_live_hyperliquid_refresh",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/1d.parquet,data/raw/hyperliquid/candles/symbol=BTC/interval=1d/20260321T000000Z_20260601T202730Z.json",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": true,
+  "blocking_reasons": [],
+  "generated_at": "2026-06-01T20:27:34.097993Z"
 }

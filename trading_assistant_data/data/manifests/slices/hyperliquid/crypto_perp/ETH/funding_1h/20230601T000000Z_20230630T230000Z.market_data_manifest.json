@@ -1,0 +1,140 @@
+{
+  "manifest_id": "6b8e07f00132a0bd",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "ETH",
+  "timeframe": "funding_1h",
+  "start_ts": "2023-06-01T00:00:00Z",
+  "end_ts": "2023-06-30T23:00:00Z",
+  "expected_bars": 720,
+  "actual_bars": 573,
+  "coverage_ratio": 0.7958333333333333,
+  "missing_ranges": [
+    {
+      "start_ts": "2023-06-01T01:00:00Z",
+      "end_ts": "2023-06-01T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-01T09:00:00Z",
+      "end_ts": "2023-06-01T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-01T17:00:00Z",
+      "end_ts": "2023-06-01T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-02T01:00:00Z",
+      "end_ts": "2023-06-02T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-02T09:00:00Z",
+      "end_ts": "2023-06-02T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-02T17:00:00Z",
+      "end_ts": "2023-06-02T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-03T01:00:00Z",
+      "end_ts": "2023-06-03T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-03T09:00:00Z",
+      "end_ts": "2023-06-03T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-03T17:00:00Z",
+      "end_ts": "2023-06-03T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-04T01:00:00Z",
+      "end_ts": "2023-06-04T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-04T09:00:00Z",
+      "end_ts": "2023-06-04T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-04T17:00:00Z",
+      "end_ts": "2023-06-04T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-05T01:00:00Z",
+      "end_ts": "2023-06-05T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-05T09:00:00Z",
+      "end_ts": "2023-06-05T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-05T17:00:00Z",
+      "end_ts": "2023-06-05T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-06T01:00:00Z",
+      "end_ts": "2023-06-06T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-06T09:00:00Z",
+      "end_ts": "2023-06-06T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-06T17:00:00Z",
+      "end_ts": "2023-06-06T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-07T01:00:00Z",
+      "end_ts": "2023-06-07T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-07T09:00:00Z",
+      "end_ts": "2023-06-07T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-07T17:00:00Z",
+      "end_ts": "2023-06-07T23:00:00Z",
+      "reason": "missing expected bar"
+    }
+  ],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "f969a38cbc63931cdab1adabb4e0cc62f4fdbae130f0edbe3ba9da3bf413d163",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/ETH.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "missing ranges present"
+  ],
+  "generated_at": "2026-06-01T20:20:07.241689Z"
+}

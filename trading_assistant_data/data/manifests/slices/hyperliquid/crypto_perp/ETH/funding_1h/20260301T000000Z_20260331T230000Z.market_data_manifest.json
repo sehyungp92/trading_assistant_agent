@@ -1,0 +1,32 @@
+{
+  "manifest_id": "58fda88fd6f6cf95",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "ETH",
+  "timeframe": "funding_1h",
+  "start_ts": "2026-03-01T00:00:00Z",
+  "end_ts": "2026-03-31T23:00:00Z",
+  "expected_bars": 744,
+  "actual_bars": 744,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "626e8fccb0f21a0138c94753684ee7fa9a186061e703f8394f18cfd9c778e2f2",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/ETH.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": true,
+  "blocking_reasons": [],
+  "generated_at": "2026-06-01T20:20:10.443708Z"
+}

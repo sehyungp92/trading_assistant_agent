@@ -43,6 +43,7 @@ python -m trading_assistant_data normalize --all
 python -m trading_assistant_data finalize-slices --run-month 2026-05 --requirements-file data/requirements/strategies/crypto_portfolio/btc_1m.json
 python -m trading_assistant_data build-bundle --run-month 2026-05 --bot-id crypto_portfolio --strategy-id btc_1m --requirements-file data/requirements/strategies/crypto_portfolio/btc_1m.json
 python -m trading_assistant_data export-filesystem --run-month 2026-05 --bundle-manifest data/bundles/monthly/2026-05/crypto_portfolio/btc_1m/data_bundle_manifest.json
+python -m trading_assistant_data reproduce-bundle --bundle-manifest data/bundles/monthly/2026-05/crypto_portfolio/btc_1m/data_bundle_manifest.json --artifact-root ../artifacts/validation/btc_1m_data_reproduction --json
 ```
 
 All commands support `--dry-run` and `--json`, and write structured reports under

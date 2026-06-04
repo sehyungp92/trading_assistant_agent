@@ -1,0 +1,131 @@
+{
+  "request_count": 3,
+  "requests": [
+    {
+      "authority_status": "declared_derived_seed_rebuild_required",
+      "canonical_expectations": {
+        "adjustment_policy": "regime_seed_derived_panel_policy_v1",
+        "calendar": "global_macro_daily_calendar_v1",
+        "fee_policy": "not_applicable_regime_seed_v1",
+        "slippage_policy": "not_applicable_regime_seed_v1"
+      },
+      "data_kind": "derived_panel",
+      "download_request": {
+        "end": "2026-05-13T00:00:00+00:00",
+        "provider": "legacy_seed",
+        "request_type": "derived_panel_rebuild",
+        "seed_name": "macro_df",
+        "source_request_expansion_required": true,
+        "start": "2003-01-02T00:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "trading_regime",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/regime/data/raw/macro_df.parquet",
+      "legacy_row_count": 5878,
+      "legacy_sha256": "03852aaf62a495949e7737189c0197a18de70015b4f92c2d91cf48024674f988",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "date",
+        "end": "2026-05-13T00:00:00+00:00",
+        "start": "2003-01-02T00:00:00+00:00"
+      },
+      "market": "global_macro",
+      "request_id": "src_req_9c23f0fb16a965b174f20da7",
+      "schema_version": "source_request_v1",
+      "source": "legacy_seed",
+      "source_endpoint": "legacy-seed://trading/regime/macro_df",
+      "source_kind": "legacy_derived_seed",
+      "symbol": "MACRO_DF",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_derived_seed_rebuild_required",
+      "canonical_expectations": {
+        "adjustment_policy": "regime_seed_derived_panel_policy_v1",
+        "calendar": "global_macro_daily_calendar_v1",
+        "fee_policy": "not_applicable_regime_seed_v1",
+        "slippage_policy": "not_applicable_regime_seed_v1"
+      },
+      "data_kind": "derived_panel",
+      "download_request": {
+        "end": "2026-05-13T00:00:00+00:00",
+        "provider": "legacy_seed",
+        "request_type": "derived_panel_rebuild",
+        "seed_name": "market_df",
+        "source_request_expansion_required": true,
+        "start": "2003-01-02T00:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "trading_regime",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/regime/data/raw/market_df.parquet",
+      "legacy_row_count": 5878,
+      "legacy_sha256": "3768eb5e7cf746ac56516208a2ff364c88f63dd81f89bf1239d809c6e4474d34",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "date",
+        "end": "2026-05-13T00:00:00+00:00",
+        "start": "2003-01-02T00:00:00+00:00"
+      },
+      "market": "global_macro",
+      "request_id": "src_req_3201dd54883ab38db92d1410",
+      "schema_version": "source_request_v1",
+      "source": "legacy_seed",
+      "source_endpoint": "legacy-seed://trading/regime/market_df",
+      "source_kind": "legacy_derived_seed",
+      "symbol": "MARKET_DF",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_derived_seed_rebuild_required",
+      "canonical_expectations": {
+        "adjustment_policy": "regime_seed_derived_panel_policy_v1",
+        "calendar": "global_macro_daily_calendar_v1",
+        "fee_policy": "not_applicable_regime_seed_v1",
+        "slippage_policy": "not_applicable_regime_seed_v1"
+      },
+      "data_kind": "derived_panel",
+      "download_request": {
+        "end": "2026-05-13T00:00:00+00:00",
+        "provider": "legacy_seed",
+        "request_type": "derived_panel_rebuild",
+        "seed_name": "strat_ret_df",
+        "source_request_expansion_required": true,
+        "start": "2003-01-02T00:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "trading_regime",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/regime/data/raw/strat_ret_df.parquet",
+      "legacy_row_count": 5878,
+      "legacy_sha256": "4ec025af078ed2ebe2fdd4044bd559c71803fd8c512bf023f6cfb74cdf24ddd1",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "date",
+        "end": "2026-05-13T00:00:00+00:00",
+        "start": "2003-01-02T00:00:00+00:00"
+      },
+      "market": "global_macro",
+      "request_id": "src_req_c739c7faf8ca2a87203a5057",
+      "schema_version": "source_request_v1",
+      "source": "legacy_seed",
+      "source_endpoint": "legacy-seed://trading/regime/strat_ret_df",
+      "source_kind": "legacy_derived_seed",
+      "symbol": "STRAT_RET_DF",
+      "timeframe": "1d"
+    }
+  ],
+  "schema_version": "source_request_manifest_v1",
+  "snapshot": "2026-05-30",
+  "source_kind": "legacy_derived_seed"
+}

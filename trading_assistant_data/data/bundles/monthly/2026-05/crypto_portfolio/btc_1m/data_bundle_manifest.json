@@ -1,24 +1,24 @@
 {
-  "bundle_id": "3bfc2401397f4865",
-  "data_repo_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data",
-  "data_repo_commit_sha": "a4b376c4e1417784a1e59c3c128a8ddca37fd4b3",
+  "bundle_id": "f0a4510d239ad1a6",
+  "data_repo_path": ".",
+  "data_repo_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "data_repo_branch": "master",
   "slice_manifests": [
     {
-      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/1m/20260501T000000Z_20260530T110000Z.market_data_manifest.json",
-      "manifest_id": "39735383d78ed6d3",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/1m/20260501T000000Z_20260531T235900Z.market_data_manifest.json",
+      "manifest_id": "337939cb690c1358",
       "source": "hyperliquid",
       "market": "crypto_perp",
       "symbol": "BTC",
       "timeframe": "1m",
       "start_ts": "2026-05-01T00:00:00Z",
-      "end_ts": "2026-05-30T11:00:00Z",
-      "checksum": "a6a70858e3694f889c8e75ff8627625eacef3d5d0259c6790d76633991afdeb1",
+      "end_ts": "2026-05-31T23:59:00Z",
+      "checksum": "c580dbce5a1283eb6ea07697c811e464310898a78d5151179e2c0ae0f732e2ae",
       "calendar": "crypto_utc_24_7_v1",
       "authoritative": true
     }
   ],
-  "bundle_checksum": "58ad4ad21eae99363066f6a8ab814dc074573e3835e31a5fced5a96bba4ae70e",
+  "bundle_checksum": "6f2f1876c71a6877ad9bdf104825a8a3b939c7305ae32e3f3acca4f1cf282eb0",
   "calendars": [
     "crypto_utc_24_7_v1"
   ],
@@ -28,5 +28,5 @@
   "status": "authoritative",
   "diagnostics_only_reason": "",
   "schema_version": "data_bundle_manifest_v1",
-  "generated_at": "2026-05-30T23:16:35.866409Z"
+  "generated_at": "2026-06-01T14:22:38.385886Z"
 }

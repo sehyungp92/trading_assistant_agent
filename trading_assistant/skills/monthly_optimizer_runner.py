@@ -7,6 +7,7 @@ checks before the normal monthly candidate pipeline can trust the output.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import subprocess
@@ -41,6 +42,7 @@ from schemas.monthly_optimizer import (
 from schemas.monthly_run_manifest import MonthlyRunManifest, MonthlyRunMode
 from schemas.strategy_plugin_contract import StrategyPluginContract
 from skills.backtest_runner_client import BacktestRunnerClient
+from skills.monthly_deployment_metadata import deployment_metadata_errors
 
 
 ACTIVE_ATTEMPT_STATES = {
@@ -58,8 +60,18 @@ TERMINAL_ATTEMPT_STATES = {
 }
 
 CORE_PHASE4_SEQUENCE_ARTIFACTS = [
+    "optimizer_run_manifest.json",
     "fold_manifest.json",
+    "fold_candidate_results.jsonl",
+    "fold_score_matrix.json",
+    "selection_oos_evaluation.json",
+    "selection_oos_repair_trigger.json",
+    "repair_failure_attribution.json",
+    "accepted_mutation_chain.json",
+    "repair_candidate_results.jsonl",
+    "repair_checkpoint.json",
     "rounds_manifest.json",
+    "round_n_plus_1_recommendation.json",
     "end_of_round_diagnostics.json",
     "llm_experiment_plan.json",
     "fold_validation.json",
@@ -73,6 +85,20 @@ ADOPTION_GATE_ARTIFACTS = [
     "outlier_sensitivity.json",
     "portfolio_synergy.json",
 ]
+
+OPTIMIZER_BRIDGE_IDS_BY_SCOPE = {
+    "crypto_trader_portfolio": (
+        "crypto_trend_v1",
+        "crypto_momentum_v1",
+        "crypto_breakout_v1",
+    ),
+}
+
+OPTIMIZER_SCOPE_BY_PLUGIN_ID = {
+    "crypto-trend-v1": "crypto_trader_portfolio",
+    "crypto-momentum-v1": "crypto_trader_portfolio",
+    "crypto-breakout-v1": "crypto_trader_portfolio",
+}
 
 
 @dataclass(frozen=True)
@@ -472,6 +498,56 @@ class MonthlyOptimizerRunner:
             errors,
         )
         rounds_manifest = _load_model(artifact_index, "rounds_manifest.json", RoundsManifest, errors)
+        optimizer_run_manifest = _load_json_artifact(
+            artifact_index,
+            "optimizer_run_manifest.json",
+            errors,
+        )
+        fold_candidate_results = _load_jsonl(
+            artifact_index,
+            "fold_candidate_results.jsonl",
+            errors,
+        )
+        fold_score_matrix = _load_json_artifact(
+            artifact_index,
+            "fold_score_matrix.json",
+            errors,
+        )
+        selection_oos_evaluation = _load_json_artifact(
+            artifact_index,
+            "selection_oos_evaluation.json",
+            errors,
+        )
+        selection_oos_repair_trigger = _load_json_artifact(
+            artifact_index,
+            "selection_oos_repair_trigger.json",
+            errors,
+        )
+        repair_failure_attribution = _load_json_artifact(
+            artifact_index,
+            "repair_failure_attribution.json",
+            errors,
+        )
+        accepted_mutation_chain = _load_json_artifact(
+            artifact_index,
+            "accepted_mutation_chain.json",
+            errors,
+        )
+        repair_candidate_results = _load_jsonl(
+            artifact_index,
+            "repair_candidate_results.jsonl",
+            errors,
+        )
+        repair_checkpoint = _load_json_artifact(
+            artifact_index,
+            "repair_checkpoint.json",
+            errors,
+        )
+        round_n_plus_1_recommendation = _load_json_artifact(
+            artifact_index,
+            "round_n_plus_1_recommendation.json",
+            errors,
+        )
         selected = _load_candidates(artifact_index, "selected_candidates.json", errors)
         rejected = _load_jsonl(artifact_index, "rejected_candidates.jsonl", errors)
         attempts = _load_attempts(artifact_index, errors)
@@ -485,6 +561,12 @@ class MonthlyOptimizerRunner:
             errors=errors,
         )
         _validate_data_bundle_alignment(manifest, artifact_index, errors)
+        _validate_optimizer_run_manifest(
+            optimizer_run_manifest,
+            manifest=manifest,
+            artifact_index=artifact_index,
+            errors=errors,
+        )
         _validate_attempts(
             attempts,
             manifest,
@@ -492,6 +574,23 @@ class MonthlyOptimizerRunner:
             allow_empty=bool(confirmatory and confirmatory.no_adoption_reason and not selected),
         )
         _validate_runner_observability(artifact_index, manifest, attempts, errors)
+        _validate_optimizer_p6_p7_evidence(
+            manifest=manifest,
+            fold_manifest=fold_manifest,
+            confirmatory=confirmatory,
+            rounds_manifest=rounds_manifest,
+            selected=selected,
+            fold_candidate_results=fold_candidate_results,
+            fold_score_matrix=fold_score_matrix,
+            selection_oos_evaluation=selection_oos_evaluation,
+            selection_oos_repair_trigger=selection_oos_repair_trigger,
+            repair_failure_attribution=repair_failure_attribution,
+            accepted_mutation_chain=accepted_mutation_chain,
+            repair_candidate_results=repair_candidate_results,
+            repair_checkpoint=repair_checkpoint,
+            round_n_plus_1_recommendation=round_n_plus_1_recommendation,
+            errors=errors,
+        )
         _validate_optimizer_decision(
             manifest=manifest,
             confirmatory=confirmatory,
@@ -510,6 +609,10 @@ class MonthlyOptimizerRunner:
 
         paths = {
             "fold_manifest_path": _artifact_path_str(artifact_index, "fold_manifest.json"),
+            "optimizer_run_manifest_path": _artifact_path_str(
+                artifact_index,
+                "optimizer_run_manifest.json",
+            ),
             "experiment_plan_path": _artifact_path_str(artifact_index, "llm_experiment_plan.json"),
             "candidate_attempts_path": _artifact_path_str(artifact_index, "candidate_attempts.jsonl"),
             "runner_observability_path": _artifact_path_str(
@@ -679,6 +782,25 @@ def _load_candidates(
         for item in items
         if isinstance(item, dict)
     ]
+
+
+def _load_json_artifact(
+    index: BacktestArtifactIndex,
+    name: str,
+    errors: list[str],
+) -> dict[str, Any]:
+    path = index.artifact_path(name)
+    if path is None or not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        errors.append(f"invalid {name}: {exc}")
+        return {}
+    if not isinstance(payload, dict):
+        errors.append(f"invalid {name}: expected JSON object")
+        return {}
+    return payload
 
 
 def _load_jsonl(index: BacktestArtifactIndex, name: str, errors: list[str]) -> list[dict[str, Any]]:
@@ -860,6 +982,274 @@ def _validate_data_bundle_alignment(
         errors.append("coverage_manifest.json data bundle checksum does not match run manifest")
 
 
+def _validate_optimizer_run_manifest(
+    payload: dict[str, Any],
+    *,
+    manifest: MonthlyRunManifest,
+    artifact_index: BacktestArtifactIndex,
+    errors: list[str],
+) -> None:
+    if not payload:
+        errors.append("optimizer_run_manifest.json must contain approval evidence provenance")
+        return
+    if payload.get("schema_version") != "optimizer_approval_run_manifest_v1":
+        errors.append(
+            "optimizer_run_manifest.json schema_version must be optimizer_approval_run_manifest_v1"
+        )
+    expected = {
+        "run_id": manifest.run_id,
+        "run_month": manifest.run_month,
+        "bot_id": manifest.bot_id,
+        "strategy_id": manifest.strategy_id,
+        "data_bundle_checksum": manifest.data_bundle_checksum
+        or manifest.data_manifest_checksum,
+    }
+    for field, value in expected.items():
+        if value and str(payload.get(field) or "").strip() != value:
+            errors.append(f"optimizer_run_manifest.json {field} does not match run manifest")
+    artifact_root = str(payload.get("artifact_root") or "").strip()
+    if artifact_root and Path(artifact_root).resolve() != Path(artifact_index.artifact_root).resolve():
+        errors.append("optimizer_run_manifest.json artifact_root does not match artifact index")
+    approval_mode = str(getattr(manifest.approval_mode, "value", manifest.approval_mode) or "")
+    if approval_mode in {"", "none"}:
+        return
+    if payload.get("approval_grade_optimizer_run") is not True:
+        errors.append("approval-mode optimizer run must set approval_grade_optimizer_run=true")
+    if payload.get("smoke_mode") is not False:
+        errors.append("approval-mode optimizer run must set smoke_mode=false")
+    if str(payload.get("run_mode") or "").strip() == MonthlyRunMode.SMOKE_REPAIR.value:
+        errors.append("approval-mode optimizer evidence cannot use smoke_repair run_mode")
+    for path_key, hash_key in (
+        ("run_manifest_path", "run_manifest_hash"),
+        ("strategy_plugin_contract_path", "strategy_plugin_contract_hash"),
+        ("deployment_metadata_path", "deployment_metadata_hash"),
+    ):
+        _validate_manifest_hash(payload, path_key, hash_key, errors)
+    _validate_optimizer_bridge_hash_sets(payload, manifest=manifest, errors=errors)
+
+
+def _validate_manifest_hash(
+    payload: dict[str, Any],
+    path_key: str,
+    hash_key: str,
+    errors: list[str],
+) -> None:
+    path_text = str(payload.get(path_key) or "").strip()
+    expected_hash = str(payload.get(hash_key) or "").strip()
+    if not path_text or not expected_hash:
+        errors.append(f"optimizer_run_manifest.json missing {path_key}/{hash_key}")
+        return
+    path = Path(path_text)
+    if not path.exists() or not path.is_file():
+        errors.append(f"optimizer_run_manifest.json {path_key} does not exist")
+        return
+    if hashlib.sha256(path.read_bytes()).hexdigest() != expected_hash:
+        errors.append(f"optimizer_run_manifest.json {hash_key} does not match {path_key}")
+
+
+def _validate_optimizer_bridge_hash_sets(
+    payload: dict[str, Any],
+    *,
+    manifest: MonthlyRunManifest,
+    errors: list[str],
+) -> None:
+    expected_scope = _optimizer_scope_from_manifest(manifest)
+    payload_scope = str(payload.get("scope_id") or "").strip()
+    if expected_scope and payload_scope and payload_scope != expected_scope:
+        errors.append("optimizer_run_manifest.json scope_id does not match strategy plugin scope")
+    scope_id = _optimizer_scope_id_for_manifest(payload, manifest)
+    expected_bridge_ids = set(OPTIMIZER_BRIDGE_IDS_BY_SCOPE.get(scope_id, ()))
+    contract_paths = _first_string_map(
+        payload,
+        ("bridge_contract_paths", "strategy_plugin_contract_paths"),
+    )
+    contract_hashes = _first_string_map(
+        payload,
+        ("bridge_contract_hashes", "strategy_plugin_contract_hashes"),
+    )
+    deployment_paths = _first_string_map(
+        payload,
+        ("bridge_deployment_metadata_paths", "deployment_metadata_paths"),
+    )
+    deployment_hashes = _first_string_map(
+        payload,
+        ("bridge_deployment_metadata_hashes", "deployment_metadata_hashes"),
+    )
+    _validate_manifest_hash_map(
+        paths=contract_paths,
+        hashes=contract_hashes,
+        label="strategy contract",
+        errors=errors,
+    )
+    _validate_manifest_hash_map(
+        paths=deployment_paths,
+        hashes=deployment_hashes,
+        label="deployment metadata",
+        errors=errors,
+    )
+    if expected_bridge_ids:
+        _require_bridge_hash_set(
+            expected_bridge_ids,
+            paths=contract_paths,
+            hashes=contract_hashes,
+            label="strategy contract",
+            errors=errors,
+        )
+        _require_bridge_hash_set(
+            expected_bridge_ids,
+            paths=deployment_paths,
+            hashes=deployment_hashes,
+            label="deployment metadata",
+            errors=errors,
+        )
+
+    manifest_contract_paths = _manifest_path_map(
+        manifest,
+        ("bridge_contract_paths", "strategy_plugin_contract_paths"),
+    )
+    manifest_deployment_paths = _manifest_path_map(
+        manifest,
+        ("bridge_deployment_metadata_paths", "deployment_metadata_paths"),
+    )
+    _compare_manifest_path_hashes(
+        manifest_contract_paths,
+        actual_hashes=contract_hashes,
+        label="manifest-declared strategy contract",
+        errors=errors,
+    )
+    _compare_manifest_path_hashes(
+        manifest_deployment_paths,
+        actual_hashes=deployment_hashes,
+        label="manifest-declared deployment metadata",
+        errors=errors,
+    )
+
+
+def _optimizer_scope_id_for_manifest(
+    payload: dict[str, Any],
+    manifest: MonthlyRunManifest,
+) -> str:
+    manifest_scope = _optimizer_scope_from_manifest(manifest)
+    payload_scope = str(payload.get("scope_id") or "").strip()
+    return (
+        manifest_scope
+        or payload_scope
+        or str(getattr(manifest, "scope_id", "") or "").strip()
+        or manifest.strategy_id
+        or manifest.bot_id
+    )
+
+
+def _optimizer_scope_from_manifest(manifest: MonthlyRunManifest) -> str:
+    return OPTIMIZER_SCOPE_BY_PLUGIN_ID.get(manifest.strategy_plugin_id, "")
+
+
+def _first_string_map(
+    payload: dict[str, Any],
+    keys: tuple[str, ...],
+) -> dict[str, str]:
+    for key in keys:
+        value = payload.get(key)
+        if isinstance(value, dict):
+            mapped = {
+                str(item_key).strip(): str(item).strip()
+                for item_key, item in value.items()
+                if str(item_key).strip() and str(item).strip()
+            }
+            if mapped:
+                return mapped
+    return {}
+
+
+def _manifest_path_map(
+    manifest: MonthlyRunManifest,
+    keys: tuple[str, ...],
+) -> dict[str, str]:
+    for key in keys:
+        value = getattr(manifest, key, {})
+        if isinstance(value, dict):
+            mapped = {
+                str(item_key).strip(): str(item).strip()
+                for item_key, item in value.items()
+                if str(item_key).strip() and str(item).strip()
+            }
+            if mapped:
+                return mapped
+    return {}
+
+
+def _validate_manifest_hash_map(
+    *,
+    paths: dict[str, str],
+    hashes: dict[str, str],
+    label: str,
+    errors: list[str],
+) -> None:
+    if not paths and not hashes:
+        return
+    for bridge_id, path_text in paths.items():
+        expected_hash = hashes.get(bridge_id, "")
+        if not expected_hash:
+            errors.append(f"optimizer_run_manifest.json missing {label} hash for {bridge_id}")
+            continue
+        path = Path(path_text)
+        if not path.exists() or not path.is_file():
+            errors.append(f"optimizer_run_manifest.json {label} path for {bridge_id} does not exist")
+            continue
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected_hash:
+            errors.append(
+                f"optimizer_run_manifest.json {label} hash for {bridge_id} does not match path"
+            )
+    extra_hashes = sorted(set(hashes) - set(paths))
+    if extra_hashes:
+        errors.append(
+            f"optimizer_run_manifest.json {label} hash map has no path for: "
+            + ", ".join(extra_hashes)
+        )
+
+
+def _require_bridge_hash_set(
+    expected_bridge_ids: set[str],
+    *,
+    paths: dict[str, str],
+    hashes: dict[str, str],
+    label: str,
+    errors: list[str],
+) -> None:
+    missing_paths = sorted(expected_bridge_ids - set(paths))
+    if missing_paths:
+        errors.append(
+            f"optimizer_run_manifest.json missing {label} path(s) for: "
+            + ", ".join(missing_paths)
+        )
+    missing_hashes = sorted(expected_bridge_ids - set(hashes))
+    if missing_hashes:
+        errors.append(
+            f"optimizer_run_manifest.json missing {label} hash(es) for: "
+            + ", ".join(missing_hashes)
+        )
+
+
+def _compare_manifest_path_hashes(
+    paths: dict[str, str],
+    *,
+    actual_hashes: dict[str, str],
+    label: str,
+    errors: list[str],
+) -> None:
+    for bridge_id, path_text in paths.items():
+        path = Path(path_text)
+        if not path.exists() or not path.is_file():
+            errors.append(f"optimizer_run_manifest.json {label} path for {bridge_id} does not exist")
+            continue
+        expected_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual_hashes.get(bridge_id) != expected_hash:
+            errors.append(
+                f"optimizer_run_manifest.json {label} hash for {bridge_id} "
+                "does not match run manifest"
+            )
+
+
 def _validate_search_brief_consumed(
     manifest: MonthlyRunManifest,
     experiment_plan: OptimizerExperimentPlan,
@@ -989,6 +1379,197 @@ def _validate_runner_observability(
         )
 
 
+def _validate_optimizer_p6_p7_evidence(
+    *,
+    manifest: MonthlyRunManifest,
+    fold_manifest: FoldManifest | None,
+    confirmatory: ConfirmatoryRerank | None,
+    rounds_manifest: RoundsManifest | None,
+    selected: list[MonthlyImprovementCandidate],
+    fold_candidate_results: list[dict[str, Any]],
+    fold_score_matrix: dict[str, Any],
+    selection_oos_evaluation: dict[str, Any],
+    selection_oos_repair_trigger: dict[str, Any],
+    repair_failure_attribution: dict[str, Any],
+    accepted_mutation_chain: dict[str, Any],
+    repair_candidate_results: list[dict[str, Any]],
+    repair_checkpoint: dict[str, Any],
+    round_n_plus_1_recommendation: dict[str, Any],
+    errors: list[str],
+) -> None:
+    deterministic_no_adoption = bool(
+        (confirmatory and confirmatory.no_adoption_reason)
+        or (rounds_manifest and rounds_manifest.no_adoption_reason)
+        or round_n_plus_1_recommendation.get("status") == "no_adoption"
+    )
+    if fold_manifest is not None:
+        if len(fold_manifest.folds) != 2:
+            errors.append("P6 evidence requires exactly two in-sample folds")
+        if not all(fold.purged for fold in fold_manifest.folds):
+            errors.append("P6 evidence requires purged in-sample folds")
+
+    if fold_score_matrix:
+        if str(fold_score_matrix.get("run_id") or "") not in {"", manifest.run_id}:
+            errors.append("fold_score_matrix run_id does not match run manifest")
+        if fold_score_matrix.get("selection_oos_excluded_from_first_pass") is not True:
+            errors.append("fold_score_matrix must prove selection-OOS exclusion from first pass")
+        scoring_windows = fold_score_matrix.get("scoring_windows") or []
+        if not isinstance(scoring_windows, list) or len(scoring_windows) != 2:
+            errors.append("fold_score_matrix must include two scoring windows")
+        elif not all(
+            isinstance(window, dict) and window.get("purged") is True
+            for window in scoring_windows
+        ):
+            errors.append("fold_score_matrix scoring windows must be purged")
+        if int(fold_score_matrix.get("candidate_count") or 0) <= 0 and not deterministic_no_adoption:
+            errors.append("fold_score_matrix must include at least one scored candidate")
+        matrix_candidates = fold_score_matrix.get("candidates") or []
+        if isinstance(matrix_candidates, list) and matrix_candidates:
+            if int(fold_score_matrix.get("candidate_count") or 0) != len(matrix_candidates):
+                errors.append("fold_score_matrix candidate_count must match candidates length")
+
+    if not fold_candidate_results:
+        if not deterministic_no_adoption:
+            errors.append("fold_candidate_results.jsonl must include first-pass fold rows")
+    else:
+        fold_ids = {
+            str(row.get("fold_id") or "")
+            for row in fold_candidate_results
+            if isinstance(row, dict) and row.get("fold_id")
+        }
+        if len(fold_ids) < 2:
+            errors.append("fold_candidate_results.jsonl must cover both purged folds")
+        for row in fold_candidate_results:
+            if str(row.get("run_id") or "") not in {"", manifest.run_id}:
+                errors.append("fold_candidate_results row run_id does not match run manifest")
+            if row.get("selection_oos_used_in_first_pass") is True:
+                errors.append("fold_candidate_results rows must not use selection-OOS first pass")
+                break
+        missing_replay_rows = [
+            row for row in fold_candidate_results if not isinstance(row.get("candidate"), dict)
+        ]
+        if missing_replay_rows:
+            errors.append("fold_candidate_results rows must include candidate replay summaries")
+        elif any(
+            not str((row.get("candidate") or {}).get("evaluated_patch_fingerprint") or "")
+            for row in fold_candidate_results
+        ):
+            errors.append(
+                "fold_candidate_results candidate replays must include evaluated_patch_fingerprint"
+            )
+        elif any(
+            not str((row.get("candidate") or {}).get("parameter_patch_fingerprint") or "")
+            for row in fold_candidate_results
+        ):
+            errors.append(
+                "fold_candidate_results candidate replays must include parameter_patch_fingerprint"
+            )
+
+    if selection_oos_evaluation:
+        if str(selection_oos_evaluation.get("run_id") or "") not in {"", manifest.run_id}:
+            errors.append("selection_oos_evaluation run_id does not match run manifest")
+        if selection_oos_evaluation.get("selection_oos_used_after_fold_ranking") is not True:
+            errors.append("selection_oos_evaluation must run after fold ranking")
+        if selection_oos_evaluation.get("selection_oos_used_in_first_pass") is True:
+            errors.append("selection_oos_evaluation must not mark selection-OOS as first pass")
+        if not deterministic_no_adoption and not selection_oos_evaluation.get("candidate_selection_oos"):
+            errors.append("selection_oos_evaluation must include the selected fold winner replay")
+
+    repair_triggered = bool(confirmatory and confirmatory.repair_triggered)
+    if selection_oos_repair_trigger:
+        status = str(selection_oos_repair_trigger.get("status") or "")
+        if str(selection_oos_repair_trigger.get("run_id") or "") not in {"", manifest.run_id}:
+            errors.append("selection_oos_repair_trigger run_id does not match run manifest")
+        if status not in {"triggered", "not_triggered"}:
+            errors.append("selection_oos_repair_trigger status must be triggered or not_triggered")
+        if not isinstance(selection_oos_repair_trigger.get("thresholds"), dict):
+            errors.append("selection_oos_repair_trigger must include thresholds")
+        if not isinstance(selection_oos_repair_trigger.get("measured_degradation"), dict):
+            errors.append("selection_oos_repair_trigger must include measured_degradation")
+        trigger_flag = bool(selection_oos_repair_trigger.get("triggered"))
+        if repair_triggered and not trigger_flag:
+            errors.append("repair-triggered confirmatory rerank requires measured OOS repair trigger")
+        if not repair_triggered and trigger_flag:
+            errors.append("repair trigger cannot be true when confirmatory_rerank repair_triggered=false")
+
+    if confirmatory is not None:
+        if confirmatory.primary_candidate_id and not confirmatory.variants:
+            errors.append("confirmatory_rerank variants cannot be empty when a primary exists")
+
+    if not repair_failure_attribution:
+        errors.append("repair_failure_attribution.json must contain failure analysis")
+    elif str(repair_failure_attribution.get("run_id") or "") not in {"", manifest.run_id}:
+        errors.append("repair_failure_attribution run_id does not match run manifest")
+
+    if not accepted_mutation_chain:
+        errors.append("accepted_mutation_chain.json must contain accepted-mutation ledger context")
+    elif not isinstance(accepted_mutation_chain.get("accepted_mutations", []), list):
+        errors.append("accepted_mutation_chain accepted_mutations must be a list")
+
+    if not repair_checkpoint:
+        errors.append("repair_checkpoint.json must contain deterministic repair checkpoint")
+    else:
+        if str(repair_checkpoint.get("run_id") or "") not in {"", manifest.run_id}:
+            errors.append("repair_checkpoint run_id does not match run manifest")
+        if bool(repair_checkpoint.get("repair_triggered")) != repair_triggered:
+            errors.append("repair_checkpoint repair_triggered must match confirmatory_rerank")
+
+    if repair_triggered and not repair_candidate_results:
+        errors.append("repair-triggered optimizer result must include repair candidate rows")
+
+    if round_n_plus_1_recommendation:
+        if str(round_n_plus_1_recommendation.get("run_id") or "") not in {"", manifest.run_id}:
+            errors.append("round_n_plus_1_recommendation run_id does not match run manifest")
+        status = str(round_n_plus_1_recommendation.get("status") or "")
+        if status not in {"optimized_backtest_recommendation", "no_adoption"}:
+            errors.append("round_n_plus_1_recommendation status is invalid")
+        recommended_id = str(round_n_plus_1_recommendation.get("adopted_candidate_id") or "")
+        no_adoption_reason = str(round_n_plus_1_recommendation.get("no_adoption_reason") or "")
+        if status == "optimized_backtest_recommendation":
+            if not recommended_id:
+                errors.append("round_N+1 recommendation requires adopted_candidate_id")
+            if confirmatory and recommended_id != confirmatory.adopted_candidate_id:
+                errors.append("round_N+1 recommendation does not match confirmatory adoption")
+            if rounds_manifest and recommended_id != rounds_manifest.adopted_candidate_id:
+                errors.append("round_N+1 recommendation does not match rounds manifest")
+            selected_matches = [
+                candidate for candidate in selected if candidate.candidate_id == recommended_id
+            ]
+            if len(selected_matches) != 1:
+                errors.append("round_N+1 recommendation requires exactly one matching selected candidate")
+            else:
+                selected_candidate = selected_matches[0]
+                if confirmatory:
+                    expected_source = (
+                        confirmatory.adopted_source
+                        if confirmatory.adopted_source != MonthlyCandidateSource.UNKNOWN
+                        else confirmatory.primary_source
+                    )
+                    if selected_candidate.source != expected_source:
+                        errors.append(
+                            "round_N+1 selected candidate source does not match confirmatory adoption"
+                        )
+                if rounds_manifest:
+                    round_source = _round_adopted_source(rounds_manifest, recommended_id)
+                    if (
+                        round_source != MonthlyCandidateSource.UNKNOWN
+                        and selected_candidate.source != round_source
+                    ):
+                        errors.append(
+                            "round_N+1 selected candidate source does not match rounds manifest"
+                        )
+                _validate_round_n_patch_evidence(
+                    recommendation=round_n_plus_1_recommendation,
+                    selected_candidate=selected_candidate,
+                    artifact_root=Path(manifest.artifact_root),
+                    errors=errors,
+                )
+        if status == "no_adoption" and not no_adoption_reason:
+            errors.append("round_N+1 no-adoption recommendation requires a reason")
+        if status == "no_adoption" and selected:
+            errors.append("round_N+1 no-adoption recommendation cannot emit selected candidates")
+
+
 def _validate_optimizer_decision(
     *,
     manifest: MonthlyRunManifest,
@@ -1020,14 +1601,12 @@ def _validate_optimizer_decision(
         if candidate.candidate_id != confirmatory.adopted_candidate_id:
             errors.append("selected candidate is not the confirmatory adopted candidate")
         expected_source = (
-            MonthlyCandidateSource.SMOKE_REPAIR
-            if confirmatory.repair_triggered
-            else MonthlyCandidateSource.PHASED_AUTO
+            confirmatory.adopted_source
+            if confirmatory.adopted_source != MonthlyCandidateSource.UNKNOWN
+            else confirmatory.primary_source
         )
         if candidate.source != expected_source:
             errors.append(f"adopted candidate source must be {expected_source.value}")
-        if candidate.source != confirmatory.primary_source:
-            errors.append("adopted candidate source must match confirmatory_rerank.primary_source")
         _validate_candidate_lineage(candidate, manifest, errors)
         _validate_adopted_candidate_attempt(candidate, attempts, manifest, errors)
         if not _runner_contract_matches(candidate):
@@ -1041,6 +1620,32 @@ def _validate_optimizer_decision(
             errors.append("adopted candidate must prove end-of-round diagnostics were saved")
         if gate_inputs.get("live_backtest_parity_aligned") is not True:
             errors.append("adopted candidate must prove live/backtest parity alignment")
+        for gate_key, message in (
+            ("fold_support_passed", "adopted candidate must pass purged fold support"),
+            ("calibration_support", "adopted candidate must prove calibration support"),
+            ("leakage_passed", "adopted candidate must pass leakage checks"),
+            ("cost_gate_passed", "adopted candidate must pass cost sensitivity"),
+            ("drawdown_gate_passed", "adopted candidate must pass drawdown gate"),
+            ("outlier_concentration_passed", "adopted candidate must pass outlier gate"),
+            ("risk_constraints_passed", "adopted candidate must pass risk constraints"),
+            ("sufficient_trade_count", "adopted candidate must prove sufficient trade count"),
+        ):
+            if gate_inputs.get(gate_key) is not True:
+                errors.append(message)
+        no_regression = gate_inputs.get("no_regression_gate_statuses")
+        if isinstance(no_regression, dict):
+            failed = [name for name, passed in no_regression.items() if passed is not True]
+            if failed:
+                errors.append(
+                    "adopted candidate no-regression gates failed: "
+                    + ", ".join(sorted(failed))
+                )
+        try:
+            latest_oos_delta = float(gate_inputs.get("latest_month_oos_delta", 0.0) or 0.0)
+        except (TypeError, ValueError):
+            latest_oos_delta = 0.0
+        if latest_oos_delta < -0.001:
+            errors.append("adopted candidate selection-OOS delta materially degrades incumbent")
         for attr, name in (
             ("fold_manifest_path", "fold_manifest_path"),
             ("rounds_manifest_path", "rounds_manifest_path"),
@@ -1147,6 +1752,204 @@ def _runner_contract_matches(candidate: MonthlyImprovementCandidate) -> bool:
     return bool(expected and version == expected)
 
 
+def _round_adopted_source(
+    rounds_manifest: RoundsManifest,
+    adopted_candidate_id: str,
+) -> MonthlyCandidateSource:
+    for record in rounds_manifest.records:
+        if record.candidate_id == adopted_candidate_id:
+            return record.source
+    return MonthlyCandidateSource.UNKNOWN
+
+
+def _validate_round_n_patch_evidence(
+    *,
+    recommendation: dict[str, Any],
+    selected_candidate: MonthlyImprovementCandidate,
+    artifact_root: Path,
+    errors: list[str],
+) -> None:
+    selected_evaluated = _candidate_payload_fingerprint(
+        selected_candidate,
+        "evaluated_patch_fingerprint",
+    )
+    recommended_evaluated = str(recommendation.get("evaluated_patch_fingerprint") or "")
+    selected_parameter = _candidate_payload_fingerprint(
+        selected_candidate,
+        "parameter_patch_fingerprint",
+    )
+    recommended_parameter = str(recommendation.get("parameter_patch_fingerprint") or "")
+    if not selected_evaluated:
+        errors.append("selected candidate missing evaluated_patch_fingerprint")
+    if not recommended_evaluated:
+        errors.append("round_N+1 recommendation missing evaluated_patch_fingerprint")
+    if selected_evaluated and recommended_evaluated and selected_evaluated != recommended_evaluated:
+        errors.append("round_N+1 evaluated patch fingerprint does not match selected candidate")
+    if not selected_parameter:
+        errors.append("selected candidate missing parameter_patch_fingerprint")
+    if not recommended_parameter:
+        errors.append("round_N+1 recommendation missing parameter_patch_fingerprint")
+    if selected_parameter and recommended_parameter and selected_parameter != recommended_parameter:
+        errors.append("round_N+1 parameter patch fingerprint does not match selected candidate")
+
+    selected_patch = _candidate_payload_dict(
+        selected_candidate,
+        ("evaluated_parameter_patch", "parameter_patch", "config_patch"),
+    )
+    selected_parameters = _candidate_payload_dict(
+        selected_candidate,
+        ("evaluated_parameters",),
+    )
+    if not selected_patch:
+        errors.append("selected candidate missing concrete parameter_patch")
+    elif selected_parameter and _canonical_patch_hash(selected_patch) != selected_parameter:
+        errors.append("selected candidate parameter patch fingerprint is not canonical")
+    if selected_patch and not selected_parameters:
+        errors.append("selected candidate missing evaluated_parameters")
+    elif selected_patch and selected_evaluated:
+        recomputed_selected = _canonical_evaluated_patch_fingerprint(
+            selected_patch,
+            selected_parameters,
+        )
+        if recomputed_selected != selected_evaluated:
+            errors.append("selected candidate evaluated patch fingerprint is not canonical")
+
+    patch_path_text = str(recommendation.get("config_patch_path") or "")
+    if not patch_path_text:
+        errors.append("round_N+1 recommendation missing config_patch_path")
+        return
+    patch_path = Path(patch_path_text)
+    if not patch_path.is_absolute():
+        patch_path = artifact_root / patch_path
+    if not patch_path.exists():
+        errors.append("round_N+1 recommendation config_patch_path does not exist")
+        return
+    try:
+        patch_payload = json.loads(patch_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        errors.append(f"invalid round_N+1 config_patch_path: {exc}")
+        return
+    if not isinstance(patch_payload, dict):
+        errors.append("round_N+1 config patch must be a JSON object")
+        return
+    patch_fingerprint = _canonical_patch_hash(patch_payload)
+    if recommended_parameter and patch_fingerprint != recommended_parameter:
+        errors.append("round_N+1 config patch fingerprint does not match recommendation")
+    evaluated_parameters = recommendation.get("evaluated_parameters")
+    if not isinstance(evaluated_parameters, dict) or not evaluated_parameters:
+        errors.append("round_N+1 recommendation missing evaluated_parameters")
+        return
+    if recommended_evaluated:
+        recomputed_recommended = _canonical_evaluated_patch_fingerprint(
+            patch_payload,
+            evaluated_parameters,
+        )
+        if recomputed_recommended != recommended_evaluated:
+            errors.append(
+                "round_N+1 evaluated patch fingerprint does not match config patch and evaluated parameters"
+            )
+
+
+def _candidate_payload_fingerprint(
+    candidate: MonthlyImprovementCandidate,
+    key: str,
+) -> str:
+    raw = candidate.raw_payload if isinstance(candidate.raw_payload, dict) else {}
+    direct = str(raw.get(key) or "")
+    if direct:
+        return direct
+    nested_raw = raw.get("raw_payload")
+    if isinstance(nested_raw, dict):
+        nested_direct = str(nested_raw.get(key) or "")
+        if nested_direct:
+            return nested_direct
+        candidate_payload = nested_raw.get("candidate_payload")
+        if isinstance(candidate_payload, dict):
+            return str(candidate_payload.get(key) or "")
+    candidate_payload = raw.get("candidate_payload")
+    if isinstance(candidate_payload, dict):
+        return str(candidate_payload.get(key) or "")
+    return ""
+
+
+def _candidate_payload_dict(
+    candidate: MonthlyImprovementCandidate,
+    keys: tuple[str, ...],
+) -> dict[str, Any]:
+    raw = candidate.raw_payload if isinstance(candidate.raw_payload, dict) else {}
+    for key in keys:
+        value = raw.get(key)
+        if isinstance(value, dict):
+            return value
+    nested_raw = raw.get("raw_payload")
+    if isinstance(nested_raw, dict):
+        for key in keys:
+            value = nested_raw.get(key)
+            if isinstance(value, dict):
+                return value
+        candidate_payload = nested_raw.get("candidate_payload")
+        if isinstance(candidate_payload, dict):
+            for key in keys:
+                value = candidate_payload.get(key)
+                if isinstance(value, dict):
+                    return value
+    candidate_payload = raw.get("candidate_payload")
+    if isinstance(candidate_payload, dict):
+        for key in keys:
+            value = candidate_payload.get(key)
+            if isinstance(value, dict):
+                return value
+    return {}
+
+
+def _canonical_patch_hash(value: dict[str, Any]) -> str:
+    return _stable_json_hash(_normalize_patch(value))
+
+
+def _canonical_evaluated_patch_fingerprint(
+    patch: dict[str, Any],
+    evaluated_parameters: dict[str, Any],
+) -> str:
+    return _stable_json_hash(
+        {
+            "parameter_patch": _normalize_patch(patch),
+            "evaluated_parameters": _normalize_patch(evaluated_parameters),
+        }
+    )
+
+
+def _normalize_patch(value: dict[str, Any]) -> dict[str, Any]:
+    normalized: dict[str, Any] = {}
+    for key, item in sorted(value.items()):
+        if isinstance(item, dict):
+            normalized[str(key)] = _normalize_patch(item)
+        elif isinstance(item, list):
+            normalized[str(key)] = [
+                _normalize_patch(element)
+                if isinstance(element, dict)
+                else _normalize_scalar(element)
+                for element in item
+            ]
+        else:
+            normalized[str(key)] = _normalize_scalar(item)
+    return normalized
+
+
+def _normalize_scalar(value: Any) -> Any:
+    if isinstance(value, bool) or value is None:
+        return value
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return round(value, 10)
+    return str(value)
+
+
+def _stable_json_hash(value: Any) -> str:
+    raw = json.dumps(value, sort_keys=True, default=str)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
 def _is_structural_candidate(candidate: MonthlyImprovementCandidate) -> bool:
     return (
         candidate.change_kind == "structural_change"
@@ -1205,6 +2008,12 @@ def _validate_structural_candidate(
         else:
             if not contract.eligible_for_approval:
                 errors.append("structural candidate strategy plugin contract is not approval-ready")
+            errors.extend(
+                deployment_metadata_errors(
+                    manifest,
+                    missing_reason="structural candidate requires deployment metadata evidence",
+                )
+            )
             if report.strategy_plugin_id != contract.plugin_id:
                 errors.append("structural candidate decision parity strategy_plugin_id does not match plugin contract")
             if report.live_repo_commit_sha != contract.live_repo_commit_sha:

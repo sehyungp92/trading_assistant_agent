@@ -1,0 +1,108 @@
+{
+  "blocked_count": 0,
+  "comparisons": [
+    {
+      "accepted_difference": {
+        "accepted": false,
+        "reason": "non_exact_difference_exceeds_tolerance",
+        "timestamp_overlap_ratio": 0.9422548120989918,
+        "timestamp_overlap_threshold": 0.999,
+        "value_mismatch_ratio": 0.7237354085603113,
+        "value_mismatch_threshold": 0.001
+      },
+      "canonical_rows": 1028,
+      "common_timestamp_rows": 1028,
+      "deterministic_explanation": "Exact file checksum parity is not required for CME continuous futures when the refreshed source path writes source-contract-tagged canonical bars; row, timestamp, OHLCV, contract-chain, and transformed checksum parity are compared.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "4d9358d3a39c6b7c6c0be30a18967ca274c7e890a28bb50a24a25d8b4b5a7787",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/ES_1d.parquet",
+      "legacy_rows": 1091,
+      "matched_manifest_id": "ab5486c548cdc881",
+      "ohlcv_mismatches": [
+        {
+          "column": "open",
+          "rows": 681
+        },
+        {
+          "column": "high",
+          "rows": 681
+        },
+        {
+          "column": "low",
+          "rows": 681
+        },
+        {
+          "column": "close",
+          "rows": 744
+        },
+        {
+          "column": "volume",
+          "rows": 215
+        }
+      ],
+      "request_id": "src_req_b7f68c8bb5e5b06aee446223",
+      "row_count_match": false,
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "status": "fail",
+      "symbol": "ES",
+      "timeframe": "1d",
+      "timestamp_coverage_match": false,
+      "transformed_comparison_checksum": "edd1badd6ab128f97dfb5446785a6db79818e621ec40bb7f7604ab4f289e617a"
+    },
+    {
+      "accepted_difference": {
+        "accepted": false,
+        "reason": "non_exact_difference_exceeds_tolerance",
+        "timestamp_overlap_ratio": 0.19888646762786394,
+        "timestamp_overlap_threshold": 0.999,
+        "value_mismatch_ratio": 0.7705823011825366,
+        "value_mismatch_threshold": 0.001
+      },
+      "canonical_rows": 35686,
+      "common_timestamp_rows": 35686,
+      "deterministic_explanation": "Exact file checksum parity is not required for CME continuous futures when the refreshed source path writes source-contract-tagged canonical bars; row, timestamp, OHLCV, contract-chain, and transformed checksum parity are compared.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "c7c9ec0b28b89664a08651826108eda76620d67bdebd224d1de0a93bf5ef7924",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/NQ_5m.parquet",
+      "legacy_rows": 179429,
+      "matched_manifest_id": "dfe5250e30b5895e",
+      "ohlcv_mismatches": [
+        {
+          "column": "open",
+          "rows": 27499
+        },
+        {
+          "column": "high",
+          "rows": 27499
+        },
+        {
+          "column": "low",
+          "rows": 27499
+        },
+        {
+          "column": "close",
+          "rows": 27499
+        },
+        {
+          "column": "volume",
+          "rows": 26144
+        }
+      ],
+      "request_id": "src_req_3969a2ff698ae5ef1aea7dc7",
+      "row_count_match": false,
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "status": "fail",
+      "symbol": "NQ",
+      "timeframe": "5m",
+      "timestamp_coverage_match": false,
+      "transformed_comparison_checksum": "dcd3b0699152ddcbe821615edec09907b7a8dfde56a2466bd9b56e2d2e4c2413"
+    }
+  ],
+  "failed_count": 2,
+  "generated_at": "2026-06-01T19:16:48Z",
+  "ok": false,
+  "passed_count": 0,
+  "request_count": 2,
+  "source_request_manifest": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\source_requests\\reference_snapshot_2026-05-30\\source_request_manifest.json",
+  "status": "blocked"
+}

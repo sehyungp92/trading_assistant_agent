@@ -36,6 +36,7 @@ from schemas.replay_parity import ReplayParityReport
 from schemas.strategy_plugin_contract import StrategyPluginContract
 from schemas.strategy_change_ledger import StrategyChangeRecord, StrategyChangeRecordType
 from schemas.telemetry_manifest import TelemetryEligibility, TelemetryManifest
+from skills.monthly_deployment_metadata import deployment_metadata_errors
 from skills.outcome_prior_store import OutcomePriorStore
 from skills.proposal_ledger import make_proposal_id
 from skills.search_allocation_policy import SearchAllocationPolicy
@@ -860,6 +861,14 @@ class MonthlyCandidatePipeline:
         reasons: list[str] = []
         if not contract.eligible_for_approval:
             reasons.append(f"strategy plugin contract maturity is {contract.maturity.value}")
+        reasons.extend(
+            deployment_metadata_errors(
+                manifest,
+                missing_reason=(
+                    "approval-ready strategy plugin requires deployment metadata evidence"
+                ),
+            )
+        )
         if manifest and manifest.strategy_plugin_id and contract.plugin_id != manifest.strategy_plugin_id:
             reasons.append("strategy plugin contract plugin_id does not match run manifest")
         return MonthlyGateCheck(

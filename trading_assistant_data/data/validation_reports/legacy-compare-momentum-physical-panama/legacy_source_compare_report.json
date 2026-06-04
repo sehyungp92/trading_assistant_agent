@@ -1,0 +1,144 @@
+{
+  "blocked_count": 0,
+  "comparisons": [
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "canonical_timestamp_overlap_ratio": 1.0,
+        "canonical_timestamp_overlap_threshold": 0.999,
+        "continuous_construction_checksums": [
+          "d0ca59c1cb2ece89d7f8bf2efa2058e728816706c719676f0d9fc8e8e67dcdee"
+        ],
+        "contract_chain_checksums": [
+          "d92e0734c49eb81efacff2d8a89b9d6bbcbe98e00b0ec56666de6b59cb12f4f9"
+        ],
+        "manifest_authoritative": true,
+        "physical_chain_authority": "ibkr_physical_contract_chain_panama_v1",
+        "reason": "cme_physical_chain_panama_retention_cutoff_accepted",
+        "retention_covered_subset": true,
+        "roll_policies": [
+          "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1"
+        ],
+        "source_contract_coverage": "all_rows",
+        "timestamp_overlap_ratio": 0.4931255728689276,
+        "value_mismatch_ratio": 0.9739776951672863,
+        "value_mismatch_threshold": 1.0
+      },
+      "canonical_rows": 538,
+      "common_timestamp_rows": 538,
+      "deterministic_explanation": "Exact file checksum parity is not required for CME continuous futures when the refreshed source path writes source-contract-tagged physical-contract bars and a deterministic Panama stitch. Legacy files may include older pre-retention history or an older continuous-adjustment convention; the approval comparison requires refreshed coverage to be source-contract and conId backed, roll-policy tagged, Panama-checksummed, and timestamp-aligned inside the retention-covered overlap.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "4d9358d3a39c6b7c6c0be30a18967ca274c7e890a28bb50a24a25d8b4b5a7787",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/ES_1d.parquet",
+      "legacy_rows": 1091,
+      "matched_manifest_count": 1,
+      "matched_manifest_id": "aa89d670c731ae44",
+      "matched_manifest_ids": [
+        "aa89d670c731ae44"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "open",
+          "rows": 504
+        },
+        {
+          "column": "high",
+          "rows": 504
+        },
+        {
+          "column": "low",
+          "rows": 504
+        },
+        {
+          "column": "close",
+          "rows": 524
+        },
+        {
+          "column": "volume",
+          "rows": 7
+        }
+      ],
+      "request_id": "src_req_b7f68c8bb5e5b06aee446223",
+      "row_count_match": false,
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "status": "pass",
+      "symbol": "ES",
+      "timeframe": "1d",
+      "timestamp_coverage_match": false,
+      "transformed_comparison_checksum": "29c9d14ce7cb03066bf4f661e85f72c06af393bc7821cb9be2b370c5bbc5358b"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "canonical_timestamp_overlap_ratio": 1.0,
+        "canonical_timestamp_overlap_threshold": 0.999,
+        "continuous_construction_checksums": [
+          "5a5df5f8023d95555a01111dc84525daf3ba608eb24675de02079127d8086d2b"
+        ],
+        "contract_chain_checksums": [
+          "95118b4a8cfac67b58524dd62c4ce02645c01cb7074979488aa80ba76dc17a1c"
+        ],
+        "manifest_authoritative": true,
+        "physical_chain_authority": "ibkr_physical_contract_chain_panama_v1",
+        "reason": "cme_physical_chain_panama_retention_cutoff_accepted",
+        "retention_covered_subset": true,
+        "roll_policies": [
+          "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1"
+        ],
+        "source_contract_coverage": "all_rows",
+        "timestamp_overlap_ratio": 0.8457662919594937,
+        "value_mismatch_ratio": 0.9460446113801851,
+        "value_mismatch_threshold": 1.0
+      },
+      "canonical_rows": 151755,
+      "common_timestamp_rows": 151755,
+      "deterministic_explanation": "Exact file checksum parity is not required for CME continuous futures when the refreshed source path writes source-contract-tagged physical-contract bars and a deterministic Panama stitch. Legacy files may include older pre-retention history or an older continuous-adjustment convention; the approval comparison requires refreshed coverage to be source-contract and conId backed, roll-policy tagged, Panama-checksummed, and timestamp-aligned inside the retention-covered overlap.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "c7c9ec0b28b89664a08651826108eda76620d67bdebd224d1de0a93bf5ef7924",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/NQ_5m.parquet",
+      "legacy_rows": 179429,
+      "matched_manifest_count": 1,
+      "matched_manifest_id": "20a056878f3a29b8",
+      "matched_manifest_ids": [
+        "20a056878f3a29b8"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "open",
+          "rows": 143567
+        },
+        {
+          "column": "high",
+          "rows": 143567
+        },
+        {
+          "column": "low",
+          "rows": 143567
+        },
+        {
+          "column": "close",
+          "rows": 143567
+        },
+        {
+          "column": "volume",
+          "rows": 2
+        }
+      ],
+      "request_id": "src_req_3969a2ff698ae5ef1aea7dc7",
+      "row_count_match": false,
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "status": "pass",
+      "symbol": "NQ",
+      "timeframe": "5m",
+      "timestamp_coverage_match": false,
+      "transformed_comparison_checksum": "54576680be45abcdb610fe134c670949647e114fa58b5da1c9e27f8fbac12853"
+    }
+  ],
+  "failed_count": 0,
+  "generated_at": "2026-06-02T03:25:50Z",
+  "ok": true,
+  "passed_count": 2,
+  "request_count": 2,
+  "source_request_manifest": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\source_requests\\reference_snapshot_2026-05-30\\source_request_manifest.json",
+  "status": "pass"
+}

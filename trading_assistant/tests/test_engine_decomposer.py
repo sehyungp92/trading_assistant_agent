@@ -150,7 +150,7 @@ class TestParseEngine:
     def test_fade_prefix(self):
         reg = _make_registry()
         d = EngineDecomposer(reg)
-        assert d.parse_engine("fade_scalp", "DownturnDominator_v1") == "FADE"
+        assert d.parse_engine("fade_short", "DownturnDominator_v1") == "FADE"
 
     def test_case_insensitivity(self):
         reg = _make_registry()
@@ -230,7 +230,7 @@ class TestDecompose:
         trades = [
             _trade(trade_id="t1", entry_signal="reversal_short", pnl=100),
             _trade(trade_id="t2", entry_signal="reversal_long", pnl=50),
-            _trade(trade_id="t3", entry_signal="fade_scalp", pnl=-30),
+            _trade(trade_id="t3", entry_signal="fade_short", pnl=-30),
             _trade(trade_id="t4", entry_signal="breakdown_long_aggressive", pnl=200),
         ]
         result = d.decompose(trades, "bot1", period="2026-05-01")
@@ -245,7 +245,7 @@ class TestDecompose:
         trades = [
             _trade(trade_id="t1", entry_signal="reversal_short", pnl=100),
             _trade(trade_id="t2", entry_signal="reversal_long", pnl=50),
-            _trade(trade_id="t3", entry_signal="fade_scalp", pnl=-30),
+            _trade(trade_id="t3", entry_signal="fade_short", pnl=-30),
         ]
         result = d.decompose(trades, "bot1")
         rev = next(e for e in result.engines if e.engine == "REVERSAL")
@@ -281,7 +281,7 @@ class TestDecompose:
         reg = _make_registry()
         d = EngineDecomposer(reg)
         trades = [
-            _trade(trade_id="t1", entry_signal="fade_scalp", pnl=300),
+            _trade(trade_id="t1", entry_signal="fade_short", pnl=300),
             _trade(trade_id="t2", entry_signal="fade_swing", pnl=-100),
             _trade(trade_id="t3", entry_signal="fade_dip", pnl=-50),
         ]
@@ -488,7 +488,7 @@ class TestBuildDailyMetricsIntegration:
         reg = _make_registry()
         trades = [
             _trade(trade_id="t1", entry_signal="reversal_short", pnl=100),
-            _trade(trade_id="t2", entry_signal="fade_scalp", pnl=-30),
+            _trade(trade_id="t2", entry_signal="fade_short", pnl=-30),
         ]
         builder.write_curated(
             trades=trades,

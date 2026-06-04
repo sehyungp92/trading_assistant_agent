@@ -1,0 +1,204 @@
+{
+  "blocked_count": 0,
+  "comparisons": [
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "sparse_extended_hours_source_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 0.9997483402439902,
+        "timestamp_overlap_threshold": 0.999,
+        "value_mismatch_ratio": 0.0001198681450404555,
+        "value_mismatch_threshold": 0.001
+      },
+      "canonical_rows": 83446,
+      "common_timestamp_rows": 83425,
+      "deterministic_explanation": "Exact file checksum parity is not required for IBKR useRTH=False US-equity trade bars because extended-hours trade bars are sparse and may be revised between pulls. The approval comparison requires successful source refresh, qualified contract lineage, legal timestamps, no multi-day coverage holes, and near-complete timestamp/value overlap with row-count differences reported.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "60e19c82fd394e843be4f7ddb6e00cf1261c0976a4e4e3aee0979dbdd6b0c59c",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/swing/data/raw/GLD_15m.parquet",
+      "legacy_rows": 83432,
+      "matched_manifest_id": "d6aa6c74ca600b9f",
+      "ohlcv_mismatches": [
+        {
+          "column": "open",
+          "rows": 5
+        },
+        {
+          "column": "high",
+          "rows": 7
+        },
+        {
+          "column": "low",
+          "rows": 9
+        },
+        {
+          "column": "close",
+          "rows": 10
+        },
+        {
+          "column": "volume",
+          "rows": 10
+        }
+      ],
+      "request_id": "src_req_c0c76f6a824b612fc671af70",
+      "row_count_match": false,
+      "source_kind": "ibkr_us_equity_historical_bars",
+      "status": "pass",
+      "symbol": "GLD",
+      "timeframe": "15m",
+      "timestamp_coverage_match": false,
+      "transformed_comparison_checksum": "1b3158dd85d798ea41e374c57ee93bebd7b18fa86dd045f229ec76efa42c903e"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "sparse_extended_hours_source_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 0.9998088867654085,
+        "timestamp_overlap_threshold": 0.999,
+        "value_mismatch_ratio": 0.00023893720730192106,
+        "value_mismatch_threshold": 0.001
+      },
+      "canonical_rows": 20926,
+      "common_timestamp_rows": 20926,
+      "deterministic_explanation": "Exact file checksum parity is not required for IBKR useRTH=False US-equity trade bars because extended-hours trade bars are sparse and may be revised between pulls. The approval comparison requires successful source refresh, qualified contract lineage, legal timestamps, no multi-day coverage holes, and near-complete timestamp/value overlap with row-count differences reported.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "ab453669ca23097dd2b37224bdaf848eb2475e2cc90173b5720a1fa3823d7202",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/swing/data/raw/GLD_1h.parquet",
+      "legacy_rows": 20930,
+      "matched_manifest_id": "3281bed3c4a40d6e",
+      "ohlcv_mismatches": [
+        {
+          "column": "open",
+          "rows": 3
+        },
+        {
+          "column": "high",
+          "rows": 3
+        },
+        {
+          "column": "low",
+          "rows": 4
+        },
+        {
+          "column": "close",
+          "rows": 5
+        },
+        {
+          "column": "volume",
+          "rows": 5
+        }
+      ],
+      "request_id": "src_req_dc1c3fd7a6e07717f6badd95",
+      "row_count_match": false,
+      "source_kind": "ibkr_us_equity_historical_bars",
+      "status": "pass",
+      "symbol": "GLD",
+      "timeframe": "1h",
+      "timestamp_coverage_match": false,
+      "transformed_comparison_checksum": "384ec9dc5548c97fe398648657b30eb0687612e3a2010c9f91fb40e2b73a5819"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "sparse_extended_hours_source_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 0.999749901747115,
+        "timestamp_overlap_threshold": 0.999,
+        "value_mismatch_ratio": 0.00032163533700235866,
+        "value_mismatch_threshold": 0.001
+      },
+      "canonical_rows": 83967,
+      "common_timestamp_rows": 83946,
+      "deterministic_explanation": "Exact file checksum parity is not required for IBKR useRTH=False US-equity trade bars because extended-hours trade bars are sparse and may be revised between pulls. The approval comparison requires successful source refresh, qualified contract lineage, legal timestamps, no multi-day coverage holes, and near-complete timestamp/value overlap with row-count differences reported.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "73d21be1580fb63877901c1e029f2ccb97a6335232ea089769247fa1620e313f",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/swing/data/raw/QQQ_15m.parquet",
+      "legacy_rows": 83952,
+      "matched_manifest_id": "77c3d763aab993da",
+      "ohlcv_mismatches": [
+        {
+          "column": "open",
+          "rows": 3
+        },
+        {
+          "column": "high",
+          "rows": 11
+        },
+        {
+          "column": "low",
+          "rows": 7
+        },
+        {
+          "column": "close",
+          "rows": 24
+        },
+        {
+          "column": "volume",
+          "rows": 27
+        }
+      ],
+      "request_id": "src_req_131191cbb414dd3493c6ecfc",
+      "row_count_match": false,
+      "source_kind": "ibkr_us_equity_historical_bars",
+      "status": "pass",
+      "symbol": "QQQ",
+      "timeframe": "15m",
+      "timestamp_coverage_match": false,
+      "transformed_comparison_checksum": "b2bdea46ebfbd9d6b21f31461b0afcb21c819a0670ebba02970c574c65f684ae"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "sparse_extended_hours_source_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 0.9998571020291512,
+        "timestamp_overlap_threshold": 0.999,
+        "value_mismatch_ratio": 0.0002858367871945119,
+        "value_mismatch_threshold": 0.001
+      },
+      "canonical_rows": 20991,
+      "common_timestamp_rows": 20991,
+      "deterministic_explanation": "Exact file checksum parity is not required for IBKR useRTH=False US-equity trade bars because extended-hours trade bars are sparse and may be revised between pulls. The approval comparison requires successful source refresh, qualified contract lineage, legal timestamps, no multi-day coverage holes, and near-complete timestamp/value overlap with row-count differences reported.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "05553d55ca66cf5a2a2a85db0c06cd7756782c88e5502456e5dce107f4c7bd0b",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/swing/data/raw/QQQ_1h.parquet",
+      "legacy_rows": 20994,
+      "matched_manifest_id": "fbe3779dc219ea22",
+      "ohlcv_mismatches": [
+        {
+          "column": "open",
+          "rows": 3
+        },
+        {
+          "column": "high",
+          "rows": 5
+        },
+        {
+          "column": "low",
+          "rows": 4
+        },
+        {
+          "column": "close",
+          "rows": 6
+        },
+        {
+          "column": "volume",
+          "rows": 6
+        }
+      ],
+      "request_id": "src_req_a631e1a7c8b9ce80e6e88587",
+      "row_count_match": false,
+      "source_kind": "ibkr_us_equity_historical_bars",
+      "status": "pass",
+      "symbol": "QQQ",
+      "timeframe": "1h",
+      "timestamp_coverage_match": false,
+      "transformed_comparison_checksum": "91db562c682664463cca116e20cc8afd75ceb393303a5da7d45e4c4d0ac492bd"
+    }
+  ],
+  "failed_count": 0,
+  "generated_at": "2026-06-01T16:58:56Z",
+  "ok": true,
+  "passed_count": 4,
+  "request_count": 4,
+  "source_request_manifest": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\source_requests\\reference_snapshot_2026-05-30\\source_request_manifest.json",
+  "status": "pass"
+}

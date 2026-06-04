@@ -1,0 +1,14 @@
+{
+  "bundle_checksum": "5090cf1db460fb26fed8e0ba51a945bec3702fdaa2463dc07c318101736f94c9",
+  "generated_at": "2026-05-31T17:01:49.740750+00:00",
+  "schema_version": "bundle_slice_index_v1",
+  "slices": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=us_equity/source=ibkr/kind=read_only_authority/symbol=QQQ/timeframe=1h/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "fabb26230bab8974",
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/QQQ/1h/20260301T000000Z_20260331T235900Z.market_data_manifest.json"
+    }
+  ]
+}

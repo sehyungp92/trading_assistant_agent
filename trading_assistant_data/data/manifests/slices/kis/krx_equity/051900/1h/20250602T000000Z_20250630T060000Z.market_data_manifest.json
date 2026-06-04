@@ -1,5 +1,5 @@
 {
-  "manifest_id": "abf6e93f10dbf315",
+  "manifest_id": "0da1fa4d1facd30a",
   "source": "kis",
   "market": "krx_equity",
   "symbol": "051900",
@@ -9,111 +9,29 @@
   "expected_bars": 114,
   "actual_bars": 133,
   "coverage_ratio": 1.0,
-  "missing_ranges": [
-    {
-      "start_ts": "2025-06-02T07:00:00Z",
-      "end_ts": "2025-06-03T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-04T07:00:00Z",
-      "end_ts": "2025-06-04T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-05T07:00:00Z",
-      "end_ts": "2025-06-08T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-09T07:00:00Z",
-      "end_ts": "2025-06-09T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-10T07:00:00Z",
-      "end_ts": "2025-06-10T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-11T07:00:00Z",
-      "end_ts": "2025-06-11T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-12T07:00:00Z",
-      "end_ts": "2025-06-12T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-13T07:00:00Z",
-      "end_ts": "2025-06-15T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-16T07:00:00Z",
-      "end_ts": "2025-06-16T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-17T07:00:00Z",
-      "end_ts": "2025-06-17T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-18T07:00:00Z",
-      "end_ts": "2025-06-18T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-19T07:00:00Z",
-      "end_ts": "2025-06-19T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-20T07:00:00Z",
-      "end_ts": "2025-06-22T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-23T07:00:00Z",
-      "end_ts": "2025-06-23T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-24T07:00:00Z",
-      "end_ts": "2025-06-24T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-25T07:00:00Z",
-      "end_ts": "2025-06-25T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-26T07:00:00Z",
-      "end_ts": "2025-06-26T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2025-06-27T07:00:00Z",
-      "end_ts": "2025-06-29T23:00:00Z",
-      "reason": "gap>60min"
-    }
-  ],
-  "session_calendar": "krx_equities_v1",
+  "missing_ranges": [],
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
   "timezone": "Asia/Seoul",
-  "checksum": "452aec8f321e8047921f53c78cf4559e9467307fa30d446f7e7e81d95eed387f",
+  "checksum": "cacf6c776f27ccc2f651e158ec665be680686ff2a0f8cf9e5c3b04c1bbf9d7de",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "krx_split_adjusted_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/051900/051900_1h_20250512_20260512.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "kis_intraday_exchange_timestamp_v1_unverified"
+  },
   "usable_for_authoritative_validation": false,
   "blocking_reasons": [
-    "KRX intraday timestamp/session audit required before authority",
-    "missing ranges present",
-    "source_version is not a data repo commit SHA"
+    "KRX intraday timestamp/session audit required before authority"
   ],
-  "generated_at": "2026-05-30T22:10:06.233643Z"
+  "generated_at": "2026-05-31T15:25:22.049613Z"
 }

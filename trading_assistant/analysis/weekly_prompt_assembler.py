@@ -14,6 +14,11 @@ from pathlib import Path
 
 from analysis.context_builder import ContextBuilder
 from schemas.prompt_package import PromptPackage
+from schemas.weekly_focus_rotation import (
+    weekly_focus_for_week,
+    weekly_focus_payload,
+    weekly_focus_rotation_payload,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -358,10 +363,14 @@ class WeeklyPromptAssembler:
         )
         pkg.task_prompt = self._build_task_prompt()
         pkg.data.update(self._load_data())
+        focus = weekly_focus_for_week(self.week_start)
+        pkg.data["weekly_focus"] = weekly_focus_payload(self.week_start)
+        pkg.data["weekly_focus_rotation"] = weekly_focus_rotation_payload()
         pkg.instructions = self._build_instructions(triage_report)
         pkg.context_files.extend(self._list_data_files())
         pkg.metadata["bot_ids"] = ",".join(self.bots)
         pkg.metadata["date"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        pkg.metadata["weekly_focus_id"] = focus.focus_id
         return pkg
 
     def _build_instructions(self, triage_report=None) -> str:
@@ -370,7 +379,7 @@ class WeeklyPromptAssembler:
             instructions = _WEEKLY_INSTRUCTIONS
             if self.strategy_registry and self._has_crypto_strategies():
                 instructions += _CRYPTO_WEEKLY_SUPPLEMENT
-            return instructions
+            return self._weekly_focus_instruction_block() + instructions
 
         # Format anomalies
         anomaly_lines = []
@@ -405,7 +414,7 @@ class WeeklyPromptAssembler:
         if self.strategy_registry and self._has_crypto_strategies():
             instructions += _CRYPTO_WEEKLY_SUPPLEMENT
 
-        return instructions
+        return self._weekly_focus_instruction_block() + instructions
 
     def _has_crypto_strategies(self) -> bool:
         """Check if any bot in scope has crypto perpetual strategies."""
@@ -420,11 +429,27 @@ class WeeklyPromptAssembler:
 
     def _build_task_prompt(self) -> str:
         bot_list = ", ".join(self.bots)
+        focus = weekly_focus_for_week(self.week_start)
         return (
             f"Produce the weekly summary for {self.week_start} to {self.week_end} "
             f"covering all bots: {bot_list}.\n"
+            f"Active weekly focus: {focus.label}. "
             f"Focus on the retrospective and discovery questions. "
             f"Reason about WHY things happened, not just WHAT happened."
+        )
+
+    def _weekly_focus_instruction_block(self) -> str:
+        focus = weekly_focus_for_week(self.week_start)
+        families = ", ".join(focus.portfolio_families)
+        strategies = ", ".join(focus.strategy_ids)
+        return (
+            "## WEEKLY PORTFOLIO FOCUS ROTATION\n"
+            f"Active focus: {focus.label}.\n"
+            f"Portfolio families: {families}.\n"
+            f"Strategy surfaces: {strategies}.\n"
+            "This focus is evidence triage for the next monthly_search_brief only. "
+            "It must not approve changes, bypass monthly phased-auto, trigger OOS repair, "
+            "or satisfy approval gates.\n\n"
         )
 
     def _load_data(self) -> dict:

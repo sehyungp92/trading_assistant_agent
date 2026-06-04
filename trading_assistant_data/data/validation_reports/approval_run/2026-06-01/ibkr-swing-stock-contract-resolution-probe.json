@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "probe": "swing_stock_primary_exchange_contract_resolution_v1",
+  "rows": [
+    {
+      "ok": true,
+      "requested_primary_exchange": "NASDAQ",
+      "resolution_method": "stock_primary_NASDAQ",
+      "resolved_con_id": "320227571",
+      "resolved_local_symbol": "QQQ",
+      "resolved_primary_exchange": "NASDAQ",
+      "symbol": "QQQ"
+    },
+    {
+      "ok": true,
+      "requested_primary_exchange": "ARCA",
+      "resolution_method": "stock_primary_ARCA",
+      "resolved_con_id": "51529211",
+      "resolved_local_symbol": "GLD",
+      "resolved_primary_exchange": "ARCA",
+      "symbol": "GLD"
+    }
+  ],
+  "source": "ibkr"
+}

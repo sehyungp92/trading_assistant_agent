@@ -1,0 +1,344 @@
+[
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002748887",
+    "time": 1780113600011
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003891311",
+    "time": 1780117200025
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003373247",
+    "time": 1780120800060
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003638388",
+    "time": 1780124400054
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000101997",
+    "premium": "-0.0004184027",
+    "time": 1780128000009
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000109734",
+    "premium": "-0.0004122131",
+    "time": 1780131600066
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000059199",
+    "premium": "-0.000452641",
+    "time": 1780135200023
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003576762",
+    "time": 1780138800024
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003751493",
+    "time": 1780142400050
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003257552",
+    "time": 1780146000053
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003126658",
+    "time": 1780149600049
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002013713",
+    "time": 1780153200029
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0001531909",
+    "time": 1780156800037
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002946855",
+    "time": 1780160400070
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003068533",
+    "time": 1780164000038
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003059074",
+    "time": 1780167600053
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.000318415",
+    "time": 1780171200009
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002788213",
+    "time": 1780174800027
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.000207427",
+    "time": 1780178400060
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003425558",
+    "time": 1780182000030
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003737528",
+    "time": 1780185600055
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003958048",
+    "time": 1780189200031
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003075685",
+    "time": 1780192800062
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002778526",
+    "time": 1780196400003
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002313813",
+    "time": 1780200000040
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0001507975",
+    "time": 1780203600014
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0001333254",
+    "time": 1780207200012
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0001356385",
+    "time": 1780210800007
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002186936",
+    "time": 1780214400066
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002732918",
+    "time": 1780218000025
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002875817",
+    "time": 1780221600045
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003483409",
+    "time": 1780225200064
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003870185",
+    "time": 1780228800048
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.000011584",
+    "premium": "-0.0004073284",
+    "time": 1780232400065
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000118117",
+    "premium": "-0.0004055064",
+    "time": 1780236000044
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003741057",
+    "time": 1780239600067
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002314645",
+    "time": 1780243200042
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003186714",
+    "time": 1780246800009
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002601011",
+    "time": 1780250400037
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.000254489",
+    "time": 1780254000023
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002246445",
+    "time": 1780257600049
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0001815056",
+    "time": 1780261200008
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0001433187",
+    "time": 1780264800006
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0000985239",
+    "time": 1780268400059
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0000894174",
+    "time": 1780272000050
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0000902489",
+    "time": 1780275600010
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0001241931",
+    "time": 1780279200046
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.00019545",
+    "time": 1780282800011
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002004829",
+    "time": 1780286400002
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.000258622",
+    "time": 1780290000044
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002489167",
+    "time": 1780293600037
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003160229",
+    "time": 1780297200013
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002993437",
+    "time": 1780300800010
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0003040023",
+    "time": 1780304400047
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002875268",
+    "time": 1780308000040
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.0002839591",
+    "time": 1780311600055
+  },
+  {
+    "coin": "ETH",
+    "fundingRate": "0.0000125",
+    "premium": "-0.000296396",
+    "time": 1780315200049
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "manifest_id": "eec147ca58345e26",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "BTC",
+  "timeframe": "15m",
+  "start_ts": "2026-06-01T00:00:00Z",
+  "end_ts": "2026-06-01T14:15:00Z",
+  "expected_bars": 58,
+  "actual_bars": 58,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "ab1d694b17d8c5a9b05d6995a4407acf6cce1c1a324cbd86c04df8e6e63ba18a",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/raw/hyperliquid/candles/symbol=BTC/interval=15m/20260528T090000Z_20260601T121609Z.json,data/raw/hyperliquid/candles/symbol=BTC/interval=15m/20260530T101500Z_20260601T142048Z.json",
+    "export_id": "unknown_snapshot",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": true,
+  "blocking_reasons": [],
+  "generated_at": "2026-06-01T14:20:55.881613Z"
+}

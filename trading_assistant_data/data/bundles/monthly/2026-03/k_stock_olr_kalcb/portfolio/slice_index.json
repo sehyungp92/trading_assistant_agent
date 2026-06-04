@@ -1,0 +1,3619 @@
+{
+  "bundle_checksum": "1a3006c538c3c3edfa7814817aa4aca471600a6f0594d5b84abef5bd2d7ad03c",
+  "generated_at": "2026-06-02T03:02:10.003275+00:00",
+  "schema_version": "bundle_slice_index_v1",
+  "slices": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=000100/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "6c7e1a7124ea23c1",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000100/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=000270/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "cdca9bde4a45b539",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000270/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=000660/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "5174f908e039f383",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000660/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=000720/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "c8c20c9c2c11a9e0",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000720/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=000810/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "837415610966dedc",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000810/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=001040/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "463a89836b49b78c",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/001040/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=003490/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "cbda41af3ee18dd2",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003490/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=003550/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "b3de9c99a1bbeaeb",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003550/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=003670/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "cf0ab4c2d3043ec1",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003670/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=004020/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "0e132f0c9bd49302",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004020/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=004170/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "2771e70f44cc0ffb",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004170/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=004990/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "a552c6f8e3bb9ff2",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004990/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=005300/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "874de9f42f19bb7a",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005300/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=005380/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "75d779578b332d6a",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005380/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=005490/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "3594dc03d1212c9b",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005490/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=005830/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "208a81fbf8703d0b",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005830/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=005930/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "98d549be10bc4c7c",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005930/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=006260/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "06de2dcf0572370f",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/006260/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=006360/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f88ae0f074be2bea",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/006360/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=006400/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "377f53f29a8541f1",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/006400/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=009150/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "01ae8f4e8a44dfd4",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/009150/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=009540/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "c9ae5a8a92b06372",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/009540/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=010120/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f6f2101d0eadc847",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010120/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=010130/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "b5f849e0cbd78b34",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010130/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=010950/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "303749d2cdf8d9e2",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010950/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=011170/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "1d199b527e1729a0",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/011170/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=011790/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "0219779427a5f544",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/011790/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=012330/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f4202066c6056496",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/012330/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=012450/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f7c70756180fd391",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/012450/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=015760/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "e825e7e714d9d764",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/015760/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=017670/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f75ef26661229055",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/017670/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=018880/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "4b013c3e629c3d76",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/018880/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=020560/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "715760920edc324c",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/020560/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=024110/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "a1537dd345bc0712",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/024110/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=028050/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "05b3172793cb3224",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/028050/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=028260/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f2231441d8b092c6",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/028260/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=030200/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "6468b1686e7acbae",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/030200/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=032640/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "eee564924232632a",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/032640/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=032830/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "d9d104c6122f3e7e",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/032830/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=034020/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f125d97cd92b3a5a",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/034020/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=034220/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "90a80182637dc744",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/034220/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=034730/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "a619121efe9b978f",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/034730/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=035420/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "916186eff70b0b76",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/035420/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=035720/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "82afc9470cf9ce42",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/035720/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=035900/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "a05b3f5c3531875f",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/035900/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=036460/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "4fbbf6bd52be9751",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/036460/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=036570/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "abf24e594ca4005c",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/036570/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=041510/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "7ee9e39f5a9b4156",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/041510/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=042660/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "2193b14a9cd662e8",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/042660/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=042700/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "ad013ac1483c36ea",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/042700/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=047040/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "535df7d7009b2134",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/047040/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=047810/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f109cc4b32e4a70a",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/047810/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=051900/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "e6c2975cd883f8cd",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/051900/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=051910/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "ec3499a6343e346e",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/051910/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=053800/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "1600b93cd260da1d",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/053800/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=055550/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "bbc4ce0b01e65854",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/055550/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=058470/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "0e23af82d9554db8",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/058470/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=064350/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "4a2e576210263f84",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/064350/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=066570/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "46feeedaa41b2e5f",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/066570/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=068270/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "c653957628097162",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/068270/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=069960/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "946b0f4c67685718",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/069960/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=079550/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "ee0b10dffff838e8",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/079550/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=086520/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "c855f2cb73f66f51",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086520/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=086790/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "33920ba14f8226fe",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086790/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=090430/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "5313029e1e554159",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/090430/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=096770/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "af237a83f3216ff9",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/096770/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=105560/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "d8227c95ecd60f60",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/105560/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=108320/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "780eac79d851ebbd",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/108320/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=112610/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "b793d19da54234cf",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/112610/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=128940/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f309be2f9d79620c",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/128940/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=138930/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "9ed376c4fbb732ed",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/138930/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=141080/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "c7f5bb4e26f8d721",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/141080/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=145020/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "fc409ccce811a5a7",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/145020/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=161390/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "170ab81c6757b3dd",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/161390/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=175330/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "b3bd4c33ba356200",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/175330/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=185750/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "d09bfa8df96717f9",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/185750/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=196170/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "769af8b42665dec3",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/196170/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=204320/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "810984138f550d0a",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/204320/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=207940/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "5b0a386405444024",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/207940/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=214370/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "91773f3b15d2368f",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/214370/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=240810/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "2e1b1a896dea1806",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/240810/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=247540/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "94009d69f477cc36",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/247540/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=251270/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "8769c7792ee7838d",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/251270/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=259960/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "e386abc5139a2509",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/259960/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=263750/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "5bbacbf32b9209b4",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/263750/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=267250/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "b5e79e9f95b53689",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/267250/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=267260/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "043f924a7fd01254",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/267260/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=280360/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "0afaa552afb3beb6",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/280360/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=293490/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "0a08a9aae76173cc",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/293490/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=298040/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "386513e718c78e69",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/298040/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=298050/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "b8c92b023bc9a0ff",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/298050/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=302440/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "ce32706cd2cf6e82",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/302440/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=316140/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "14676e7467bef612",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/316140/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=323410/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "157ef218d63c5557",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/323410/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=326030/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "37df46c98acdb04d",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/326030/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=329180/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "d50acf9a1168661e",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/329180/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=352820/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "29032ab6acd63969",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/352820/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=357780/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "973cd121a9bacbfc",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/357780/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=373220/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "f54ae8c509df2f8c",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/373220/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=375500/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "550a5374337a0dba",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/375500/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=377300/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "764ba13efd6b140c",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/377300/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=403870/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "65012aadcf6af55d",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/403870/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=trades/symbol=950160/timeframe=5m/year=2026/month=03/part.parquet"
+      ],
+      "manifest_id": "07f7158e885dde53",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/950160/5m/20260303T000000Z_20260331T063000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=000100/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "46f56a844c9165fa",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000100/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=000100/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "44c44f22cfa05a6f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000100/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=000100/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "2387fbf7d376fdca",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000100/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=000100/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "26b63ca8b57107d2",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000100/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=000270/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "6ca3d69abbf8fd39",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000270/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=000270/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "2cb583ba8f720329",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000270/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=000270/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "426697773b746d3d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000270/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=000270/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "1e19b061747fbd13",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000270/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=000660/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "d06670c517ce878b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000660/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=000660/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "d2549de672558a84",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000660/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=000660/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "717bd6f1f833b48e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000660/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=000660/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "cf5b556847955569",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000660/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=000720/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "f8940782f26eacac",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000720/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=000720/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "d7c0922391257f77",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000720/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=000720/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "5c9b7ef67d9cc8b4",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000720/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=000720/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "6c96c5d4ac246080",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000720/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=000810/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "d0c3c555caccc050",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000810/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=000810/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "2493f1595f87bc7b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000810/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=000810/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "515da8acead49378",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000810/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=000810/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "83c52d16e3f1980c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/000810/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=001040/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "d450fc4567e42220",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/001040/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=001040/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "5f407c998752005f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/001040/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=001040/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "3a8fdea2ce842ab3",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/001040/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=001040/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "603c443caf4b1311",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/001040/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=003490/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "3afacdd0f2594c8d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003490/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=003490/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "616f8ec6946df990",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003490/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=003490/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "2c2311f9e8ab9376",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003490/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=003490/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "45cd3cf66935c919",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003490/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=003550/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "ac2ff4653dcfc96b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003550/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=003550/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "a3af899deec41c2d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003550/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=003550/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "127198dda9924b16",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003550/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=003550/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "53935550ef9ccd79",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003550/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=003670/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "60b4a2c0dbe82e0f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003670/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=003670/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "9ee9e6f24f0ea065",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003670/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=003670/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "8af9087bab2c7182",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003670/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=003670/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "20fa40336aa706b0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/003670/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=004020/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "6f0ac6eb940662af",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004020/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=004020/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "28865471598dfaa6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004020/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=004020/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "b9d11d5f47952ae3",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004020/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=004020/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "ee548f2af5fe58a0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004020/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=004170/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "c3e314b893e23b04",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004170/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=004170/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "8029da1b312f7b64",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004170/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=004170/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "500155a4158f7c08",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004170/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=004170/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "a269fd7c45512a8b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004170/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=004990/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "27b6167af2a0a061",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004990/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=004990/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "31d2130e9a59ea86",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004990/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=004990/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "0fe0124be4e5f394",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004990/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=004990/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "acd913aa7d9021d0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/004990/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=005300/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "92e7ee4d7715ad25",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005300/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=005300/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "bfcd6b67e7d6760a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005300/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=005300/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "db1de50ae7460961",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005300/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=005300/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "425befd5c8564b3b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005300/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=005380/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "01db8622af26b972",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005380/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=005380/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "64c0ce8976de44ae",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005380/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=005380/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "2766d3cdadf658b0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005380/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=005380/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "083ad987beb38815",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005380/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=005490/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "1895711693f70757",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005490/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=005490/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "a6b68e2587a955eb",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005490/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=005490/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "af0e0ede452b7413",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005490/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=005490/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "319ab183c078841f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005490/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=005830/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "5e678f3e461fc86f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005830/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=005830/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "0c06ec1c6c2530c0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005830/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=005830/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "2fe51cea2bcb7aa0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005830/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=005830/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "a85c2ea29addbcdf",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005830/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=005930/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "07795767a8908840",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005930/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=005930/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "282c06d910dfe370",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005930/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=005930/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "da31fd0752e94295",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005930/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=005930/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "fb87570a9b12f6ad",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/005930/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=006260/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "23d30f145b3c9a2e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006260/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=006260/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "5339a0af6cf19f41",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006260/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=006260/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "7a1cd32c5e4a673a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006260/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=006260/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "5a8bb008323dfa56",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006260/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=006360/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "21e585c5241be8c8",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006360/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=006360/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "3c668d65d4f74ba6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006360/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=006360/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "c16cbba74ed6a8e1",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006360/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=006360/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "0f7b0025606e66dc",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006360/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=006400/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "e2ad3925149694e4",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006400/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=006400/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "1e039f1c32c82224",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006400/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=006400/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "55a49fa1d9a5bbb6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006400/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=006400/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "89deb807c67a13f4",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/006400/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=009150/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "dbfe5eed445ca15e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/009150/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=009150/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "06d19b8dfe359a90",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/009150/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=009150/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "624e2c6fd8e4476f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/009150/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=009150/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "1d36ef1d0c86a99b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/009150/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=009540/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "2b73534d31193d36",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/009540/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=009540/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "e493bb0abc2d24d7",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/009540/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=009540/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "041e17b74de38050",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/009540/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=009540/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "386a1a9671a4e463",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/009540/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=010120/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "03094c34eda73ef3",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010120/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=010120/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "d9d964d614ef851e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010120/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=010120/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "152633fe4d121066",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010120/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=010120/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "2dba613175bfaa91",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010120/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=010130/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "6fd9e3fb284a9ccc",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010130/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=010130/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "a62d3bdcaab32688",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010130/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=010130/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "a6344bdc285c0df3",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010130/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=010130/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "24a91585fe866b7e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010130/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=010950/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "f0610b855529294a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010950/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=010950/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "3ab07e5e03faeff8",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010950/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=010950/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "c0078d08197d618c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010950/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=010950/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "44a1a3e0bfb192fb",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/010950/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=011170/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "74ca109e0a866841",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/011170/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=011170/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "d40fa35fbb0f593d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/011170/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=011170/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "92a6779e75c45ff7",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/011170/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=011170/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "50017249a7a19cd4",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/011170/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=011790/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "6ff53c4d115c7d23",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/011790/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=011790/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "fa60b959505a5ee8",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/011790/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=011790/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "ddbd90e3ae14cc87",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/011790/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=011790/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "a3d01b1d54d1642a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/011790/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=012330/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "fc11470ae1aa0ee5",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/012330/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=012330/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "a785c9c136c23833",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/012330/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=012330/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "dcb51185920affac",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/012330/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=012330/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "c0ec159e95a7e2ce",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/012330/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=012450/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "b7a03ef0e3f74336",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/012450/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=012450/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "28f85988d197d94d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/012450/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=012450/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "396e7535cdf5477c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/012450/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=012450/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "421a3ae50bf75b86",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/012450/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=015760/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "1956bc4c14ba0d00",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/015760/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=015760/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "706b4748e1e51d7f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/015760/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=015760/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "ea8998310773aa8c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/015760/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=015760/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "8d982d0637a67786",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/015760/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=017670/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "a8d32c5ba184f7c8",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/017670/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=017670/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "5273a22108fbce38",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/017670/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=017670/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "3a7381904e643efe",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/017670/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=017670/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "e6a4c7174ab2eb3b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/017670/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=018880/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "9a2827763b0bef3e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/018880/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=018880/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "3881e972e639c288",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/018880/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=018880/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "c92358b6044ce0cd",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/018880/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=018880/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "a674f7cc9b88f4c2",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/018880/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=020560/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "729fe2ca2b9f2dee",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/020560/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=020560/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "e8e59f1394c26f28",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/020560/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=020560/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "c75f411fb64dde8f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/020560/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=020560/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "09398172879afe11",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/020560/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=024110/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "c28c41384b71ff2e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/024110/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=024110/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "b3ad901160d25b49",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/024110/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=024110/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "2cc74e52bed49bca",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/024110/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=024110/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "6bc94fadb32715e3",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/024110/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=028050/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "80fd690f1e1f88f0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/028050/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=028050/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "8a21e799285a70ad",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/028050/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=028050/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "96cf04fd38798448",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/028050/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=028050/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "25b206617eb66391",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/028050/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=028260/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "836d7a336892ae8b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/028260/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=028260/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "567e5e0e3fa6227c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/028260/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=028260/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "7608de4bef0624c2",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/028260/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=028260/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "49e2e8941d6b50bc",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/028260/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=030200/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "567da26e708d03e1",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/030200/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=030200/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "acb90eeec4a49dfe",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/030200/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=030200/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "8c7cff026adc9f85",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/030200/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=030200/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "2e35b228555c0a49",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/030200/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=032640/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "c34603c31c5f4c7f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/032640/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=032640/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "e96cd74cbf63a1ab",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/032640/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=032640/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "002bd37b2d0a5c38",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/032640/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=032640/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "d0459e1799c34d18",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/032640/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=032830/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "3ed2db28da0418e2",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/032830/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=032830/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "cd7d831fb7677125",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/032830/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=032830/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "ac0c638d4361f1f9",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/032830/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=032830/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "70093d3a1b297745",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/032830/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=034020/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "f7729e25806b0bc6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034020/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=034020/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "392759025fbf66b6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034020/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=034020/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "244fe44794903eda",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034020/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=034020/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "7eb03e39f5dc83a0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034020/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=034220/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "d765c12e17b209ac",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034220/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=034220/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "7bbb32e2b75aaf0d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034220/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=034220/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "6f1759ce21c04b0f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034220/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=034220/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "e52b44a2d9e01cd0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034220/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=034730/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "36dd68ee95748a73",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034730/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=034730/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "7c2ef581a2c5c79f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034730/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=034730/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "a527118c1ac20fda",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034730/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=034730/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "7d0caed7fc2ab350",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/034730/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=035420/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "7e25f3902ce31f90",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035420/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=035420/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "f00075814c97988d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035420/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=035420/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "579ab01d41fd1f4f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035420/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=035420/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "1b95c2a69211b84a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035420/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=035720/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "bc9bf4dd6f62c499",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035720/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=035720/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "ef6027aa12c802ac",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035720/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=035720/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "423fe991ed5f5e2a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035720/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=035720/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "d53e118b16ff42bc",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035720/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=035900/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "1684875cdd1eb726",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035900/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=035900/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "98ed845d91a60dd7",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035900/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=035900/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "19b38dba4fff1c5c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035900/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=035900/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "27f2634618127e15",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/035900/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=036460/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "cb5873f3abb60d83",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/036460/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=036460/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "90a86370cff0cc1c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/036460/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=036460/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "54dd938161f8ee7a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/036460/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=036460/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "3bd9454f7a45f4ac",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/036460/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=036570/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "87532dafcf5ce3ce",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/036570/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=036570/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "e3c2b5e6aa5c8d67",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/036570/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=036570/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "961095d61134d3da",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/036570/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=036570/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "872658e2510bb092",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/036570/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=041510/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "55b4f2c0964f989d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/041510/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=041510/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "c8fd99cba2d18f76",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/041510/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=041510/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "26f7d7dd181b2b70",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/041510/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=041510/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "d40e819fcca5ed9b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/041510/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=042660/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "0d791f6bc3d17ae6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/042660/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=042660/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "1a5148f4a87eb82a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/042660/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=042660/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "b56c390c74ad403c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/042660/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=042660/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "fca1d4d9a58d63d9",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/042660/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=042700/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "dcfa88027b51b397",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/042700/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=042700/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "815bbecced56d81f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/042700/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=042700/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "053334c85fde2093",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/042700/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=042700/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "9e7d55367b93902e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/042700/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=047040/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "88c490f41c428078",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/047040/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=047040/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "8fef45c81e402d07",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/047040/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=047040/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "1cf68652e5c5b0ef",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/047040/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=047040/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "fc3f66cc6c2cd99d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/047040/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=047810/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "fa58f65e74ed7812",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/047810/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=047810/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "d0a517430d56f103",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/047810/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=047810/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "c5cf36eea83fe387",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/047810/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=047810/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "e7241789a4ba97e0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/047810/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=051900/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "0a003c1b572429c1",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/051900/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=051900/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "5216e478a83605a8",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/051900/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=051900/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "55d9eacf2f25b01d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/051900/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=051900/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "a1bdddafa287d4ec",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/051900/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=051910/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "8ec42b416ee45131",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/051910/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=051910/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "9e253e208c77207e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/051910/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=051910/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "25a1805a3fd4f9b2",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/051910/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=051910/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "694ddfd48fe1852e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/051910/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=053800/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "a48a9ee483370cba",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/053800/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=053800/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "49a50d6f927b4e76",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/053800/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=053800/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "2a154243aba1acb0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/053800/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=053800/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "798397c164b27eaf",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/053800/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=055550/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "8f07ddc6fbc8b2ac",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/055550/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=055550/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "e397971512a6025b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/055550/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=055550/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "15736747eb54300d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/055550/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=055550/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "0969abb7e3c1aa07",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/055550/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=058470/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "7dd49a50152a2863",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/058470/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=058470/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "783f1710e4dd2755",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/058470/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=058470/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "b9863df0e03d95bb",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/058470/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=058470/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "e50e6d89a9da922c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/058470/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=064350/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "9a80eceb04120fbe",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/064350/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=064350/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "de933d24a0e47c61",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/064350/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=064350/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "7c03e6fc0142cc2d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/064350/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=064350/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "b5a77ad94b197e4e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/064350/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=066570/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "95ec030f465264b0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/066570/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=066570/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "98115738d7ae64c5",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/066570/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=066570/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "3627b4ba143e1c76",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/066570/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=066570/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "23c38f82e28da8b7",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/066570/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=068270/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "905c4c4cb60e72d7",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/068270/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=068270/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "8a72e4db5769ba4c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/068270/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=068270/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "2e19b5b8aada6920",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/068270/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=068270/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "c4d3330ae29e9af8",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/068270/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=069960/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "7235ffee3f1f943d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/069960/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=069960/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "3cef87dc85b77728",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/069960/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=069960/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "7b19077ebe5ef4e4",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/069960/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=069960/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "e2f30794639e869f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/069960/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=079550/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "3f24e1f50877b1fd",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/079550/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=079550/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "1ded6502210d4a19",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/079550/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=079550/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "3d174570241e74b3",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/079550/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=079550/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "3e7a9596ddcf7ea2",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/079550/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=086520/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "9da9ee568659c66d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/086520/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=086520/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "90666609eeeeee08",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/086520/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=086520/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "5cb082a203c5b765",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/086520/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=086520/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "0783bac6f1174f36",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/086520/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=086790/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "278d3c2ddd5fabdb",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/086790/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=086790/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "e9707ccdb5cf315d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/086790/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=086790/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "9b5e46bdf7f48b39",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/086790/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=086790/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "8c5e0bec5fb1e8d7",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/086790/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=090430/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "e41be2004173fa5f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/090430/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=090430/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "9e6480c1b56289ef",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/090430/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=090430/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "e20f2f3a627f08f0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/090430/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=090430/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "724dd671cf16b441",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/090430/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=096770/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "e60f1fceaa03f53d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/096770/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=096770/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "7be19938e568de1e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/096770/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=096770/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "7910ba011f6f674a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/096770/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=096770/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "db9b0d83107933b3",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/096770/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=105560/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "61643354ea926042",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/105560/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=105560/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "540d2cf24f89cfb5",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/105560/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=105560/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "74adf452a1d72ccc",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/105560/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=105560/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "ab81c9505701ac2c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/105560/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=108320/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "8c4385a523abbae6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/108320/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=108320/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "3ab4a67c0b75f0b2",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/108320/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=108320/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "de5ed43195efce81",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/108320/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=108320/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "f12536119949fd5d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/108320/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=112610/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "0650375c7388966a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/112610/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=112610/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "60473c48cd5c954b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/112610/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=112610/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "f606a4d64f2e5c5a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/112610/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=112610/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "ed3035a05ed16c0e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/112610/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=128940/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "419682ea55368105",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/128940/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=128940/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "0bda0bebc8a81d5a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/128940/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=128940/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "595e196bc83560ab",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/128940/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=128940/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "672f5e8f5b508352",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/128940/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=138930/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "4e6835bc9206d451",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/138930/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=138930/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "50cd87843f1d602d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/138930/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=138930/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "89ce57f19a761d35",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/138930/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=138930/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "ee70f2e622355815",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/138930/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=141080/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "c1e3bbec1b78e7cd",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/141080/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=141080/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "fe51d33ac07e7eee",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/141080/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=141080/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "c24b4aa1c9b9f7e6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/141080/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=141080/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "4d6ceb87a321853e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/141080/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=145020/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "8ad7fe491c149f6c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/145020/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=145020/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "7258b5c83d2bd29d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/145020/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=145020/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "216c2f5994cb7814",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/145020/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=145020/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "702406dba889a1bf",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/145020/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=161390/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "0482b16d5c607382",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/161390/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=161390/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "5a4399d264fe8781",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/161390/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=161390/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "0ef08f610b14ebfd",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/161390/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=161390/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "8b827fbaf41e271d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/161390/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=175330/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "b23db8e6a1d35fc1",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/175330/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=175330/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "dff5d291a33f0b86",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/175330/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=175330/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "9b1b0f073df2659d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/175330/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=175330/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "bb977a2d3af2b106",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/175330/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=185750/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "1c3ea296cbf715ab",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/185750/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=185750/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "8c52d508f959fb48",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/185750/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=185750/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "be78166b1c97c572",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/185750/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=185750/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "4f9b31bd24d394e6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/185750/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=196170/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "633fd985b1a64050",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/196170/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=196170/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "5c4a5ede5c0cfabf",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/196170/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=196170/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "ad0f6c21af5b5065",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/196170/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=196170/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "bda817e7d8811cab",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/196170/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=204320/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "50aa859a4295cc07",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/204320/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=204320/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "3713133e4d04a8cd",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/204320/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=204320/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "2cce3bbb2fb4df80",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/204320/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=204320/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "9bc110c3c1ca3017",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/204320/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=207940/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "3375dab6dbd20406",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/207940/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=207940/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "ea87b00d4da27e91",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/207940/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=207940/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "fa45211a4de01651",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/207940/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=207940/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "3f61743663372883",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/207940/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=214370/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "06d520aff3e28c94",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/214370/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=214370/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "200cbc5667112373",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/214370/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=214370/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "8c3c1fb4c7c0c025",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/214370/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=214370/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "d5080642d1d1ac90",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/214370/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=240810/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "75bb2e78c6308bfd",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/240810/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=240810/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "12fb1d68fc7cb9ca",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/240810/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=240810/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "fa6b98fdaaf5fc29",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/240810/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=240810/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "4434f1f987b8f22d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/240810/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=247540/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "d68941a61a2b74f0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/247540/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=247540/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "0f1446446c56a6ab",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/247540/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=247540/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "bbcf005235818707",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/247540/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=247540/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "803900fc0f426b4a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/247540/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=251270/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "f128a37381842377",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/251270/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=251270/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "3c40ab14941a5336",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/251270/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=251270/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "b465f3a8d131bcfa",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/251270/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=251270/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "643e845c1030222f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/251270/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=259960/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "a6778a75f7593c62",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/259960/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=259960/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "cbc277f301da2839",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/259960/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=259960/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "4a876904fd4c9034",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/259960/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=259960/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "938a399a004f7948",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/259960/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=263750/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "bf7996b7358530ae",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/263750/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=263750/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "b763cb31362d08da",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/263750/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=263750/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "066f913abb636907",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/263750/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=263750/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "1dd7add3ed52110d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/263750/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=267250/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "84b4111938c83be7",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/267250/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=267250/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "48005128d61340d0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/267250/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=267250/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "0086b5c6f5103064",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/267250/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=267250/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "aae1c43abcb604ea",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/267250/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=267260/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "47cbee268336caeb",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/267260/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=267260/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "31ea23382128fa45",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/267260/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=267260/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "5eed3554f0a60c1b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/267260/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=267260/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "b0a496e8cad5b543",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/267260/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=280360/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "cc8f13bbd4852365",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/280360/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=280360/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "bc4a261d745f6b8b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/280360/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=280360/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "5979f5ad4ed28294",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/280360/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=280360/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "1bfb8c1fa18af249",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/280360/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=293490/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "b83a844e40ba04c0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/293490/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=293490/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "a62c311d231ebfe8",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/293490/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=293490/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "76bb9cc6c3ad86a7",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/293490/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=293490/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "053cf53d2dc65113",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/293490/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=298040/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "030f670ab832896b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/298040/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=298040/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "1482293ce56ae46d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/298040/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=298040/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "fdb743a5c53cd41c",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/298040/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=298040/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "e1db833597f34b1d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/298040/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=298050/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "e28306743a726d3d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/298050/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=298050/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "0cdabeae8630cc60",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/298050/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=298050/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "6e29543545aedf97",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/298050/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=298050/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "02c11ea8dab6009f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/298050/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=302440/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "894e138bb82a2dda",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/302440/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=302440/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "f3d6162ae45b5ee2",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/302440/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=302440/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "aa81d90701842b22",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/302440/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=302440/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "2d4921c99217528e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/302440/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=316140/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "1258185847a6ee33",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/316140/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=316140/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "c5a64a30b8dd29db",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/316140/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=316140/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "fb6f7b139b53f5b1",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/316140/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=316140/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "bb4a0115596abba0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/316140/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=323410/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "9dc7afa8b595b883",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/323410/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=323410/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "e02a4264ffa0f9e1",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/323410/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=323410/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "026e633532f48432",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/323410/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=323410/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "01966cb6c83f2f1f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/323410/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=326030/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "6d827763a5005a74",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/326030/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=326030/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "df0f0fea19f22a44",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/326030/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=326030/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "cf5ae56a74ce2d42",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/326030/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=326030/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "ea7cc89e579fc0d6",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/326030/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=329180/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "810dff43c2e3916e",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/329180/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=329180/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "3f2fcdf89fe7feb2",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/329180/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=329180/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "eec8c3b98a54a723",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/329180/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=329180/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "6c759d5f10d2552d",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/329180/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=352820/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "29f4a81c0fe78095",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/352820/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=352820/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "e233c228900738de",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/352820/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=352820/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "559e6d85e5b3fec0",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/352820/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=352820/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "b61bc0de77511386",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/352820/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=357780/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "7f8041bb3d0edecc",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/357780/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=357780/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "6203eb299e1b84dc",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/357780/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=357780/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "c52fd6b8c5035a23",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/357780/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=357780/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "ee6fe8cc966a5042",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/357780/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=373220/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "afb19827a425ff67",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/373220/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=373220/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "fc399e9e4b706576",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/373220/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=373220/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "dc437aa0113bfe5f",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/373220/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=373220/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "1a164a8ae08f0782",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/373220/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=375500/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "733f3eddd94eeeab",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/375500/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=375500/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "745cfae5c921f416",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/375500/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=375500/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "de85f5dc83cd3670",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/375500/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=375500/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "31c890b8cd1514f8",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/375500/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=377300/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "81dcad9a13dddca5",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/377300/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=377300/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "7168bd0ced6a1539",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/377300/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=377300/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "67ea0c80864e6ec4",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/377300/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=377300/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "3eb98474c4c0a4ef",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/377300/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=403870/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "91af2e382d996583",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/403870/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=403870/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "dafe5ec65ac5237a",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/403870/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=403870/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "05779eb1270139ce",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/403870/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=403870/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "c3d312d8224b63a5",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/403870/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=lrs/kind=trades/symbol=950160/timeframe=1d/part.parquet"
+      ],
+      "manifest_id": "32c8b0b556e19708",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/950160/1d/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_flow/symbol=950160/timeframe=1d_daily_flow/part.parquet"
+      ],
+      "manifest_id": "5328bb4e341d9470",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/950160/1d_daily_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_foreign_flow/symbol=950160/timeframe=1d_daily_foreign_flow/part.parquet"
+      ],
+      "manifest_id": "bc27801ab5b99f14",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/950160/1d_daily_foreign_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/panels/market=krx_equity/source=lrs/kind=daily_institutional_flow/symbol=950160/timeframe=1d_daily_institutional_flow/part.parquet"
+      ],
+      "manifest_id": "2c30c6e0cc6fb483",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/950160/1d_daily_institutional_flow/20240218T150000Z_20260528T150000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/reference/market=krx_equity/source=lrs/kind=sector_map/part.parquet"
+      ],
+      "manifest_id": "d81de24e9ad1484b",
+      "manifest_path": "data/manifests/slices/lrs/krx_equity/ALL/static_or_daily/20240219T063000Z_20260529T063000Z.market_data_manifest.json"
+    }
+  ]
+}

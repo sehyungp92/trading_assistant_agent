@@ -1,0 +1,32 @@
+{
+  "bundle_id": "ba343dcc00d3ca98",
+  "data_repo_path": ".",
+  "data_repo_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "data_repo_branch": "master",
+  "slice_manifests": [
+    {
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/MSFT/5m/20260301T000000Z_20260331T235900Z.market_data_manifest.json",
+      "manifest_id": "0e04875c949d2b19",
+      "source": "ibkr",
+      "market": "us_equity",
+      "symbol": "MSFT",
+      "timeframe": "5m",
+      "start_ts": "2026-03-01T00:00:00Z",
+      "end_ts": "2026-03-31T23:59:00Z",
+      "checksum": "5405c66e63695a3fc269a057e9be9e8c718a74f79295928a4aa88b98352b7ebc",
+      "calendar": "us_equities_xnys_xnas_v1",
+      "authoritative": true
+    }
+  ],
+  "bundle_checksum": "c343f040040ff41232e152422b778efd4c8fa983b924023b1fc861fa434790c3",
+  "calendars": [
+    "us_equities_xnys_xnas_v1"
+  ],
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "adjustment_policy": "us_equity_split_dividend_adjusted_policy_v1",
+  "status": "authoritative",
+  "diagnostics_only_reason": "",
+  "schema_version": "data_bundle_manifest_v1",
+  "generated_at": "2026-05-31T17:01:39.612695Z"
+}

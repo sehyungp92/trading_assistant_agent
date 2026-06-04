@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -124,6 +125,7 @@ def _write_optimizer(
     structural_missing_patch: bool,
     decision_parity_mismatch: bool,
 ) -> None:
+    _write_optimizer_run_manifest(root, manifest)
     candidate_id = "fixture-structural" if structural_missing_patch or decision_parity_mismatch else "fixture-candidate"
     workspace = CandidateWorkspaceManager(root / "workspaces").prepare(
         run_id=manifest.run_id,
@@ -206,6 +208,7 @@ def _write_optimizer(
         "attempt_state": "succeeded",
         "phase": "confirmatory_follow_up",
     }), encoding="utf-8")
+    _write_p6_p7(root, manifest, candidate_id)
     for name in [
         "leakage_report.json",
         "cost_sensitivity.json",
@@ -219,7 +222,270 @@ def _write_optimizer(
     _write_decision_parity(root, manifest, candidate_id, mismatch=decision_parity_mismatch)
 
 
+def _write_optimizer_run_manifest(root: Path, manifest: MonthlyRunManifest) -> None:
+    run_manifest_path = root / "run_manifest.json"
+    contract_path = (
+        Path(manifest.strategy_plugin_contract_path)
+        if manifest.strategy_plugin_contract_path
+        else None
+    )
+    deployment_path = (
+        Path(manifest.deployment_metadata_path)
+        if manifest.deployment_metadata_path
+        else None
+    )
+    contract_paths = _manifest_path_map(
+        manifest,
+        ("bridge_contract_paths", "strategy_plugin_contract_paths"),
+    )
+    deployment_paths = _manifest_path_map(
+        manifest,
+        ("bridge_deployment_metadata_paths", "deployment_metadata_paths"),
+    )
+    if contract_path is not None:
+        contract_paths.setdefault(_fixture_bridge_id(manifest), str(contract_path))
+    if deployment_path is not None:
+        deployment_paths.setdefault(_fixture_bridge_id(manifest), str(deployment_path))
+    contract_hashes = _hash_path_map(contract_paths)
+    deployment_hashes = _hash_path_map(deployment_paths)
+    approval_mode = str(getattr(manifest.approval_mode, "value", manifest.approval_mode) or "")
+    approval_grade = approval_mode not in {"", "none"}
+    scope_id = _fixture_scope_id(manifest)
+    (root / "optimizer_run_manifest.json").write_text(json.dumps({
+        "schema_version": "optimizer_approval_run_manifest_v1",
+        "run_id": manifest.run_id,
+        "manifest_id": manifest.manifest_id,
+        "scope_id": scope_id,
+        "scope_aliases": [
+            item for item in (
+                manifest.bot_id,
+                manifest.strategy_id,
+                manifest.strategy_plugin_id,
+                scope_id,
+            ) if item
+        ],
+        "bot_id": manifest.bot_id,
+        "strategy_id": manifest.strategy_id,
+        "strategy_plugin_id": manifest.strategy_plugin_id,
+        "run_month": manifest.run_month,
+        "run_mode": manifest.mode.value,
+        "optimizer_mode": "approval_grade" if approval_grade else "shadow_validation",
+        "approval_mode": approval_mode or "none",
+        "approval_grade_optimizer_run": approval_grade,
+        "smoke_mode": not approval_grade,
+        "artifact_root": str(root),
+        "run_manifest_path": str(run_manifest_path),
+        "run_manifest_hash": _sha256_file(run_manifest_path),
+        "data_bundle_checksum": manifest.data_bundle_checksum or manifest.data_manifest_checksum,
+        "data_bundle_checksums": [
+            manifest.data_bundle_checksum or manifest.data_manifest_checksum
+        ],
+        "strategy_plugin_contract_path": str(contract_path or ""),
+        "strategy_plugin_contract_hash": _sha256_file(contract_path),
+        "strategy_plugin_contract_paths": contract_paths,
+        "bridge_contract_paths": contract_paths,
+        "strategy_plugin_contract_hashes": contract_hashes,
+        "bridge_contract_hashes": contract_hashes,
+        "deployment_metadata_path": str(deployment_path or ""),
+        "deployment_metadata_hash": _sha256_file(deployment_path),
+        "deployment_metadata_paths": deployment_paths,
+        "bridge_deployment_metadata_paths": deployment_paths,
+        "deployment_metadata_hashes": deployment_hashes,
+        "bridge_deployment_metadata_hashes": deployment_hashes,
+    }), encoding="utf-8")
+
+
+def _manifest_path_map(manifest: MonthlyRunManifest, keys: tuple[str, ...]) -> dict[str, str]:
+    for key in keys:
+        value = getattr(manifest, key, {})
+        if isinstance(value, dict):
+            mapped = {
+                str(item_key).strip(): str(item).strip()
+                for item_key, item in value.items()
+                if str(item_key).strip() and str(item).strip()
+            }
+            if mapped:
+                return mapped
+    return {}
+
+
+def _fixture_scope_id(manifest: MonthlyRunManifest) -> str:
+    return {
+        "crypto-trend-v1": "crypto_trader_portfolio",
+        "crypto-momentum-v1": "crypto_trader_portfolio",
+        "crypto-breakout-v1": "crypto_trader_portfolio",
+    }.get(manifest.strategy_plugin_id, manifest.strategy_id)
+
+
+def _fixture_bridge_id(manifest: MonthlyRunManifest) -> str:
+    return {
+        "crypto-trend-v1": "crypto_trend_v1",
+        "crypto-momentum-v1": "crypto_momentum_v1",
+        "crypto-breakout-v1": "crypto_breakout_v1",
+    }.get(manifest.strategy_plugin_id, manifest.strategy_plugin_id or manifest.strategy_id)
+
+
+def _hash_path_map(paths: dict[str, str]) -> dict[str, str]:
+    return {
+        bridge_id: digest
+        for bridge_id, path in paths.items()
+        for digest in [_sha256_file(Path(path))]
+        if digest
+    }
+
+
+def _fixture_config_patch() -> dict:
+    return {
+        "family": "filter_repair",
+        "filter_threshold_bps_delta": -2.0,
+        "position_weight_multiplier": 1.05,
+    }
+
+
+def _fixture_evaluated_parameters() -> dict:
+    return {
+        "threshold_bps": 8.0,
+        "position_weight": 1.05,
+        "max_positions": 1,
+    }
+
+
+def _fixture_patch_fingerprints() -> tuple[str, str]:
+    patch = _fixture_config_patch()
+    evaluated = {
+        "parameter_patch": patch,
+        "evaluated_parameters": _fixture_evaluated_parameters(),
+    }
+    return _stable_fixture_hash(patch), _stable_fixture_hash(evaluated)
+
+
+def _stable_fixture_hash(value: object) -> str:
+    raw = json.dumps(value, sort_keys=True, default=str)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def _sha256_file(path: Path | None) -> str:
+    if path is None or not path.exists() or not path.is_file():
+        return ""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _write_p6_p7(root: Path, manifest: MonthlyRunManifest, candidate_id: str) -> None:
+    patch_fingerprint, evaluated_fingerprint = _fixture_patch_fingerprints()
+    candidate_replay = {
+        "trade_count": 4,
+        "net_return": 1.12,
+        "max_drawdown": 0.04,
+        "profit_factor": 1.6,
+        "objective_score": 1.12,
+        "trade_hash": "fixture-candidate-trades",
+        "order_hash": "fixture-candidate-orders",
+        "coverage": [{"rows": 4}],
+        "parameter_patch": _fixture_config_patch(),
+        "evaluated_parameter_patch": _fixture_config_patch(),
+        "parameter_patch_fingerprint": patch_fingerprint,
+        "evaluated_patch_fingerprint": evaluated_fingerprint,
+        "evaluated_parameters": _fixture_evaluated_parameters(),
+    }
+    fold_rows = [
+        {
+            "run_id": manifest.run_id,
+            "candidate_id": candidate_id,
+            "candidate_family": "filter_repair",
+            "fold_id": "fold_1",
+            "purged": True,
+            "selection_oos_used_in_first_pass": False,
+            "objective_delta": 0.06,
+            "fold_support_passed": True,
+            "candidate": candidate_replay,
+        },
+        {
+            "run_id": manifest.run_id,
+            "candidate_id": candidate_id,
+            "candidate_family": "filter_repair",
+            "fold_id": "fold_2",
+            "purged": True,
+            "selection_oos_used_in_first_pass": False,
+            "objective_delta": 0.05,
+            "fold_support_passed": True,
+            "candidate": candidate_replay,
+        },
+    ]
+    (root / "fold_candidate_results.jsonl").write_text(
+        "\n".join(json.dumps(row) for row in fold_rows) + "\n",
+        encoding="utf-8",
+    )
+    (root / "fold_score_matrix.json").write_text(json.dumps({
+        "schema_version": "fold_score_matrix_v1",
+        "run_id": manifest.run_id,
+        "selection_oos_excluded_from_first_pass": True,
+        "scoring_windows": [
+            {"fold_id": "fold_1", "purged": True, "embargo_days": 5},
+            {"fold_id": "fold_2", "purged": True, "embargo_days": 5},
+        ],
+        "candidate_count": 1,
+        "selected_candidate_ids": [candidate_id],
+        "candidates": [{"candidate_id": candidate_id, "fold_support_passed": True}],
+    }), encoding="utf-8")
+    (root / "selection_oos_evaluation.json").write_text(json.dumps({
+        "schema_version": "selection_oos_evaluation_v1",
+        "run_id": manifest.run_id,
+        "status": "pass",
+        "selection_oos_used_after_fold_ranking": True,
+        "selection_oos_used_in_first_pass": False,
+        "primary_candidate_id": candidate_id,
+        "incumbent_selection_oos": {"objective_score": 1.0, "trade_count": 4, "max_drawdown": 0.05},
+        "candidate_selection_oos": {"candidate_id": candidate_id, "objective_score": 1.12, "trade_count": 4, "max_drawdown": 0.04},
+    }), encoding="utf-8")
+    (root / "selection_oos_repair_trigger.json").write_text(json.dumps({
+        "schema_version": "selection_oos_repair_trigger_v1",
+        "run_id": manifest.run_id,
+        "triggered": False,
+        "status": "not_triggered",
+        "thresholds": {
+            "objective_drop_threshold": -0.05,
+            "drawdown_increase_threshold": 0.05,
+            "trade_count_collapse_ratio": 0.5,
+        },
+        "expected_is_fold_score_band": {"mean_objective_score": 1.1},
+        "measured_degradation": {"objective_delta_vs_fold_mean": 0.02},
+    }), encoding="utf-8")
+    (root / "repair_failure_attribution.json").write_text(json.dumps({
+        "run_id": manifest.run_id,
+        "status": "complete",
+        "repair_triggered": False,
+    }), encoding="utf-8")
+    (root / "accepted_mutation_chain.json").write_text(json.dumps({
+        "run_id": manifest.run_id,
+        "accepted_mutations": [],
+    }), encoding="utf-8")
+    (root / "repair_candidate_results.jsonl").write_text("", encoding="utf-8")
+    (root / "repair_checkpoint.json").write_text(json.dumps({
+        "schema_version": "repair_checkpoint_v1",
+        "run_id": manifest.run_id,
+        "repair_triggered": False,
+        "candidate_ids": [],
+        "deterministic_resume_key": "fixture-resume-key",
+    }), encoding="utf-8")
+    config_patch_path = root / "round_n_plus_1" / "config_patch.json"
+    config_patch_path.parent.mkdir(parents=True, exist_ok=True)
+    config_patch_path.write_text(json.dumps(_fixture_config_patch()), encoding="utf-8")
+    (root / "round_n_plus_1_recommendation.json").write_text(json.dumps({
+        "schema_version": "round_n_plus_1_recommendation_v1",
+        "run_id": manifest.run_id,
+        "status": "optimized_backtest_recommendation",
+        "adopted_candidate_id": candidate_id,
+        "next_round_id": manifest.next_round_id or "round_2",
+        "live_deployment_status": "optimized_backtest_recommendation",
+        "config_patch_path": str(config_patch_path),
+        "parameter_patch_fingerprint": patch_fingerprint,
+        "evaluated_patch_fingerprint": evaluated_fingerprint,
+        "evaluated_parameters": _fixture_evaluated_parameters(),
+    }), encoding="utf-8")
+
+
 def _candidate_payload(root: Path, manifest: MonthlyRunManifest, candidate_id: str, workspace: str) -> dict:
+    patch_fingerprint, evaluated_fingerprint = _fixture_patch_fingerprints()
     return {
         "candidate_id": candidate_id,
         "run_id": manifest.run_id,
@@ -230,6 +496,11 @@ def _candidate_payload(root: Path, manifest: MonthlyRunManifest, candidate_id: s
         "decision": "experiment",
         "objective_delta": 0.1,
         "objective_deltas": {"latest_month_oos": 0.1, "calibration": 0.05},
+        "parameter_patch": _fixture_config_patch(),
+        "evaluated_parameter_patch": _fixture_config_patch(),
+        "evaluated_parameters": _fixture_evaluated_parameters(),
+        "parameter_patch_fingerprint": patch_fingerprint,
+        "evaluated_patch_fingerprint": evaluated_fingerprint,
         "candidate_workspace_key": candidate_id,
         "candidate_workspace_path": workspace,
         "candidate_attempt_id": "attempt-1",

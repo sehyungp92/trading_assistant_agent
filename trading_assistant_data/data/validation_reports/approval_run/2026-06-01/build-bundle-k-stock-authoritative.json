@@ -1,0 +1,14 @@
+﻿{
+  "bundle_checksum": "9c7965ece3fe72eb8bc31cc0192077fd59eb40ad2cf496da4821d678fab4f9ca",
+  "bundle_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\k_stock_olr_kalcb\\portfolio\\data_bundle_manifest.json",
+  "dry_run": false,
+  "slice_index_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\k_stock_olr_kalcb\\portfolio\\slice_index.json",
+  "status": "authoritative",
+  "validation": {
+    "errors": [],
+    "status": "authoritative",
+    "valid": true,
+    "warnings": []
+  }
+}
+

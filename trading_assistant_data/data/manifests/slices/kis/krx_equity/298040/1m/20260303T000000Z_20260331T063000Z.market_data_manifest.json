@@ -1,0 +1,69 @@
+{
+  "manifest_id": "5fbe66a9a56f66a9",
+  "source": "kis",
+  "market": "krx_equity",
+  "symbol": "298040",
+  "timeframe": "1m",
+  "start_ts": "2026-03-03T00:00:00Z",
+  "end_ts": "2026-03-31T06:30:00Z",
+  "expected_bars": 7980,
+  "actual_bars": 7937,
+  "coverage_ratio": 0.9946115288220552,
+  "missing_ranges": [
+    {
+      "start_ts": "2026-03-04T02:20:00Z",
+      "end_ts": "2026-03-04T02:48:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T00:00:00Z",
+      "end_ts": "2026-03-05T00:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T00:03:00Z",
+      "end_ts": "2026-03-05T00:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T01:32:00Z",
+      "end_ts": "2026-03-09T02:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:17:00Z",
+      "end_ts": "2026-03-24T03:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:46:00Z",
+      "end_ts": "2026-03-24T03:46:00Z",
+      "reason": "missing expected bar"
+    }
+  ],
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
+  "timezone": "Asia/Seoul",
+  "checksum": "380fd4a3107964e0e55a45a58ac56c9285b7e8a68aac60bac51e316d8455518a",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/298040/298040_1m_20250512_20260512.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "kis_intraday_exchange_timestamp_v1_unverified"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "KRX intraday timestamp/session audit required before authority",
+    "missing ranges present"
+  ],
+  "generated_at": "2026-05-31T15:43:48.200096Z"
+}

@@ -13,2267 +13,2072 @@
     {
       "start_ts": "2025-12-01T00:59:00Z",
       "end_ts": "2025-12-01T00:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T01:03:00Z",
       "end_ts": "2025-12-01T01:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T01:27:00Z",
       "end_ts": "2025-12-01T01:27:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T01:32:00Z",
       "end_ts": "2025-12-01T01:32:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T01:34:00Z",
       "end_ts": "2025-12-01T01:34:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T01:39:00Z",
       "end_ts": "2025-12-01T01:39:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T01:41:00Z",
       "end_ts": "2025-12-01T01:41:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T01:53:00Z",
       "end_ts": "2025-12-01T01:53:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T01:59:00Z",
       "end_ts": "2025-12-01T01:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T02:20:00Z",
       "end_ts": "2025-12-01T02:20:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T02:34:00Z",
       "end_ts": "2025-12-01T02:34:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T02:44:00Z",
       "end_ts": "2025-12-01T02:44:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T02:54:00Z",
       "end_ts": "2025-12-01T02:54:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T02:59:00Z",
       "end_ts": "2025-12-01T02:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:03:00Z",
       "end_ts": "2025-12-01T03:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:13:00Z",
       "end_ts": "2025-12-01T03:13:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:15:00Z",
       "end_ts": "2025-12-01T03:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:18:00Z",
       "end_ts": "2025-12-01T03:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:25:00Z",
       "end_ts": "2025-12-01T03:25:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:27:00Z",
       "end_ts": "2025-12-01T03:27:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:30:00Z",
       "end_ts": "2025-12-01T03:30:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:44:00Z",
       "end_ts": "2025-12-01T03:44:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:49:00Z",
       "end_ts": "2025-12-01T03:49:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:51:00Z",
       "end_ts": "2025-12-01T03:51:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T03:56:00Z",
       "end_ts": "2025-12-01T03:56:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T04:07:00Z",
       "end_ts": "2025-12-01T04:07:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-01T04:10:00Z",
       "end_ts": "2025-12-01T04:10:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-01T06:20:00Z",
-      "end_ts": "2025-12-01T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-01T06:31:00Z",
-      "end_ts": "2025-12-01T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T01:07:00Z",
       "end_ts": "2025-12-02T01:07:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T01:24:00Z",
       "end_ts": "2025-12-02T01:24:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T01:29:00Z",
       "end_ts": "2025-12-02T01:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T01:37:00Z",
       "end_ts": "2025-12-02T01:37:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T02:24:00Z",
       "end_ts": "2025-12-02T02:24:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T02:27:00Z",
       "end_ts": "2025-12-02T02:27:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T02:32:00Z",
       "end_ts": "2025-12-02T02:32:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T02:39:00Z",
       "end_ts": "2025-12-02T02:39:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T02:54:00Z",
       "end_ts": "2025-12-02T02:54:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T03:02:00Z",
       "end_ts": "2025-12-02T03:02:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T03:09:00Z",
       "end_ts": "2025-12-02T03:09:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T03:14:00Z",
       "end_ts": "2025-12-02T03:14:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T03:22:00Z",
       "end_ts": "2025-12-02T03:22:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T03:32:00Z",
       "end_ts": "2025-12-02T03:32:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T03:54:00Z",
       "end_ts": "2025-12-02T03:54:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T04:02:00Z",
       "end_ts": "2025-12-02T04:02:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T04:07:00Z",
       "end_ts": "2025-12-02T04:08:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T04:12:00Z",
       "end_ts": "2025-12-02T04:12:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T04:30:00Z",
       "end_ts": "2025-12-02T04:30:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T04:40:00Z",
       "end_ts": "2025-12-02T04:40:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T04:51:00Z",
       "end_ts": "2025-12-02T04:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T04:57:00Z",
       "end_ts": "2025-12-02T04:58:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T05:00:00Z",
       "end_ts": "2025-12-02T05:00:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T05:18:00Z",
       "end_ts": "2025-12-02T05:19:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T05:22:00Z",
       "end_ts": "2025-12-02T05:22:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-02T06:20:00Z",
-      "end_ts": "2025-12-02T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-02T06:31:00Z",
-      "end_ts": "2025-12-02T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T00:21:00Z",
       "end_ts": "2025-12-03T00:21:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T00:28:00Z",
       "end_ts": "2025-12-03T00:28:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T00:33:00Z",
       "end_ts": "2025-12-03T00:33:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T00:56:00Z",
       "end_ts": "2025-12-03T00:56:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T00:59:00Z",
       "end_ts": "2025-12-03T00:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T01:03:00Z",
       "end_ts": "2025-12-03T01:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T01:19:00Z",
       "end_ts": "2025-12-03T01:19:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T01:24:00Z",
       "end_ts": "2025-12-03T01:25:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T01:28:00Z",
       "end_ts": "2025-12-03T01:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T01:32:00Z",
       "end_ts": "2025-12-03T01:32:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T01:41:00Z",
       "end_ts": "2025-12-03T01:42:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T01:51:00Z",
       "end_ts": "2025-12-03T01:51:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T02:08:00Z",
       "end_ts": "2025-12-03T02:10:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T02:17:00Z",
       "end_ts": "2025-12-03T02:17:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T02:32:00Z",
       "end_ts": "2025-12-03T02:33:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T02:38:00Z",
       "end_ts": "2025-12-03T02:38:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T02:42:00Z",
       "end_ts": "2025-12-03T02:44:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T02:47:00Z",
       "end_ts": "2025-12-03T02:48:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T02:52:00Z",
       "end_ts": "2025-12-03T02:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:00:00Z",
       "end_ts": "2025-12-03T03:00:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:22:00Z",
       "end_ts": "2025-12-03T03:22:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:27:00Z",
       "end_ts": "2025-12-03T03:28:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:31:00Z",
       "end_ts": "2025-12-03T03:32:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:36:00Z",
       "end_ts": "2025-12-03T03:36:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:41:00Z",
       "end_ts": "2025-12-03T03:42:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:48:00Z",
       "end_ts": "2025-12-03T03:48:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:51:00Z",
       "end_ts": "2025-12-03T03:51:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:53:00Z",
       "end_ts": "2025-12-03T03:53:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T03:56:00Z",
       "end_ts": "2025-12-03T03:58:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T04:03:00Z",
       "end_ts": "2025-12-03T04:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T04:07:00Z",
       "end_ts": "2025-12-03T04:09:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T04:16:00Z",
       "end_ts": "2025-12-03T04:16:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T04:18:00Z",
       "end_ts": "2025-12-03T04:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T04:22:00Z",
       "end_ts": "2025-12-03T04:22:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T04:46:00Z",
       "end_ts": "2025-12-03T04:46:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T04:52:00Z",
       "end_ts": "2025-12-03T04:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T04:55:00Z",
       "end_ts": "2025-12-03T04:55:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T05:02:00Z",
       "end_ts": "2025-12-03T05:02:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-03T06:20:00Z",
-      "end_ts": "2025-12-03T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-03T06:31:00Z",
-      "end_ts": "2025-12-03T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T00:01:00Z",
       "end_ts": "2025-12-04T00:01:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T00:18:00Z",
       "end_ts": "2025-12-04T00:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T00:21:00Z",
       "end_ts": "2025-12-04T00:21:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T01:03:00Z",
       "end_ts": "2025-12-04T01:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T01:06:00Z",
       "end_ts": "2025-12-04T01:08:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T01:11:00Z",
       "end_ts": "2025-12-04T01:11:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T01:24:00Z",
       "end_ts": "2025-12-04T01:24:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T01:31:00Z",
       "end_ts": "2025-12-04T01:31:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T02:09:00Z",
       "end_ts": "2025-12-04T02:09:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T02:26:00Z",
       "end_ts": "2025-12-04T02:26:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T02:32:00Z",
       "end_ts": "2025-12-04T02:32:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T02:44:00Z",
       "end_ts": "2025-12-04T02:44:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T02:47:00Z",
       "end_ts": "2025-12-04T02:47:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T02:52:00Z",
       "end_ts": "2025-12-04T02:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T02:59:00Z",
       "end_ts": "2025-12-04T02:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T03:16:00Z",
       "end_ts": "2025-12-04T03:17:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T03:38:00Z",
       "end_ts": "2025-12-04T03:38:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T03:49:00Z",
       "end_ts": "2025-12-04T03:49:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T03:57:00Z",
       "end_ts": "2025-12-04T03:57:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T04:14:00Z",
       "end_ts": "2025-12-04T04:14:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T04:22:00Z",
       "end_ts": "2025-12-04T04:22:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T04:39:00Z",
       "end_ts": "2025-12-04T04:39:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T04:51:00Z",
       "end_ts": "2025-12-04T04:51:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T05:22:00Z",
       "end_ts": "2025-12-04T05:22:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T05:37:00Z",
       "end_ts": "2025-12-04T05:37:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T05:57:00Z",
       "end_ts": "2025-12-04T05:57:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-04T06:20:00Z",
-      "end_ts": "2025-12-04T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-04T06:31:00Z",
-      "end_ts": "2025-12-04T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-05T01:24:00Z",
       "end_ts": "2025-12-05T01:24:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-05T04:04:00Z",
       "end_ts": "2025-12-05T04:04:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-05T04:10:00Z",
       "end_ts": "2025-12-05T04:10:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-05T04:18:00Z",
       "end_ts": "2025-12-05T04:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-05T04:27:00Z",
       "end_ts": "2025-12-05T04:27:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-05T05:10:00Z",
       "end_ts": "2025-12-05T05:10:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-05T06:20:00Z",
-      "end_ts": "2025-12-05T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-05T06:31:00Z",
-      "end_ts": "2025-12-07T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T01:33:00Z",
       "end_ts": "2025-12-08T01:33:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T01:39:00Z",
       "end_ts": "2025-12-08T01:39:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T01:52:00Z",
       "end_ts": "2025-12-08T01:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T02:45:00Z",
       "end_ts": "2025-12-08T02:45:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T03:04:00Z",
       "end_ts": "2025-12-08T03:04:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T03:06:00Z",
       "end_ts": "2025-12-08T03:06:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T03:08:00Z",
       "end_ts": "2025-12-08T03:08:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T03:23:00Z",
       "end_ts": "2025-12-08T03:23:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T03:46:00Z",
       "end_ts": "2025-12-08T03:46:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T03:50:00Z",
       "end_ts": "2025-12-08T03:50:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T04:09:00Z",
       "end_ts": "2025-12-08T04:09:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T04:14:00Z",
       "end_ts": "2025-12-08T04:14:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T04:31:00Z",
       "end_ts": "2025-12-08T04:31:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T04:41:00Z",
       "end_ts": "2025-12-08T04:41:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T04:43:00Z",
       "end_ts": "2025-12-08T04:43:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T05:24:00Z",
       "end_ts": "2025-12-08T05:24:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T05:30:00Z",
       "end_ts": "2025-12-08T05:30:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-08T06:20:00Z",
-      "end_ts": "2025-12-08T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-08T06:31:00Z",
-      "end_ts": "2025-12-08T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T00:11:00Z",
       "end_ts": "2025-12-09T00:11:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T01:13:00Z",
       "end_ts": "2025-12-09T01:13:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T01:18:00Z",
       "end_ts": "2025-12-09T01:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T01:35:00Z",
       "end_ts": "2025-12-09T01:35:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T01:42:00Z",
       "end_ts": "2025-12-09T01:42:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T01:50:00Z",
       "end_ts": "2025-12-09T01:50:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T01:56:00Z",
       "end_ts": "2025-12-09T01:56:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T02:01:00Z",
       "end_ts": "2025-12-09T02:01:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T03:05:00Z",
       "end_ts": "2025-12-09T03:05:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T03:34:00Z",
       "end_ts": "2025-12-09T03:34:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T04:20:00Z",
       "end_ts": "2025-12-09T04:21:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T04:24:00Z",
       "end_ts": "2025-12-09T04:24:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T04:32:00Z",
       "end_ts": "2025-12-09T04:32:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-09T06:20:00Z",
-      "end_ts": "2025-12-09T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-09T06:31:00Z",
-      "end_ts": "2025-12-09T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T00:51:00Z",
       "end_ts": "2025-12-10T00:51:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T00:53:00Z",
       "end_ts": "2025-12-10T00:53:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T00:55:00Z",
       "end_ts": "2025-12-10T00:55:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T00:58:00Z",
       "end_ts": "2025-12-10T00:58:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T01:01:00Z",
       "end_ts": "2025-12-10T01:01:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T01:07:00Z",
       "end_ts": "2025-12-10T01:08:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T01:18:00Z",
       "end_ts": "2025-12-10T01:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T01:23:00Z",
       "end_ts": "2025-12-10T01:23:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T01:29:00Z",
       "end_ts": "2025-12-10T01:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T01:35:00Z",
       "end_ts": "2025-12-10T01:35:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T01:40:00Z",
       "end_ts": "2025-12-10T01:40:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T02:12:00Z",
       "end_ts": "2025-12-10T02:12:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T02:28:00Z",
       "end_ts": "2025-12-10T02:28:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T02:34:00Z",
       "end_ts": "2025-12-10T02:34:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T02:36:00Z",
       "end_ts": "2025-12-10T02:36:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T02:41:00Z",
       "end_ts": "2025-12-10T02:41:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T02:48:00Z",
       "end_ts": "2025-12-10T02:48:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T02:51:00Z",
       "end_ts": "2025-12-10T02:51:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:09:00Z",
       "end_ts": "2025-12-10T03:09:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:15:00Z",
       "end_ts": "2025-12-10T03:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:17:00Z",
       "end_ts": "2025-12-10T03:17:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:21:00Z",
       "end_ts": "2025-12-10T03:23:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:26:00Z",
       "end_ts": "2025-12-10T03:27:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:29:00Z",
       "end_ts": "2025-12-10T03:30:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:36:00Z",
       "end_ts": "2025-12-10T03:36:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:39:00Z",
       "end_ts": "2025-12-10T03:39:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:46:00Z",
       "end_ts": "2025-12-10T03:46:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:48:00Z",
       "end_ts": "2025-12-10T03:48:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T03:51:00Z",
       "end_ts": "2025-12-10T03:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T04:43:00Z",
       "end_ts": "2025-12-10T04:43:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T04:46:00Z",
       "end_ts": "2025-12-10T04:46:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T04:54:00Z",
       "end_ts": "2025-12-10T04:54:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T05:05:00Z",
       "end_ts": "2025-12-10T05:05:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-10T06:20:00Z",
-      "end_ts": "2025-12-10T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-10T06:31:00Z",
-      "end_ts": "2025-12-10T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-11T06:20:00Z",
-      "end_ts": "2025-12-11T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-11T06:31:00Z",
-      "end_ts": "2025-12-11T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T00:21:00Z",
       "end_ts": "2025-12-12T00:21:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T01:16:00Z",
       "end_ts": "2025-12-12T01:17:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T01:30:00Z",
       "end_ts": "2025-12-12T01:30:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T01:32:00Z",
       "end_ts": "2025-12-12T01:32:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T02:34:00Z",
       "end_ts": "2025-12-12T02:34:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T02:41:00Z",
       "end_ts": "2025-12-12T02:41:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T02:49:00Z",
       "end_ts": "2025-12-12T02:49:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T02:53:00Z",
       "end_ts": "2025-12-12T02:53:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T03:29:00Z",
       "end_ts": "2025-12-12T03:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T03:56:00Z",
       "end_ts": "2025-12-12T03:56:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T04:13:00Z",
       "end_ts": "2025-12-12T04:13:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T04:15:00Z",
       "end_ts": "2025-12-12T04:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T04:36:00Z",
       "end_ts": "2025-12-12T04:36:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-12T06:20:00Z",
-      "end_ts": "2025-12-12T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-12T06:31:00Z",
-      "end_ts": "2025-12-14T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T00:21:00Z",
       "end_ts": "2025-12-15T00:21:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:04:00Z",
       "end_ts": "2025-12-15T02:05:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:09:00Z",
       "end_ts": "2025-12-15T02:09:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:14:00Z",
       "end_ts": "2025-12-15T02:14:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:22:00Z",
       "end_ts": "2025-12-15T02:22:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:24:00Z",
       "end_ts": "2025-12-15T02:24:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:28:00Z",
       "end_ts": "2025-12-15T02:28:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:30:00Z",
       "end_ts": "2025-12-15T02:30:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:49:00Z",
       "end_ts": "2025-12-15T02:49:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:51:00Z",
       "end_ts": "2025-12-15T02:51:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T02:59:00Z",
       "end_ts": "2025-12-15T02:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:02:00Z",
       "end_ts": "2025-12-15T03:02:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:28:00Z",
       "end_ts": "2025-12-15T03:28:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:31:00Z",
       "end_ts": "2025-12-15T03:31:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:36:00Z",
       "end_ts": "2025-12-15T03:37:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:39:00Z",
       "end_ts": "2025-12-15T03:40:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:42:00Z",
       "end_ts": "2025-12-15T03:42:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:44:00Z",
       "end_ts": "2025-12-15T03:44:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:47:00Z",
       "end_ts": "2025-12-15T03:47:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:54:00Z",
       "end_ts": "2025-12-15T03:54:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T03:57:00Z",
       "end_ts": "2025-12-15T03:57:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T05:18:00Z",
       "end_ts": "2025-12-15T05:18:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-15T06:20:00Z",
-      "end_ts": "2025-12-15T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-15T06:31:00Z",
-      "end_ts": "2025-12-15T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T00:35:00Z",
       "end_ts": "2025-12-16T00:35:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T00:52:00Z",
       "end_ts": "2025-12-16T00:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T00:56:00Z",
       "end_ts": "2025-12-16T00:56:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T01:11:00Z",
       "end_ts": "2025-12-16T01:11:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T01:14:00Z",
       "end_ts": "2025-12-16T01:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T01:28:00Z",
       "end_ts": "2025-12-16T01:28:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T01:40:00Z",
       "end_ts": "2025-12-16T01:40:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T01:54:00Z",
       "end_ts": "2025-12-16T01:54:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T02:10:00Z",
       "end_ts": "2025-12-16T02:10:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T03:15:00Z",
       "end_ts": "2025-12-16T03:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T03:29:00Z",
       "end_ts": "2025-12-16T03:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T03:33:00Z",
       "end_ts": "2025-12-16T03:33:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T03:45:00Z",
       "end_ts": "2025-12-16T03:45:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T04:04:00Z",
       "end_ts": "2025-12-16T04:04:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T05:13:00Z",
       "end_ts": "2025-12-16T05:13:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T05:33:00Z",
       "end_ts": "2025-12-16T05:33:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-16T06:20:00Z",
-      "end_ts": "2025-12-16T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-16T06:31:00Z",
-      "end_ts": "2025-12-16T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T00:34:00Z",
       "end_ts": "2025-12-17T00:35:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T00:52:00Z",
       "end_ts": "2025-12-17T00:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T01:17:00Z",
       "end_ts": "2025-12-17T01:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T01:24:00Z",
       "end_ts": "2025-12-17T01:25:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T01:34:00Z",
       "end_ts": "2025-12-17T01:34:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T01:36:00Z",
       "end_ts": "2025-12-17T01:38:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T01:41:00Z",
       "end_ts": "2025-12-17T01:41:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T01:47:00Z",
       "end_ts": "2025-12-17T01:48:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T01:53:00Z",
       "end_ts": "2025-12-17T01:53:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T02:05:00Z",
       "end_ts": "2025-12-17T02:05:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T02:15:00Z",
       "end_ts": "2025-12-17T02:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T02:19:00Z",
       "end_ts": "2025-12-17T02:19:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T02:23:00Z",
       "end_ts": "2025-12-17T02:23:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T02:37:00Z",
       "end_ts": "2025-12-17T02:37:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T02:40:00Z",
       "end_ts": "2025-12-17T02:40:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T02:46:00Z",
       "end_ts": "2025-12-17T02:47:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T02:52:00Z",
       "end_ts": "2025-12-17T02:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T02:56:00Z",
       "end_ts": "2025-12-17T02:58:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T03:03:00Z",
       "end_ts": "2025-12-17T03:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T03:08:00Z",
       "end_ts": "2025-12-17T03:09:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T03:12:00Z",
       "end_ts": "2025-12-17T03:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T03:17:00Z",
       "end_ts": "2025-12-17T03:22:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T03:29:00Z",
       "end_ts": "2025-12-17T03:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T03:32:00Z",
       "end_ts": "2025-12-17T03:36:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T03:42:00Z",
       "end_ts": "2025-12-17T03:42:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T03:45:00Z",
       "end_ts": "2025-12-17T03:46:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T03:50:00Z",
       "end_ts": "2025-12-17T03:50:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T04:12:00Z",
       "end_ts": "2025-12-17T04:12:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T04:16:00Z",
       "end_ts": "2025-12-17T04:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T04:21:00Z",
       "end_ts": "2025-12-17T04:21:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T04:33:00Z",
       "end_ts": "2025-12-17T04:33:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T04:49:00Z",
       "end_ts": "2025-12-17T04:49:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T04:54:00Z",
       "end_ts": "2025-12-17T04:54:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T05:11:00Z",
       "end_ts": "2025-12-17T05:11:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T05:14:00Z",
       "end_ts": "2025-12-17T05:14:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T05:33:00Z",
       "end_ts": "2025-12-17T05:33:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T05:40:00Z",
       "end_ts": "2025-12-17T05:40:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-17T06:20:00Z",
-      "end_ts": "2025-12-17T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-17T06:31:00Z",
-      "end_ts": "2025-12-17T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T00:20:00Z",
       "end_ts": "2025-12-18T00:20:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T00:28:00Z",
       "end_ts": "2025-12-18T00:28:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T00:38:00Z",
       "end_ts": "2025-12-18T00:38:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T00:47:00Z",
       "end_ts": "2025-12-18T00:47:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T00:49:00Z",
       "end_ts": "2025-12-18T00:49:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T00:54:00Z",
       "end_ts": "2025-12-18T00:55:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T01:10:00Z",
       "end_ts": "2025-12-18T01:10:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T01:58:00Z",
       "end_ts": "2025-12-18T01:58:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T02:07:00Z",
       "end_ts": "2025-12-18T02:07:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T03:58:00Z",
       "end_ts": "2025-12-18T03:58:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T04:16:00Z",
       "end_ts": "2025-12-18T04:16:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T04:34:00Z",
       "end_ts": "2025-12-18T04:34:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T04:59:00Z",
       "end_ts": "2025-12-18T04:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-18T06:20:00Z",
-      "end_ts": "2025-12-18T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-18T06:31:00Z",
-      "end_ts": "2025-12-18T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T00:08:00Z",
       "end_ts": "2025-12-19T00:09:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T00:23:00Z",
       "end_ts": "2025-12-19T00:23:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T00:30:00Z",
       "end_ts": "2025-12-19T00:30:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T00:41:00Z",
       "end_ts": "2025-12-19T00:41:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T00:44:00Z",
       "end_ts": "2025-12-19T00:44:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:03:00Z",
       "end_ts": "2025-12-19T01:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:07:00Z",
       "end_ts": "2025-12-19T01:08:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:10:00Z",
       "end_ts": "2025-12-19T01:10:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:15:00Z",
       "end_ts": "2025-12-19T01:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:19:00Z",
       "end_ts": "2025-12-19T01:20:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:25:00Z",
       "end_ts": "2025-12-19T01:25:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:27:00Z",
       "end_ts": "2025-12-19T01:27:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:37:00Z",
       "end_ts": "2025-12-19T01:37:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:51:00Z",
       "end_ts": "2025-12-19T01:51:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T01:56:00Z",
       "end_ts": "2025-12-19T01:56:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:04:00Z",
       "end_ts": "2025-12-19T02:05:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:07:00Z",
       "end_ts": "2025-12-19T02:07:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:11:00Z",
       "end_ts": "2025-12-19T02:11:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:19:00Z",
       "end_ts": "2025-12-19T02:19:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:26:00Z",
       "end_ts": "2025-12-19T02:26:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:28:00Z",
       "end_ts": "2025-12-19T02:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:31:00Z",
       "end_ts": "2025-12-19T02:32:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:34:00Z",
       "end_ts": "2025-12-19T02:34:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:36:00Z",
       "end_ts": "2025-12-19T02:39:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:41:00Z",
       "end_ts": "2025-12-19T02:42:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:44:00Z",
       "end_ts": "2025-12-19T02:45:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:48:00Z",
       "end_ts": "2025-12-19T02:48:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:52:00Z",
       "end_ts": "2025-12-19T02:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T02:59:00Z",
       "end_ts": "2025-12-19T03:00:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:03:00Z",
       "end_ts": "2025-12-19T03:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:05:00Z",
       "end_ts": "2025-12-19T03:05:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:08:00Z",
       "end_ts": "2025-12-19T03:09:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:13:00Z",
       "end_ts": "2025-12-19T03:14:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:18:00Z",
       "end_ts": "2025-12-19T03:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:20:00Z",
       "end_ts": "2025-12-19T03:20:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:23:00Z",
       "end_ts": "2025-12-19T03:23:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:32:00Z",
       "end_ts": "2025-12-19T03:33:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:35:00Z",
       "end_ts": "2025-12-19T03:36:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:40:00Z",
       "end_ts": "2025-12-19T03:40:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:44:00Z",
       "end_ts": "2025-12-19T03:44:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:46:00Z",
       "end_ts": "2025-12-19T03:46:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:48:00Z",
       "end_ts": "2025-12-19T03:48:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:50:00Z",
       "end_ts": "2025-12-19T03:50:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T03:55:00Z",
       "end_ts": "2025-12-19T03:55:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T04:03:00Z",
       "end_ts": "2025-12-19T04:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T04:06:00Z",
       "end_ts": "2025-12-19T04:06:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T04:10:00Z",
       "end_ts": "2025-12-19T04:10:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T04:14:00Z",
       "end_ts": "2025-12-19T04:14:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T04:31:00Z",
       "end_ts": "2025-12-19T04:31:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T04:37:00Z",
       "end_ts": "2025-12-19T04:37:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T04:44:00Z",
       "end_ts": "2025-12-19T04:44:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T04:57:00Z",
       "end_ts": "2025-12-19T04:57:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T05:00:00Z",
       "end_ts": "2025-12-19T05:00:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T05:05:00Z",
       "end_ts": "2025-12-19T05:05:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T06:07:00Z",
       "end_ts": "2025-12-19T06:07:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-19T06:20:00Z",
-      "end_ts": "2025-12-19T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-19T06:31:00Z",
-      "end_ts": "2025-12-21T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T02:18:00Z",
       "end_ts": "2025-12-22T02:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T03:11:00Z",
       "end_ts": "2025-12-22T03:11:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T03:17:00Z",
       "end_ts": "2025-12-22T03:17:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T03:32:00Z",
       "end_ts": "2025-12-22T03:32:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T03:38:00Z",
       "end_ts": "2025-12-22T03:38:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T03:44:00Z",
       "end_ts": "2025-12-22T03:44:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T03:56:00Z",
       "end_ts": "2025-12-22T03:56:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T04:17:00Z",
       "end_ts": "2025-12-22T04:17:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T04:21:00Z",
       "end_ts": "2025-12-22T04:21:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T05:11:00Z",
       "end_ts": "2025-12-22T05:11:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T05:13:00Z",
       "end_ts": "2025-12-22T05:14:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T05:16:00Z",
       "end_ts": "2025-12-22T05:16:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T05:23:00Z",
       "end_ts": "2025-12-22T05:23:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T05:25:00Z",
       "end_ts": "2025-12-22T05:25:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T05:27:00Z",
       "end_ts": "2025-12-22T05:27:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T05:29:00Z",
       "end_ts": "2025-12-22T05:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-22T06:20:00Z",
-      "end_ts": "2025-12-22T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-22T06:31:00Z",
-      "end_ts": "2025-12-22T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T00:24:00Z",
       "end_ts": "2025-12-23T00:24:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T01:36:00Z",
       "end_ts": "2025-12-23T01:36:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T01:40:00Z",
       "end_ts": "2025-12-23T01:40:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T01:53:00Z",
       "end_ts": "2025-12-23T01:54:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T01:56:00Z",
       "end_ts": "2025-12-23T01:56:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T01:59:00Z",
       "end_ts": "2025-12-23T01:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T02:20:00Z",
       "end_ts": "2025-12-23T02:20:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T02:23:00Z",
       "end_ts": "2025-12-23T02:23:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T02:30:00Z",
       "end_ts": "2025-12-23T02:31:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T02:34:00Z",
       "end_ts": "2025-12-23T02:34:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T02:42:00Z",
       "end_ts": "2025-12-23T02:42:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T02:47:00Z",
       "end_ts": "2025-12-23T02:47:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T02:53:00Z",
       "end_ts": "2025-12-23T02:53:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T03:00:00Z",
       "end_ts": "2025-12-23T03:00:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T03:07:00Z",
       "end_ts": "2025-12-23T03:07:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T03:18:00Z",
       "end_ts": "2025-12-23T03:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T03:23:00Z",
       "end_ts": "2025-12-23T03:23:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T03:27:00Z",
       "end_ts": "2025-12-23T03:27:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T03:29:00Z",
       "end_ts": "2025-12-23T03:31:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T03:52:00Z",
       "end_ts": "2025-12-23T03:52:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T04:19:00Z",
       "end_ts": "2025-12-23T04:19:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T04:24:00Z",
       "end_ts": "2025-12-23T04:24:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T04:28:00Z",
       "end_ts": "2025-12-23T04:28:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T05:10:00Z",
       "end_ts": "2025-12-23T05:10:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T06:01:00Z",
       "end_ts": "2025-12-23T06:01:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T06:04:00Z",
       "end_ts": "2025-12-23T06:04:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-23T06:20:00Z",
-      "end_ts": "2025-12-23T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-23T06:31:00Z",
-      "end_ts": "2025-12-23T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T00:45:00Z",
       "end_ts": "2025-12-24T00:45:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T01:11:00Z",
       "end_ts": "2025-12-24T01:11:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T01:56:00Z",
       "end_ts": "2025-12-24T01:56:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T01:58:00Z",
       "end_ts": "2025-12-24T01:58:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T02:15:00Z",
       "end_ts": "2025-12-24T02:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T03:59:00Z",
       "end_ts": "2025-12-24T03:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T04:04:00Z",
       "end_ts": "2025-12-24T04:04:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T04:26:00Z",
       "end_ts": "2025-12-24T04:26:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T04:54:00Z",
       "end_ts": "2025-12-24T04:54:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T05:03:00Z",
       "end_ts": "2025-12-24T05:03:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T05:05:00Z",
       "end_ts": "2025-12-24T05:05:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-24T06:20:00Z",
-      "end_ts": "2025-12-24T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-24T06:31:00Z",
-      "end_ts": "2025-12-25T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T00:01:00Z",
       "end_ts": "2025-12-26T00:01:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T00:04:00Z",
       "end_ts": "2025-12-26T00:04:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T00:15:00Z",
       "end_ts": "2025-12-26T00:15:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T00:31:00Z",
       "end_ts": "2025-12-26T00:31:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T00:45:00Z",
       "end_ts": "2025-12-26T00:45:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T02:21:00Z",
       "end_ts": "2025-12-26T02:21:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T02:39:00Z",
       "end_ts": "2025-12-26T02:39:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T03:08:00Z",
       "end_ts": "2025-12-26T03:08:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T03:14:00Z",
       "end_ts": "2025-12-26T03:14:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-26T06:20:00Z",
-      "end_ts": "2025-12-26T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-26T06:31:00Z",
-      "end_ts": "2025-12-28T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-29T02:05:00Z",
       "end_ts": "2025-12-29T02:05:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-29T03:28:00Z",
       "end_ts": "2025-12-29T03:28:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-29T04:18:00Z",
       "end_ts": "2025-12-29T04:18:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-29T04:33:00Z",
       "end_ts": "2025-12-29T04:33:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-29T04:41:00Z",
       "end_ts": "2025-12-29T04:41:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-29T06:20:00Z",
-      "end_ts": "2025-12-29T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-29T06:31:00Z",
-      "end_ts": "2025-12-29T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-30T00:08:00Z",
       "end_ts": "2025-12-30T00:08:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-30T06:20:00Z",
-      "end_ts": "2025-12-30T06:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     }
   ],
-  "session_calendar": "krx_equities_v1",
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
   "timezone": "Asia/Seoul",
   "checksum": "f5a114bf9b02bb4602737215717630759422f3c9eefd369744d9e461d4b451ef",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "krx_split_adjusted_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/185750/185750_1m_20250512_20260512.parquet,data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/185750/185750_1m_20250513_20260513.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "kis_intraday_exchange_timestamp_v1_unverified"
+  },
   "usable_for_authoritative_validation": false,
   "blocking_reasons": [
     "KRX intraday timestamp/session audit required before authority",
-    "missing ranges present",
-    "source_version is not a data repo commit SHA"
+    "missing ranges present"
   ],
-  "generated_at": "2026-05-30T21:48:04.303565Z"
+  "generated_at": "2026-05-31T15:36:28.199633Z"
 }

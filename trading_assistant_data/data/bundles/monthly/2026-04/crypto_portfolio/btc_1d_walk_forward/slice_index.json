@@ -1,0 +1,14 @@
+{
+  "bundle_checksum": "9f456ec5f516bc220aedc68a50d06ac7b4b2a52f9c3fd0906eb51175dd787beb",
+  "generated_at": "2026-05-31T15:13:06.520963+00:00",
+  "schema_version": "bundle_slice_index_v1",
+  "slices": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=BTC/timeframe=1d/year=2026/month=04/part.parquet"
+      ],
+      "manifest_id": "bc8d089609d84ce9",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/1d/20260401T000000Z_20260430T000000Z.market_data_manifest.json"
+    }
+  ]
+}

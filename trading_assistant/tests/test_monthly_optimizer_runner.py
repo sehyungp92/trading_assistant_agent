@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -20,7 +21,11 @@ from schemas.monthly_optimizer import (
     OptimizerStage,
 )
 from schemas.events import TradeEvent
-from schemas.monthly_run_manifest import MonthlyRunManifest, MonthlyRunMode
+from schemas.monthly_run_manifest import (
+    MonthlyApprovalMode,
+    MonthlyRunManifest,
+    MonthlyRunMode,
+)
 from schemas.strategy_plugin_contract import StrategyPluginContract, StrategyPluginMaturity
 from skills.backtest_runner_client import BacktestRunnerResult
 from skills.monthly_validation_orchestrator import (
@@ -34,6 +39,7 @@ from skills.monthly_optimizer_runner import (
     MonthlyOptimizerRunner,
     build_two_fold_manifest,
 )
+from skills.monthly_deployment_metadata import deployment_metadata_errors
 
 
 def test_monthly_validation_request_defaults_to_optimizer_sequence() -> None:
@@ -108,6 +114,72 @@ def test_build_two_fold_manifest_keeps_latest_month_outside_scoring() -> None:
     assert manifest.folds[0].validation_end < manifest.folds[1].validation_start
     assert manifest.selection_oos_start > manifest.in_sample_end
     assert all(fold.embargo_days == 5 for fold in manifest.folds)
+
+
+def test_deployment_metadata_gate_rejects_local_shadow_metadata_even_with_matching_hashes(
+    tmp_path: Path,
+) -> None:
+    contract_path = tmp_path / "strategy_plugin_contract.json"
+    contract_path.write_text(
+        json.dumps(
+            {
+                "plugin_id": "strat1-plugin",
+                "backtest_adapter_path": "adapters/strat1.py",
+                "config_schema_version": "config_v1",
+                "decision_api_version": "decision_api_v1",
+                "required_telemetry_schemas": ["trade_event_v1"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    contract_hash = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+    metadata_path = tmp_path / "deployment_metadata.json"
+    metadata_path.write_text(
+        json.dumps(
+            {
+                "bot_id": "bot1",
+                "strategy_id": "strat1",
+                "repo_url": "local://fixture",
+                "source_control_origin": "local://fixture",
+                "source_control_commit_sha": "live-sha",
+                "source_control_worktree_clean": True,
+                "deployed_commit_sha": "live-sha",
+                "config_hash": "cfg-sha",
+                "strategy_version": "strat-v1",
+                "config_version": "cfg-v1",
+                "telemetry_schema_version": "trade_event_v1",
+                "strategy_plugin_contract_path": str(contract_path),
+                "strategy_plugin_contract_hash": contract_hash,
+                "runtime_entrypoint": "fixture.main",
+                "runtime_instance_id": "instance-1",
+                "runtime_host_fingerprint": "host-1",
+                "live_runtime_started_at_utc": "2026-06-02T00:00:00Z",
+                "emitted_at_utc": "2026-06-02T00:01:00Z",
+                "emission_environment": "local",
+                "metadata_source": "local_shadow_snapshot_v1",
+            }
+        ),
+        encoding="utf-8",
+    )
+    manifest = _manifest(tmp_path).model_copy(
+        update={
+            "deployment_metadata_path": str(metadata_path),
+            "strategy_plugin_contract_path": str(contract_path),
+            "trading_repo_commit_sha": "live-sha",
+            "config_hash": "cfg-sha",
+            "strategy_version": "strat-v1",
+            "config_version": "cfg-v1",
+        }
+    )
+
+    errors = deployment_metadata_errors(
+        manifest,
+        missing_reason="deployment metadata required",
+    )
+
+    assert any("metadata_source" in error for error in errors)
+    assert any("emission_environment" in error for error in errors)
+    assert any("local://" in error for error in errors)
 
 
 def test_workspace_manager_sanitizes_and_contains_candidate_workspace(tmp_path: Path) -> None:
@@ -282,6 +354,91 @@ def test_optimizer_sequence_validates_repair_centered_round_adoption(tmp_path: P
     assert result.blocking_reasons == []
 
 
+def test_optimizer_sequence_allows_repair_triggered_phase_winner_adoption(
+    tmp_path: Path,
+) -> None:
+    manifest = _manifest(tmp_path)
+    artifact_root = Path(manifest.artifact_root)
+    _write_phase4_artifacts(
+        artifact_root=artifact_root,
+        manifest=manifest,
+        repair_triggered=True,
+        adopted_candidate_id="cand-phased",
+        adopted_source="phased_auto",
+    )
+    index = BacktestArtifactIndex(
+        run_id=manifest.run_id,
+        manifest_id=manifest.manifest_id,
+        artifact_root=str(artifact_root),
+        artifacts={name: str(artifact_root / name) for name in [
+            *REQUIRED_BACKTEST_ARTIFACTS,
+            *PHASE4_OPTIMIZER_ARTIFACTS,
+            *PHASE4_OOS_REPAIR_ARTIFACTS,
+        ]},
+    )
+
+    result = MonthlyOptimizerRunner().validate_artifacts(manifest, index)
+
+    assert result.status == OptimizerSequenceStatus.SUCCEEDED
+    assert result.repair_triggered is True
+    assert result.adopted_candidate_id == "cand-phased"
+    assert result.blocking_reasons == []
+
+
+def test_approval_optimizer_manifest_requires_complete_crypto_bridge_hash_sets(
+    tmp_path: Path,
+) -> None:
+    contract_path = tmp_path / "crypto_trend_contract.json"
+    contract_path.write_text(json.dumps({"plugin_id": "crypto-trend-v1"}), encoding="utf-8")
+    metadata_path = tmp_path / "crypto_trend_deployment.json"
+    metadata_path.write_text(json.dumps({"plugin_id": "crypto-trend-v1"}), encoding="utf-8")
+    manifest = _manifest(tmp_path).model_copy(
+        update={
+            "approval_mode": MonthlyApprovalMode.MANUAL_REQUIRED,
+            "strategy_plugin_id": "crypto-trend-v1",
+            "strategy_plugin_contract_path": str(contract_path),
+            "deployment_metadata_path": str(metadata_path),
+        }
+    )
+    artifact_root = Path(manifest.artifact_root)
+    artifact_root.mkdir(parents=True, exist_ok=True)
+    (artifact_root / "run_manifest.json").write_text(
+        manifest.model_dump_json(indent=2),
+        encoding="utf-8",
+    )
+    _write_phase4_artifacts(
+        artifact_root=artifact_root,
+        manifest=manifest,
+        repair_triggered=False,
+        adopted_candidate_id="cand-phased",
+    )
+    index = BacktestArtifactIndex(
+        run_id=manifest.run_id,
+        manifest_id=manifest.manifest_id,
+        artifact_root=str(artifact_root),
+        artifacts={name: str(artifact_root / name) for name in [
+            *REQUIRED_BACKTEST_ARTIFACTS,
+            *PHASE4_OPTIMIZER_ARTIFACTS,
+        ]},
+    )
+
+    result = MonthlyOptimizerRunner().validate_artifacts(manifest, index)
+
+    assert result.status == OptimizerSequenceStatus.BLOCKED
+    assert any(
+        "missing strategy contract path(s)" in reason
+        and "crypto_breakout_v1" in reason
+        and "crypto_momentum_v1" in reason
+        for reason in result.blocking_reasons
+    )
+    assert any(
+        "missing deployment metadata path(s)" in reason
+        and "crypto_breakout_v1" in reason
+        and "crypto_momentum_v1" in reason
+        for reason in result.blocking_reasons
+    )
+
+
 def test_optimizer_sequence_blocks_when_round_adoption_is_not_proven(tmp_path: Path) -> None:
     manifest = _manifest(tmp_path)
     artifact_root = Path(manifest.artifact_root)
@@ -306,6 +463,133 @@ def test_optimizer_sequence_blocks_when_round_adoption_is_not_proven(tmp_path: P
 
     assert result.status == OptimizerSequenceStatus.BLOCKED
     assert any("round_n_plus_1_adopted" in reason for reason in result.blocking_reasons)
+
+
+def test_optimizer_sequence_requires_p6_p7_evidence_artifacts(tmp_path: Path) -> None:
+    manifest = _manifest(tmp_path)
+    artifact_root = Path(manifest.artifact_root)
+    _write_phase4_artifacts(
+        artifact_root=artifact_root,
+        manifest=manifest,
+        repair_triggered=False,
+        adopted_candidate_id="cand-phased",
+    )
+    for name in [
+        "fold_score_matrix.json",
+        "selection_oos_evaluation.json",
+        "selection_oos_repair_trigger.json",
+        "round_n_plus_1_recommendation.json",
+    ]:
+        (artifact_root / name).unlink()
+    index = BacktestArtifactIndex(
+        run_id=manifest.run_id,
+        manifest_id=manifest.manifest_id,
+        artifact_root=str(artifact_root),
+        artifacts={name: str(artifact_root / name) for name in [
+            *REQUIRED_BACKTEST_ARTIFACTS,
+            *PHASE4_OPTIMIZER_ARTIFACTS,
+        ]},
+    )
+
+    result = MonthlyOptimizerRunner().validate_artifacts(manifest, index)
+
+    assert result.status == OptimizerSequenceStatus.BLOCKED
+    assert any("fold_score_matrix.json" in reason for reason in result.blocking_reasons)
+    assert any("selection_oos_evaluation.json" in reason for reason in result.blocking_reasons)
+    assert any("round_n_plus_1_recommendation.json" in reason for reason in result.blocking_reasons)
+
+
+def test_optimizer_sequence_blocks_unevaluated_round_patch_fingerprint(
+    tmp_path: Path,
+) -> None:
+    manifest = _manifest(tmp_path)
+    artifact_root = Path(manifest.artifact_root)
+    _write_phase4_artifacts(
+        artifact_root=artifact_root,
+        manifest=manifest,
+        repair_triggered=False,
+        adopted_candidate_id="cand-phased",
+    )
+    recommendation_path = artifact_root / "round_n_plus_1_recommendation.json"
+    recommendation = json.loads(recommendation_path.read_text(encoding="utf-8"))
+    recommendation["parameter_patch_fingerprint"] = "not-the-evaluated-patch"
+    recommendation_path.write_text(json.dumps(recommendation), encoding="utf-8")
+    index = BacktestArtifactIndex(
+        run_id=manifest.run_id,
+        manifest_id=manifest.manifest_id,
+        artifact_root=str(artifact_root),
+        artifacts={name: str(artifact_root / name) for name in [
+            *REQUIRED_BACKTEST_ARTIFACTS,
+            *PHASE4_OPTIMIZER_ARTIFACTS,
+        ]},
+    )
+
+    result = MonthlyOptimizerRunner().validate_artifacts(manifest, index)
+
+    assert result.status == OptimizerSequenceStatus.BLOCKED
+    assert any("fingerprint" in reason for reason in result.blocking_reasons)
+
+
+def test_optimizer_sequence_blocks_empty_confirmatory_variants_with_primary(
+    tmp_path: Path,
+) -> None:
+    manifest = _manifest(tmp_path)
+    artifact_root = Path(manifest.artifact_root)
+    _write_phase4_artifacts(
+        artifact_root=artifact_root,
+        manifest=manifest,
+        repair_triggered=False,
+        adopted_candidate_id="cand-phased",
+    )
+    confirmatory_path = artifact_root / "confirmatory_rerank.json"
+    confirmatory = json.loads(confirmatory_path.read_text(encoding="utf-8"))
+    confirmatory["variants"] = []
+    confirmatory_path.write_text(json.dumps(confirmatory), encoding="utf-8")
+    index = BacktestArtifactIndex(
+        run_id=manifest.run_id,
+        manifest_id=manifest.manifest_id,
+        artifact_root=str(artifact_root),
+        artifacts={name: str(artifact_root / name) for name in [
+            *REQUIRED_BACKTEST_ARTIFACTS,
+            *PHASE4_OPTIMIZER_ARTIFACTS,
+        ]},
+    )
+
+    result = MonthlyOptimizerRunner().validate_artifacts(manifest, index)
+
+    assert result.status == OptimizerSequenceStatus.BLOCKED
+    assert any("variants cannot be empty" in reason for reason in result.blocking_reasons)
+
+
+def test_optimizer_sequence_requires_selected_candidate_gate_proofs(
+    tmp_path: Path,
+) -> None:
+    manifest = _manifest(tmp_path)
+    artifact_root = Path(manifest.artifact_root)
+    _write_phase4_artifacts(
+        artifact_root=artifact_root,
+        manifest=manifest,
+        repair_triggered=False,
+        adopted_candidate_id="cand-phased",
+    )
+    selected_path = artifact_root / "selected_candidates.json"
+    selected = json.loads(selected_path.read_text(encoding="utf-8"))
+    selected[0]["deterministic_gate_inputs"]["drawdown_gate_passed"] = False
+    selected_path.write_text(json.dumps(selected), encoding="utf-8")
+    index = BacktestArtifactIndex(
+        run_id=manifest.run_id,
+        manifest_id=manifest.manifest_id,
+        artifact_root=str(artifact_root),
+        artifacts={name: str(artifact_root / name) for name in [
+            *REQUIRED_BACKTEST_ARTIFACTS,
+            *PHASE4_OPTIMIZER_ARTIFACTS,
+        ]},
+    )
+
+    result = MonthlyOptimizerRunner().validate_artifacts(manifest, index)
+
+    assert result.status == OptimizerSequenceStatus.BLOCKED
+    assert any("drawdown gate" in reason for reason in result.blocking_reasons)
 
 
 def test_optimizer_sequence_blocks_when_adopted_attempt_is_not_bound_to_candidate(tmp_path: Path) -> None:
@@ -537,6 +821,7 @@ def test_orchestrator_integrates_optimizer_sequence_result(tmp_path: Path) -> No
                 manifest=manifest,
                 repair_triggered=False,
                 adopted_candidate_id="cand-phased",
+                consume_search_guidance=True,
             )
             index = BacktestArtifactIndex(
                 run_id=manifest.run_id,
@@ -571,14 +856,308 @@ def test_orchestrator_integrates_optimizer_sequence_result(tmp_path: Path) -> No
     assert result.blocking_reasons == []
 
 
+def test_orchestrator_passes_direct_data_bundle_to_optimizer(tmp_path: Path) -> None:
+    curated, findings, market_root, repo = _write_monthly_inputs(tmp_path)
+    data_bundle_path, data_bundle = _write_data_bundle(market_root)
+    orchestrator = MonthlyValidationOrchestrator(
+        curated_dir=curated,
+        findings_dir=findings,
+        market_data_root=market_root,
+        backtest_repo_path=repo,
+        backtest_artifact_root=tmp_path / "artifacts",
+    )
+    captured: dict[str, MonthlyRunManifest] = {}
+
+    class FakeRunner:
+        def run(self, manifest: MonthlyRunManifest, manifest_path: Path) -> BacktestRunnerResult:
+            captured["manifest"] = manifest
+            artifact_root = Path(manifest.artifact_root)
+            _write_phase4_artifacts(
+                artifact_root=artifact_root,
+                manifest=manifest,
+                repair_triggered=False,
+                adopted_candidate_id="cand-phased",
+                consume_search_guidance=True,
+            )
+            index = BacktestArtifactIndex(
+                run_id=manifest.run_id,
+                manifest_id=manifest.manifest_id,
+                artifact_root=str(artifact_root),
+                artifacts={name: str(artifact_root / name) for name in [
+                    *REQUIRED_BACKTEST_ARTIFACTS,
+                    *PHASE4_OPTIMIZER_ARTIFACTS,
+                ]},
+            )
+            (artifact_root / "artifact_index.json").write_text(
+                index.model_dump_json(indent=2),
+                encoding="utf-8",
+            )
+            return BacktestRunnerResult(success=True, artifact_index=index)
+
+    orchestrator.runner = FakeRunner()
+    plugin_contract_path = _write_strategy_plugin_contract(tmp_path)
+
+    result = orchestrator.run(MonthlyValidationRequest(
+        bot_id="bot1",
+        strategy_id="strat1",
+        run_month="2026-04",
+        optimizer_sequence_enabled=True,
+        strategy_plugin_id="strat1-plugin",
+        strategy_plugin_contract_path=plugin_contract_path,
+        data_bundle_manifest_path=data_bundle_path,
+        data_bundle_checksum=data_bundle.bundle_checksum,
+        shadow=True,
+    ))
+
+    assert result.blocking_reasons == []
+    manifest = captured["manifest"]
+    assert manifest.market_data_manifest_path == str(data_bundle_path)
+    assert manifest.data_bundle_manifest_path == str(data_bundle_path)
+    assert manifest.data_bundle_checksum == data_bundle.bundle_checksum
+    assert manifest.data_manifest_checksum == data_bundle.bundle_checksum
+    assert manifest.in_sample_start == date(2026, 1, 1)
+    assert manifest.in_sample_end == date(2026, 3, 31)
+    assert not (Path(manifest.artifact_root) / "data_bundle_manifest.json").exists()
+
+
+def test_orchestrator_blocks_direct_diagnostics_data_bundle(tmp_path: Path) -> None:
+    curated, findings, market_root, repo = _write_monthly_inputs(tmp_path)
+    data_bundle_path, _ = _write_data_bundle(
+        market_root,
+        status=DataBundleStatus.DIAGNOSTICS_ONLY,
+        diagnostics_only_reason="data repo commit SHA missing",
+    )
+    orchestrator = MonthlyValidationOrchestrator(
+        curated_dir=curated,
+        findings_dir=findings,
+        market_data_root=market_root,
+        backtest_repo_path=repo,
+        backtest_artifact_root=tmp_path / "artifacts",
+    )
+
+    class RaisingRunner:
+        def run(self, manifest: MonthlyRunManifest, manifest_path: Path) -> BacktestRunnerResult:
+            raise AssertionError("runner must not start for diagnostics-only data bundle")
+
+    orchestrator.runner = RaisingRunner()
+    plugin_contract_path = _write_strategy_plugin_contract(tmp_path)
+
+    result = orchestrator.run(MonthlyValidationRequest(
+        bot_id="bot1",
+        strategy_id="strat1",
+        run_month="2026-04",
+        optimizer_sequence_enabled=True,
+        strategy_plugin_id="strat1-plugin",
+        strategy_plugin_contract_path=plugin_contract_path,
+        data_bundle_manifest_path=data_bundle_path,
+        shadow=True,
+    ))
+
+    assert any(
+        "data bundle is not authoritative: diagnostics_only" in reason
+        for reason in result.blocking_reasons
+    )
+    manifest = json.loads(Path(result.run_manifest_path).read_text(encoding="utf-8"))
+    assert manifest["market_data_manifest_path"] == str(data_bundle_path)
+    assert manifest["data_bundle_manifest_path"] == str(data_bundle_path)
+
+
+def test_orchestrator_blocks_direct_bundle_without_latest_month(tmp_path: Path) -> None:
+    curated, findings, market_root, repo = _write_monthly_inputs(tmp_path)
+    data_bundle_path, _ = _write_data_bundle(
+        market_root,
+        end_ts=datetime(2026, 3, 31, tzinfo=timezone.utc),
+    )
+    orchestrator = MonthlyValidationOrchestrator(
+        curated_dir=curated,
+        findings_dir=findings,
+        market_data_root=market_root,
+        backtest_repo_path=repo,
+        backtest_artifact_root=tmp_path / "artifacts",
+    )
+
+    class RaisingRunner:
+        def run(self, manifest: MonthlyRunManifest, manifest_path: Path) -> BacktestRunnerResult:
+            raise AssertionError("runner must not start when the data bundle lacks latest-month coverage")
+
+    orchestrator.runner = RaisingRunner()
+    plugin_contract_path = _write_strategy_plugin_contract(tmp_path)
+
+    result = orchestrator.run(MonthlyValidationRequest(
+        bot_id="bot1",
+        strategy_id="strat1",
+        run_month="2026-04",
+        optimizer_sequence_enabled=True,
+        strategy_plugin_id="strat1-plugin",
+        strategy_plugin_contract_path=plugin_contract_path,
+        data_bundle_manifest_path=data_bundle_path,
+        shadow=True,
+    ))
+
+    assert "data bundle does not cover latest-month selection window" in result.blocking_reasons
+    assert result.gap_attribution.primary_category.value == "data_gap"
+
+
+def _fixture_config_patch() -> dict:
+    return {
+        "family": "filter_repair",
+        "filter_threshold_bps_delta": -2.0,
+        "position_weight_multiplier": 1.05,
+    }
+
+
+def _fixture_evaluated_parameters() -> dict:
+    return {
+        "threshold_bps": 8.0,
+        "position_weight": 1.05,
+        "max_positions": 1,
+    }
+
+
+def _fixture_patch_fingerprints() -> tuple[str, str]:
+    patch = _fixture_config_patch()
+    evaluated = {
+        "parameter_patch": patch,
+        "evaluated_parameters": _fixture_evaluated_parameters(),
+    }
+    return _stable_fixture_hash(patch), _stable_fixture_hash(evaluated)
+
+
+def _stable_fixture_hash(value: object) -> str:
+    raw = json.dumps(value, sort_keys=True, default=str)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def _write_optimizer_run_manifest(
+    *,
+    artifact_root: Path,
+    manifest: MonthlyRunManifest,
+) -> None:
+    run_manifest_path = artifact_root / "run_manifest.json"
+    contract_path = (
+        Path(manifest.strategy_plugin_contract_path)
+        if manifest.strategy_plugin_contract_path
+        else None
+    )
+    deployment_path = (
+        Path(manifest.deployment_metadata_path)
+        if manifest.deployment_metadata_path
+        else None
+    )
+    contract_paths = _manifest_path_map(
+        manifest,
+        ("bridge_contract_paths", "strategy_plugin_contract_paths"),
+    )
+    deployment_paths = _manifest_path_map(
+        manifest,
+        ("bridge_deployment_metadata_paths", "deployment_metadata_paths"),
+    )
+    if contract_path is not None:
+        contract_paths.setdefault(_fixture_bridge_id(manifest), str(contract_path))
+    if deployment_path is not None:
+        deployment_paths.setdefault(_fixture_bridge_id(manifest), str(deployment_path))
+    contract_hashes = _hash_path_map(contract_paths)
+    deployment_hashes = _hash_path_map(deployment_paths)
+    approval_mode = str(getattr(manifest.approval_mode, "value", manifest.approval_mode) or "")
+    approval_grade = approval_mode not in {"", "none"}
+    scope_id = _fixture_scope_id(manifest)
+    (artifact_root / "optimizer_run_manifest.json").write_text(json.dumps({
+        "schema_version": "optimizer_approval_run_manifest_v1",
+        "run_id": manifest.run_id,
+        "manifest_id": manifest.manifest_id,
+        "scope_id": scope_id,
+        "scope_aliases": [
+            item
+            for item in (manifest.bot_id, manifest.strategy_id, manifest.strategy_plugin_id, scope_id)
+            if item
+        ],
+        "bot_id": manifest.bot_id,
+        "strategy_id": manifest.strategy_id,
+        "strategy_plugin_id": manifest.strategy_plugin_id,
+        "run_month": manifest.run_month,
+        "run_mode": manifest.mode.value,
+        "optimizer_mode": "approval_grade" if approval_grade else "shadow_validation",
+        "approval_mode": approval_mode or "none",
+        "approval_grade_optimizer_run": approval_grade,
+        "smoke_mode": not approval_grade,
+        "artifact_root": str(artifact_root),
+        "run_manifest_path": str(run_manifest_path),
+        "run_manifest_hash": _sha256_file(run_manifest_path),
+        "data_bundle_checksum": manifest.data_bundle_checksum
+        or manifest.data_manifest_checksum,
+        "data_bundle_checksums": [
+            manifest.data_bundle_checksum or manifest.data_manifest_checksum
+        ],
+        "strategy_plugin_contract_path": str(contract_path or ""),
+        "strategy_plugin_contract_hash": _sha256_file(contract_path),
+        "strategy_plugin_contract_paths": contract_paths,
+        "bridge_contract_paths": contract_paths,
+        "strategy_plugin_contract_hashes": contract_hashes,
+        "bridge_contract_hashes": contract_hashes,
+        "deployment_metadata_path": str(deployment_path or ""),
+        "deployment_metadata_hash": _sha256_file(deployment_path),
+        "deployment_metadata_paths": deployment_paths,
+        "bridge_deployment_metadata_paths": deployment_paths,
+        "deployment_metadata_hashes": deployment_hashes,
+        "bridge_deployment_metadata_hashes": deployment_hashes,
+    }), encoding="utf-8")
+
+
+def _manifest_path_map(manifest: MonthlyRunManifest, keys: tuple[str, ...]) -> dict[str, str]:
+    for key in keys:
+        value = getattr(manifest, key, {})
+        if isinstance(value, dict):
+            mapped = {
+                str(item_key).strip(): str(item).strip()
+                for item_key, item in value.items()
+                if str(item_key).strip() and str(item).strip()
+            }
+            if mapped:
+                return mapped
+    return {}
+
+
+def _fixture_scope_id(manifest: MonthlyRunManifest) -> str:
+    return {
+        "crypto-trend-v1": "crypto_trader_portfolio",
+        "crypto-momentum-v1": "crypto_trader_portfolio",
+        "crypto-breakout-v1": "crypto_trader_portfolio",
+    }.get(manifest.strategy_plugin_id, manifest.strategy_id)
+
+
+def _fixture_bridge_id(manifest: MonthlyRunManifest) -> str:
+    return {
+        "crypto-trend-v1": "crypto_trend_v1",
+        "crypto-momentum-v1": "crypto_momentum_v1",
+        "crypto-breakout-v1": "crypto_breakout_v1",
+    }.get(manifest.strategy_plugin_id, manifest.strategy_plugin_id or manifest.strategy_id)
+
+
+def _hash_path_map(paths: dict[str, str]) -> dict[str, str]:
+    return {
+        bridge_id: digest
+        for bridge_id, path in paths.items()
+        for digest in [_sha256_file(Path(path))]
+        if digest
+    }
+
+
+def _sha256_file(path: Path | None) -> str:
+    if path is None or not path.exists() or not path.is_file():
+        return ""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def _write_phase4_artifacts(
     *,
     artifact_root: Path,
     manifest: MonthlyRunManifest,
     repair_triggered: bool,
     adopted_candidate_id: str,
+    adopted_source: str | None = None,
     round_adopted_gate: bool = True,
     structural_without_patches: bool = False,
+    consume_search_guidance: bool = False,
 ) -> None:
     artifact_root.mkdir(parents=True, exist_ok=True)
     workspace_root = artifact_root / "workspaces"
@@ -604,21 +1183,32 @@ def _write_phase4_artifacts(
         fold_manifest.model_dump_json(indent=2),
         encoding="utf-8",
     )
+    plan_evidence = [str(artifact_root / "gap_attribution.json")]
+    if consume_search_guidance and manifest.monthly_search_brief_path:
+        plan_evidence.append(manifest.monthly_search_brief_path)
     (artifact_root / "llm_experiment_plan.json").write_text(json.dumps({
         "run_id": manifest.run_id,
         "score_components": ["expected_return", "calmar", "profit_factor"],
         "phase_order": ["signal_quality", "trade_management"],
-        "candidate_families": [{"family": "filter_repair", "phase": "signal_quality"}],
+        "candidate_families": _fixture_candidate_families(
+            manifest,
+            consume_search_guidance=consume_search_guidance,
+        ),
         "gate_expectations": ["positive purged folds", "cost sensitivity"],
         "overfit_risks": ["sparse latest month"],
-        "evidence_paths": [str(artifact_root / "gap_attribution.json")],
-        "source_weekly_signal_ids": ["weekly-1"],
+        "evidence_paths": plan_evidence,
+        "source_weekly_signal_ids": (
+            manifest.source_weekly_signal_ids
+            if consume_search_guidance and manifest.source_weekly_signal_ids
+            else ["weekly-1"]
+        ),
     }))
-    candidate_source = "smoke_repair" if repair_triggered else "phased_auto"
+    candidate_source = adopted_source or ("smoke_repair" if repair_triggered else "phased_auto")
     runner_contract = (
         "smoke_repair_runner_contract_v1"
-        if repair_triggered else "phased_auto_runner_contract_v1"
+        if candidate_source == "smoke_repair" else "phased_auto_runner_contract_v1"
     )
+    patch_fingerprint, evaluated_fingerprint = _fixture_patch_fingerprints()
     candidate = {
         "candidate_id": adopted_candidate_id,
         "run_id": manifest.run_id,
@@ -633,6 +1223,11 @@ def _write_phase4_artifacts(
         "baseline_score": 1.0,
         "objective_delta": 0.22,
         "objective_deltas": {"latest_month_oos": 0.14, "calibration": 0.08},
+        "parameter_patch": _fixture_config_patch(),
+        "evaluated_parameter_patch": _fixture_config_patch(),
+        "evaluated_parameters": _fixture_evaluated_parameters(),
+        "parameter_patch_fingerprint": patch_fingerprint,
+        "evaluated_patch_fingerprint": evaluated_fingerprint,
         "candidate_workspace_key": workspace.workspace_key,
         "candidate_workspace_path": workspace.workspace_path,
         "candidate_attempt_id": "attempt-1",
@@ -713,6 +1308,7 @@ def _write_phase4_artifacts(
             "evidence_paths": [str(artifact_root / "fold_validation.json")],
         }],
         "adopted_candidate_id": adopted_candidate_id,
+        "adopted_source": candidate_source,
         "selection_rule": "best selection-OOS without material in-sample deterioration",
         "evidence_paths": [str(artifact_root / "fold_validation.json")],
     }), encoding="utf-8")
@@ -764,6 +1360,14 @@ def _write_phase4_artifacts(
         "timeout_status": "ok",
         "parity_status": "pass",
     }), encoding="utf-8")
+    _write_p6_p7_artifacts(
+        artifact_root=artifact_root,
+        manifest=manifest,
+        candidate_id=adopted_candidate_id,
+        repair_triggered=repair_triggered,
+        no_adoption_reason="",
+        candidate_source=candidate_source,
+    )
 
     (artifact_root / "decision_parity_report.json").write_text(json.dumps({
         "run_id": manifest.run_id,
@@ -849,6 +1453,24 @@ def _write_phase4_artifacts(
         )
 
 
+def _fixture_candidate_families(
+    manifest: MonthlyRunManifest,
+    *,
+    consume_search_guidance: bool,
+) -> list[dict[str, str]]:
+    families = [{"family": "filter_repair", "phase": "signal_quality"}]
+    if not consume_search_guidance:
+        return families
+    requirements = manifest.monthly_search_guidance.get("plan_requirements") or {}
+    if not isinstance(requirements, dict):
+        return families
+    for family in requirements.get("candidate_families") or []:
+        family_name = str(family or "").strip()
+        if family_name and not any(row["family"] == family_name for row in families):
+            families.append({"family": family_name, "phase": "signal_quality"})
+    return families
+
+
 def _write_no_adoption_artifacts(*, artifact_root: Path, manifest: MonthlyRunManifest) -> None:
     artifact_root.mkdir(parents=True, exist_ok=True)
     fold_manifest = build_two_fold_manifest(
@@ -905,6 +1527,13 @@ def _write_no_adoption_artifacts(*, artifact_root: Path, manifest: MonthlyRunMan
         "attempt_state": "not_started",
         "reason": "insufficient mature replay plugin sample size",
     }), encoding="utf-8")
+    _write_p6_p7_artifacts(
+        artifact_root=artifact_root,
+        manifest=manifest,
+        candidate_id="candidate-space",
+        repair_triggered=False,
+        no_adoption_reason="insufficient mature replay plugin sample size",
+    )
     for name in [
         "coverage_manifest.json",
         "incumbent_validation.json",
@@ -930,6 +1559,151 @@ def _write_no_adoption_artifacts(*, artifact_root: Path, manifest: MonthlyRunMan
             }), encoding="utf-8")
         else:
             path.write_text(json.dumps({"status": "pass", "run_id": manifest.run_id}), encoding="utf-8")
+
+
+def _write_p6_p7_artifacts(
+    *,
+    artifact_root: Path,
+    manifest: MonthlyRunManifest,
+    candidate_id: str,
+    repair_triggered: bool,
+    no_adoption_reason: str,
+    candidate_source: str = "phased_auto",
+) -> None:
+    _write_optimizer_run_manifest(artifact_root=artifact_root, manifest=manifest)
+    patch_fingerprint, evaluated_fingerprint = _fixture_patch_fingerprints()
+    candidate_replay = {
+        "trade_count": 4,
+        "net_return": 1.12,
+        "max_drawdown": 0.04,
+        "profit_factor": 1.6,
+        "objective_score": 1.12,
+        "trade_hash": "fixture-candidate-trades",
+        "order_hash": "fixture-candidate-orders",
+        "coverage": [{"rows": 4}],
+        "parameter_patch": _fixture_config_patch(),
+        "evaluated_parameter_patch": _fixture_config_patch(),
+        "parameter_patch_fingerprint": patch_fingerprint,
+        "evaluated_patch_fingerprint": evaluated_fingerprint,
+        "evaluated_parameters": _fixture_evaluated_parameters(),
+    }
+    fold_rows = [
+        {
+            "run_id": manifest.run_id,
+            "candidate_id": candidate_id,
+            "candidate_family": "filter_repair",
+            "fold_id": "fold_1",
+            "purged": True,
+            "selection_oos_used_in_first_pass": False,
+            "objective_delta": 0.06,
+            "fold_support_passed": True,
+            "candidate": candidate_replay,
+        },
+        {
+            "run_id": manifest.run_id,
+            "candidate_id": candidate_id,
+            "candidate_family": "filter_repair",
+            "fold_id": "fold_2",
+            "purged": True,
+            "selection_oos_used_in_first_pass": False,
+            "objective_delta": 0.05,
+            "fold_support_passed": True,
+            "candidate": candidate_replay,
+        },
+    ]
+    (artifact_root / "fold_candidate_results.jsonl").write_text(
+        "\n".join(json.dumps(row) for row in fold_rows) + "\n",
+        encoding="utf-8",
+    )
+    adopted = "" if no_adoption_reason else candidate_id
+    (artifact_root / "fold_score_matrix.json").write_text(json.dumps({
+        "schema_version": "fold_score_matrix_v1",
+        "run_id": manifest.run_id,
+        "selection_oos_excluded_from_first_pass": True,
+        "scoring_windows": [
+            {"fold_id": "fold_1", "purged": True, "embargo_days": 5},
+            {"fold_id": "fold_2", "purged": True, "embargo_days": 5},
+        ],
+        "candidate_count": 1,
+        "selected_candidate_ids": [candidate_id] if adopted else [],
+        "candidates": [{"candidate_id": candidate_id, "fold_support_passed": True}],
+    }), encoding="utf-8")
+    (artifact_root / "selection_oos_evaluation.json").write_text(json.dumps({
+        "schema_version": "selection_oos_evaluation_v1",
+        "run_id": manifest.run_id,
+        "status": "pass" if adopted else "blocked",
+        "selection_oos_used_after_fold_ranking": True,
+        "selection_oos_used_in_first_pass": False,
+        "primary_candidate_id": adopted,
+        "incumbent_selection_oos": {"objective_score": 1.0, "trade_count": 4, "max_drawdown": 0.05},
+        "candidate_selection_oos": (
+            {"candidate_id": candidate_id, "objective_score": 1.14, "trade_count": 4, "max_drawdown": 0.04}
+            if adopted else {}
+        ),
+    }), encoding="utf-8")
+    (artifact_root / "selection_oos_repair_trigger.json").write_text(json.dumps({
+        "schema_version": "selection_oos_repair_trigger_v1",
+        "run_id": manifest.run_id,
+        "triggered": repair_triggered,
+        "status": "triggered" if repair_triggered else "not_triggered",
+        "thresholds": {
+            "objective_drop_threshold": -0.05,
+            "drawdown_increase_threshold": 0.05,
+            "trade_count_collapse_ratio": 0.5,
+        },
+        "expected_is_fold_score_band": {"mean_objective_score": 1.1},
+        "measured_degradation": {"objective_delta_vs_fold_mean": -0.08 if repair_triggered else 0.02},
+    }), encoding="utf-8")
+    (artifact_root / "repair_failure_attribution.json").write_text(json.dumps({
+        "run_id": manifest.run_id,
+        "status": "complete",
+        "repair_triggered": repair_triggered,
+        "reason": no_adoption_reason,
+    }), encoding="utf-8")
+    (artifact_root / "accepted_mutation_chain.json").write_text(json.dumps({
+        "run_id": manifest.run_id,
+        "accepted_mutations": (
+            [{"mutation_id": "accepted-1", "strategy_scope": manifest.strategy_id}]
+            if repair_triggered else []
+        ),
+    }), encoding="utf-8")
+    repair_rows = [
+        {
+            "run_id": manifest.run_id,
+            "candidate_id": candidate_id,
+            "source": candidate_source,
+            "accepted_mutation_count": 1,
+        }
+    ] if repair_triggered else []
+    (artifact_root / "repair_candidate_results.jsonl").write_text(
+        "".join(json.dumps(row) + "\n" for row in repair_rows),
+        encoding="utf-8",
+    )
+    (artifact_root / "repair_checkpoint.json").write_text(json.dumps({
+        "schema_version": "repair_checkpoint_v1",
+        "run_id": manifest.run_id,
+        "repair_triggered": repair_triggered,
+        "candidate_ids": [candidate_id] if repair_triggered else [],
+        "deterministic_resume_key": "fixture-resume-key",
+    }), encoding="utf-8")
+    config_patch_path = artifact_root / "round_n_plus_1" / "config_patch.json"
+    if adopted:
+        config_patch_path.parent.mkdir(parents=True, exist_ok=True)
+        config_patch_path.write_text(json.dumps(_fixture_config_patch()), encoding="utf-8")
+    (artifact_root / "round_n_plus_1_recommendation.json").write_text(json.dumps({
+        "schema_version": "round_n_plus_1_recommendation_v1",
+        "run_id": manifest.run_id,
+        "status": "no_adoption" if no_adoption_reason else "optimized_backtest_recommendation",
+        "adopted_candidate_id": adopted,
+        "no_adoption_reason": no_adoption_reason,
+        "next_round_id": manifest.next_round_id if adopted else "",
+        "live_deployment_status": "not_requested"
+        if no_adoption_reason else "optimized_backtest_recommendation",
+        "config_patch_path": str(config_patch_path) if adopted else "",
+        "parameter_patch_fingerprint": patch_fingerprint if adopted else "",
+        "evaluated_patch_fingerprint": evaluated_fingerprint if adopted else "",
+        "evaluated_parameters": _fixture_evaluated_parameters() if adopted else {},
+    }), encoding="utf-8")
 
 
 def _write_monthly_inputs(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
@@ -1000,6 +1774,51 @@ def _write_strategy_plugin_contract(tmp_path: Path) -> Path:
         maturity=StrategyPluginMaturity.APPROVAL_READY,
     ).model_dump_json(indent=2), encoding="utf-8")
     return path
+
+
+def _write_data_bundle(
+    market_root: Path,
+    *,
+    status: DataBundleStatus = DataBundleStatus.AUTHORITATIVE,
+    diagnostics_only_reason: str = "",
+    start_ts: datetime = datetime(2026, 1, 1, tzinfo=timezone.utc),
+    end_ts: datetime = datetime(2026, 4, 30, tzinfo=timezone.utc),
+) -> tuple[Path, DataBundleManifest]:
+    bundle = DataBundleManifest(
+        data_repo_path=str(market_root),
+        data_repo_commit_sha=(
+            "fixture-data-sha"
+            if status == DataBundleStatus.AUTHORITATIVE
+            else ""
+        ),
+        slice_manifests=[
+            DataBundleSlice(
+                manifest_path=str(
+                    market_root / "manifests" / "bot1" / "strat1" / "2026-04.coverage_manifest.json"
+                ),
+                manifest_id="slice-1",
+                source="fixture",
+                market="equity",
+                symbol="AAPL",
+                timeframe="1m",
+                start_ts=start_ts,
+                end_ts=end_ts,
+                checksum="market-sha",
+                calendar="XNYS",
+                authoritative=status == DataBundleStatus.AUTHORITATIVE,
+            )
+        ],
+        calendars=["XNYS"],
+        fee_model_version="fees_v1",
+        slippage_model_version="slippage_v1",
+        adjustment_policy="split_adjusted",
+        status=status,
+        diagnostics_only_reason=diagnostics_only_reason,
+    )
+    path = market_root / "bundles" / "bot1-strat1-2026-04.data_bundle_manifest.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(bundle.model_dump_json(indent=2), encoding="utf-8")
+    return path, bundle
 
 
 def _git_commit_all(repo: Path) -> None:

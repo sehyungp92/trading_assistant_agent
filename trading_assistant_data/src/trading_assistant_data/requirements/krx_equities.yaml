@@ -8,6 +8,6 @@ fee_model_version: fees_v1
 slippage_model_version: slippage_v1
 adjustment_policy: krx_split_adjusted_policy_v1
 authority_notes:
+  - LRS is a local SQLite/parquet KRX daily research-data input, not a live refresh adapter.
   - KRX cannot be authoritative with a weekday-only fallback calendar.
   - KIS intraday requires timestamp/session audit before authority.
-

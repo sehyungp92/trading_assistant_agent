@@ -1,0 +1,154 @@
+{
+  "bundle_checksum": "fbd1ac05c8f18cdeeace44454d9c6d726fa5446973c8c121834df6ee622b5df1",
+  "generated_at": "2026-06-01T14:22:38.508944+00:00",
+  "schema_version": "bundle_slice_index_v1",
+  "slices": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=BTC/timeframe=15m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "200c568260d3f6f4",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/15m/20260501T000000Z_20260531T234500Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=BTC/timeframe=1d/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "7456a03657890087",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/1d/20260501T000000Z_20260531T000000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=BTC/timeframe=1h/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "61aa3bb12ab88d32",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/1h/20260501T000000Z_20260531T230000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=BTC/timeframe=1m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "337939cb690c1358",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/1m/20260501T000000Z_20260531T235900Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=BTC/timeframe=30m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "bca5b2a69b597d43",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/30m/20260501T000000Z_20260531T233000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=BTC/timeframe=4h/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "0d0228363100eaa7",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/4h/20260501T000000Z_20260531T200000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=BTC/timeframe=5m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "c063f5e3798d09ff",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/5m/20260501T000000Z_20260531T235500Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=ETH/timeframe=15m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "ba45927b015dcd96",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/ETH/15m/20260501T000000Z_20260531T234500Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=ETH/timeframe=1d/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "ba743de9fcd37c64",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/ETH/1d/20260501T000000Z_20260531T000000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=ETH/timeframe=1h/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "caf915a7cf32e2a6",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/ETH/1h/20260501T000000Z_20260531T230000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=ETH/timeframe=1m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "de25e27bfe5c2536",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/ETH/1m/20260501T000000Z_20260531T235900Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=ETH/timeframe=30m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "110eb931f530833d",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/ETH/30m/20260501T000000Z_20260531T233000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=ETH/timeframe=4h/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "9c974a0cb7e8035c",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/ETH/4h/20260501T000000Z_20260531T200000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=ETH/timeframe=5m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "fed27b31f98bc439",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/ETH/5m/20260501T000000Z_20260531T235500Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=SOL/timeframe=15m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "da443d27dac4f5ba",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/SOL/15m/20260501T000000Z_20260531T234500Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=SOL/timeframe=1d/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "69784ebd451231d4",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/SOL/1d/20260501T000000Z_20260531T000000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=SOL/timeframe=1h/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "1d6faeda5b3bc291",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/SOL/1h/20260501T000000Z_20260531T230000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=SOL/timeframe=1m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "2d5dffba414cc59e",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/SOL/1m/20260501T000000Z_20260531T235900Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=SOL/timeframe=30m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "8b85f9592b62a29d",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/SOL/30m/20260501T000000Z_20260531T233000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=SOL/timeframe=4h/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "4cafe8beb933cd2d",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/SOL/4h/20260501T000000Z_20260531T200000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=SOL/timeframe=5m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "54cf330e6447e5b8",
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/SOL/5m/20260501T000000Z_20260531T235500Z.market_data_manifest.json"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "manifest_id": "add415ce5c716f4a",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "ETH",
+  "timeframe": "30m",
+  "start_ts": "2026-06-01T00:00:00Z",
+  "end_ts": "2026-06-01T20:00:00Z",
+  "expected_bars": 41,
+  "actual_bars": 41,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "5b67ef309ea88e435b09f3a3ce72db8dc10ac9fdc382d857a665530b031e9679",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "live_hyperliquid_refresh",
+    "source_endpoint": "data/raw/hyperliquid/candles/symbol=ETH/interval=30m/20260526T070000Z_20260601T121609Z.json,data/raw/hyperliquid/candles/symbol=ETH/interval=30m/20260528T080000Z_20260601T142048Z.json,data/raw/hyperliquid/candles/symbol=ETH/interval=30m/20260528T100000Z_20260601T183139Z.json,data/raw/hyperliquid/candles/symbol=ETH/interval=30m/20260528T143000Z_20260601T183434Z.json,data/raw/hyperliquid/candles/symbol=ETH/interval=30m/20260531T183000Z_20260601T200800Z.json",
+    "export_id": "unknown_snapshot",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": true,
+  "blocking_reasons": [],
+  "generated_at": "2026-06-01T20:08:28.389790Z"
+}

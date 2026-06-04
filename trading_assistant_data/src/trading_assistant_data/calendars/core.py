@@ -13,6 +13,7 @@ import pandas as pd
 
 TIMEFRAME_MINUTES: dict[str, int] = {
     "1m": 1,
+    "1m_bid_ask": 1,
     "3m": 3,
     "5m": 5,
     "15m": 15,
@@ -21,6 +22,7 @@ TIMEFRAME_MINUTES: dict[str, int] = {
     "4h": 240,
     "1d": 1440,
     "daily": 1440,
+    "funding_1h": 60,
     "funding_8h": 480,
 }
 
@@ -37,6 +39,7 @@ class CalendarDefinition:
     market: str = ""
     source: str = ""
     breaks: tuple[tuple[str, str], ...] = ()
+    closed_ranges_utc: tuple[tuple[str, str], ...] = ()
     generated_at: str = ""
 
     @property
@@ -72,6 +75,7 @@ def load_calendar_definition(path: Path) -> CalendarDefinition:
         market=str(payload.get("market", "")),
         source=str(payload.get("holiday_source", "")),
         breaks=tuple(tuple(item) for item in payload.get("breaks", [])),
+        closed_ranges_utc=tuple(tuple(item) for item in payload.get("closed_ranges_utc", [])),
         generated_at=str(payload.get("generated_at", "")),
     )
 
@@ -84,20 +88,57 @@ def expected_bars(
 ) -> int:
     """Count expected bar opens between start and end, inclusive."""
 
+    if _is_daily_timeframe(timeframe):
+        return len(expected_trading_dates(calendar, start_ts, end_ts))
+    return len(expected_bar_opens(calendar, timeframe, start_ts, end_ts))
+
+
+def expected_trading_dates(
+    calendar: CalendarDefinition,
+    start_ts: datetime,
+    end_ts: datetime,
+) -> list[date]:
+    """Return expected local trading dates between two timestamps."""
+
     if end_ts < start_ts:
-        return 0
+        return []
+    start_utc = _as_utc_timestamp(start_ts)
+    end_utc = _as_utc_timestamp(end_ts)
+    tz = ZoneInfo(calendar.timezone)
+    start_local = start_utc.tz_convert(tz).to_pydatetime()
+    end_local = end_utc.tz_convert(tz).to_pydatetime()
+    current = start_local.date()
+    final = end_local.date()
+    dates: list[date] = []
+    while current <= final:
+        if calendar.is_trading_day(current):
+            dates.append(current)
+        current += timedelta(days=1)
+    return dates
+
+
+def expected_bar_opens(
+    calendar: CalendarDefinition,
+    timeframe: str,
+    start_ts: datetime,
+    end_ts: datetime,
+) -> pd.DatetimeIndex:
+    """Return expected UTC bar-open timestamps for an intraday timeframe."""
+
+    if end_ts < start_ts:
+        return pd.DatetimeIndex([], tz="UTC")
     minutes = TIMEFRAME_MINUTES[timeframe.lower()]
     start_utc = _as_utc_timestamp(start_ts)
     end_utc = _as_utc_timestamp(end_ts)
     if _is_24_7(calendar):
-        return len(pd.date_range(start=start_utc, end=end_utc, freq=f"{minutes}min"))
+        return pd.date_range(start=start_utc, end=end_utc, freq=f"{minutes}min")
 
     tz = ZoneInfo(calendar.timezone)
     start_local = start_utc.tz_convert(tz).to_pydatetime()
     end_local = end_utc.tz_convert(tz).to_pydatetime()
     current = start_local.date()
     final = end_local.date()
-    count = 0
+    expected: list[pd.Timestamp] = []
     while current <= final:
         if calendar.is_trading_day(current):
             session_open = datetime.combine(current, _parse_time(calendar.session_open), tz)
@@ -110,10 +151,20 @@ def expected_bars(
                 freq=f"{minutes}min",
             )
             if opens.size:
+                for break_start, break_end in calendar.breaks:
+                    local_break_start = datetime.combine(current, _parse_time(break_start), tz)
+                    local_break_end = datetime.combine(current, _parse_time(break_end), tz)
+                    opens = opens[(opens < local_break_start) | (opens >= local_break_end)]
                 opens_utc = opens.tz_convert("UTC")
-                count += int(((opens_utc >= start_utc) & (opens_utc <= end_utc)).sum())
+                for closed_start, closed_end in calendar.closed_ranges_utc:
+                    closed_start_utc = _as_utc_timestamp(datetime.fromisoformat(closed_start))
+                    closed_end_utc = _as_utc_timestamp(datetime.fromisoformat(closed_end))
+                    opens_utc = opens_utc[
+                        (opens_utc < closed_start_utc) | (opens_utc > closed_end_utc)
+                    ]
+                expected.extend(opens_utc[(opens_utc >= start_utc) & (opens_utc <= end_utc)])
         current += timedelta(days=1)
-    return count
+    return pd.DatetimeIndex(expected).sort_values()
 
 
 def _parse_time(value: str) -> time:
@@ -123,6 +174,11 @@ def _parse_time(value: str) -> time:
 
 def _is_24_7(calendar: CalendarDefinition) -> bool:
     return set(calendar.weekdays) == set(range(7)) and calendar.session_open == calendar.session_close
+
+
+def _is_daily_timeframe(timeframe: str) -> bool:
+    value = timeframe.lower()
+    return value in {"1d", "daily"} or value.startswith("1d_") or value.endswith("_panama")
 
 
 def _as_utc_timestamp(value: datetime) -> pd.Timestamp:

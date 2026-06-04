@@ -1,0 +1,28 @@
+{
+  "bundle_checksum": "8ec7b634d0e5817a040b6a42763229357837968b2cc12e038b3f8afe2292dcd0",
+  "generated_at": "2026-06-01T14:19:44.806852+00:00",
+  "schema_version": "bundle_slice_index_v1",
+  "slices": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=cme_futures/source=ibkr/kind=read_only_authority/symbol=ES/timeframe=1d/year=2024/month=03/part.parquet"
+      ],
+      "manifest_id": "bc071b66fc2f6af8",
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/ES/1d/20240311T000000Z_20260501T000000Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=cme_futures/source=ibkr/kind=read_only_authority/symbol=NQ/timeframe=5m/year=2024/month=03/part.parquet"
+      ],
+      "manifest_id": "3a6fe94108245480",
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/5m/20240311T000000Z_20260501T205500Z.market_data_manifest.json"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=cme_futures/source=ibkr/kind=read_only_authority/symbol=NQ/timeframe=5m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "ba77144597338de7",
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/5m/20260503T220000Z_20260529T205500Z.market_data_manifest.json"
+    }
+  ]
+}

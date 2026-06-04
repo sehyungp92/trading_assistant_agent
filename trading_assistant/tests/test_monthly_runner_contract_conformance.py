@@ -212,6 +212,24 @@ def test_optimizer_contract_fails_structural_candidate_with_mismatched_decision_
     assert any("decision parity strategy_plugin_id" in error for error in validation.errors)
 
 
+def test_optimizer_contract_fails_structural_candidate_without_deployment_metadata(tmp_path: Path) -> None:
+    manifest, manifest_path = _manifest(
+        tmp_path,
+        mode=MonthlyRunMode.PHASED_AUTO,
+        failure="decision_parity_mismatch",
+    )
+
+    result = BacktestRunnerClient(timeout_seconds=30).run(manifest, manifest_path)
+
+    assert result.success is True
+    validation = validate_manifest_file(manifest_path)
+    assert validation.valid is False
+    assert any(
+        "structural candidate requires deployment metadata evidence" in error
+        for error in validation.errors
+    )
+
+
 def test_optimizer_contract_fails_structural_candidate_with_missing_decision_parity_evidence(tmp_path: Path) -> None:
     manifest, manifest_path = _manifest(
         tmp_path,

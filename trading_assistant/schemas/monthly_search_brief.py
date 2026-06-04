@@ -24,6 +24,8 @@ class MonthlySearchBrief(BaseModel):
     rollback_candidates: list[dict[str, Any]] = Field(default_factory=list)
     negative_priors: list[dict[str, Any]] = Field(default_factory=list)
     confidence_caps: list[dict[str, Any]] = Field(default_factory=list)
+    weekly_focus: dict[str, Any] = Field(default_factory=dict)
+    weekly_focus_rotation: list[dict[str, Any]] = Field(default_factory=list)
     evidence_paths: list[str] = Field(default_factory=list)
     source_weekly_signal_ids: list[str] = Field(default_factory=list)
     attribution: dict[str, list[str]] = Field(default_factory=dict)
@@ -36,6 +38,7 @@ class MonthlySearchBrief(BaseModel):
                 self.run_month,
                 self.bot_id,
                 self.strategy_id,
+                str((self.weekly_focus or {}).get("focus_id") or ""),
                 ",".join(self.source_weekly_signal_ids[:20]),
                 ",".join(self.evidence_paths[:20]),
             ])
@@ -49,9 +52,13 @@ class MonthlySearchBrief(BaseModel):
         ])
         rollback_families = _dedupe(_families_from(self.rollback_candidates))
         negative_families = _dedupe(_families_from(self.negative_priors))
+        focus_families = _dedupe(_string_list((self.weekly_focus or {}).get("portfolio_families")))
+        focus_strategy_ids = _dedupe(_string_list((self.weekly_focus or {}).get("strategy_ids")))
         return {
             "authority": "search_order_only",
             "brief_id": self.monthly_search_brief_id,
+            "weekly_focus": self.weekly_focus,
+            "weekly_focus_rotation": self.weekly_focus_rotation,
             "phase_order_hints": self.phase_order_hints[:8],
             "priority_families": self.phased_auto_priority_families[:12],
             "seed_candidates": self.seed_candidates[:20],
@@ -66,6 +73,9 @@ class MonthlySearchBrief(BaseModel):
                 "candidate_families": required_families[:12],
                 "rollback_families": rollback_families[:12],
                 "negative_prior_families": negative_families[:12],
+                "weekly_focus_id": str((self.weekly_focus or {}).get("focus_id") or ""),
+                "focus_portfolio_families": focus_families[:12],
+                "focus_strategy_ids": focus_strategy_ids[:20],
                 "source_weekly_signal_ids": self.source_weekly_signal_ids[:50],
             },
         }
@@ -107,9 +117,23 @@ class MonthlySearchBrief(BaseModel):
                 "authority": "search_order_only",
                 "monthly_search_brief_id": self.monthly_search_brief_id,
             })
+        focus = self.weekly_focus or {}
+        for family in _string_list(focus.get("portfolio_families")):
+            families.append({
+                "family": family,
+                "phase": "weekly_focus_rotation",
+                "priority": "focus_scope",
+                "source_weekly_signal_id": f"weekly_focus:{focus.get('focus_id', '')}",
+                "authority": "search_order_only",
+                "monthly_search_brief_id": self.monthly_search_brief_id,
+            })
         updated["candidate_families"] = _dedupe_dicts(families)
 
         gate_expectations = _string_list(updated.get("gate_expectations"))
+        if self.weekly_focus:
+            gate_expectations.append(
+                "Use weekly_focus as search-order scope only; it cannot satisfy monthly gates."
+            )
         if self.confidence_caps:
             gate_expectations.append("Apply monthly_search_brief confidence caps as search-order constraints only.")
         if self.rollback_candidates:

@@ -1,5 +1,5 @@
 {
-  "manifest_id": "2936d5a31e7f80f7",
+  "manifest_id": "89d7d58314dba0cb",
   "source": "kis",
   "market": "krx_equity",
   "symbol": "035720",
@@ -9,41 +9,29 @@
   "expected_bars": 30,
   "actual_bars": 35,
   "coverage_ratio": 1.0,
-  "missing_ranges": [
-    {
-      "start_ts": "2026-05-04T07:00:00Z",
-      "end_ts": "2026-05-05T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2026-05-06T07:00:00Z",
-      "end_ts": "2026-05-06T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2026-05-07T07:00:00Z",
-      "end_ts": "2026-05-07T23:00:00Z",
-      "reason": "gap>60min"
-    },
-    {
-      "start_ts": "2026-05-08T07:00:00Z",
-      "end_ts": "2026-05-10T23:00:00Z",
-      "reason": "gap>60min"
-    }
-  ],
-  "session_calendar": "krx_equities_v1",
+  "missing_ranges": [],
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
   "timezone": "Asia/Seoul",
-  "checksum": "685b12f51e4f1a0e34025dee1394441f20c73fe6482931b5f24945bb1254fe06",
+  "checksum": "ab8405178c32b49ed0d32ab0bb7b89bfe7eb54d8b9257ffe26c90d2db2688a58",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "krx_split_adjusted_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/035720/035720_1h_20250512_20260512.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "kis_intraday_exchange_timestamp_v1_unverified"
+  },
   "usable_for_authoritative_validation": false,
   "blocking_reasons": [
-    "KRX intraday timestamp/session audit required before authority",
-    "missing ranges present",
-    "source_version is not a data repo commit SHA"
+    "KRX intraday timestamp/session audit required before authority"
   ],
-  "generated_at": "2026-05-30T22:02:52.930687Z"
+  "generated_at": "2026-05-31T15:19:42.443882Z"
 }

@@ -1,0 +1,2894 @@
+{
+  "manifest_id": "f989297db465d605",
+  "source": "kis",
+  "market": "krx_equity",
+  "symbol": "053800",
+  "timeframe": "1m",
+  "start_ts": "2026-03-03T00:00:00Z",
+  "end_ts": "2026-03-31T06:30:00Z",
+  "expected_bars": 7980,
+  "actual_bars": 7254,
+  "coverage_ratio": 0.9090225563909774,
+  "missing_ranges": [
+    {
+      "start_ts": "2026-03-03T01:05:00Z",
+      "end_ts": "2026-03-03T01:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T03:59:00Z",
+      "end_ts": "2026-03-03T03:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T04:17:00Z",
+      "end_ts": "2026-03-03T04:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T04:21:00Z",
+      "end_ts": "2026-03-03T04:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T04:23:00Z",
+      "end_ts": "2026-03-03T04:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T04:28:00Z",
+      "end_ts": "2026-03-03T04:28:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T04:36:00Z",
+      "end_ts": "2026-03-03T04:36:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T04:46:00Z",
+      "end_ts": "2026-03-03T04:46:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T04:50:00Z",
+      "end_ts": "2026-03-03T04:50:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T05:03:00Z",
+      "end_ts": "2026-03-03T05:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T05:34:00Z",
+      "end_ts": "2026-03-03T05:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T05:44:00Z",
+      "end_ts": "2026-03-03T05:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T00:53:00Z",
+      "end_ts": "2026-03-04T00:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T00:55:00Z",
+      "end_ts": "2026-03-04T00:55:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T01:15:00Z",
+      "end_ts": "2026-03-04T01:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T01:42:00Z",
+      "end_ts": "2026-03-04T01:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T01:49:00Z",
+      "end_ts": "2026-03-04T01:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T02:17:00Z",
+      "end_ts": "2026-03-04T02:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T04:24:00Z",
+      "end_ts": "2026-03-04T04:24:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T04:37:00Z",
+      "end_ts": "2026-03-04T04:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T04:53:00Z",
+      "end_ts": "2026-03-04T04:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T01:29:00Z",
+      "end_ts": "2026-03-05T01:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T02:02:00Z",
+      "end_ts": "2026-03-05T02:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T02:06:00Z",
+      "end_ts": "2026-03-05T02:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T03:37:00Z",
+      "end_ts": "2026-03-05T03:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T03:49:00Z",
+      "end_ts": "2026-03-05T03:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T03:57:00Z",
+      "end_ts": "2026-03-05T03:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T04:18:00Z",
+      "end_ts": "2026-03-05T04:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T00:39:00Z",
+      "end_ts": "2026-03-06T00:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T01:57:00Z",
+      "end_ts": "2026-03-06T01:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T02:20:00Z",
+      "end_ts": "2026-03-06T02:20:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T02:25:00Z",
+      "end_ts": "2026-03-06T02:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T02:28:00Z",
+      "end_ts": "2026-03-06T02:28:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T02:31:00Z",
+      "end_ts": "2026-03-06T02:31:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T02:33:00Z",
+      "end_ts": "2026-03-06T02:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T02:35:00Z",
+      "end_ts": "2026-03-06T02:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T02:45:00Z",
+      "end_ts": "2026-03-06T02:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T02:47:00Z",
+      "end_ts": "2026-03-06T02:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T02:52:00Z",
+      "end_ts": "2026-03-06T02:52:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T03:02:00Z",
+      "end_ts": "2026-03-06T03:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T03:08:00Z",
+      "end_ts": "2026-03-06T03:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T03:14:00Z",
+      "end_ts": "2026-03-06T03:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T03:16:00Z",
+      "end_ts": "2026-03-06T03:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T03:24:00Z",
+      "end_ts": "2026-03-06T03:24:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T03:33:00Z",
+      "end_ts": "2026-03-06T03:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T03:35:00Z",
+      "end_ts": "2026-03-06T03:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T03:48:00Z",
+      "end_ts": "2026-03-06T03:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T04:31:00Z",
+      "end_ts": "2026-03-06T04:31:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T05:06:00Z",
+      "end_ts": "2026-03-06T05:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T05:22:00Z",
+      "end_ts": "2026-03-06T05:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T05:30:00Z",
+      "end_ts": "2026-03-06T05:30:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T05:34:00Z",
+      "end_ts": "2026-03-06T05:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T06:09:00Z",
+      "end_ts": "2026-03-06T06:09:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T01:55:00Z",
+      "end_ts": "2026-03-09T01:55:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T02:24:00Z",
+      "end_ts": "2026-03-09T02:24:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T03:42:00Z",
+      "end_ts": "2026-03-09T03:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T03:48:00Z",
+      "end_ts": "2026-03-09T03:48:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T04:01:00Z",
+      "end_ts": "2026-03-09T04:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T04:28:00Z",
+      "end_ts": "2026-03-09T04:28:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T04:53:00Z",
+      "end_ts": "2026-03-09T04:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T01:07:00Z",
+      "end_ts": "2026-03-10T01:07:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T01:32:00Z",
+      "end_ts": "2026-03-10T01:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T01:45:00Z",
+      "end_ts": "2026-03-10T01:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T02:04:00Z",
+      "end_ts": "2026-03-10T02:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T02:16:00Z",
+      "end_ts": "2026-03-10T02:16:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T02:20:00Z",
+      "end_ts": "2026-03-10T02:20:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T02:23:00Z",
+      "end_ts": "2026-03-10T02:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T02:29:00Z",
+      "end_ts": "2026-03-10T02:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T03:02:00Z",
+      "end_ts": "2026-03-10T03:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T03:12:00Z",
+      "end_ts": "2026-03-10T03:12:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T03:22:00Z",
+      "end_ts": "2026-03-10T03:22:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T03:50:00Z",
+      "end_ts": "2026-03-10T03:50:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T04:12:00Z",
+      "end_ts": "2026-03-10T04:12:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T04:18:00Z",
+      "end_ts": "2026-03-10T04:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T04:23:00Z",
+      "end_ts": "2026-03-10T04:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T04:43:00Z",
+      "end_ts": "2026-03-10T04:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T05:02:00Z",
+      "end_ts": "2026-03-10T05:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T05:17:00Z",
+      "end_ts": "2026-03-10T05:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T05:22:00Z",
+      "end_ts": "2026-03-10T05:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T05:39:00Z",
+      "end_ts": "2026-03-10T05:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-10T05:48:00Z",
+      "end_ts": "2026-03-10T05:48:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T01:17:00Z",
+      "end_ts": "2026-03-11T01:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T01:31:00Z",
+      "end_ts": "2026-03-11T01:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T01:36:00Z",
+      "end_ts": "2026-03-11T01:38:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T01:42:00Z",
+      "end_ts": "2026-03-11T01:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T01:47:00Z",
+      "end_ts": "2026-03-11T01:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T01:52:00Z",
+      "end_ts": "2026-03-11T01:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T01:58:00Z",
+      "end_ts": "2026-03-11T01:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T02:03:00Z",
+      "end_ts": "2026-03-11T02:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T02:06:00Z",
+      "end_ts": "2026-03-11T02:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T02:09:00Z",
+      "end_ts": "2026-03-11T02:09:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T02:24:00Z",
+      "end_ts": "2026-03-11T02:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T02:27:00Z",
+      "end_ts": "2026-03-11T02:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T02:34:00Z",
+      "end_ts": "2026-03-11T02:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T02:46:00Z",
+      "end_ts": "2026-03-11T02:46:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T02:50:00Z",
+      "end_ts": "2026-03-11T02:50:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T02:57:00Z",
+      "end_ts": "2026-03-11T02:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T03:06:00Z",
+      "end_ts": "2026-03-11T03:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T03:14:00Z",
+      "end_ts": "2026-03-11T03:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T03:17:00Z",
+      "end_ts": "2026-03-11T03:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T03:21:00Z",
+      "end_ts": "2026-03-11T03:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T03:29:00Z",
+      "end_ts": "2026-03-11T03:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T03:37:00Z",
+      "end_ts": "2026-03-11T03:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T03:57:00Z",
+      "end_ts": "2026-03-11T03:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T04:07:00Z",
+      "end_ts": "2026-03-11T04:07:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T04:18:00Z",
+      "end_ts": "2026-03-11T04:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T04:21:00Z",
+      "end_ts": "2026-03-11T04:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T04:30:00Z",
+      "end_ts": "2026-03-11T04:30:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T04:41:00Z",
+      "end_ts": "2026-03-11T04:41:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T04:43:00Z",
+      "end_ts": "2026-03-11T04:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T04:48:00Z",
+      "end_ts": "2026-03-11T04:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T04:52:00Z",
+      "end_ts": "2026-03-11T04:52:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-11T04:55:00Z",
+      "end_ts": "2026-03-11T04:55:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T01:29:00Z",
+      "end_ts": "2026-03-12T01:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T01:32:00Z",
+      "end_ts": "2026-03-12T01:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T01:45:00Z",
+      "end_ts": "2026-03-12T01:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T01:49:00Z",
+      "end_ts": "2026-03-12T01:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T02:26:00Z",
+      "end_ts": "2026-03-12T02:26:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T02:38:00Z",
+      "end_ts": "2026-03-12T02:38:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T02:56:00Z",
+      "end_ts": "2026-03-12T02:56:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T03:05:00Z",
+      "end_ts": "2026-03-12T03:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T03:10:00Z",
+      "end_ts": "2026-03-12T03:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T03:18:00Z",
+      "end_ts": "2026-03-12T03:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T03:29:00Z",
+      "end_ts": "2026-03-12T03:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T03:40:00Z",
+      "end_ts": "2026-03-12T03:40:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T03:54:00Z",
+      "end_ts": "2026-03-12T03:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-12T04:02:00Z",
+      "end_ts": "2026-03-12T04:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T00:45:00Z",
+      "end_ts": "2026-03-13T00:46:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T00:53:00Z",
+      "end_ts": "2026-03-13T00:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T01:11:00Z",
+      "end_ts": "2026-03-13T01:11:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T01:15:00Z",
+      "end_ts": "2026-03-13T01:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T01:26:00Z",
+      "end_ts": "2026-03-13T01:26:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T01:38:00Z",
+      "end_ts": "2026-03-13T01:38:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T01:47:00Z",
+      "end_ts": "2026-03-13T01:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T01:53:00Z",
+      "end_ts": "2026-03-13T01:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T01:59:00Z",
+      "end_ts": "2026-03-13T01:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T02:02:00Z",
+      "end_ts": "2026-03-13T02:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T02:05:00Z",
+      "end_ts": "2026-03-13T02:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T02:13:00Z",
+      "end_ts": "2026-03-13T02:13:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T02:21:00Z",
+      "end_ts": "2026-03-13T02:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T02:32:00Z",
+      "end_ts": "2026-03-13T02:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T02:38:00Z",
+      "end_ts": "2026-03-13T02:38:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T02:44:00Z",
+      "end_ts": "2026-03-13T02:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T02:59:00Z",
+      "end_ts": "2026-03-13T02:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T03:01:00Z",
+      "end_ts": "2026-03-13T03:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T03:18:00Z",
+      "end_ts": "2026-03-13T03:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T03:21:00Z",
+      "end_ts": "2026-03-13T03:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T03:33:00Z",
+      "end_ts": "2026-03-13T03:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T03:37:00Z",
+      "end_ts": "2026-03-13T03:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T03:44:00Z",
+      "end_ts": "2026-03-13T03:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T03:56:00Z",
+      "end_ts": "2026-03-13T03:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T04:11:00Z",
+      "end_ts": "2026-03-13T04:11:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T04:21:00Z",
+      "end_ts": "2026-03-13T04:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T04:23:00Z",
+      "end_ts": "2026-03-13T04:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T04:32:00Z",
+      "end_ts": "2026-03-13T04:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T04:42:00Z",
+      "end_ts": "2026-03-13T04:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T04:54:00Z",
+      "end_ts": "2026-03-13T04:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-13T04:59:00Z",
+      "end_ts": "2026-03-13T04:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T00:15:00Z",
+      "end_ts": "2026-03-16T00:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T00:21:00Z",
+      "end_ts": "2026-03-16T00:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T00:26:00Z",
+      "end_ts": "2026-03-16T00:26:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T00:37:00Z",
+      "end_ts": "2026-03-16T00:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T01:13:00Z",
+      "end_ts": "2026-03-16T01:13:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T01:34:00Z",
+      "end_ts": "2026-03-16T01:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T01:52:00Z",
+      "end_ts": "2026-03-16T01:52:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T02:19:00Z",
+      "end_ts": "2026-03-16T02:19:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T02:22:00Z",
+      "end_ts": "2026-03-16T02:22:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T03:09:00Z",
+      "end_ts": "2026-03-16T03:09:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T03:14:00Z",
+      "end_ts": "2026-03-16T03:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T03:16:00Z",
+      "end_ts": "2026-03-16T03:16:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T03:29:00Z",
+      "end_ts": "2026-03-16T03:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T03:51:00Z",
+      "end_ts": "2026-03-16T03:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T03:58:00Z",
+      "end_ts": "2026-03-16T03:58:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T04:13:00Z",
+      "end_ts": "2026-03-16T04:13:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T04:18:00Z",
+      "end_ts": "2026-03-16T04:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T04:33:00Z",
+      "end_ts": "2026-03-16T04:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T04:38:00Z",
+      "end_ts": "2026-03-16T04:38:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T05:03:00Z",
+      "end_ts": "2026-03-16T05:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T05:25:00Z",
+      "end_ts": "2026-03-16T05:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T05:58:00Z",
+      "end_ts": "2026-03-16T05:58:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T06:05:00Z",
+      "end_ts": "2026-03-16T06:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-16T06:08:00Z",
+      "end_ts": "2026-03-16T06:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T00:25:00Z",
+      "end_ts": "2026-03-17T00:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T00:27:00Z",
+      "end_ts": "2026-03-17T00:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T00:35:00Z",
+      "end_ts": "2026-03-17T00:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T00:38:00Z",
+      "end_ts": "2026-03-17T00:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T00:42:00Z",
+      "end_ts": "2026-03-17T00:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T00:44:00Z",
+      "end_ts": "2026-03-17T00:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T00:50:00Z",
+      "end_ts": "2026-03-17T00:50:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T01:02:00Z",
+      "end_ts": "2026-03-17T01:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T01:09:00Z",
+      "end_ts": "2026-03-17T01:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T01:18:00Z",
+      "end_ts": "2026-03-17T01:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T01:22:00Z",
+      "end_ts": "2026-03-17T01:22:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T01:31:00Z",
+      "end_ts": "2026-03-17T01:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T01:37:00Z",
+      "end_ts": "2026-03-17T01:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T01:48:00Z",
+      "end_ts": "2026-03-17T01:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T01:54:00Z",
+      "end_ts": "2026-03-17T01:55:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T01:57:00Z",
+      "end_ts": "2026-03-17T01:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:06:00Z",
+      "end_ts": "2026-03-17T02:07:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:09:00Z",
+      "end_ts": "2026-03-17T02:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:21:00Z",
+      "end_ts": "2026-03-17T02:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:24:00Z",
+      "end_ts": "2026-03-17T02:24:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:26:00Z",
+      "end_ts": "2026-03-17T02:26:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:29:00Z",
+      "end_ts": "2026-03-17T02:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:33:00Z",
+      "end_ts": "2026-03-17T02:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:38:00Z",
+      "end_ts": "2026-03-17T02:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:44:00Z",
+      "end_ts": "2026-03-17T02:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:48:00Z",
+      "end_ts": "2026-03-17T02:48:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:54:00Z",
+      "end_ts": "2026-03-17T02:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T02:56:00Z",
+      "end_ts": "2026-03-17T02:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:00:00Z",
+      "end_ts": "2026-03-17T03:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:05:00Z",
+      "end_ts": "2026-03-17T03:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:17:00Z",
+      "end_ts": "2026-03-17T03:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:20:00Z",
+      "end_ts": "2026-03-17T03:20:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:22:00Z",
+      "end_ts": "2026-03-17T03:22:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:25:00Z",
+      "end_ts": "2026-03-17T03:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:28:00Z",
+      "end_ts": "2026-03-17T03:28:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:34:00Z",
+      "end_ts": "2026-03-17T03:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:43:00Z",
+      "end_ts": "2026-03-17T03:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:45:00Z",
+      "end_ts": "2026-03-17T03:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:51:00Z",
+      "end_ts": "2026-03-17T03:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T03:54:00Z",
+      "end_ts": "2026-03-17T03:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T04:01:00Z",
+      "end_ts": "2026-03-17T04:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T04:03:00Z",
+      "end_ts": "2026-03-17T04:04:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T04:15:00Z",
+      "end_ts": "2026-03-17T04:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-17T04:21:00Z",
+      "end_ts": "2026-03-17T04:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T00:12:00Z",
+      "end_ts": "2026-03-18T00:12:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T00:15:00Z",
+      "end_ts": "2026-03-18T00:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T00:17:00Z",
+      "end_ts": "2026-03-18T00:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T00:25:00Z",
+      "end_ts": "2026-03-18T00:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T00:41:00Z",
+      "end_ts": "2026-03-18T00:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T00:47:00Z",
+      "end_ts": "2026-03-18T00:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T00:51:00Z",
+      "end_ts": "2026-03-18T00:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:07:00Z",
+      "end_ts": "2026-03-18T01:07:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:19:00Z",
+      "end_ts": "2026-03-18T01:19:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:23:00Z",
+      "end_ts": "2026-03-18T01:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:27:00Z",
+      "end_ts": "2026-03-18T01:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:29:00Z",
+      "end_ts": "2026-03-18T01:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:34:00Z",
+      "end_ts": "2026-03-18T01:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:37:00Z",
+      "end_ts": "2026-03-18T01:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:42:00Z",
+      "end_ts": "2026-03-18T01:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:45:00Z",
+      "end_ts": "2026-03-18T01:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:49:00Z",
+      "end_ts": "2026-03-18T01:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T01:59:00Z",
+      "end_ts": "2026-03-18T02:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T02:06:00Z",
+      "end_ts": "2026-03-18T02:07:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T02:44:00Z",
+      "end_ts": "2026-03-18T02:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T02:49:00Z",
+      "end_ts": "2026-03-18T02:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T02:51:00Z",
+      "end_ts": "2026-03-18T02:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T02:54:00Z",
+      "end_ts": "2026-03-18T02:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T02:56:00Z",
+      "end_ts": "2026-03-18T02:56:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:04:00Z",
+      "end_ts": "2026-03-18T03:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:08:00Z",
+      "end_ts": "2026-03-18T03:09:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:13:00Z",
+      "end_ts": "2026-03-18T03:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:17:00Z",
+      "end_ts": "2026-03-18T03:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:20:00Z",
+      "end_ts": "2026-03-18T03:20:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:22:00Z",
+      "end_ts": "2026-03-18T03:22:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:29:00Z",
+      "end_ts": "2026-03-18T03:30:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:33:00Z",
+      "end_ts": "2026-03-18T03:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:35:00Z",
+      "end_ts": "2026-03-18T03:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:39:00Z",
+      "end_ts": "2026-03-18T03:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:42:00Z",
+      "end_ts": "2026-03-18T03:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:44:00Z",
+      "end_ts": "2026-03-18T03:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:46:00Z",
+      "end_ts": "2026-03-18T03:46:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:53:00Z",
+      "end_ts": "2026-03-18T03:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T03:58:00Z",
+      "end_ts": "2026-03-18T03:58:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:10:00Z",
+      "end_ts": "2026-03-18T04:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:14:00Z",
+      "end_ts": "2026-03-18T04:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:16:00Z",
+      "end_ts": "2026-03-18T04:16:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:25:00Z",
+      "end_ts": "2026-03-18T04:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:33:00Z",
+      "end_ts": "2026-03-18T04:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:35:00Z",
+      "end_ts": "2026-03-18T04:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:37:00Z",
+      "end_ts": "2026-03-18T04:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:43:00Z",
+      "end_ts": "2026-03-18T04:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:47:00Z",
+      "end_ts": "2026-03-18T04:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:49:00Z",
+      "end_ts": "2026-03-18T04:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T04:56:00Z",
+      "end_ts": "2026-03-18T04:56:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T05:02:00Z",
+      "end_ts": "2026-03-18T05:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T05:09:00Z",
+      "end_ts": "2026-03-18T05:09:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T05:12:00Z",
+      "end_ts": "2026-03-18T05:12:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T05:33:00Z",
+      "end_ts": "2026-03-18T05:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T05:38:00Z",
+      "end_ts": "2026-03-18T05:38:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T05:48:00Z",
+      "end_ts": "2026-03-18T05:48:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-18T05:55:00Z",
+      "end_ts": "2026-03-18T05:55:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T00:02:00Z",
+      "end_ts": "2026-03-19T00:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T00:27:00Z",
+      "end_ts": "2026-03-19T00:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T00:29:00Z",
+      "end_ts": "2026-03-19T00:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T00:34:00Z",
+      "end_ts": "2026-03-19T00:36:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T00:38:00Z",
+      "end_ts": "2026-03-19T00:38:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T00:47:00Z",
+      "end_ts": "2026-03-19T00:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T00:51:00Z",
+      "end_ts": "2026-03-19T00:52:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T01:17:00Z",
+      "end_ts": "2026-03-19T01:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T01:39:00Z",
+      "end_ts": "2026-03-19T01:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T01:47:00Z",
+      "end_ts": "2026-03-19T01:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T01:52:00Z",
+      "end_ts": "2026-03-19T01:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T02:02:00Z",
+      "end_ts": "2026-03-19T02:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T02:05:00Z",
+      "end_ts": "2026-03-19T02:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T02:08:00Z",
+      "end_ts": "2026-03-19T02:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T02:10:00Z",
+      "end_ts": "2026-03-19T02:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T02:13:00Z",
+      "end_ts": "2026-03-19T02:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T02:38:00Z",
+      "end_ts": "2026-03-19T02:38:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T02:42:00Z",
+      "end_ts": "2026-03-19T02:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T02:51:00Z",
+      "end_ts": "2026-03-19T02:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T02:57:00Z",
+      "end_ts": "2026-03-19T02:58:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:02:00Z",
+      "end_ts": "2026-03-19T03:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:05:00Z",
+      "end_ts": "2026-03-19T03:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:07:00Z",
+      "end_ts": "2026-03-19T03:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:13:00Z",
+      "end_ts": "2026-03-19T03:13:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:17:00Z",
+      "end_ts": "2026-03-19T03:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:19:00Z",
+      "end_ts": "2026-03-19T03:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:27:00Z",
+      "end_ts": "2026-03-19T03:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:32:00Z",
+      "end_ts": "2026-03-19T03:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:35:00Z",
+      "end_ts": "2026-03-19T03:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:37:00Z",
+      "end_ts": "2026-03-19T03:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:41:00Z",
+      "end_ts": "2026-03-19T03:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:46:00Z",
+      "end_ts": "2026-03-19T03:46:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:48:00Z",
+      "end_ts": "2026-03-19T03:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:51:00Z",
+      "end_ts": "2026-03-19T03:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:57:00Z",
+      "end_ts": "2026-03-19T03:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T03:59:00Z",
+      "end_ts": "2026-03-19T04:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T04:15:00Z",
+      "end_ts": "2026-03-19T04:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T04:18:00Z",
+      "end_ts": "2026-03-19T04:19:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T04:30:00Z",
+      "end_ts": "2026-03-19T04:30:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T04:35:00Z",
+      "end_ts": "2026-03-19T04:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T04:37:00Z",
+      "end_ts": "2026-03-19T04:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T04:42:00Z",
+      "end_ts": "2026-03-19T04:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T04:44:00Z",
+      "end_ts": "2026-03-19T04:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T04:52:00Z",
+      "end_ts": "2026-03-19T04:52:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T05:00:00Z",
+      "end_ts": "2026-03-19T05:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T05:03:00Z",
+      "end_ts": "2026-03-19T05:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-19T05:58:00Z",
+      "end_ts": "2026-03-19T05:58:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:12:00Z",
+      "end_ts": "2026-03-20T00:12:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:14:00Z",
+      "end_ts": "2026-03-20T00:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:17:00Z",
+      "end_ts": "2026-03-20T00:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:29:00Z",
+      "end_ts": "2026-03-20T00:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:33:00Z",
+      "end_ts": "2026-03-20T00:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:39:00Z",
+      "end_ts": "2026-03-20T00:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:42:00Z",
+      "end_ts": "2026-03-20T00:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:44:00Z",
+      "end_ts": "2026-03-20T00:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:46:00Z",
+      "end_ts": "2026-03-20T00:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T00:53:00Z",
+      "end_ts": "2026-03-20T00:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T01:06:00Z",
+      "end_ts": "2026-03-20T01:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T01:15:00Z",
+      "end_ts": "2026-03-20T01:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T01:20:00Z",
+      "end_ts": "2026-03-20T01:20:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T01:27:00Z",
+      "end_ts": "2026-03-20T01:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T01:31:00Z",
+      "end_ts": "2026-03-20T01:31:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T01:34:00Z",
+      "end_ts": "2026-03-20T01:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T01:40:00Z",
+      "end_ts": "2026-03-20T01:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T01:47:00Z",
+      "end_ts": "2026-03-20T01:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T01:58:00Z",
+      "end_ts": "2026-03-20T01:58:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:01:00Z",
+      "end_ts": "2026-03-20T02:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:04:00Z",
+      "end_ts": "2026-03-20T02:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:07:00Z",
+      "end_ts": "2026-03-20T02:07:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:16:00Z",
+      "end_ts": "2026-03-20T02:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:24:00Z",
+      "end_ts": "2026-03-20T02:24:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:31:00Z",
+      "end_ts": "2026-03-20T02:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:35:00Z",
+      "end_ts": "2026-03-20T02:36:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:38:00Z",
+      "end_ts": "2026-03-20T02:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:50:00Z",
+      "end_ts": "2026-03-20T02:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T02:55:00Z",
+      "end_ts": "2026-03-20T02:55:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:02:00Z",
+      "end_ts": "2026-03-20T03:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:04:00Z",
+      "end_ts": "2026-03-20T03:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:10:00Z",
+      "end_ts": "2026-03-20T03:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:16:00Z",
+      "end_ts": "2026-03-20T03:20:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:23:00Z",
+      "end_ts": "2026-03-20T03:24:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:27:00Z",
+      "end_ts": "2026-03-20T03:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:30:00Z",
+      "end_ts": "2026-03-20T03:31:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:34:00Z",
+      "end_ts": "2026-03-20T03:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:37:00Z",
+      "end_ts": "2026-03-20T03:41:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:43:00Z",
+      "end_ts": "2026-03-20T03:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:45:00Z",
+      "end_ts": "2026-03-20T03:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:48:00Z",
+      "end_ts": "2026-03-20T03:48:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T03:50:00Z",
+      "end_ts": "2026-03-20T03:50:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:02:00Z",
+      "end_ts": "2026-03-20T04:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:05:00Z",
+      "end_ts": "2026-03-20T04:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:11:00Z",
+      "end_ts": "2026-03-20T04:11:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:13:00Z",
+      "end_ts": "2026-03-20T04:16:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:18:00Z",
+      "end_ts": "2026-03-20T04:22:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:29:00Z",
+      "end_ts": "2026-03-20T04:31:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:36:00Z",
+      "end_ts": "2026-03-20T04:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:39:00Z",
+      "end_ts": "2026-03-20T04:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:47:00Z",
+      "end_ts": "2026-03-20T04:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:51:00Z",
+      "end_ts": "2026-03-20T04:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:56:00Z",
+      "end_ts": "2026-03-20T04:56:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T04:59:00Z",
+      "end_ts": "2026-03-20T04:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T05:29:00Z",
+      "end_ts": "2026-03-20T05:30:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T05:34:00Z",
+      "end_ts": "2026-03-20T05:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-20T05:36:00Z",
+      "end_ts": "2026-03-20T05:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T00:08:00Z",
+      "end_ts": "2026-03-23T00:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T00:12:00Z",
+      "end_ts": "2026-03-23T00:12:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T00:17:00Z",
+      "end_ts": "2026-03-23T00:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T00:33:00Z",
+      "end_ts": "2026-03-23T00:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T00:48:00Z",
+      "end_ts": "2026-03-23T00:48:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T01:19:00Z",
+      "end_ts": "2026-03-23T01:19:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T01:21:00Z",
+      "end_ts": "2026-03-23T01:22:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T01:27:00Z",
+      "end_ts": "2026-03-23T01:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T01:41:00Z",
+      "end_ts": "2026-03-23T01:41:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T01:51:00Z",
+      "end_ts": "2026-03-23T01:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T01:53:00Z",
+      "end_ts": "2026-03-23T01:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:01:00Z",
+      "end_ts": "2026-03-23T02:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:08:00Z",
+      "end_ts": "2026-03-23T02:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:10:00Z",
+      "end_ts": "2026-03-23T02:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:17:00Z",
+      "end_ts": "2026-03-23T02:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:27:00Z",
+      "end_ts": "2026-03-23T02:28:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:33:00Z",
+      "end_ts": "2026-03-23T02:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:42:00Z",
+      "end_ts": "2026-03-23T02:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:47:00Z",
+      "end_ts": "2026-03-23T02:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:51:00Z",
+      "end_ts": "2026-03-23T02:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:56:00Z",
+      "end_ts": "2026-03-23T02:56:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T02:59:00Z",
+      "end_ts": "2026-03-23T02:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:06:00Z",
+      "end_ts": "2026-03-23T03:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:13:00Z",
+      "end_ts": "2026-03-23T03:13:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:16:00Z",
+      "end_ts": "2026-03-23T03:16:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:29:00Z",
+      "end_ts": "2026-03-23T03:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:32:00Z",
+      "end_ts": "2026-03-23T03:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:41:00Z",
+      "end_ts": "2026-03-23T03:41:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:43:00Z",
+      "end_ts": "2026-03-23T03:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:45:00Z",
+      "end_ts": "2026-03-23T03:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:51:00Z",
+      "end_ts": "2026-03-23T03:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T03:55:00Z",
+      "end_ts": "2026-03-23T03:56:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:03:00Z",
+      "end_ts": "2026-03-23T04:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:09:00Z",
+      "end_ts": "2026-03-23T04:09:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:11:00Z",
+      "end_ts": "2026-03-23T04:11:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:17:00Z",
+      "end_ts": "2026-03-23T04:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:20:00Z",
+      "end_ts": "2026-03-23T04:20:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:25:00Z",
+      "end_ts": "2026-03-23T04:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:35:00Z",
+      "end_ts": "2026-03-23T04:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:41:00Z",
+      "end_ts": "2026-03-23T04:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:46:00Z",
+      "end_ts": "2026-03-23T04:46:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T04:53:00Z",
+      "end_ts": "2026-03-23T04:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T05:15:00Z",
+      "end_ts": "2026-03-23T05:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T05:18:00Z",
+      "end_ts": "2026-03-23T05:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T05:23:00Z",
+      "end_ts": "2026-03-23T05:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T05:28:00Z",
+      "end_ts": "2026-03-23T05:28:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T05:31:00Z",
+      "end_ts": "2026-03-23T05:31:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T05:39:00Z",
+      "end_ts": "2026-03-23T05:40:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-23T05:43:00Z",
+      "end_ts": "2026-03-23T05:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T00:59:00Z",
+      "end_ts": "2026-03-24T00:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T01:01:00Z",
+      "end_ts": "2026-03-24T01:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T01:25:00Z",
+      "end_ts": "2026-03-24T01:25:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T01:27:00Z",
+      "end_ts": "2026-03-24T01:28:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T01:33:00Z",
+      "end_ts": "2026-03-24T01:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T01:39:00Z",
+      "end_ts": "2026-03-24T01:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T01:44:00Z",
+      "end_ts": "2026-03-24T01:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T02:03:00Z",
+      "end_ts": "2026-03-24T02:04:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T02:29:00Z",
+      "end_ts": "2026-03-24T02:29:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T02:32:00Z",
+      "end_ts": "2026-03-24T02:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T02:53:00Z",
+      "end_ts": "2026-03-24T02:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T02:56:00Z",
+      "end_ts": "2026-03-24T02:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:01:00Z",
+      "end_ts": "2026-03-24T03:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:04:00Z",
+      "end_ts": "2026-03-24T03:04:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:10:00Z",
+      "end_ts": "2026-03-24T03:11:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:14:00Z",
+      "end_ts": "2026-03-24T03:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:17:00Z",
+      "end_ts": "2026-03-24T03:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:23:00Z",
+      "end_ts": "2026-03-24T03:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:27:00Z",
+      "end_ts": "2026-03-24T03:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:35:00Z",
+      "end_ts": "2026-03-24T03:36:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:44:00Z",
+      "end_ts": "2026-03-24T03:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:54:00Z",
+      "end_ts": "2026-03-24T03:55:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T03:58:00Z",
+      "end_ts": "2026-03-24T03:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:01:00Z",
+      "end_ts": "2026-03-24T04:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:03:00Z",
+      "end_ts": "2026-03-24T04:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:05:00Z",
+      "end_ts": "2026-03-24T04:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:09:00Z",
+      "end_ts": "2026-03-24T04:11:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:13:00Z",
+      "end_ts": "2026-03-24T04:13:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:19:00Z",
+      "end_ts": "2026-03-24T04:19:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:32:00Z",
+      "end_ts": "2026-03-24T04:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:36:00Z",
+      "end_ts": "2026-03-24T04:37:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:41:00Z",
+      "end_ts": "2026-03-24T04:41:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:43:00Z",
+      "end_ts": "2026-03-24T04:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:51:00Z",
+      "end_ts": "2026-03-24T04:51:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:57:00Z",
+      "end_ts": "2026-03-24T04:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T04:59:00Z",
+      "end_ts": "2026-03-24T04:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T05:01:00Z",
+      "end_ts": "2026-03-24T05:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T05:04:00Z",
+      "end_ts": "2026-03-24T05:04:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T05:10:00Z",
+      "end_ts": "2026-03-24T05:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T05:13:00Z",
+      "end_ts": "2026-03-24T05:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T05:21:00Z",
+      "end_ts": "2026-03-24T05:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T05:24:00Z",
+      "end_ts": "2026-03-24T05:24:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T05:40:00Z",
+      "end_ts": "2026-03-24T05:40:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T05:45:00Z",
+      "end_ts": "2026-03-24T05:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-24T05:49:00Z",
+      "end_ts": "2026-03-24T05:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-25T01:10:00Z",
+      "end_ts": "2026-03-25T01:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-25T01:13:00Z",
+      "end_ts": "2026-03-25T01:13:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-25T03:08:00Z",
+      "end_ts": "2026-03-25T03:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-25T03:28:00Z",
+      "end_ts": "2026-03-25T03:28:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-25T03:36:00Z",
+      "end_ts": "2026-03-25T03:36:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-25T03:43:00Z",
+      "end_ts": "2026-03-25T03:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-25T03:53:00Z",
+      "end_ts": "2026-03-25T03:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T00:32:00Z",
+      "end_ts": "2026-03-26T00:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T01:07:00Z",
+      "end_ts": "2026-03-26T01:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T01:10:00Z",
+      "end_ts": "2026-03-26T01:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T01:23:00Z",
+      "end_ts": "2026-03-26T01:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T01:30:00Z",
+      "end_ts": "2026-03-26T01:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T01:42:00Z",
+      "end_ts": "2026-03-26T01:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T01:44:00Z",
+      "end_ts": "2026-03-26T01:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T01:47:00Z",
+      "end_ts": "2026-03-26T01:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T01:57:00Z",
+      "end_ts": "2026-03-26T01:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T02:00:00Z",
+      "end_ts": "2026-03-26T02:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T02:18:00Z",
+      "end_ts": "2026-03-26T02:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T02:23:00Z",
+      "end_ts": "2026-03-26T02:23:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T02:26:00Z",
+      "end_ts": "2026-03-26T02:26:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:00:00Z",
+      "end_ts": "2026-03-26T03:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:12:00Z",
+      "end_ts": "2026-03-26T03:12:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:17:00Z",
+      "end_ts": "2026-03-26T03:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:25:00Z",
+      "end_ts": "2026-03-26T03:26:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:28:00Z",
+      "end_ts": "2026-03-26T03:30:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:32:00Z",
+      "end_ts": "2026-03-26T03:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:36:00Z",
+      "end_ts": "2026-03-26T03:36:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:50:00Z",
+      "end_ts": "2026-03-26T03:50:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:56:00Z",
+      "end_ts": "2026-03-26T03:56:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T03:58:00Z",
+      "end_ts": "2026-03-26T03:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T04:02:00Z",
+      "end_ts": "2026-03-26T04:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T04:06:00Z",
+      "end_ts": "2026-03-26T04:07:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T04:21:00Z",
+      "end_ts": "2026-03-26T04:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T04:47:00Z",
+      "end_ts": "2026-03-26T04:47:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-26T05:01:00Z",
+      "end_ts": "2026-03-26T05:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T00:14:00Z",
+      "end_ts": "2026-03-27T00:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T00:32:00Z",
+      "end_ts": "2026-03-27T00:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T01:35:00Z",
+      "end_ts": "2026-03-27T01:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T02:02:00Z",
+      "end_ts": "2026-03-27T02:02:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T02:13:00Z",
+      "end_ts": "2026-03-27T02:13:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T02:17:00Z",
+      "end_ts": "2026-03-27T02:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T02:20:00Z",
+      "end_ts": "2026-03-27T02:20:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T02:22:00Z",
+      "end_ts": "2026-03-27T02:22:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T02:41:00Z",
+      "end_ts": "2026-03-27T02:41:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T02:43:00Z",
+      "end_ts": "2026-03-27T02:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T02:54:00Z",
+      "end_ts": "2026-03-27T02:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T03:18:00Z",
+      "end_ts": "2026-03-27T03:18:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T03:43:00Z",
+      "end_ts": "2026-03-27T03:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T03:59:00Z",
+      "end_ts": "2026-03-27T03:59:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T04:13:00Z",
+      "end_ts": "2026-03-27T04:13:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T04:40:00Z",
+      "end_ts": "2026-03-27T04:41:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T05:08:00Z",
+      "end_ts": "2026-03-27T05:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T05:12:00Z",
+      "end_ts": "2026-03-27T05:12:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T05:19:00Z",
+      "end_ts": "2026-03-27T05:19:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T05:32:00Z",
+      "end_ts": "2026-03-27T05:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-27T05:43:00Z",
+      "end_ts": "2026-03-27T05:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T00:09:00Z",
+      "end_ts": "2026-03-30T00:09:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T00:16:00Z",
+      "end_ts": "2026-03-30T00:16:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T00:26:00Z",
+      "end_ts": "2026-03-30T00:26:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T00:28:00Z",
+      "end_ts": "2026-03-30T00:28:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T00:36:00Z",
+      "end_ts": "2026-03-30T00:36:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T00:40:00Z",
+      "end_ts": "2026-03-30T00:40:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T00:58:00Z",
+      "end_ts": "2026-03-30T00:58:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T01:14:00Z",
+      "end_ts": "2026-03-30T01:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T01:58:00Z",
+      "end_ts": "2026-03-30T01:58:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T03:15:00Z",
+      "end_ts": "2026-03-30T03:15:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T03:32:00Z",
+      "end_ts": "2026-03-30T03:32:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T03:40:00Z",
+      "end_ts": "2026-03-30T03:40:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T04:27:00Z",
+      "end_ts": "2026-03-30T04:27:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T04:54:00Z",
+      "end_ts": "2026-03-30T04:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T02:14:00Z",
+      "end_ts": "2026-03-31T02:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T02:36:00Z",
+      "end_ts": "2026-03-31T02:36:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T02:57:00Z",
+      "end_ts": "2026-03-31T02:57:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T03:21:00Z",
+      "end_ts": "2026-03-31T03:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T03:33:00Z",
+      "end_ts": "2026-03-31T03:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T03:39:00Z",
+      "end_ts": "2026-03-31T03:39:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T03:42:00Z",
+      "end_ts": "2026-03-31T03:42:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T03:58:00Z",
+      "end_ts": "2026-03-31T03:58:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T04:14:00Z",
+      "end_ts": "2026-03-31T04:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T04:19:00Z",
+      "end_ts": "2026-03-31T04:19:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T04:34:00Z",
+      "end_ts": "2026-03-31T04:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T04:44:00Z",
+      "end_ts": "2026-03-31T04:44:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T04:49:00Z",
+      "end_ts": "2026-03-31T04:49:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T05:03:00Z",
+      "end_ts": "2026-03-31T05:03:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T05:10:00Z",
+      "end_ts": "2026-03-31T05:10:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T05:16:00Z",
+      "end_ts": "2026-03-31T05:16:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T05:31:00Z",
+      "end_ts": "2026-03-31T05:31:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T05:35:00Z",
+      "end_ts": "2026-03-31T05:35:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T05:54:00Z",
+      "end_ts": "2026-03-31T05:54:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-31T06:02:00Z",
+      "end_ts": "2026-03-31T06:02:00Z",
+      "reason": "missing expected bar"
+    }
+  ],
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
+  "timezone": "Asia/Seoul",
+  "checksum": "ec72f0a0036c33675053c3400cd09b1a8cef68cc944b584088e14c641a2e5013",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/053800/053800_1m_20250512_20260512.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "kis_intraday_exchange_timestamp_v1_unverified"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "KRX intraday timestamp/session audit required before authority",
+    "missing ranges present"
+  ],
+  "generated_at": "2026-05-31T15:27:12.811057Z"
+}

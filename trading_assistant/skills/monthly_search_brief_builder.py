@@ -6,6 +6,10 @@ from pathlib import Path
 from typing import Any
 
 from schemas.monthly_search_brief import MonthlySearchBrief
+from schemas.weekly_focus_rotation import (
+    weekly_focus_payload,
+    weekly_focus_rotation_payload,
+)
 from skills.strategy_change_ledger import StrategyChangeLedger
 
 
@@ -22,6 +26,7 @@ class MonthlySearchBriefBuilder:
         bot_id: str = "",
         strategy_id: str = "",
         report_only: bool = True,
+        week_start: str = "",
     ) -> MonthlySearchBrief:
         evidence_paths: list[str] = []
         source_ids: list[str] = []
@@ -35,6 +40,28 @@ class MonthlySearchBriefBuilder:
         attribution: dict[str, list[str]] = {}
 
         retrospective_path = self._findings_dir / "retrospective_synthesis.jsonl"
+        focus_week_start = week_start or _latest_week_start(retrospective_path) or f"{run_month}-01"
+        weekly_focus = weekly_focus_payload(focus_week_start)
+        weekly_focus_signal_id = f"weekly_focus:{weekly_focus['focus_id']}:{focus_week_start}"
+        focus.append({
+            "source_weekly_signal_id": weekly_focus_signal_id,
+            "category": "weekly_focus_rotation",
+            "family": weekly_focus["focus_id"],
+            "summary": weekly_focus["monthly_handoff"],
+            "authority": "search_order_only",
+            "portfolio_families": weekly_focus["portfolio_families"],
+            "strategy_ids": weekly_focus["strategy_ids"],
+        })
+        source_ids.append(weekly_focus_signal_id)
+        for family in weekly_focus["portfolio_families"]:
+            phase_families.append({
+                "family": family,
+                "priority": "weekly_focus_rotation",
+                "reason": weekly_focus["monthly_handoff"],
+                "source_weekly_signal_id": weekly_focus_signal_id,
+                "authority": "search_order_only",
+            })
+
         for row in _tail_jsonl(retrospective_path, limit=8):
             evidence_paths.append(_rel(retrospective_path))
             signal_id = str(row.get("week_start") or row.get("review_id") or row.get("recorded_at") or "")
@@ -263,6 +290,8 @@ class MonthlySearchBriefBuilder:
             rollback_candidates=_dedupe_dicts(rollback_candidates)[:12],
             negative_priors=_dedupe_dicts(negative_priors)[:20],
             confidence_caps=_dedupe_dicts(confidence_caps)[:20],
+            weekly_focus=weekly_focus,
+            weekly_focus_rotation=weekly_focus_rotation_payload(),
             evidence_paths=_dedupe(evidence_paths),
             source_weekly_signal_ids=_dedupe(source_ids),
             attribution=attribution,
@@ -315,6 +344,14 @@ def _tail_jsonl(path: Path, *, limit: int) -> list[dict[str, Any]]:
         if isinstance(item, dict):
             rows.append(item)
     return rows[-limit:]
+
+
+def _latest_week_start(path: Path) -> str:
+    for row in reversed(_tail_jsonl(path, limit=20)):
+        week_start = str(row.get("week_start") or "").strip()
+        if week_start:
+            return week_start
+    return ""
 
 
 def _list(value: Any) -> list[dict[str, Any]]:

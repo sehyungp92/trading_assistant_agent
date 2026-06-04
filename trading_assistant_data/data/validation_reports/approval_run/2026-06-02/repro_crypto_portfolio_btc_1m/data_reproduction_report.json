@@ -1,0 +1,109 @@
+{
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "bundle_checksum": "6f2f1876c71a6877ad9bdf104825a8a3b939c7305ae32e3f3acca4f1cf282eb0",
+  "bundle_id": "f0a4510d239ad1a6",
+  "bundle_manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\crypto_portfolio\\btc_1m\\data_bundle_manifest.json",
+  "calendars": [
+    "crypto_utc_24_7_v1"
+  ],
+  "checks": [
+    {
+      "errors": [],
+      "name": "bundle_is_authoritative",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "bundle_checksum_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice_index_bundle_checksum_matches",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:337939cb690c1358:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [
+        "canonical parquet checksum mismatch: ['a6a70858e3694f889c8e75ff8627625eacef3d5d0259c6790d76633991afdeb1'] != 'd3ad60d2b039c7a2ad6884b0d0da6e6f59c6cf44b3561ce69f0072caa9e28ee6'"
+      ],
+      "name": "slice:337939cb690c1358:checksum_matches_canonical_parquet",
+      "passed": false
+    },
+    {
+      "errors": [
+        "actual bars mismatch: 42421 != 44640"
+      ],
+      "name": "slice:337939cb690c1358:bar_count_matches_manifest",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:calendar_matches_bundle",
+      "passed": true
+    }
+  ],
+  "fee_model_version": "fees_v1",
+  "generated_at": "2026-06-02T00:13:28Z",
+  "ok": false,
+  "recomputed_bundle_checksum": "6f2f1876c71a6877ad9bdf104825a8a3b939c7305ae32e3f3acca4f1cf282eb0",
+  "report_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\validation_reports\\approval_run\\2026-06-02\\repro_crypto_portfolio_btc_1m\\data_reproduction_report.json",
+  "slice_count": 1,
+  "slices": [
+    {
+      "actual_bars": 44640,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=BTC\\timeframe=1m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "d3ad60d2b039c7a2ad6884b0d0da6e6f59c6cf44b3561ce69f0072caa9e28ee6",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:59:00+00:00",
+      "expected_bars": 44640,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "337939cb690c1358",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\BTC\\1m\\20260501T000000Z_20260531T235900Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-30T11:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 42421,
+      "recomputed_canonical_checksums": [
+        "a6a70858e3694f889c8e75ff8627625eacef3d5d0259c6790d76633991afdeb1"
+      ],
+      "recomputed_expected_bars": 44640,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "BTC",
+      "timeframe": "1m"
+    }
+  ],
+  "slippage_model_version": "slippage_v1"
+}

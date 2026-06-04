@@ -1,0 +1,14 @@
+{
+  "status": "complete",
+  "symbol": "NQ",
+  "timeframe": "5m",
+  "start": "2024-03-11T00:00:00+00:00",
+  "end": "2026-05-01T20:55:00+00:00",
+  "raw_path": "data\\raw\\ibkr\\read_only_cme_futures\\symbol=NQ\\timeframe=5m\\export_id=ibkr-nq-5m-879ab95c2ee8e573\\bars.parquet",
+  "canonical_path": "data\\canonical\\bars\\market=cme_futures\\source=ibkr\\kind=read_only_authority\\symbol=NQ\\timeframe=5m\\year=2024\\month=03\\part.parquet",
+  "manifest_path": "data\\manifests\\slices\\ibkr\\cme_futures\\NQ\\5m\\20240311T000000Z_20260501T205500Z.market_data_manifest.json",
+  "manifest_id": "3a6fe94108245480",
+  "checksum": "c79c1a9838ffb0f1dfc902fafab1a0d7fbe89dd2b97f8e038028f9c73b6c7d6d",
+  "usable_for_authoritative_validation": true,
+  "blocking_reasons": []
+}

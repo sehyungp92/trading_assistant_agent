@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from schemas.strategy_change_ledger import RollbackStatus, StrategyChangeRecord, StrategyChangeRecordType
+from schemas.weekly_focus_rotation import weekly_focus_for_week
 from skills.monthly_search_brief_builder import MonthlySearchBriefBuilder
 from skills.strategy_change_ledger import StrategyChangeLedger
 
@@ -60,9 +61,14 @@ def test_monthly_search_brief_is_bounded_and_non_authoritative(tmp_path: Path) -
         run_month="2026-05",
         bot_id="bot1",
         strategy_id="strat1",
+        week_start="2026-06-01",
     )
 
     assert brief.report_only is True
+    assert brief.weekly_focus["focus_id"] == "k_stock_and_trading_stock"
+    assert brief.weekly_focus["week_start"] == "2026-06-01"
+    assert "k_stock_olr_kalcb" in brief.weekly_focus["portfolio_families"]
+    assert "trading_stock" in brief.weekly_focus["portfolio_families"]
     assert brief.experiment_focus_hints
     assert brief.negative_priors
     assert any(item.get("seed_type") == "active_hypothesis" for item in brief.seed_candidates)
@@ -73,6 +79,9 @@ def test_monthly_search_brief_is_bounded_and_non_authoritative(tmp_path: Path) -
     assert "if OOS repair triggers, inspect negative-prior families early in the ablation queue" in brief.phase_order_hints
     guidance = brief.to_optimizer_guidance()
     assert guidance["authority"] == "search_order_only"
+    assert guidance["plan_requirements"]["weekly_focus_id"] == "k_stock_and_trading_stock"
+    assert "trading_stock" in guidance["plan_requirements"]["focus_portfolio_families"]
+    assert "IARIC_v1" in guidance["plan_requirements"]["focus_strategy_ids"]
     assert guidance["rollback_candidates"]
     assert "stop_loss" in guidance["plan_requirements"]["rollback_families"]
     plan = brief.apply_to_experiment_plan_payload(
@@ -90,7 +99,10 @@ def test_monthly_search_brief_is_bounded_and_non_authoritative(tmp_path: Path) -
     assert plan["source_weekly_signal_ids"]
     assert any(item.startswith("brief_") for item in plan["phase_order"])
     assert any(item["family"] == "filter_threshold" for item in plan["candidate_families"])
+    assert any(item["family"] == "trading_stock" for item in plan["candidate_families"])
+    assert any(item["family"] == "k_stock_olr_kalcb" for item in plan["candidate_families"])
     assert any("approval gates" in expectation for expectation in plan["gate_expectations"])
+    assert any("weekly_focus" in expectation for expectation in plan["gate_expectations"])
     assert any("stop_loss" in risk for risk in plan["overfit_risks"])
 
 
@@ -118,3 +130,11 @@ def test_monthly_search_brief_reads_strategy_change_ledger_projection(tmp_path: 
         item.get("source_weekly_signal_id") == record.record_id
         for item in brief.rollback_candidates
     )
+
+
+def test_weekly_focus_rotation_contract_cycles_by_portfolio_family() -> None:
+    assert weekly_focus_for_week("2026-06-01").focus_id == "k_stock_and_trading_stock"
+    assert weekly_focus_for_week("2026-06-08").focus_id == "trading_momentum"
+    assert weekly_focus_for_week("2026-06-15").focus_id == "trading_swing"
+    assert weekly_focus_for_week("2026-06-22").focus_id == "crypto_trader"
+    assert weekly_focus_for_week("2026-06-29").focus_id == "k_stock_and_trading_stock"

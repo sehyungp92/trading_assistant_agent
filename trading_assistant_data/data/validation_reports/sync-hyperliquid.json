@@ -1,0 +1,124 @@
+{
+  "dry_run": false,
+  "operation_count": 6,
+  "operations": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=BTC/timeframe=1d/year=2026/month=05/part.parquet"
+      ],
+      "download_end": "2026-05-31T23:59:59+00:00",
+      "download_start": "2026-05-01T00:00:00+00:00",
+      "dry_run": false,
+      "interval": "1d",
+      "kind": "candles",
+      "latest_existing_ts": "2026-06-01T00:00:00+00:00",
+      "manifest_paths": [
+        "data/manifests/slices/hyperliquid/crypto_perp/BTC/1d/20260501T000000Z_20260531T000000Z.market_data_manifest.json"
+      ],
+      "raw_path": "data/raw/hyperliquid/candles/symbol=BTC/interval=1d/20260501T000000Z_20260531T235959Z.json",
+      "rows_downloaded": 31,
+      "rows_written": 31,
+      "status": "written",
+      "symbol": "BTC"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/funding/market=crypto_perp/source=hyperliquid/symbol=BTC/year=2026/month=05/part.parquet"
+      ],
+      "download_end": "2026-05-31T23:59:59+00:00",
+      "download_start": "2026-05-01T00:00:00+00:00",
+      "dry_run": false,
+      "interval": "funding_1h",
+      "kind": "funding",
+      "latest_existing_ts": "2026-06-01T20:00:00+00:00",
+      "manifest_paths": [
+        "data/manifests/slices/hyperliquid/crypto_perp/BTC/funding_1h/20260501T000000Z_20260531T230000Z.market_data_manifest.json"
+      ],
+      "raw_path": "data/raw/hyperliquid/funding/symbol=BTC/interval=funding_1h/20260501T000000Z_20260531T235959Z.json",
+      "rows_downloaded": 743,
+      "rows_written": 743,
+      "status": "written",
+      "symbol": "BTC"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=ETH/timeframe=1d/year=2026/month=05/part.parquet"
+      ],
+      "download_end": "2026-05-31T23:59:59+00:00",
+      "download_start": "2026-05-01T00:00:00+00:00",
+      "dry_run": false,
+      "interval": "1d",
+      "kind": "candles",
+      "latest_existing_ts": "2026-06-01T00:00:00+00:00",
+      "manifest_paths": [
+        "data/manifests/slices/hyperliquid/crypto_perp/ETH/1d/20260501T000000Z_20260531T000000Z.market_data_manifest.json"
+      ],
+      "raw_path": "data/raw/hyperliquid/candles/symbol=ETH/interval=1d/20260501T000000Z_20260531T235959Z.json",
+      "rows_downloaded": 31,
+      "rows_written": 31,
+      "status": "written",
+      "symbol": "ETH"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/funding/market=crypto_perp/source=hyperliquid/symbol=ETH/year=2026/month=05/part.parquet"
+      ],
+      "download_end": "2026-05-31T23:59:59+00:00",
+      "download_start": "2026-05-01T00:00:00+00:00",
+      "dry_run": false,
+      "interval": "funding_1h",
+      "kind": "funding",
+      "latest_existing_ts": "2026-06-01T20:00:00+00:00",
+      "manifest_paths": [
+        "data/manifests/slices/hyperliquid/crypto_perp/ETH/funding_1h/20260501T000000Z_20260531T230000Z.market_data_manifest.json"
+      ],
+      "raw_path": "data/raw/hyperliquid/funding/symbol=ETH/interval=funding_1h/20260501T000000Z_20260531T235959Z.json",
+      "rows_downloaded": 743,
+      "rows_written": 743,
+      "status": "written",
+      "symbol": "ETH"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=crypto_perp/source=hyperliquid/kind=trades/symbol=SOL/timeframe=1d/year=2026/month=05/part.parquet"
+      ],
+      "download_end": "2026-05-31T23:59:59+00:00",
+      "download_start": "2026-05-01T00:00:00+00:00",
+      "dry_run": false,
+      "interval": "1d",
+      "kind": "candles",
+      "latest_existing_ts": "2026-06-01T00:00:00+00:00",
+      "manifest_paths": [
+        "data/manifests/slices/hyperliquid/crypto_perp/SOL/1d/20260501T000000Z_20260531T000000Z.market_data_manifest.json"
+      ],
+      "raw_path": "data/raw/hyperliquid/candles/symbol=SOL/interval=1d/20260501T000000Z_20260531T235959Z.json",
+      "rows_downloaded": 31,
+      "rows_written": 31,
+      "status": "written",
+      "symbol": "SOL"
+    },
+    {
+      "canonical_paths": [
+        "data/canonical/funding/market=crypto_perp/source=hyperliquid/symbol=SOL/year=2026/month=05/part.parquet"
+      ],
+      "download_end": "2026-05-31T23:59:59+00:00",
+      "download_start": "2026-05-01T00:00:00+00:00",
+      "dry_run": false,
+      "interval": "funding_1h",
+      "kind": "funding",
+      "latest_existing_ts": "2026-06-01T20:00:00+00:00",
+      "manifest_paths": [
+        "data/manifests/slices/hyperliquid/crypto_perp/SOL/funding_1h/20260501T000000Z_20260531T230000Z.market_data_manifest.json"
+      ],
+      "raw_path": "data/raw/hyperliquid/funding/symbol=SOL/interval=funding_1h/20260501T000000Z_20260531T235959Z.json",
+      "rows_downloaded": 743,
+      "rows_written": 743,
+      "status": "written",
+      "symbol": "SOL"
+    }
+  ],
+  "slice_manifest_count": 6,
+  "source": "hyperliquid",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "status": "complete"
+}

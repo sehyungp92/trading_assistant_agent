@@ -1,0 +1,365 @@
+{
+  "request_count": 7,
+  "requests": [
+    {
+      "authority_status": "declared_local_research_export",
+      "canonical_expectations": {
+        "adjustment_policy": "krx_flow_raw_adjustment_policy_v1",
+        "calendar": "krx_equities_daily_calendar_v1",
+        "corporate_action_policy": "lrs_export_declares_corporate_action_policy_v1",
+        "fee_policy": "not_applicable_research_series_v1",
+        "sector_flow_schema_version": "lrs_sector_flow_schema_v1",
+        "session_policy": "krx_daily_bar_session_v1",
+        "slippage_policy": "not_applicable_research_series_v1",
+        "timestamp_policy": "krx_daily_date_anchor_v1"
+      },
+      "data_kind": "daily_flow",
+      "download_request": {
+        "config_hash_required": true,
+        "export_id_required": true,
+        "export_root_env": "LRS_EXPORT_ROOT",
+        "export_scope": "table",
+        "provider": "lrs",
+        "pulled_at_utc_required": true,
+        "request_type": "local_research_table_export",
+        "source_db_env": "LRS_DB_PATH",
+        "source_table": "daily_flow"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "LRS_DB_PATH",
+          "LRS_EXPORT_ROOT"
+        ]
+      },
+      "legacy_family": "k_stock_krx_lrs",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/krx_daily_parquet/tables/daily_flow.parquet",
+      "legacy_row_count": 56959,
+      "legacy_sha256": "6d1b8a863df9267c5d3f3e8b2d38d98e6b1f1d54b2e6744ecdbcbf94ff1f3729",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "date",
+        "end": "2026-05-29T00:00:00+00:00",
+        "start": "2024-02-19T00:00:00+00:00"
+      },
+      "market": "krx_equity",
+      "request_id": "src_req_5b0b9db777eb403ee21dcb6c",
+      "schema_version": "source_request_v1",
+      "source": "lrs",
+      "source_endpoint": "lrs://local-research-export/daily_flow/ALL",
+      "source_kind": "lrs_krx_table_export",
+      "symbol": "ALL",
+      "timeframe": "1d_flow"
+    },
+    {
+      "authority_status": "declared_local_research_export",
+      "canonical_expectations": {
+        "adjustment_policy": "krx_flow_raw_adjustment_policy_v1",
+        "calendar": "krx_equities_daily_calendar_v1",
+        "corporate_action_policy": "lrs_export_declares_corporate_action_policy_v1",
+        "fee_policy": "not_applicable_research_series_v1",
+        "sector_flow_schema_version": "lrs_sector_flow_schema_v1",
+        "session_policy": "krx_daily_bar_session_v1",
+        "slippage_policy": "not_applicable_research_series_v1",
+        "timestamp_policy": "krx_daily_date_anchor_v1"
+      },
+      "data_kind": "daily_foreign_flow",
+      "download_request": {
+        "config_hash_required": true,
+        "export_id_required": true,
+        "export_root_env": "LRS_EXPORT_ROOT",
+        "export_scope": "table",
+        "provider": "lrs",
+        "pulled_at_utc_required": true,
+        "request_type": "local_research_table_export",
+        "source_db_env": "LRS_DB_PATH",
+        "source_table": "daily_foreign_flow"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "LRS_DB_PATH",
+          "LRS_EXPORT_ROOT"
+        ]
+      },
+      "legacy_family": "k_stock_krx_lrs",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/krx_daily_parquet/tables/daily_foreign_flow.parquet",
+      "legacy_row_count": 56959,
+      "legacy_sha256": "1fa24aa3a1d8a7d2de1ca0cb322ef02b74a015893dee7a25ece04e737ab2a66c",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "date",
+        "end": "2026-05-29T00:00:00+00:00",
+        "start": "2024-02-19T00:00:00+00:00"
+      },
+      "market": "krx_equity",
+      "request_id": "src_req_d4a6e0cd9ebe587371191746",
+      "schema_version": "source_request_v1",
+      "source": "lrs",
+      "source_endpoint": "lrs://local-research-export/daily_foreign_flow/ALL",
+      "source_kind": "lrs_krx_table_export",
+      "symbol": "ALL",
+      "timeframe": "1d_flow"
+    },
+    {
+      "authority_status": "declared_local_research_export",
+      "canonical_expectations": {
+        "adjustment_policy": "krx_flow_raw_adjustment_policy_v1",
+        "calendar": "krx_equities_daily_calendar_v1",
+        "corporate_action_policy": "lrs_export_declares_corporate_action_policy_v1",
+        "fee_policy": "not_applicable_research_series_v1",
+        "sector_flow_schema_version": "lrs_sector_flow_schema_v1",
+        "session_policy": "krx_daily_bar_session_v1",
+        "slippage_policy": "not_applicable_research_series_v1",
+        "timestamp_policy": "krx_daily_date_anchor_v1"
+      },
+      "data_kind": "daily_institutional_flow",
+      "download_request": {
+        "config_hash_required": true,
+        "export_id_required": true,
+        "export_root_env": "LRS_EXPORT_ROOT",
+        "export_scope": "table",
+        "provider": "lrs",
+        "pulled_at_utc_required": true,
+        "request_type": "local_research_table_export",
+        "source_db_env": "LRS_DB_PATH",
+        "source_table": "daily_institutional_flow"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "LRS_DB_PATH",
+          "LRS_EXPORT_ROOT"
+        ]
+      },
+      "legacy_family": "k_stock_krx_lrs",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/krx_daily_parquet/tables/daily_institutional_flow.parquet",
+      "legacy_row_count": 56959,
+      "legacy_sha256": "99c78a1a21210c15ab5b6b0cecc952e9db6e21cb6bf4e513a5f266707aa969c2",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "date",
+        "end": "2026-05-29T00:00:00+00:00",
+        "start": "2024-02-19T00:00:00+00:00"
+      },
+      "market": "krx_equity",
+      "request_id": "src_req_950ac0bf37c28ec1276817e5",
+      "schema_version": "source_request_v1",
+      "source": "lrs",
+      "source_endpoint": "lrs://local-research-export/daily_institutional_flow/ALL",
+      "source_kind": "lrs_krx_table_export",
+      "symbol": "ALL",
+      "timeframe": "1d_flow"
+    },
+    {
+      "authority_status": "declared_local_research_export",
+      "canonical_expectations": {
+        "adjustment_policy": "krx_equity_raw_adjustment_policy_v1",
+        "calendar": "krx_equities_daily_calendar_v1",
+        "corporate_action_policy": "lrs_export_declares_corporate_action_policy_v1",
+        "fee_policy": "not_applicable_research_series_v1",
+        "sector_flow_schema_version": "lrs_sector_flow_schema_v1",
+        "session_policy": "krx_daily_bar_session_v1",
+        "slippage_policy": "not_applicable_research_series_v1",
+        "timestamp_policy": "krx_daily_date_anchor_v1"
+      },
+      "data_kind": "daily_ohlcv",
+      "download_request": {
+        "config_hash_required": true,
+        "export_id_required": true,
+        "export_root_env": "LRS_EXPORT_ROOT",
+        "export_scope": "table",
+        "provider": "lrs",
+        "pulled_at_utc_required": true,
+        "request_type": "local_research_table_export",
+        "source_db_env": "LRS_DB_PATH",
+        "source_table": "daily_ohlcv"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "LRS_DB_PATH",
+          "LRS_EXPORT_ROOT"
+        ]
+      },
+      "legacy_family": "k_stock_krx_lrs",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/krx_daily_parquet/tables/daily_ohlcv.parquet",
+      "legacy_row_count": 56917,
+      "legacy_sha256": "8ba32b40b0f65de4d960835f3a90d79e376ca7008723ea400d0f4e397a0726c8",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "date",
+        "end": "2026-05-29T00:00:00+00:00",
+        "start": "2024-02-19T00:00:00+00:00"
+      },
+      "market": "krx_equity",
+      "request_id": "src_req_06ea5dc45d8c0909b3f96312",
+      "schema_version": "source_request_v1",
+      "source": "lrs",
+      "source_endpoint": "lrs://local-research-export/daily_ohlcv/ALL",
+      "source_kind": "lrs_krx_table_export",
+      "symbol": "ALL",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_local_research_export",
+      "canonical_expectations": {
+        "adjustment_policy": "krx_equity_raw_adjustment_policy_v1",
+        "calendar": "krx_equities_daily_calendar_v1",
+        "corporate_action_policy": "lrs_export_declares_corporate_action_policy_v1",
+        "fee_policy": "not_applicable_research_series_v1",
+        "sector_flow_schema_version": "lrs_sector_flow_schema_v1",
+        "session_policy": "krx_daily_bar_session_v1",
+        "slippage_policy": "not_applicable_research_series_v1",
+        "timestamp_policy": "krx_daily_date_anchor_v1"
+      },
+      "data_kind": "fx_rates",
+      "download_request": {
+        "config_hash_required": true,
+        "export_id_required": true,
+        "export_root_env": "LRS_EXPORT_ROOT",
+        "export_scope": "table",
+        "provider": "lrs",
+        "pulled_at_utc_required": true,
+        "request_type": "local_research_table_export",
+        "source_db_env": "LRS_DB_PATH",
+        "source_table": "fx_rates"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "LRS_DB_PATH",
+          "LRS_EXPORT_ROOT"
+        ]
+      },
+      "legacy_family": "k_stock_krx_lrs",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/krx_daily_parquet/tables/fx_rates.parquet",
+      "legacy_row_count": 0,
+      "legacy_sha256": "5383ceec1ace54483fd039ea76ecd3b71b8760579fd9af6357cf9fab99a4e835",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": null,
+        "end": null,
+        "start": null
+      },
+      "market": "krx_equity",
+      "request_id": "src_req_5691d20eb0f631063de28d81",
+      "schema_version": "source_request_v1",
+      "source": "lrs",
+      "source_endpoint": "lrs://local-research-export/fx_rates/ALL",
+      "source_kind": "lrs_krx_table_export",
+      "symbol": "ALL",
+      "timeframe": "static_or_daily"
+    },
+    {
+      "authority_status": "declared_local_research_export",
+      "canonical_expectations": {
+        "adjustment_policy": "krx_equity_raw_adjustment_policy_v1",
+        "calendar": "krx_equities_daily_calendar_v1",
+        "corporate_action_policy": "lrs_export_declares_corporate_action_policy_v1",
+        "fee_policy": "not_applicable_research_series_v1",
+        "sector_flow_schema_version": "lrs_sector_flow_schema_v1",
+        "session_policy": "krx_daily_bar_session_v1",
+        "slippage_policy": "not_applicable_research_series_v1",
+        "timestamp_policy": "krx_daily_date_anchor_v1"
+      },
+      "data_kind": "index_ohlcv",
+      "download_request": {
+        "config_hash_required": true,
+        "export_id_required": true,
+        "export_root_env": "LRS_EXPORT_ROOT",
+        "export_scope": "table",
+        "provider": "lrs",
+        "pulled_at_utc_required": true,
+        "request_type": "local_research_table_export",
+        "source_db_env": "LRS_DB_PATH",
+        "source_table": "index_ohlcv"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "LRS_DB_PATH",
+          "LRS_EXPORT_ROOT"
+        ]
+      },
+      "legacy_family": "k_stock_krx_lrs",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/krx_daily_parquet/tables/index_ohlcv.parquet",
+      "legacy_row_count": 1106,
+      "legacy_sha256": "7b44b3ff40d6372248ab7c165ed6b60edf6c9c4eb5d95b9410e6bf84a055f55d",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "date",
+        "end": "2026-05-29T00:00:00+00:00",
+        "start": "2024-02-19T00:00:00+00:00"
+      },
+      "market": "krx_index",
+      "request_id": "src_req_7c72b50745a76a7665db0c43",
+      "schema_version": "source_request_v1",
+      "source": "lrs",
+      "source_endpoint": "lrs://local-research-export/index_ohlcv/ALL",
+      "source_kind": "lrs_krx_table_export",
+      "symbol": "ALL",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_local_research_export",
+      "canonical_expectations": {
+        "adjustment_policy": "krx_equity_raw_adjustment_policy_v1",
+        "calendar": "krx_equities_daily_calendar_v1",
+        "corporate_action_policy": "lrs_export_declares_corporate_action_policy_v1",
+        "fee_policy": "not_applicable_research_series_v1",
+        "sector_flow_schema_version": "lrs_sector_flow_schema_v1",
+        "session_policy": "krx_daily_bar_session_v1",
+        "slippage_policy": "not_applicable_research_series_v1",
+        "timestamp_policy": "krx_daily_date_anchor_v1"
+      },
+      "data_kind": "reference_table",
+      "download_request": {
+        "config_hash_required": true,
+        "export_id_required": true,
+        "export_root_env": "LRS_EXPORT_ROOT",
+        "export_scope": "table",
+        "provider": "lrs",
+        "pulled_at_utc_required": true,
+        "request_type": "local_research_table_export",
+        "source_db_env": "LRS_DB_PATH",
+        "source_table": "sector_map"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "LRS_DB_PATH",
+          "LRS_EXPORT_ROOT"
+        ]
+      },
+      "legacy_family": "k_stock_krx_lrs",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/krx_daily_parquet/tables/sector_map.parquet",
+      "legacy_row_count": 103,
+      "legacy_sha256": "1b69da472afece96a289fb22e94833da5475280969a3c4894fb03a074020787b",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": null,
+        "end": null,
+        "start": null
+      },
+      "market": "krx_equity",
+      "request_id": "src_req_b07e0c1bbf51e1fc568dd7c8",
+      "schema_version": "source_request_v1",
+      "source": "lrs",
+      "source_endpoint": "lrs://local-research-export/sector_map/ALL",
+      "source_kind": "lrs_krx_table_export",
+      "symbol": "ALL",
+      "timeframe": "static_or_daily"
+    }
+  ],
+  "schema_version": "source_request_manifest_v1",
+  "snapshot": "2026-05-30",
+  "source_kind": "lrs_krx_table_export"
+}

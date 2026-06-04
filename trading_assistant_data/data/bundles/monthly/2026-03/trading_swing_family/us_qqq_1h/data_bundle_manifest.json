@@ -1,0 +1,32 @@
+{
+  "bundle_id": "aa2de15f7709393b",
+  "data_repo_path": ".",
+  "data_repo_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "data_repo_branch": "master",
+  "slice_manifests": [
+    {
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/QQQ/1h/20260301T000000Z_20260331T235900Z.market_data_manifest.json",
+      "manifest_id": "fabb26230bab8974",
+      "source": "ibkr",
+      "market": "us_equity",
+      "symbol": "QQQ",
+      "timeframe": "1h",
+      "start_ts": "2026-03-01T00:00:00Z",
+      "end_ts": "2026-03-31T23:59:00Z",
+      "checksum": "fbee64b35b89851ebd7e1f41262686947de43c690c64a0524214e746ffa6d323",
+      "calendar": "us_equities_xnys_xnas_v1",
+      "authoritative": true
+    }
+  ],
+  "bundle_checksum": "5090cf1db460fb26fed8e0ba51a945bec3702fdaa2463dc07c318101736f94c9",
+  "calendars": [
+    "us_equities_xnys_xnas_v1"
+  ],
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "adjustment_policy": "us_equity_split_dividend_adjusted_policy_v1",
+  "status": "authoritative",
+  "diagnostics_only_reason": "",
+  "schema_version": "data_bundle_manifest_v1",
+  "generated_at": "2026-05-31T17:01:49.690278Z"
+}

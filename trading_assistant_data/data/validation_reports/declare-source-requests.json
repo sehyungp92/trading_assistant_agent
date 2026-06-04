@@ -1,0 +1,48 @@
+{
+  "artifact_root": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\source_requests\\reference_snapshot_2026-05-30",
+  "dry_run": false,
+  "legacy_family_counts": {
+    "crypto_trader": 24,
+    "k_stock_kis_intraday": 1200,
+    "k_stock_krx_lrs": 835,
+    "trading_momentum": 2,
+    "trading_raw": 14,
+    "trading_regime": 3,
+    "trading_stock": 611,
+    "trading_swing": 10
+  },
+  "legacy_file_count": 2699,
+  "market_counts": {
+    "cme_futures": 20,
+    "crypto_perp": 24,
+    "global_macro": 3,
+    "krx_equity": 2030,
+    "krx_index": 5,
+    "us_equity": 617
+  },
+  "request_count": 2699,
+  "schema_version": "source_request_manifest_v1",
+  "snapshot": "2026-05-30",
+  "snapshot_root": "data/imported/reference_snapshot_2026-05-30",
+  "source_counts": {
+    "hyperliquid": 24,
+    "ibkr": 637,
+    "kis": 1200,
+    "legacy_seed": 3,
+    "lrs": 835
+  },
+  "source_kind_counts": {
+    "hyperliquid_candles": 21,
+    "hyperliquid_funding": 3,
+    "ibkr_cme_futures_historical_bars": 20,
+    "ibkr_us_equity_historical_bars": 617,
+    "kis_krx_intraday_bars": 1200,
+    "legacy_derived_seed": 3,
+    "lrs_krx_daily_export": 210,
+    "lrs_krx_flow_export": 618,
+    "lrs_krx_table_export": 7
+  },
+  "source_request_manifest": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\source_requests\\reference_snapshot_2026-05-30\\source_request_manifest.json",
+  "unclassified": [],
+  "unclassified_count": 0
+}

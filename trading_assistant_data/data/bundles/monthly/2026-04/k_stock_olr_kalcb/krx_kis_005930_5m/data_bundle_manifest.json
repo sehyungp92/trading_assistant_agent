@@ -1,0 +1,32 @@
+{
+  "bundle_id": "4ad80ed8e5018ddf",
+  "data_repo_path": ".",
+  "data_repo_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "data_repo_branch": "master",
+  "slice_manifests": [
+    {
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005930/5m/20260401T000000Z_20260430T235900Z.market_data_manifest.json",
+      "manifest_id": "bdb6520b1ac1ff71",
+      "source": "kis",
+      "market": "krx_equity",
+      "symbol": "005930",
+      "timeframe": "5m",
+      "start_ts": "2026-04-01T00:00:00Z",
+      "end_ts": "2026-04-30T23:59:00Z",
+      "checksum": "2cf3fd091b47188fd92ab12bc6fcc505acef2580f37b4f296fb8aa0decd203c8",
+      "calendar": "krx_equities_kis_intraday_continuous_auction_v1",
+      "authoritative": true
+    }
+  ],
+  "bundle_checksum": "a45ea60c4ec537083d9a885ceb267b1edf48e0818e66f80fb97594a0be5c800c",
+  "calendars": [
+    "krx_equities_kis_intraday_continuous_auction_v1"
+  ],
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "status": "authoritative",
+  "diagnostics_only_reason": "",
+  "schema_version": "data_bundle_manifest_v1",
+  "generated_at": "2026-05-31T17:02:33.055083Z"
+}

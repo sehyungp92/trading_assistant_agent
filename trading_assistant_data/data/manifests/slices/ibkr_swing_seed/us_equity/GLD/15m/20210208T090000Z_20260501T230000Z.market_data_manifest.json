@@ -1,0 +1,169 @@
+{
+  "manifest_id": "77ff292d5dfd11e6",
+  "source": "ibkr_swing_seed",
+  "market": "us_equity",
+  "symbol": "GLD",
+  "timeframe": "15m",
+  "start_ts": "2021-02-08T09:00:00Z",
+  "end_ts": "2026-05-01T23:00:00Z",
+  "expected_bars": 34840,
+  "actual_bars": 83432,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [
+    {
+      "start_ts": "2021-02-15T14:30:00Z",
+      "end_ts": "2021-02-15T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2021-04-02T13:30:00Z",
+      "end_ts": "2021-04-02T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2021-05-31T13:30:00Z",
+      "end_ts": "2021-05-31T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2021-07-05T13:30:00Z",
+      "end_ts": "2021-07-05T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2021-09-06T13:30:00Z",
+      "end_ts": "2021-09-06T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2021-11-25T14:30:00Z",
+      "end_ts": "2021-11-25T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2021-12-24T14:30:00Z",
+      "end_ts": "2021-12-24T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2022-01-17T14:30:00Z",
+      "end_ts": "2022-01-17T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2022-02-21T14:30:00Z",
+      "end_ts": "2022-02-21T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2022-04-15T13:30:00Z",
+      "end_ts": "2022-04-15T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2022-05-30T13:30:00Z",
+      "end_ts": "2022-05-30T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2022-06-20T13:30:00Z",
+      "end_ts": "2022-06-20T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2022-07-04T13:30:00Z",
+      "end_ts": "2022-07-04T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2022-09-05T13:30:00Z",
+      "end_ts": "2022-09-05T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2022-11-24T14:30:00Z",
+      "end_ts": "2022-11-24T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2022-12-26T14:30:00Z",
+      "end_ts": "2022-12-26T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-01-02T14:30:00Z",
+      "end_ts": "2023-01-02T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-01-16T14:30:00Z",
+      "end_ts": "2023-01-16T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-02-20T14:30:00Z",
+      "end_ts": "2023-02-20T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-04-07T13:30:00Z",
+      "end_ts": "2023-04-07T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-29T13:30:00Z",
+      "end_ts": "2023-05-29T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-06-19T13:30:00Z",
+      "end_ts": "2023-06-19T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-07-04T13:30:00Z",
+      "end_ts": "2023-07-04T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-09-04T13:30:00Z",
+      "end_ts": "2023-09-04T19:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-11-23T14:30:00Z",
+      "end_ts": "2023-11-23T20:45:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-12-25T14:30:00Z",
+      "end_ts": "2023-12-25T20:45:00Z",
+      "reason": "missing expected bar"
+    }
+  ],
+  "session_calendar": "us_equities_xnys_xnas_v1",
+  "timezone": "America/New_York",
+  "checksum": "b184d6118c9df96c9b3fe0156128cb0449a1878830ffbb74a7ecfc7776bba476",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "us_equity_raw_adjustment_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/trading/backtests/swing/data/raw/GLD_15m.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "us_equity_raw_adjustment_policy_v1",
+    "corporate_action_policy": "us_equity_raw_adjustment_policy_v1",
+    "raw_adjustment_policy": "raw_ohlcv_with_ibkr_metadata_v1",
+    "session_policy": "diagnostic_snapshot_session_unverified"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "swing seed data authority requires production refresh lineage and calendar audit",
+    "missing ranges present"
+  ],
+  "generated_at": "2026-05-31T16:07:32.950599Z"
+}

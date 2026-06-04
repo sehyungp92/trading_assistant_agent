@@ -43,9 +43,12 @@ class MonthlyValidationRequest:
     run_month: str = ""
     strategy_version: str = ""
     config_version: str = ""
+    config_hash: str = ""
     deployment_id: str = ""
     parameter_set_id: str = ""
     market_data_manifest_path: Path | None = None
+    data_bundle_manifest_path: Path | None = None
+    data_bundle_checksum: str = ""
     telemetry_manifest_path: Path | None = None
     backtest_command: list[str] | None = None
     optimizer_sequence_enabled: bool = True
@@ -63,6 +66,7 @@ class MonthlyValidationRequest:
     trading_repo_path: str = ""
     trading_repo_branch: str = ""
     trading_repo_commit_sha: str = ""
+    deployment_metadata_path: Path | None = None
     workflow_contract_path: str = ""
     workflow_contract_version: str = ""
     max_workers: int = 2
@@ -147,7 +151,17 @@ class MonthlyValidationOrchestrator:
             request.strategy_id,
             run_month,
         )
-        coverage = self._load_market_manifest(market_data_path)
+        requested_data_bundle_path = request.data_bundle_manifest_path
+        data_bundle = (
+            self._load_data_bundle_manifest(requested_data_bundle_path)
+            if requested_data_bundle_path is not None
+            else None
+        )
+        coverage = (
+            self._load_market_manifest(market_data_path)
+            if requested_data_bundle_path is None or request.market_data_manifest_path is not None
+            else None
+        )
         stage_status: dict[str, bool | str] = {
             "manifest_written": False,
             "runner_started": False,
@@ -162,16 +176,40 @@ class MonthlyValidationOrchestrator:
         }
 
         blocking_reasons: list[str] = []
+        data_blocking_reasons: list[str] = []
         if telemetry.authoritative_eligibility == TelemetryEligibility.INSUFFICIENT_LINEAGE:
             blocking_reasons.append("telemetry lineage below required threshold")
         elif telemetry.authoritative_eligibility == TelemetryEligibility.INSUFFICIENT_DATA:
             blocking_reasons.append("telemetry has insufficient events")
-        if coverage is None:
-            blocking_reasons.append(f"market data manifest missing or malformed: {market_data_path}")
-        elif not coverage.usable_for_authoritative_validation:
-            blocking_reasons.extend(coverage.blocking_reasons or ["market data manifest is not authoritative"])
-        elif coverage.coverage_ratio < self.required_market_coverage_ratio:
-            blocking_reasons.append("market data coverage below required threshold")
+        if requested_data_bundle_path is not None:
+            if data_bundle is None:
+                reason = f"data bundle manifest missing or malformed: {requested_data_bundle_path}"
+                data_blocking_reasons.append(reason)
+                blocking_reasons.append(reason)
+            else:
+                if request.data_bundle_checksum and request.data_bundle_checksum != data_bundle.bundle_checksum:
+                    reason = "data bundle checksum does not match request"
+                    data_blocking_reasons.append(reason)
+                    blocking_reasons.append(reason)
+                if not data_bundle.usable_for_authoritative_validation:
+                    reason = f"data bundle is not authoritative: {data_bundle.status.value}"
+                    if data_bundle.diagnostics_only_reason:
+                        reason += f" ({data_bundle.diagnostics_only_reason})"
+                    data_blocking_reasons.append(reason)
+                    blocking_reasons.append(reason)
+        else:
+            if coverage is None:
+                reason = f"market data manifest missing or malformed: {market_data_path}"
+                data_blocking_reasons.append(reason)
+                blocking_reasons.append(reason)
+            elif not coverage.usable_for_authoritative_validation:
+                reasons = coverage.blocking_reasons or ["market data manifest is not authoritative"]
+                data_blocking_reasons.extend(reasons)
+                blocking_reasons.extend(reasons)
+            elif coverage.coverage_ratio < self.required_market_coverage_ratio:
+                reason = "market data coverage below required threshold"
+                data_blocking_reasons.append(reason)
+                blocking_reasons.append(reason)
 
         strategy_plugin_contract = self._load_strategy_plugin_contract(
             request.strategy_plugin_contract_path
@@ -183,6 +221,10 @@ class MonthlyValidationOrchestrator:
                 blocking_reasons.append(
                     "strategy plugin contract is not mature enough for optimizer run: "
                     f"{strategy_plugin_contract.maturity.value}"
+                )
+            elif data_bundle is not None:
+                blocking_reasons.extend(
+                    self._strategy_plugin_bundle_errors(strategy_plugin_contract, data_bundle)
                 )
             elif coverage is not None:
                 if (
@@ -233,10 +275,14 @@ class MonthlyValidationOrchestrator:
         except Exception:
             monthly_search_brief_path = None
 
-        runner_market_data_path = market_data_path
-        data_bundle_manifest_path = ""
-        data_bundle_checksum = ""
-        if request.optimizer_sequence_enabled and coverage is not None:
+        runner_market_data_path = requested_data_bundle_path or market_data_path
+        data_bundle_manifest_path = str(requested_data_bundle_path) if requested_data_bundle_path else ""
+        data_bundle_checksum = (
+            data_bundle.bundle_checksum
+            if data_bundle is not None
+            else (request.data_bundle_checksum if requested_data_bundle_path else "")
+        )
+        if request.optimizer_sequence_enabled and requested_data_bundle_path is None and coverage is not None:
             data_bundle = self._write_data_bundle_manifest(
                 coverage=coverage,
                 coverage_path=market_data_path,
@@ -249,18 +295,41 @@ class MonthlyValidationOrchestrator:
                 reason = f"data bundle is not authoritative: {data_bundle.status.value}"
                 if data_bundle.diagnostics_only_reason:
                     reason += f" ({data_bundle.diagnostics_only_reason})"
+                data_blocking_reasons.append(reason)
                 blocking_reasons.append(reason)
 
         default_in_sample_start = request.in_sample_start
         default_in_sample_end = request.in_sample_end
         data_manifest_checksum = ""
-        if coverage is not None:
+        if data_bundle is not None:
+            data_manifest_checksum = data_bundle.bundle_checksum
+            if request.optimizer_sequence_enabled:
+                (
+                    default_in_sample_start,
+                    default_in_sample_end,
+                    in_sample_errors,
+                ) = self._data_bundle_in_sample_window(
+                    data_bundle,
+                    window_start=window_start,
+                    window_end=window_end,
+                    requested_start=default_in_sample_start,
+                    requested_end=default_in_sample_end,
+                )
+                data_blocking_reasons.extend(in_sample_errors)
+                blocking_reasons.extend(in_sample_errors)
+        elif coverage is not None:
             data_manifest_checksum = data_bundle_checksum or coverage.checksum
             if request.optimizer_sequence_enabled:
                 candidate_in_sample_start = default_in_sample_start or coverage.start_ts.date()
                 candidate_in_sample_end = default_in_sample_end or (window_start - timedelta(days=1))
+                if coverage.start_ts.date() > window_start or coverage.end_ts.date() < window_end:
+                    reason = "market data does not include latest-month selection coverage"
+                    data_blocking_reasons.append(reason)
+                    blocking_reasons.append(reason)
                 if candidate_in_sample_end < candidate_in_sample_start:
-                    blocking_reasons.append("market data does not include pre-latest-month in-sample coverage")
+                    reason = "market data does not include pre-latest-month in-sample coverage"
+                    data_blocking_reasons.append(reason)
+                    blocking_reasons.append(reason)
                 else:
                     default_in_sample_start = candidate_in_sample_start
                     default_in_sample_end = candidate_in_sample_end
@@ -277,6 +346,7 @@ class MonthlyValidationOrchestrator:
             strategy_id=request.strategy_id,
             strategy_version=request.strategy_version,
             config_version=request.config_version,
+            config_hash=request.config_hash,
             deployment_id=request.deployment_id,
             parameter_set_id=request.parameter_set_id,
             latest_month_start=window_start,
@@ -289,6 +359,10 @@ class MonthlyValidationOrchestrator:
             trading_repo_path=request.trading_repo_path,
             trading_repo_branch=request.trading_repo_branch,
             trading_repo_commit_sha=request.trading_repo_commit_sha,
+            deployment_metadata_path=(
+                str(request.deployment_metadata_path)
+                if request.deployment_metadata_path else ""
+            ),
             backtest_command=request.backtest_command or [],
             artifact_root=str(artifact_root),
             strategy_plugin_id=(
@@ -389,7 +463,7 @@ class MonthlyValidationOrchestrator:
             )
 
         gap = self.attributor.attribute(
-            coverage_blocking_reasons=coverage.blocking_reasons if coverage else blocking_reasons,
+            coverage_blocking_reasons=data_blocking_reasons,
             telemetry_known_gaps=telemetry.known_gaps if telemetry.authoritative_eligibility != TelemetryEligibility.AUTHORITATIVE else [],
             parity_report=parity_report,
         )
@@ -403,7 +477,7 @@ class MonthlyValidationOrchestrator:
         evidence_paths = [
             str(manifest_path),
             str(telemetry_path),
-            str(market_data_path),
+            str(runner_market_data_path),
             str(outcome_prior_snapshot_path),
         ]
         if data_bundle_manifest_path:
@@ -734,6 +808,13 @@ class MonthlyValidationOrchestrator:
             return None
 
     @staticmethod
+    def _load_data_bundle_manifest(path: Path) -> DataBundleManifest | None:
+        try:
+            return DataBundleManifest.model_validate(json.loads(Path(path).read_text(encoding="utf-8")))
+        except Exception:
+            return None
+
+    @staticmethod
     def _load_strategy_plugin_contract(path: Path | None) -> StrategyPluginContract | None:
         if path is None:
             return None
@@ -741,6 +822,86 @@ class MonthlyValidationOrchestrator:
             return StrategyPluginContract.model_validate(json.loads(Path(path).read_text(encoding="utf-8")))
         except Exception:
             return None
+
+    @staticmethod
+    def _strategy_plugin_bundle_errors(
+        contract: StrategyPluginContract,
+        bundle: DataBundleManifest,
+    ) -> list[str]:
+        errors: list[str] = []
+        if contract.supported_symbols:
+            supported_symbols = {symbol.upper() for symbol in contract.supported_symbols}
+            unsupported_symbols = sorted({
+                item.symbol.upper()
+                for item in bundle.slice_manifests
+                if item.symbol.upper() not in supported_symbols
+            })
+            if unsupported_symbols:
+                errors.append(
+                    "strategy plugin contract does not support data-bundle symbol(s): "
+                    + ", ".join(unsupported_symbols)
+                )
+        if contract.supported_timeframes:
+            supported_timeframes = set(contract.supported_timeframes)
+            unsupported_timeframes = sorted({
+                item.timeframe
+                for item in bundle.slice_manifests
+                if item.timeframe not in supported_timeframes
+            })
+            if unsupported_timeframes:
+                errors.append(
+                    "strategy plugin contract does not support data-bundle timeframe(s): "
+                    + ", ".join(unsupported_timeframes)
+                )
+        return errors
+
+    @staticmethod
+    def _data_bundle_in_sample_window(
+        bundle: DataBundleManifest,
+        *,
+        window_start: date,
+        window_end: date,
+        requested_start: date | None,
+        requested_end: date | None,
+    ) -> tuple[date | None, date | None, list[str]]:
+        slice_starts = [
+            item.start_ts.date()
+            for item in bundle.slice_manifests
+            if item.start_ts is not None
+        ]
+        slice_ends = [
+            item.end_ts.date()
+            for item in bundle.slice_manifests
+            if item.end_ts is not None
+        ]
+        if (
+            len(slice_starts) != len(bundle.slice_manifests)
+            or len(slice_ends) != len(bundle.slice_manifests)
+        ):
+            if requested_start is None or requested_end is None:
+                return (
+                    None,
+                    None,
+                    ["data bundle slice timestamps missing for optimizer in-sample window"],
+                )
+            return (
+                requested_start,
+                requested_end,
+                ["data bundle slice timestamps missing for optimizer in-sample window"],
+            )
+
+        common_start = max(slice_starts)
+        common_end = min(slice_ends)
+        target_start = requested_start or common_start
+        target_end = requested_end or (window_start - timedelta(days=1))
+        errors: list[str] = []
+        if target_start < common_start or target_end > common_end:
+            errors.append("data bundle does not cover optimizer in-sample window")
+        if common_start > window_start or common_end < window_end:
+            errors.append("data bundle does not cover latest-month selection window")
+        if target_end < target_start:
+            errors.append("data bundle does not include pre-latest-month in-sample coverage")
+        return target_start, target_end, errors
 
     def _write_data_bundle_manifest(
         self,

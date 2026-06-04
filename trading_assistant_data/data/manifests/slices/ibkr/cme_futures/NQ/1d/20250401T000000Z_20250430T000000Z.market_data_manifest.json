@@ -6,23 +6,54 @@
   "timeframe": "1d",
   "start_ts": "2025-04-01T00:00:00Z",
   "end_ts": "2025-04-30T00:00:00Z",
-  "expected_bars": 21,
+  "expected_bars": 22,
   "actual_bars": 21,
-  "coverage_ratio": 1.0,
-  "missing_ranges": [],
-  "session_calendar": "",
-  "timezone": "UTC",
+  "coverage_ratio": 0.9545454545454546,
+  "missing_ranges": [
+    {
+      "start_ts": "2025-04-06T00:00:00",
+      "end_ts": "2025-04-06T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-04-13T00:00:00",
+      "end_ts": "2025-04-13T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-04-20T00:00:00",
+      "end_ts": "2025-04-20T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-04-27T00:00:00",
+      "end_ts": "2025-04-27T00:00:00",
+      "reason": "missing trading date"
+    }
+  ],
+  "session_calendar": "cme_equity_index_futures_v1",
+  "timezone": "America/Chicago",
   "checksum": "a442b10ab79a54322c9f3b38187438911f05cbc8e8f9725753ee9e07c8df52bb",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "cme_futures_panama_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/NQ_1d.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "cme_futures_panama_v1",
+    "session_policy": "diagnostic_snapshot_session_unverified",
+    "roll_policy": "",
+    "contract_chain_checksum": ""
+  },
   "usable_for_authoritative_validation": false,
   "blocking_reasons": [
     "CME session/roll authority requires final exchange calendar and roll checksum",
-    "session calendar missing",
-    "source_version is not a data repo commit SHA"
+    "missing ranges present"
   ],
-  "generated_at": "2026-05-30T22:26:57.980955Z"
+  "generated_at": "2026-05-31T16:09:25.725812Z"
 }

@@ -1,0 +1,32 @@
+{
+  "bundle_id": "3d8888dce7dd7de6",
+  "data_repo_path": ".",
+  "data_repo_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "data_repo_branch": "master",
+  "slice_manifests": [
+    {
+      "manifest_path": "data/manifests/slices/hyperliquid/crypto_perp/BTC/1d/20260401T000000Z_20260430T000000Z.market_data_manifest.json",
+      "manifest_id": "bc8d089609d84ce9",
+      "source": "hyperliquid",
+      "market": "crypto_perp",
+      "symbol": "BTC",
+      "timeframe": "1d",
+      "start_ts": "2026-04-01T00:00:00Z",
+      "end_ts": "2026-04-30T00:00:00Z",
+      "checksum": "14445e689e952b7020d45c16776b1d4f4b1de87b988b17b4f88f9764bb3c53b4",
+      "calendar": "crypto_utc_24_7_v1",
+      "authoritative": true
+    }
+  ],
+  "bundle_checksum": "9f456ec5f516bc220aedc68a50d06ac7b4b2a52f9c3fd0906eb51175dd787beb",
+  "calendars": [
+    "crypto_utc_24_7_v1"
+  ],
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "status": "authoritative",
+  "diagnostics_only_reason": "",
+  "schema_version": "data_bundle_manifest_v1",
+  "generated_at": "2026-05-31T15:13:06.466043Z"
+}

@@ -1,0 +1,40 @@
+{
+  "manifest_id": "c685536dc066e21e",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "ETH",
+  "timeframe": "funding_8h",
+  "start_ts": "2026-06-01T00:00:00.050000Z",
+  "end_ts": "2026-06-01T18:00:00.025000Z",
+  "expected_bars": 3,
+  "actual_bars": 19,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [
+    {
+      "start_ts": "2026-06-01T08:00:00.050000Z",
+      "end_ts": "2026-06-01T16:00:00.050000Z",
+      "reason": "missing expected bar"
+    }
+  ],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "52ac80b1785022287b570b69032408c66233aafd8448e26b0ac11ed916e06d06",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/raw/hyperliquid/funding/symbol=ETH/interval=funding_8h/20260530T030000Z_20260601T121609Z.json,data/raw/hyperliquid/funding/symbol=ETH/interval=funding_8h/20260601T040000Z_20260601T142048Z.json,data/raw/hyperliquid/funding/symbol=ETH/interval=funding_8h/20260601T060000Z_20260601T183434Z.json",
+    "export_id": "unknown_snapshot",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "missing ranges present"
+  ],
+  "generated_at": "2026-06-01T18:37:11.583451Z"
+}

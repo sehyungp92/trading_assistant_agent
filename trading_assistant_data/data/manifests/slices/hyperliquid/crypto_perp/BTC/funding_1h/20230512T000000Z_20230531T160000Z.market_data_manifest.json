@@ -1,0 +1,330 @@
+{
+  "manifest_id": "2e4eee3e93775419",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "BTC",
+  "timeframe": "funding_1h",
+  "start_ts": "2023-05-12T00:00:00Z",
+  "end_ts": "2023-05-31T16:00:00Z",
+  "expected_bars": 473,
+  "actual_bars": 60,
+  "coverage_ratio": 0.12684989429175475,
+  "missing_ranges": [
+    {
+      "start_ts": "2023-05-12T01:00:00Z",
+      "end_ts": "2023-05-12T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-12T09:00:00Z",
+      "end_ts": "2023-05-12T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-12T17:00:00Z",
+      "end_ts": "2023-05-12T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-13T01:00:00Z",
+      "end_ts": "2023-05-13T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-13T09:00:00Z",
+      "end_ts": "2023-05-13T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-13T17:00:00Z",
+      "end_ts": "2023-05-13T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-14T01:00:00Z",
+      "end_ts": "2023-05-14T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-14T09:00:00Z",
+      "end_ts": "2023-05-14T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-14T17:00:00Z",
+      "end_ts": "2023-05-14T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-15T01:00:00Z",
+      "end_ts": "2023-05-15T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-15T09:00:00Z",
+      "end_ts": "2023-05-15T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-15T17:00:00Z",
+      "end_ts": "2023-05-15T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-16T01:00:00Z",
+      "end_ts": "2023-05-16T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-16T09:00:00Z",
+      "end_ts": "2023-05-16T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-16T17:00:00Z",
+      "end_ts": "2023-05-16T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-17T01:00:00Z",
+      "end_ts": "2023-05-17T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-17T09:00:00Z",
+      "end_ts": "2023-05-17T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-17T17:00:00Z",
+      "end_ts": "2023-05-17T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-18T01:00:00Z",
+      "end_ts": "2023-05-18T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-18T09:00:00Z",
+      "end_ts": "2023-05-18T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-18T17:00:00Z",
+      "end_ts": "2023-05-18T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-19T01:00:00Z",
+      "end_ts": "2023-05-19T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-19T09:00:00Z",
+      "end_ts": "2023-05-19T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-19T17:00:00Z",
+      "end_ts": "2023-05-19T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-20T01:00:00Z",
+      "end_ts": "2023-05-20T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-20T09:00:00Z",
+      "end_ts": "2023-05-20T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-20T17:00:00Z",
+      "end_ts": "2023-05-20T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-21T01:00:00Z",
+      "end_ts": "2023-05-21T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-21T09:00:00Z",
+      "end_ts": "2023-05-21T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-21T17:00:00Z",
+      "end_ts": "2023-05-21T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-22T01:00:00Z",
+      "end_ts": "2023-05-22T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-22T09:00:00Z",
+      "end_ts": "2023-05-22T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-22T17:00:00Z",
+      "end_ts": "2023-05-22T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-23T01:00:00Z",
+      "end_ts": "2023-05-23T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-23T09:00:00Z",
+      "end_ts": "2023-05-23T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-23T17:00:00Z",
+      "end_ts": "2023-05-23T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-24T01:00:00Z",
+      "end_ts": "2023-05-24T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-24T09:00:00Z",
+      "end_ts": "2023-05-24T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-24T17:00:00Z",
+      "end_ts": "2023-05-24T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-25T01:00:00Z",
+      "end_ts": "2023-05-25T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-25T09:00:00Z",
+      "end_ts": "2023-05-25T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-25T17:00:00Z",
+      "end_ts": "2023-05-25T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-26T01:00:00Z",
+      "end_ts": "2023-05-26T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-26T09:00:00Z",
+      "end_ts": "2023-05-26T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-26T17:00:00Z",
+      "end_ts": "2023-05-26T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-27T01:00:00Z",
+      "end_ts": "2023-05-27T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-27T09:00:00Z",
+      "end_ts": "2023-05-27T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-27T17:00:00Z",
+      "end_ts": "2023-05-27T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-28T01:00:00Z",
+      "end_ts": "2023-05-28T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-28T09:00:00Z",
+      "end_ts": "2023-05-28T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-28T17:00:00Z",
+      "end_ts": "2023-05-28T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-29T01:00:00Z",
+      "end_ts": "2023-05-29T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-29T09:00:00Z",
+      "end_ts": "2023-05-29T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-29T17:00:00Z",
+      "end_ts": "2023-05-29T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-30T01:00:00Z",
+      "end_ts": "2023-05-30T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-30T09:00:00Z",
+      "end_ts": "2023-05-30T15:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-30T17:00:00Z",
+      "end_ts": "2023-05-30T23:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-31T01:00:00Z",
+      "end_ts": "2023-05-31T07:00:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2023-05-31T09:00:00Z",
+      "end_ts": "2023-05-31T15:00:00Z",
+      "reason": "missing expected bar"
+    }
+  ],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "b4f4c843ba9f033e73c5bae0dce9cb564e9da4eddddb358aa46ebcec5e13c1e8",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/BTC.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "missing ranges present"
+  ],
+  "generated_at": "2026-06-01T20:20:02.975739Z"
+}

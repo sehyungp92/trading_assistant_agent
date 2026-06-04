@@ -1,0 +1,14 @@
+{
+  "bundle_checksum": "a45ea60c4ec537083d9a885ceb267b1edf48e0818e66f80fb97594a0be5c800c",
+  "generated_at": "2026-05-31T17:02:33.102995+00:00",
+  "schema_version": "bundle_slice_index_v1",
+  "slices": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=krx_equity/source=kis/kind=read_only_authority/symbol=005930/timeframe=5m/year=2026/month=04/part.parquet"
+      ],
+      "manifest_id": "bdb6520b1ac1ff71",
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005930/5m/20260401T000000Z_20260430T235900Z.market_data_manifest.json"
+    }
+  ]
+}

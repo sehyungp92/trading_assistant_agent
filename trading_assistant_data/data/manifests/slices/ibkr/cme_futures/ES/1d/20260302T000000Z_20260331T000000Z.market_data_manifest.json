@@ -9,20 +9,51 @@
   "expected_bars": 22,
   "actual_bars": 22,
   "coverage_ratio": 1.0,
-  "missing_ranges": [],
-  "session_calendar": "",
-  "timezone": "UTC",
+  "missing_ranges": [
+    {
+      "start_ts": "2026-03-08T00:00:00",
+      "end_ts": "2026-03-08T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-03-15T00:00:00",
+      "end_ts": "2026-03-15T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-03-22T00:00:00",
+      "end_ts": "2026-03-22T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-03-29T00:00:00",
+      "end_ts": "2026-03-29T00:00:00",
+      "reason": "missing trading date"
+    }
+  ],
+  "session_calendar": "cme_equity_index_futures_v1",
+  "timezone": "America/Chicago",
   "checksum": "16ca56547b0206f37d4c026d67028a280b8895f6a3b0622e462609ab16370de2",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "cme_futures_panama_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/ES_1d.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "cme_futures_panama_v1",
+    "session_policy": "diagnostic_snapshot_session_unverified",
+    "roll_policy": "",
+    "contract_chain_checksum": ""
+  },
   "usable_for_authoritative_validation": false,
   "blocking_reasons": [
     "CME session/roll authority requires final exchange calendar and roll checksum",
-    "session calendar missing",
-    "source_version is not a data repo commit SHA"
+    "missing ranges present"
   ],
-  "generated_at": "2026-05-30T22:26:56.195861Z"
+  "generated_at": "2026-05-31T16:09:23.590068Z"
 }

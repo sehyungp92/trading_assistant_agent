@@ -14,13 +14,19 @@
   "timezone": "UTC",
   "checksum": "4ef7900b8bbd2f8272fb0d7adc5c2e41725b8eccc912c3d0b16b10d20f0522cb",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "crypto_raw_perp_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
-  "usable_for_authoritative_validation": false,
-  "blocking_reasons": [
-    "source_version is not a data repo commit SHA"
-  ],
-  "generated_at": "2026-05-30T22:02:15.772516Z"
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/4h.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": true,
+  "blocking_reasons": [],
+  "generated_at": "2026-06-01T20:19:43.722976Z"
 }

@@ -1,0 +1,149 @@
+{
+  "manifest_id": "197d50c1cc738fd3",
+  "source": "kis",
+  "market": "krx_equity",
+  "symbol": "079550",
+  "timeframe": "1m",
+  "start_ts": "2026-03-03T00:02:00Z",
+  "end_ts": "2026-03-31T06:30:00Z",
+  "expected_bars": 7978,
+  "actual_bars": 7913,
+  "coverage_ratio": 0.9918525946352469,
+  "missing_ranges": [
+    {
+      "start_ts": "2026-03-03T00:04:00Z",
+      "end_ts": "2026-03-03T00:04:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T00:06:00Z",
+      "end_ts": "2026-03-03T00:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-03T00:08:00Z",
+      "end_ts": "2026-03-03T00:08:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T00:00:00Z",
+      "end_ts": "2026-03-04T00:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T00:14:00Z",
+      "end_ts": "2026-03-04T00:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T00:16:00Z",
+      "end_ts": "2026-03-04T00:17:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T00:19:00Z",
+      "end_ts": "2026-03-04T00:19:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T00:21:00Z",
+      "end_ts": "2026-03-04T00:21:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T00:31:00Z",
+      "end_ts": "2026-03-04T00:31:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T01:34:00Z",
+      "end_ts": "2026-03-04T01:34:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T02:20:00Z",
+      "end_ts": "2026-03-04T02:48:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T03:06:00Z",
+      "end_ts": "2026-03-04T03:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T03:52:00Z",
+      "end_ts": "2026-03-04T03:53:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T05:30:00Z",
+      "end_ts": "2026-03-04T05:30:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-04T05:33:00Z",
+      "end_ts": "2026-03-04T05:33:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T01:05:00Z",
+      "end_ts": "2026-03-05T01:05:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-05T02:42:00Z",
+      "end_ts": "2026-03-05T02:43:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-06T00:00:00Z",
+      "end_ts": "2026-03-06T00:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T01:05:00Z",
+      "end_ts": "2026-03-09T01:06:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-09T01:32:00Z",
+      "end_ts": "2026-03-09T02:01:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-25T04:13:00Z",
+      "end_ts": "2026-03-25T04:14:00Z",
+      "reason": "missing expected bar"
+    },
+    {
+      "start_ts": "2026-03-30T00:04:00Z",
+      "end_ts": "2026-03-30T00:04:00Z",
+      "reason": "missing expected bar"
+    }
+  ],
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
+  "timezone": "Asia/Seoul",
+  "checksum": "0a207fe2d2a01bb0017d4bedf94e88ded2e66601bcc7ebd7ec6d36973bd8813a",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/079550/079550_1m_20250512_20260512.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "kis_intraday_exchange_timestamp_v1_unverified"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "KRX intraday timestamp/session audit required before authority",
+    "missing ranges present"
+  ],
+  "generated_at": "2026-05-31T15:29:49.401118Z"
+}

@@ -1,5 +1,5 @@
 {
-  "manifest_id": "79bd7c86c06e6a46",
+  "manifest_id": "70fe58054f62d51a",
   "source": "kis",
   "market": "krx_equity",
   "symbol": "042660",
@@ -11,194 +11,34 @@
   "coverage_ratio": 1.0,
   "missing_ranges": [
     {
-      "start_ts": "2025-10-01T06:20:00Z",
-      "end_ts": "2025-10-01T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-01T06:31:00Z",
-      "end_ts": "2025-10-01T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-02T06:20:00Z",
-      "end_ts": "2025-10-02T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-02T06:31:00Z",
-      "end_ts": "2025-10-09T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-10T06:20:00Z",
-      "end_ts": "2025-10-10T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-10T06:31:00Z",
-      "end_ts": "2025-10-12T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-13T06:20:00Z",
-      "end_ts": "2025-10-13T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-13T06:31:00Z",
-      "end_ts": "2025-10-13T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-14T06:20:00Z",
-      "end_ts": "2025-10-14T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-14T06:31:00Z",
-      "end_ts": "2025-10-14T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-15T06:20:00Z",
-      "end_ts": "2025-10-15T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-15T06:31:00Z",
-      "end_ts": "2025-10-15T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-16T06:20:00Z",
-      "end_ts": "2025-10-16T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-16T06:31:00Z",
-      "end_ts": "2025-10-16T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-17T06:20:00Z",
-      "end_ts": "2025-10-17T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-17T06:31:00Z",
-      "end_ts": "2025-10-19T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-20T06:20:00Z",
-      "end_ts": "2025-10-20T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-20T06:31:00Z",
-      "end_ts": "2025-10-20T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-21T06:20:00Z",
-      "end_ts": "2025-10-21T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-21T06:31:00Z",
-      "end_ts": "2025-10-21T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-22T06:20:00Z",
-      "end_ts": "2025-10-22T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-22T06:31:00Z",
-      "end_ts": "2025-10-22T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-23T06:20:00Z",
-      "end_ts": "2025-10-23T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-23T06:31:00Z",
-      "end_ts": "2025-10-23T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-24T06:20:00Z",
-      "end_ts": "2025-10-24T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-24T06:31:00Z",
-      "end_ts": "2025-10-26T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-27T06:20:00Z",
-      "end_ts": "2025-10-27T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-27T06:31:00Z",
-      "end_ts": "2025-10-27T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-28T06:20:00Z",
-      "end_ts": "2025-10-28T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-28T06:31:00Z",
-      "end_ts": "2025-10-28T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-29T06:20:00Z",
-      "end_ts": "2025-10-29T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-29T06:31:00Z",
+      "start_ts": "2025-10-30T00:00:00Z",
       "end_ts": "2025-10-30T00:01:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-30T06:20:00Z",
-      "end_ts": "2025-10-30T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-30T06:31:00Z",
-      "end_ts": "2025-10-30T23:59:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-10-31T06:20:00Z",
-      "end_ts": "2025-10-31T06:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     }
   ],
-  "session_calendar": "krx_equities_v1",
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
   "timezone": "Asia/Seoul",
-  "checksum": "145246b7175224724bdb45af43d614b55b67fa5e0e10d9d31696ed293521dde6",
+  "checksum": "1f3eb68b0c7266bf5cdbc3b4ecdbbc55ebe3fb04cc627237afe51f5e6f44297c",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "krx_split_adjusted_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/042660/042660_1m_20250512_20260512.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "kis_intraday_exchange_timestamp_v1_unverified"
+  },
   "usable_for_authoritative_validation": false,
   "blocking_reasons": [
     "KRX intraday timestamp/session audit required before authority",
-    "missing ranges present",
-    "source_version is not a data repo commit SHA"
+    "missing ranges present"
   ],
-  "generated_at": "2026-05-30T22:07:15.474181Z"
+  "generated_at": "2026-05-31T15:21:39.773811Z"
 }

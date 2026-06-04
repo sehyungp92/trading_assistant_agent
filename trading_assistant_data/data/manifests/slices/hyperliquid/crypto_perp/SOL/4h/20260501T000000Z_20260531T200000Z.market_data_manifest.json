@@ -1,0 +1,32 @@
+{
+  "manifest_id": "768d099c7cb1081a",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "SOL",
+  "timeframe": "4h",
+  "start_ts": "2026-05-01T00:00:00Z",
+  "end_ts": "2026-05-31T20:00:00Z",
+  "expected_bars": 186,
+  "actual_bars": 186,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "a808229542b39db4aed7327cae69fed54c93a1221671b5ea5ab0b0960af47d81",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "archived_reference_snapshot_plus_live_hyperliquid_refresh",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/4h.parquet,data/raw/hyperliquid/candles/symbol=SOL/interval=4h/20260501T000000Z_20260531T235959Z.json",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": true,
+  "blocking_reasons": [],
+  "generated_at": "2026-06-01T20:21:54.529607Z"
+}

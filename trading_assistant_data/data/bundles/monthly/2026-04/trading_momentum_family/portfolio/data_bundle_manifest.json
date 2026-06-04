@@ -1,0 +1,45 @@
+{
+  "bundle_id": "496fcfd6cedb5ed1",
+  "data_repo_path": ".",
+  "data_repo_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "data_repo_branch": "master",
+  "slice_manifests": [
+    {
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/ES/1d/20240311T000000Z_20260501T000000Z.market_data_manifest.json",
+      "manifest_id": "aa89d670c731ae44",
+      "source": "ibkr",
+      "market": "cme_futures",
+      "symbol": "ES",
+      "timeframe": "1d",
+      "start_ts": "2024-03-11T00:00:00Z",
+      "end_ts": "2026-05-01T00:00:00Z",
+      "checksum": "7888eae93a37bea0a368a8413fc08ce5419f95dc28ca741979285c1051e9486e",
+      "calendar": "cme_equity_index_futures_v1",
+      "authoritative": true
+    },
+    {
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/5m/20240311T000000Z_20260501T205500Z.market_data_manifest.json",
+      "manifest_id": "20a056878f3a29b8",
+      "source": "ibkr",
+      "market": "cme_futures",
+      "symbol": "NQ",
+      "timeframe": "5m",
+      "start_ts": "2024-03-11T00:00:00Z",
+      "end_ts": "2026-05-01T20:55:00Z",
+      "checksum": "d586252bbdd66ca4a5d9f34198afb1ddf042eda4ae954740fa13160e63d614d0",
+      "calendar": "cme_equity_index_futures_v1",
+      "authoritative": true
+    }
+  ],
+  "bundle_checksum": "32f9e3891197955efc6a797ddd9d1a882a21c2c2674af08ebb62ee4dc690f7b8",
+  "calendars": [
+    "cme_equity_index_futures_v1"
+  ],
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "adjustment_policy": "cme_futures_panama_v1",
+  "status": "authoritative",
+  "diagnostics_only_reason": "",
+  "schema_version": "data_bundle_manifest_v1",
+  "generated_at": "2026-06-02T01:31:58.517804Z"
+}

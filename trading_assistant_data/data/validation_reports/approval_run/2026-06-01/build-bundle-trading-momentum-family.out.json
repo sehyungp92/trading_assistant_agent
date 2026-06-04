@@ -1,0 +1,13 @@
+﻿{
+  "bundle_checksum": "8ec7b634d0e5817a040b6a42763229357837968b2cc12e038b3f8afe2292dcd0",
+  "bundle_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\trading_momentum_family\\cme_nq_5m\\data_bundle_manifest.json",
+  "dry_run": false,
+  "slice_index_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\trading_momentum_family\\cme_nq_5m\\slice_index.json",
+  "status": "authoritative",
+  "validation": {
+    "errors": [],
+    "status": "authoritative",
+    "valid": true,
+    "warnings": []
+  }
+}

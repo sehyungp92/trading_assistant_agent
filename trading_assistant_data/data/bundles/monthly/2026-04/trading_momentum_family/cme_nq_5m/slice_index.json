@@ -1,0 +1,14 @@
+{
+  "bundle_checksum": "6c6466e40fd29d8ba02c5970f0ce920053a7063161a75e38ece42dfa8a067f3e",
+  "generated_at": "2026-05-31T16:28:03.721024+00:00",
+  "schema_version": "bundle_slice_index_v1",
+  "slices": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=cme_futures/source=ibkr/kind=read_only_authority/symbol=NQ/timeframe=5m/year=2026/month=04/part.parquet"
+      ],
+      "manifest_id": "2f68422b883b9866",
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/5m/20260401T220000Z_20260430T205500Z.market_data_manifest.json"
+    }
+  ]
+}

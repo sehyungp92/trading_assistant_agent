@@ -1,0 +1,944 @@
+{
+  "manifest_id": "049e93ec8ca44bff",
+  "source": "ibkr_momentum_seed",
+  "market": "cme_futures",
+  "symbol": "NQ",
+  "timeframe": "1d_panama",
+  "start_ts": "2022-12-19T00:00:00Z",
+  "end_ts": "2026-02-25T00:00:00Z",
+  "expected_bars": 830,
+  "actual_bars": 812,
+  "coverage_ratio": 0.9783132530120482,
+  "missing_ranges": [
+    {
+      "start_ts": "2022-12-25T00:00:00",
+      "end_ts": "2022-12-25T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2022-12-26T00:00:00",
+      "end_ts": "2022-12-26T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-01-01T00:00:00",
+      "end_ts": "2023-01-01T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-01-02T00:00:00",
+      "end_ts": "2023-01-02T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-01-08T00:00:00",
+      "end_ts": "2023-01-08T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-01-15T00:00:00",
+      "end_ts": "2023-01-15T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-01-22T00:00:00",
+      "end_ts": "2023-01-22T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-01-29T00:00:00",
+      "end_ts": "2023-01-29T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-02-05T00:00:00",
+      "end_ts": "2023-02-05T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-02-06T00:00:00",
+      "end_ts": "2023-02-06T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-02-07T00:00:00",
+      "end_ts": "2023-02-07T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-02-08T00:00:00",
+      "end_ts": "2023-02-08T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-02-09T00:00:00",
+      "end_ts": "2023-02-09T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-02-12T00:00:00",
+      "end_ts": "2023-02-12T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-02-19T00:00:00",
+      "end_ts": "2023-02-19T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-02-26T00:00:00",
+      "end_ts": "2023-02-26T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-03-05T00:00:00",
+      "end_ts": "2023-03-05T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-03-12T00:00:00",
+      "end_ts": "2023-03-12T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-03-19T00:00:00",
+      "end_ts": "2023-03-19T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-03-26T00:00:00",
+      "end_ts": "2023-03-26T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-04-02T00:00:00",
+      "end_ts": "2023-04-02T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-04-09T00:00:00",
+      "end_ts": "2023-04-09T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-04-16T00:00:00",
+      "end_ts": "2023-04-16T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-04-23T00:00:00",
+      "end_ts": "2023-04-23T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-04-30T00:00:00",
+      "end_ts": "2023-04-30T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-05-07T00:00:00",
+      "end_ts": "2023-05-07T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-05-14T00:00:00",
+      "end_ts": "2023-05-14T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-05-21T00:00:00",
+      "end_ts": "2023-05-21T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-05-28T00:00:00",
+      "end_ts": "2023-05-28T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-06-04T00:00:00",
+      "end_ts": "2023-06-04T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-06-11T00:00:00",
+      "end_ts": "2023-06-11T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-06-18T00:00:00",
+      "end_ts": "2023-06-18T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-06-25T00:00:00",
+      "end_ts": "2023-06-25T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-07-02T00:00:00",
+      "end_ts": "2023-07-02T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-07-09T00:00:00",
+      "end_ts": "2023-07-09T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-07-16T00:00:00",
+      "end_ts": "2023-07-16T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-07-23T00:00:00",
+      "end_ts": "2023-07-23T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-07-30T00:00:00",
+      "end_ts": "2023-07-30T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-08-06T00:00:00",
+      "end_ts": "2023-08-06T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-08-13T00:00:00",
+      "end_ts": "2023-08-13T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-08-20T00:00:00",
+      "end_ts": "2023-08-20T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-08-27T00:00:00",
+      "end_ts": "2023-08-27T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-09-03T00:00:00",
+      "end_ts": "2023-09-03T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-09-10T00:00:00",
+      "end_ts": "2023-09-10T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-09-17T00:00:00",
+      "end_ts": "2023-09-17T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-09-24T00:00:00",
+      "end_ts": "2023-09-24T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-10-01T00:00:00",
+      "end_ts": "2023-10-01T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-10-08T00:00:00",
+      "end_ts": "2023-10-08T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-10-15T00:00:00",
+      "end_ts": "2023-10-15T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-10-22T00:00:00",
+      "end_ts": "2023-10-22T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-10-29T00:00:00",
+      "end_ts": "2023-10-29T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-11-05T00:00:00",
+      "end_ts": "2023-11-05T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-11-12T00:00:00",
+      "end_ts": "2023-11-12T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-11-19T00:00:00",
+      "end_ts": "2023-11-19T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-11-26T00:00:00",
+      "end_ts": "2023-11-26T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-12-03T00:00:00",
+      "end_ts": "2023-12-03T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-12-10T00:00:00",
+      "end_ts": "2023-12-10T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-12-17T00:00:00",
+      "end_ts": "2023-12-17T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-12-24T00:00:00",
+      "end_ts": "2023-12-24T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-12-25T00:00:00",
+      "end_ts": "2023-12-25T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2023-12-31T00:00:00",
+      "end_ts": "2023-12-31T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-01-01T00:00:00",
+      "end_ts": "2024-01-01T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-01-07T00:00:00",
+      "end_ts": "2024-01-07T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-01-14T00:00:00",
+      "end_ts": "2024-01-14T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-01-21T00:00:00",
+      "end_ts": "2024-01-21T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-01-28T00:00:00",
+      "end_ts": "2024-01-28T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-02-04T00:00:00",
+      "end_ts": "2024-02-04T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-02-11T00:00:00",
+      "end_ts": "2024-02-11T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-02-18T00:00:00",
+      "end_ts": "2024-02-18T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-02-25T00:00:00",
+      "end_ts": "2024-02-25T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-03-03T00:00:00",
+      "end_ts": "2024-03-03T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-03-10T00:00:00",
+      "end_ts": "2024-03-10T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-03-17T00:00:00",
+      "end_ts": "2024-03-17T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-03-24T00:00:00",
+      "end_ts": "2024-03-24T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-03-31T00:00:00",
+      "end_ts": "2024-03-31T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-04-07T00:00:00",
+      "end_ts": "2024-04-07T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-04-14T00:00:00",
+      "end_ts": "2024-04-14T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-04-21T00:00:00",
+      "end_ts": "2024-04-21T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-04-28T00:00:00",
+      "end_ts": "2024-04-28T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-05-05T00:00:00",
+      "end_ts": "2024-05-05T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-05-12T00:00:00",
+      "end_ts": "2024-05-12T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-05-19T00:00:00",
+      "end_ts": "2024-05-19T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-05-26T00:00:00",
+      "end_ts": "2024-05-26T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-06-02T00:00:00",
+      "end_ts": "2024-06-02T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-06-09T00:00:00",
+      "end_ts": "2024-06-09T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-06-16T00:00:00",
+      "end_ts": "2024-06-16T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-06-23T00:00:00",
+      "end_ts": "2024-06-23T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-06-30T00:00:00",
+      "end_ts": "2024-06-30T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-07-07T00:00:00",
+      "end_ts": "2024-07-07T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-07-14T00:00:00",
+      "end_ts": "2024-07-14T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-07-21T00:00:00",
+      "end_ts": "2024-07-21T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-07-28T00:00:00",
+      "end_ts": "2024-07-28T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-08-04T00:00:00",
+      "end_ts": "2024-08-04T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-08-11T00:00:00",
+      "end_ts": "2024-08-11T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-08-18T00:00:00",
+      "end_ts": "2024-08-18T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-08-25T00:00:00",
+      "end_ts": "2024-08-25T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-09-01T00:00:00",
+      "end_ts": "2024-09-01T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-09-08T00:00:00",
+      "end_ts": "2024-09-08T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-09-15T00:00:00",
+      "end_ts": "2024-09-15T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-09-22T00:00:00",
+      "end_ts": "2024-09-22T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-09-29T00:00:00",
+      "end_ts": "2024-09-29T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-10-06T00:00:00",
+      "end_ts": "2024-10-06T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-10-13T00:00:00",
+      "end_ts": "2024-10-13T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-10-20T00:00:00",
+      "end_ts": "2024-10-20T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-10-27T00:00:00",
+      "end_ts": "2024-10-27T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-11-03T00:00:00",
+      "end_ts": "2024-11-03T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-11-10T00:00:00",
+      "end_ts": "2024-11-10T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-11-17T00:00:00",
+      "end_ts": "2024-11-17T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-11-24T00:00:00",
+      "end_ts": "2024-11-24T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-12-01T00:00:00",
+      "end_ts": "2024-12-01T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-12-08T00:00:00",
+      "end_ts": "2024-12-08T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-12-15T00:00:00",
+      "end_ts": "2024-12-15T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-12-22T00:00:00",
+      "end_ts": "2024-12-22T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-12-25T00:00:00",
+      "end_ts": "2024-12-25T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2024-12-29T00:00:00",
+      "end_ts": "2024-12-29T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-01-01T00:00:00",
+      "end_ts": "2025-01-01T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-01-05T00:00:00",
+      "end_ts": "2025-01-05T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-01-12T00:00:00",
+      "end_ts": "2025-01-12T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-01-19T00:00:00",
+      "end_ts": "2025-01-19T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-01-26T00:00:00",
+      "end_ts": "2025-01-26T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-02-02T00:00:00",
+      "end_ts": "2025-02-02T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-02-09T00:00:00",
+      "end_ts": "2025-02-09T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-02-16T00:00:00",
+      "end_ts": "2025-02-16T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-02-23T00:00:00",
+      "end_ts": "2025-02-23T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-03-02T00:00:00",
+      "end_ts": "2025-03-02T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-03-09T00:00:00",
+      "end_ts": "2025-03-09T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-03-16T00:00:00",
+      "end_ts": "2025-03-16T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-03-23T00:00:00",
+      "end_ts": "2025-03-23T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-03-30T00:00:00",
+      "end_ts": "2025-03-30T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-04-06T00:00:00",
+      "end_ts": "2025-04-06T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-04-13T00:00:00",
+      "end_ts": "2025-04-13T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-04-20T00:00:00",
+      "end_ts": "2025-04-20T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-04-27T00:00:00",
+      "end_ts": "2025-04-27T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-05-04T00:00:00",
+      "end_ts": "2025-05-04T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-05-11T00:00:00",
+      "end_ts": "2025-05-11T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-05-18T00:00:00",
+      "end_ts": "2025-05-18T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-05-25T00:00:00",
+      "end_ts": "2025-05-25T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-05-26T00:00:00",
+      "end_ts": "2025-05-26T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-06-01T00:00:00",
+      "end_ts": "2025-06-01T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-06-08T00:00:00",
+      "end_ts": "2025-06-08T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-06-15T00:00:00",
+      "end_ts": "2025-06-15T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-06-19T00:00:00",
+      "end_ts": "2025-06-19T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-06-22T00:00:00",
+      "end_ts": "2025-06-22T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-06-29T00:00:00",
+      "end_ts": "2025-06-29T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-07-06T00:00:00",
+      "end_ts": "2025-07-06T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-07-13T00:00:00",
+      "end_ts": "2025-07-13T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-07-20T00:00:00",
+      "end_ts": "2025-07-20T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-07-27T00:00:00",
+      "end_ts": "2025-07-27T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-08-03T00:00:00",
+      "end_ts": "2025-08-03T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-08-10T00:00:00",
+      "end_ts": "2025-08-10T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-08-17T00:00:00",
+      "end_ts": "2025-08-17T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-08-24T00:00:00",
+      "end_ts": "2025-08-24T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-08-31T00:00:00",
+      "end_ts": "2025-08-31T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-09-01T00:00:00",
+      "end_ts": "2025-09-01T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-09-07T00:00:00",
+      "end_ts": "2025-09-07T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-09-14T00:00:00",
+      "end_ts": "2025-09-14T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-09-21T00:00:00",
+      "end_ts": "2025-09-21T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-09-28T00:00:00",
+      "end_ts": "2025-09-28T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-10-05T00:00:00",
+      "end_ts": "2025-10-05T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-10-12T00:00:00",
+      "end_ts": "2025-10-12T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-10-19T00:00:00",
+      "end_ts": "2025-10-19T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-10-26T00:00:00",
+      "end_ts": "2025-10-26T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-11-02T00:00:00",
+      "end_ts": "2025-11-02T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-11-09T00:00:00",
+      "end_ts": "2025-11-09T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-11-16T00:00:00",
+      "end_ts": "2025-11-16T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-11-23T00:00:00",
+      "end_ts": "2025-11-23T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-11-27T00:00:00",
+      "end_ts": "2025-11-27T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-11-30T00:00:00",
+      "end_ts": "2025-11-30T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-12-07T00:00:00",
+      "end_ts": "2025-12-07T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-12-14T00:00:00",
+      "end_ts": "2025-12-14T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-12-21T00:00:00",
+      "end_ts": "2025-12-21T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-12-25T00:00:00",
+      "end_ts": "2025-12-25T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2025-12-28T00:00:00",
+      "end_ts": "2025-12-28T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-01-04T00:00:00",
+      "end_ts": "2026-01-04T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-01-11T00:00:00",
+      "end_ts": "2026-01-11T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-01-18T00:00:00",
+      "end_ts": "2026-01-18T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-01-25T00:00:00",
+      "end_ts": "2026-01-25T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-02-01T00:00:00",
+      "end_ts": "2026-02-01T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-02-08T00:00:00",
+      "end_ts": "2026-02-08T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-02-15T00:00:00",
+      "end_ts": "2026-02-15T00:00:00",
+      "reason": "missing trading date"
+    },
+    {
+      "start_ts": "2026-02-22T00:00:00",
+      "end_ts": "2026-02-22T00:00:00",
+      "reason": "missing trading date"
+    }
+  ],
+  "session_calendar": "cme_equity_index_futures_v1",
+  "timezone": "America/Chicago",
+  "checksum": "002f2869c2cf8567e5a63541bf5dea20e9e1717b681641213d372d2777ccd6ce",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "cme_futures_panama_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/NQ_daily_panama.csv",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "cme_futures_panama_v1",
+    "session_policy": "diagnostic_snapshot_session_unverified",
+    "roll_policy": "",
+    "contract_chain_checksum": ""
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "momentum panama seed data requires roll checksum and production refresh lineage",
+    "missing ranges present"
+  ],
+  "generated_at": "2026-05-31T16:07:48.313995Z"
+}

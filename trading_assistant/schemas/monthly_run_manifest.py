@@ -46,6 +46,7 @@ class MonthlyRunManifest(BaseModel):
     strategy_id: str
     strategy_version: str = ""
     config_version: str = ""
+    config_hash: str = ""
     deployment_id: str = ""
     parameter_set_id: str = ""
     proposal_ids: list[str] = Field(default_factory=list)
@@ -64,11 +65,16 @@ class MonthlyRunManifest(BaseModel):
     trading_repo_path: str = ""
     trading_repo_branch: str = ""
     trading_repo_commit_sha: str = ""
+    deployment_metadata_path: str = ""
+    deployment_metadata_paths: dict[str, str] = Field(default_factory=dict)
+    bridge_deployment_metadata_paths: dict[str, str] = Field(default_factory=dict)
     control_plane_commit_sha: str = ""
     backtest_command: list[str] = Field(default_factory=list)
     artifact_root: str
     strategy_plugin_id: str = ""
     strategy_plugin_contract_path: str = ""
+    strategy_plugin_contract_paths: dict[str, str] = Field(default_factory=dict)
+    bridge_contract_paths: dict[str, str] = Field(default_factory=dict)
     strategy_plugin_contract_version: str = ""
     round_id: str = ""
     prior_round_id: str = ""

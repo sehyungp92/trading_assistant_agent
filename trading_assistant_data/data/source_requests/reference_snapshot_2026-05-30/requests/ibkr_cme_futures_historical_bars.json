@@ -1,0 +1,1230 @@
+{
+  "request_count": 20,
+  "requests": [
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-01T00:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2021-12-21T00:00:00+00:00",
+        "symbol": "ES",
+        "timeframe": "1d",
+        "use_rth": true,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_momentum",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/ES_1d.parquet",
+      "legacy_row_count": 1091,
+      "legacy_sha256": "dd1941b973a9921eec34bd4c803c4675709d18d0f1967d62346936860a73071c",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-01T00:00:00+00:00",
+        "start": "2021-12-21T00:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_b7f68c8bb5e5b06aee446223",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/ES/TRADES/1d",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "ES",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-01T20:55:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2023-07-05T14:15:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "5m",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_momentum",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/NQ_5m.parquet",
+      "legacy_row_count": 179429,
+      "legacy_sha256": "ef54945f1484a7e13d9df6604884494cb5b2835cf2d3f308766d941c857e6b83",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-01T20:55:00+00:00",
+        "start": "2023-07-05T14:15:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_3969a2ff698ae5ef1aea7dc7",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/5m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "5m"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "comex_metals_futures_calendar_required_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "futures_product_session_policy_required_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-02-06T00:00:00+00:00",
+        "exchange": "COMEX",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "metals_futures_contract_chain_roll_policy_required_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-02-09T00:00:00+00:00",
+        "symbol": "GC",
+        "timeframe": "1d",
+        "use_rth": true,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_swing",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/swing/data/raw/GC_1d.parquet",
+      "legacy_row_count": 503,
+      "legacy_sha256": "2877b35ded5a10eef94fa9e5661938448d1409f920e94eeed69ac04b6a5eeb3f",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-02-06T00:00:00+00:00",
+        "start": "2024-02-09T00:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_39060cae44f813abba5bc1cf",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/COMEX/GC/TRADES/1d",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "GC",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "comex_metals_futures_calendar_required_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "futures_product_session_policy_required_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-02-06T21:00:00+00:00",
+        "exchange": "COMEX",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "metals_futures_contract_chain_roll_policy_required_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-02-09T06:45:25+00:00",
+        "symbol": "GC",
+        "timeframe": "1h",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_swing",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/swing/data/raw/GC_1h.parquet",
+      "legacy_row_count": 11797,
+      "legacy_sha256": "74ed079f06e05a13f58bede16ff1a6213793c1d6b945afa46f02a63b851f88a9",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-02-06T21:00:00+00:00",
+        "start": "2024-02-09T06:45:25+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_f84352ae74992300fe2b744b",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/COMEX/GC/TRADES/1h",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "GC",
+      "timeframe": "1h"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-02-06T00:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-02-09T00:00:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "1d",
+        "use_rth": true,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_swing",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/swing/data/raw/NQ_1d.parquet",
+      "legacy_row_count": 500,
+      "legacy_sha256": "b674fef44c97b4aa2aa61ff0b773431d4b6bd0fccb5b061e6c65773c8f92c968",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-02-06T00:00:00+00:00",
+        "start": "2024-02-09T00:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_f7762356fd0af2675a7c28ad",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/1d",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-02-06T21:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-02-09T06:38:45+00:00",
+        "symbol": "NQ",
+        "timeframe": "1h",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_swing",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/swing/data/raw/NQ_1h.parquet",
+      "legacy_row_count": 11757,
+      "legacy_sha256": "bfe02ee7be457b171c5c4e317498398c18e8ecf2eb754abab074cc9637ab38c6",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-02-06T21:00:00+00:00",
+        "start": "2024-02-09T06:38:45+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_8c595a92e78b21a6c2b0d4d3",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/1h",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "1h"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-11T00:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-05-13T00:00:00+00:00",
+        "symbol": "ES",
+        "timeframe": "1d",
+        "use_rth": true,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/ES_1d.parquet",
+      "legacy_row_count": 500,
+      "legacy_sha256": "72d936fa12a93cc29d47031d447bb1a5f3afc9b3873ec3a98bca8c10528410ae",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-11T00:00:00+00:00",
+        "start": "2024-05-13T00:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_ddf8a554f28c1c78fbbc6b44",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/ES/TRADES/1d",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "ES",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T13:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2026-05-07T22:00:00+00:00",
+        "symbol": "ES",
+        "timeframe": "1h",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/ES_1h.parquet",
+      "legacy_row_count": 56,
+      "legacy_sha256": "bb42637a627dbdd08142fef43ec25c2ef6c66cabdb61a7808d81e7e19649e916",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T13:00:00+00:00",
+        "start": "2026-05-07T22:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_a01aa8c89148c84673452965",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/ES/TRADES/1h",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "ES",
+      "timeframe": "1h"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T12:05:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2026-05-07T22:00:00+00:00",
+        "symbol": "ES",
+        "timeframe": "1m",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/ES_1m.parquet",
+      "legacy_row_count": 3071,
+      "legacy_sha256": "f13b8d92429a7f6a0c8d56b9e881448203286b9fec53e8710b40dfdb2f4b966c",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T12:05:00+00:00",
+        "start": "2026-05-07T22:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_9a57e2a3ec986196378e1cb2",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/ES/TRADES/1m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "ES",
+      "timeframe": "1m"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "bid_ask_schema": "ibkr_bid_ask_bar_schema_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "bid_ask",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T12:05:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-06-20T22:00:00+00:00",
+        "symbol": "ES",
+        "timeframe": "1m",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "BID_ASK"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/ES_1m_bid_ask.parquet",
+      "legacy_row_count": 15251,
+      "legacy_sha256": "64085b75fe32606011181ba3eeab5613466ef9643b491b64d8418d747f32d8a9",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T12:05:00+00:00",
+        "start": "2024-06-20T22:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_2e7d036203366a3e0f59547c",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/ES/BID_ASK/1m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "ES",
+      "timeframe": "1m"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T16:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2026-05-08T00:00:00+00:00",
+        "symbol": "ES",
+        "timeframe": "4h",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/ES_4h.parquet",
+      "legacy_row_count": 17,
+      "legacy_sha256": "012663e181a5289dbd884012e235671506105c5d1b9a5350633e6c8c41734c17",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T16:00:00+00:00",
+        "start": "2026-05-08T00:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_b13fede16a51092d63b27d43",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/ES/TRADES/4h",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "ES",
+      "timeframe": "4h"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T12:05:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2026-05-07T22:00:00+00:00",
+        "symbol": "ES",
+        "timeframe": "5m",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/ES_5m.parquet",
+      "legacy_row_count": 617,
+      "legacy_sha256": "a61b8f8a087836fcf16fdc93072071e0bfaf1694c0685acdfc281fb70cabf2bf",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T12:05:00+00:00",
+        "start": "2026-05-07T22:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_4dae4a71863b3136c2d7dab8",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/ES/TRADES/5m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "ES",
+      "timeframe": "5m"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-11T00:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-05-13T00:00:00+00:00",
+        "symbol": "ES",
+        "timeframe": "1d",
+        "use_rth": true,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/ES_daily.parquet",
+      "legacy_row_count": 500,
+      "legacy_sha256": "72d936fa12a93cc29d47031d447bb1a5f3afc9b3873ec3a98bca8c10528410ae",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-11T00:00:00+00:00",
+        "start": "2024-05-13T00:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_0ce35a2d9db41270d1c1dcec",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/ES/TRADES/1d",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "ES",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T00:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-05-13T00:00:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "1d",
+        "use_rth": true,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/NQ_1d.parquet",
+      "legacy_row_count": 501,
+      "legacy_sha256": "fcf20f5149b086e1eece33290c1a45332c1a958f6a222f3d58a38acd9c3d2e7b",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T00:00:00+00:00",
+        "start": "2024-05-13T00:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_f5d3ff42262b8eb694ad6df4",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/1d",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T19:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2026-05-07T22:00:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "1h",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/NQ_1h.parquet",
+      "legacy_row_count": 68,
+      "legacy_sha256": "5fbd528f082aebca23d6fc276c48745a4b74b1960ae1d5f57a47b6ddd402af47",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T19:00:00+00:00",
+        "start": "2026-05-07T22:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_70bca366269fceec42c71399",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/1h",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "1h"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T18:05:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2026-05-07T22:00:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "1m",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/NQ_1m.parquet",
+      "legacy_row_count": 3792,
+      "legacy_sha256": "72c9ba3b87522c0421653dce5a269a5dee2f12a920800f383511859aab6f54c8",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T18:05:00+00:00",
+        "start": "2026-05-07T22:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_38d08b04980b7353724d4008",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/1m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "1m"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "bid_ask_schema": "ibkr_bid_ask_bar_schema_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "bid_ask",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T18:05:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-06-20T22:00:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "1m",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "BID_ASK"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/NQ_1m_bid_ask.parquet",
+      "legacy_row_count": 15972,
+      "legacy_sha256": "5c85b52a2159e2e2bd516916184c0438506ba6b0b53ee6463124486d9f57c3cc",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T18:05:00+00:00",
+        "start": "2024-06-20T22:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_bccaa7a9ab650d7fde006eab",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/BID_ASK/1m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "1m"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T20:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2026-05-08T00:00:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "4h",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/NQ_4h.parquet",
+      "legacy_row_count": 19,
+      "legacy_sha256": "0183866db391b8ed3e3c31a7c43a918884947f9c4f7d207b704144ecc057a5ac",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T20:00:00+00:00",
+        "start": "2026-05-08T00:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_77ecd5a6d8c439c9600fb026",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/4h",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "4h"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T18:05:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2026-05-07T22:00:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "5m",
+        "use_rth": false,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/NQ_5m.parquet",
+      "legacy_row_count": 761,
+      "legacy_sha256": "dacc54be1a35d75781abbed2b13f8948c2885711a00d2b2eaef6bc378dbd0558",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T18:05:00+00:00",
+        "start": "2026-05-07T22:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_121de788ea65d3e862d841df",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/5m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "5m"
+    },
+    {
+      "authority_status": "declared_requires_contract_chain",
+      "canonical_expectations": {
+        "adjustment_policy": "cme_futures_panama_v1",
+        "calendar": "cme_equity_index_futures_calendar_v1",
+        "fee_policy": "trading_futures_fee_schedule_v1",
+        "halt_policy": "source_product_halts_and_early_closes_required_v1",
+        "market_rule_authority": "data/market_rules/cme/equity_index_futures_v1.json",
+        "roll_checksum_required": true,
+        "session_policy": "cme_equity_index_eth_session_with_daily_maintenance_halt_v1",
+        "slippage_policy": "trading_momentum_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "continuous_contract_policy": "ibkr_physical_contract_chain_panama_v1",
+        "contract_resolution_policy": "ibkr_contract_details_con_id_required_v1",
+        "currency": "USD",
+        "end": "2026-05-12T00:00:00+00:00",
+        "exchange": "CME",
+        "provider": "ibkr",
+        "request_type": "historical_bars",
+        "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+        "sec_type": "FUT",
+        "source_conid_column_required": true,
+        "source_contract_column_required": true,
+        "start": "2024-05-13T00:00:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "1d",
+        "use_rth": true,
+        "variant": null,
+        "what_to_show": "TRADES"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": [
+          "IBKR_HOST",
+          "IBKR_PORT",
+          "IBKR_CLIENT_ID",
+          "IBKR_READ_ONLY_ACK"
+        ]
+      },
+      "legacy_family": "trading_raw",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/data/raw/NQ_daily.parquet",
+      "legacy_row_count": 501,
+      "legacy_sha256": "fcf20f5149b086e1eece33290c1a45332c1a958f6a222f3d58a38acd9c3d2e7b",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "time",
+        "end": "2026-05-12T00:00:00+00:00",
+        "start": "2024-05-13T00:00:00+00:00"
+      },
+      "market": "cme_futures",
+      "request_id": "src_req_013dfb11e829c63dfb24e97e",
+      "schema_version": "source_request_v1",
+      "source": "ibkr",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/1d",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "symbol": "NQ",
+      "timeframe": "1d"
+    }
+  ],
+  "schema_version": "source_request_manifest_v1",
+  "snapshot": "2026-05-30",
+  "source_kind": "ibkr_cme_futures_historical_bars"
+}

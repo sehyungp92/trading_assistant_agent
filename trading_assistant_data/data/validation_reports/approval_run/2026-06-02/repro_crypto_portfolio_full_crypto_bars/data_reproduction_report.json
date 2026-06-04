@@ -1,0 +1,1529 @@
+{
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "bundle_checksum": "fbd1ac05c8f18cdeeace44454d9c6d726fa5446973c8c121834df6ee622b5df1",
+  "bundle_id": "8d2ac1326edc7fc6",
+  "bundle_manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\crypto_portfolio\\full_crypto_bars\\data_bundle_manifest.json",
+  "calendars": [
+    "crypto_utc_24_7_v1"
+  ],
+  "checks": [
+    {
+      "errors": [],
+      "name": "bundle_is_authoritative",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "bundle_checksum_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice_index_bundle_checksum_matches",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:200c568260d3f6f4:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:200c568260d3f6f4:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:200c568260d3f6f4:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:200c568260d3f6f4:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:200c568260d3f6f4:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:200c568260d3f6f4:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:200c568260d3f6f4:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:200c568260d3f6f4:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:7456a03657890087:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:7456a03657890087:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:7456a03657890087:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:7456a03657890087:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:7456a03657890087:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:7456a03657890087:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:7456a03657890087:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:7456a03657890087:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:61aa3bb12ab88d32:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:61aa3bb12ab88d32:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:61aa3bb12ab88d32:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:61aa3bb12ab88d32:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:61aa3bb12ab88d32:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:61aa3bb12ab88d32:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:61aa3bb12ab88d32:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:61aa3bb12ab88d32:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:337939cb690c1358:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [
+        "canonical parquet checksum mismatch: ['a6a70858e3694f889c8e75ff8627625eacef3d5d0259c6790d76633991afdeb1'] != 'd3ad60d2b039c7a2ad6884b0d0da6e6f59c6cf44b3561ce69f0072caa9e28ee6'"
+      ],
+      "name": "slice:337939cb690c1358:checksum_matches_canonical_parquet",
+      "passed": false
+    },
+    {
+      "errors": [
+        "actual bars mismatch: 42421 != 44640"
+      ],
+      "name": "slice:337939cb690c1358:bar_count_matches_manifest",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:337939cb690c1358:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:bca5b2a69b597d43:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:bca5b2a69b597d43:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:bca5b2a69b597d43:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:bca5b2a69b597d43:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:bca5b2a69b597d43:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:bca5b2a69b597d43:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:bca5b2a69b597d43:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:bca5b2a69b597d43:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:0d0228363100eaa7:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:0d0228363100eaa7:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:0d0228363100eaa7:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:0d0228363100eaa7:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:0d0228363100eaa7:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:0d0228363100eaa7:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:0d0228363100eaa7:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:0d0228363100eaa7:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:c063f5e3798d09ff:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:c063f5e3798d09ff:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [
+        "canonical parquet checksum mismatch: ['8f59942c82f7595fd84af3f3985b6d75415a1f876339a6ef518bc430f4c0a050'] != '03acb7189890e8ff147180a36b9945eb7b2814e84f6afd9108c5a82126472453'"
+      ],
+      "name": "slice:c063f5e3798d09ff:checksum_matches_canonical_parquet",
+      "passed": false
+    },
+    {
+      "errors": [
+        "actual bars mismatch: 8485 != 8928"
+      ],
+      "name": "slice:c063f5e3798d09ff:bar_count_matches_manifest",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:c063f5e3798d09ff:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:c063f5e3798d09ff:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:c063f5e3798d09ff:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:c063f5e3798d09ff:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:ba45927b015dcd96:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:ba45927b015dcd96:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba45927b015dcd96:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba45927b015dcd96:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba45927b015dcd96:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba45927b015dcd96:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba45927b015dcd96:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba45927b015dcd96:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:ba743de9fcd37c64:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:ba743de9fcd37c64:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba743de9fcd37c64:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba743de9fcd37c64:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba743de9fcd37c64:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba743de9fcd37c64:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba743de9fcd37c64:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba743de9fcd37c64:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:caf915a7cf32e2a6:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:caf915a7cf32e2a6:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:caf915a7cf32e2a6:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:caf915a7cf32e2a6:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:caf915a7cf32e2a6:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:caf915a7cf32e2a6:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:caf915a7cf32e2a6:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:caf915a7cf32e2a6:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:de25e27bfe5c2536:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:de25e27bfe5c2536:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [
+        "canonical parquet checksum mismatch: ['2c077dea6eeaa855da7f007f5d7024379097ad6cfcaeb26fa89d2f120d2f281e'] != 'd4c2321953054de2d26785c6fb1cfe6cb2dc04552100e8ccc66db393207e0e70'"
+      ],
+      "name": "slice:de25e27bfe5c2536:checksum_matches_canonical_parquet",
+      "passed": false
+    },
+    {
+      "errors": [
+        "actual bars mismatch: 42421 != 44640"
+      ],
+      "name": "slice:de25e27bfe5c2536:bar_count_matches_manifest",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:de25e27bfe5c2536:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:de25e27bfe5c2536:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:de25e27bfe5c2536:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:de25e27bfe5c2536:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:110eb931f530833d:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:110eb931f530833d:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:110eb931f530833d:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:110eb931f530833d:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:110eb931f530833d:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:110eb931f530833d:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:110eb931f530833d:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:110eb931f530833d:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:9c974a0cb7e8035c:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:9c974a0cb7e8035c:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:9c974a0cb7e8035c:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:9c974a0cb7e8035c:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:9c974a0cb7e8035c:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:9c974a0cb7e8035c:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:9c974a0cb7e8035c:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:9c974a0cb7e8035c:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:fed27b31f98bc439:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:fed27b31f98bc439:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [
+        "canonical parquet checksum mismatch: ['78fbda518848a5978922e1efdcbf78a355e5b95a2d6536230ecd3cb51337a711'] != '9cd938a4cbfda22bab5662a36b84d6a9b39d4a2db694e7d663f3ac936c735947'"
+      ],
+      "name": "slice:fed27b31f98bc439:checksum_matches_canonical_parquet",
+      "passed": false
+    },
+    {
+      "errors": [
+        "actual bars mismatch: 8485 != 8928"
+      ],
+      "name": "slice:fed27b31f98bc439:bar_count_matches_manifest",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:fed27b31f98bc439:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:fed27b31f98bc439:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:fed27b31f98bc439:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:fed27b31f98bc439:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:da443d27dac4f5ba:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:da443d27dac4f5ba:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:da443d27dac4f5ba:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:da443d27dac4f5ba:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:da443d27dac4f5ba:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:da443d27dac4f5ba:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:da443d27dac4f5ba:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:da443d27dac4f5ba:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:69784ebd451231d4:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:69784ebd451231d4:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:69784ebd451231d4:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:69784ebd451231d4:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:69784ebd451231d4:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:69784ebd451231d4:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:69784ebd451231d4:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:69784ebd451231d4:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:1d6faeda5b3bc291:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:1d6faeda5b3bc291:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:1d6faeda5b3bc291:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:1d6faeda5b3bc291:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:1d6faeda5b3bc291:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:1d6faeda5b3bc291:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:1d6faeda5b3bc291:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:1d6faeda5b3bc291:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:2d5dffba414cc59e:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:2d5dffba414cc59e:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [
+        "canonical parquet checksum mismatch: ['07c8441135550a01313f2af3aaf08f829ae6895f13e6c52d6270436a3414ffaa'] != '5765715798a3448c47cb8ec09c96e02451dee571a4621b05251d9687ef0c9edf'"
+      ],
+      "name": "slice:2d5dffba414cc59e:checksum_matches_canonical_parquet",
+      "passed": false
+    },
+    {
+      "errors": [
+        "actual bars mismatch: 42421 != 44640"
+      ],
+      "name": "slice:2d5dffba414cc59e:bar_count_matches_manifest",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:2d5dffba414cc59e:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:2d5dffba414cc59e:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:2d5dffba414cc59e:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:2d5dffba414cc59e:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:8b85f9592b62a29d:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:8b85f9592b62a29d:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:8b85f9592b62a29d:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:8b85f9592b62a29d:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:8b85f9592b62a29d:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:8b85f9592b62a29d:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:8b85f9592b62a29d:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:8b85f9592b62a29d:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:4cafe8beb933cd2d:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:4cafe8beb933cd2d:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:4cafe8beb933cd2d:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:4cafe8beb933cd2d:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:4cafe8beb933cd2d:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:4cafe8beb933cd2d:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:4cafe8beb933cd2d:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:4cafe8beb933cd2d:calendar_matches_bundle",
+      "passed": true
+    },
+    {
+      "errors": [
+        "bundle slice metadata does not match MarketDataManifest"
+      ],
+      "name": "slice:54cf330e6447e5b8:manifest_fields_match_bundle",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:54cf330e6447e5b8:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [
+        "canonical parquet checksum mismatch: ['dd9c0decd61613cc89008166a88b99c457e90d6b054b0064a3623edfec91f2f7'] != '7d474550ce656572084182a350a194c07e62613e76dd240bc9079dfd5ba809fe'"
+      ],
+      "name": "slice:54cf330e6447e5b8:checksum_matches_canonical_parquet",
+      "passed": false
+    },
+    {
+      "errors": [
+        "actual bars mismatch: 8485 != 8928"
+      ],
+      "name": "slice:54cf330e6447e5b8:bar_count_matches_manifest",
+      "passed": false
+    },
+    {
+      "errors": [],
+      "name": "slice:54cf330e6447e5b8:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:54cf330e6447e5b8:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:54cf330e6447e5b8:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:54cf330e6447e5b8:calendar_matches_bundle",
+      "passed": true
+    }
+  ],
+  "fee_model_version": "fees_v1",
+  "generated_at": "2026-06-02T00:13:28Z",
+  "ok": false,
+  "recomputed_bundle_checksum": "fbd1ac05c8f18cdeeace44454d9c6d726fa5446973c8c121834df6ee622b5df1",
+  "report_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\validation_reports\\approval_run\\2026-06-02\\repro_crypto_portfolio_full_crypto_bars\\data_reproduction_report.json",
+  "slice_count": 21,
+  "slices": [
+    {
+      "actual_bars": 2976,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=BTC\\timeframe=15m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "7bd852e1edeaf3c57dcc2f4f8c685ea7ef4203ec8102b38fb14b5735f8a4e97b",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:45:00+00:00",
+      "expected_bars": 2976,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "200c568260d3f6f4",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\BTC\\15m\\20260501T000000Z_20260531T234500Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T23:45:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 2976,
+      "recomputed_canonical_checksums": [
+        "7bd852e1edeaf3c57dcc2f4f8c685ea7ef4203ec8102b38fb14b5735f8a4e97b"
+      ],
+      "recomputed_expected_bars": 2976,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "BTC",
+      "timeframe": "15m"
+    },
+    {
+      "actual_bars": 31,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=BTC\\timeframe=1d\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "560f51d07b14bda5d6280e3d7e477204694306b19f7f392ff71ede48bccfa1df",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T00:00:00+00:00",
+      "expected_bars": 31,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "7456a03657890087",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\BTC\\1d\\20260501T000000Z_20260531T000000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T00:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 31,
+      "recomputed_canonical_checksums": [
+        "560f51d07b14bda5d6280e3d7e477204694306b19f7f392ff71ede48bccfa1df"
+      ],
+      "recomputed_expected_bars": 31,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "BTC",
+      "timeframe": "1d"
+    },
+    {
+      "actual_bars": 744,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=BTC\\timeframe=1h\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "4123ca22ac7f8a5e8c57574866945a7bf097191cf157eb7ecfa7c62852651799",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:00:00+00:00",
+      "expected_bars": 744,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "61aa3bb12ab88d32",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\BTC\\1h\\20260501T000000Z_20260531T230000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T23:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 744,
+      "recomputed_canonical_checksums": [
+        "4123ca22ac7f8a5e8c57574866945a7bf097191cf157eb7ecfa7c62852651799"
+      ],
+      "recomputed_expected_bars": 744,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "BTC",
+      "timeframe": "1h"
+    },
+    {
+      "actual_bars": 44640,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=BTC\\timeframe=1m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "d3ad60d2b039c7a2ad6884b0d0da6e6f59c6cf44b3561ce69f0072caa9e28ee6",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:59:00+00:00",
+      "expected_bars": 44640,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "337939cb690c1358",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\BTC\\1m\\20260501T000000Z_20260531T235900Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-30T11:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 42421,
+      "recomputed_canonical_checksums": [
+        "a6a70858e3694f889c8e75ff8627625eacef3d5d0259c6790d76633991afdeb1"
+      ],
+      "recomputed_expected_bars": 44640,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "BTC",
+      "timeframe": "1m"
+    },
+    {
+      "actual_bars": 1488,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=BTC\\timeframe=30m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "fa61b3932e32412c403af5e987ae0cecf9072568a6c759a683e73d93e231f0fe",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:30:00+00:00",
+      "expected_bars": 1488,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "bca5b2a69b597d43",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\BTC\\30m\\20260501T000000Z_20260531T233000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T23:30:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 1488,
+      "recomputed_canonical_checksums": [
+        "fa61b3932e32412c403af5e987ae0cecf9072568a6c759a683e73d93e231f0fe"
+      ],
+      "recomputed_expected_bars": 1488,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "BTC",
+      "timeframe": "30m"
+    },
+    {
+      "actual_bars": 186,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=BTC\\timeframe=4h\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "6fa984d558d785fad2c0a45c4d9319098d29ba4d4957feb3654a700d2cc67bb7",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T20:00:00+00:00",
+      "expected_bars": 186,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "0d0228363100eaa7",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\BTC\\4h\\20260501T000000Z_20260531T200000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T20:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 186,
+      "recomputed_canonical_checksums": [
+        "6fa984d558d785fad2c0a45c4d9319098d29ba4d4957feb3654a700d2cc67bb7"
+      ],
+      "recomputed_expected_bars": 186,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "BTC",
+      "timeframe": "4h"
+    },
+    {
+      "actual_bars": 8928,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=BTC\\timeframe=5m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "03acb7189890e8ff147180a36b9945eb7b2814e84f6afd9108c5a82126472453",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:55:00+00:00",
+      "expected_bars": 8928,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "c063f5e3798d09ff",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\BTC\\5m\\20260501T000000Z_20260531T235500Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-30T11:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 8485,
+      "recomputed_canonical_checksums": [
+        "8f59942c82f7595fd84af3f3985b6d75415a1f876339a6ef518bc430f4c0a050"
+      ],
+      "recomputed_expected_bars": 8928,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "BTC",
+      "timeframe": "5m"
+    },
+    {
+      "actual_bars": 2976,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=ETH\\timeframe=15m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "c9f4ddbe0e7f5211389c82d92bb5c6be62658fe2f035ade42baf9645a1d29528",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:45:00+00:00",
+      "expected_bars": 2976,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "ba45927b015dcd96",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\ETH\\15m\\20260501T000000Z_20260531T234500Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T23:45:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 2976,
+      "recomputed_canonical_checksums": [
+        "c9f4ddbe0e7f5211389c82d92bb5c6be62658fe2f035ade42baf9645a1d29528"
+      ],
+      "recomputed_expected_bars": 2976,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "ETH",
+      "timeframe": "15m"
+    },
+    {
+      "actual_bars": 31,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=ETH\\timeframe=1d\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "6f277d949c143de5dcc32046d5e29abcbb201a2df071b1b880b9a1bdbef2d1ff",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T00:00:00+00:00",
+      "expected_bars": 31,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "ba743de9fcd37c64",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\ETH\\1d\\20260501T000000Z_20260531T000000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T00:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 31,
+      "recomputed_canonical_checksums": [
+        "6f277d949c143de5dcc32046d5e29abcbb201a2df071b1b880b9a1bdbef2d1ff"
+      ],
+      "recomputed_expected_bars": 31,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "ETH",
+      "timeframe": "1d"
+    },
+    {
+      "actual_bars": 744,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=ETH\\timeframe=1h\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "368cfc8764793fa2fe7d218d771fb84a34273f3e8719ae9aedcf6300f7ed945a",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:00:00+00:00",
+      "expected_bars": 744,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "caf915a7cf32e2a6",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\ETH\\1h\\20260501T000000Z_20260531T230000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T23:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 744,
+      "recomputed_canonical_checksums": [
+        "368cfc8764793fa2fe7d218d771fb84a34273f3e8719ae9aedcf6300f7ed945a"
+      ],
+      "recomputed_expected_bars": 744,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "ETH",
+      "timeframe": "1h"
+    },
+    {
+      "actual_bars": 44640,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=ETH\\timeframe=1m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "d4c2321953054de2d26785c6fb1cfe6cb2dc04552100e8ccc66db393207e0e70",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:59:00+00:00",
+      "expected_bars": 44640,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "de25e27bfe5c2536",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\ETH\\1m\\20260501T000000Z_20260531T235900Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-30T11:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 42421,
+      "recomputed_canonical_checksums": [
+        "2c077dea6eeaa855da7f007f5d7024379097ad6cfcaeb26fa89d2f120d2f281e"
+      ],
+      "recomputed_expected_bars": 44640,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "ETH",
+      "timeframe": "1m"
+    },
+    {
+      "actual_bars": 1488,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=ETH\\timeframe=30m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "56c054ddb7c37a9ed7137a4684674c91cfa5066311de1192d3dc277effd38ffd",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:30:00+00:00",
+      "expected_bars": 1488,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "110eb931f530833d",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\ETH\\30m\\20260501T000000Z_20260531T233000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T23:30:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 1488,
+      "recomputed_canonical_checksums": [
+        "56c054ddb7c37a9ed7137a4684674c91cfa5066311de1192d3dc277effd38ffd"
+      ],
+      "recomputed_expected_bars": 1488,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "ETH",
+      "timeframe": "30m"
+    },
+    {
+      "actual_bars": 186,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=ETH\\timeframe=4h\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "1039ce597858a52013871e0814259ebfbe88e4049382786533d8068eeccfb642",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T20:00:00+00:00",
+      "expected_bars": 186,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "9c974a0cb7e8035c",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\ETH\\4h\\20260501T000000Z_20260531T200000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T20:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 186,
+      "recomputed_canonical_checksums": [
+        "1039ce597858a52013871e0814259ebfbe88e4049382786533d8068eeccfb642"
+      ],
+      "recomputed_expected_bars": 186,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "ETH",
+      "timeframe": "4h"
+    },
+    {
+      "actual_bars": 8928,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=ETH\\timeframe=5m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "9cd938a4cbfda22bab5662a36b84d6a9b39d4a2db694e7d663f3ac936c735947",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:55:00+00:00",
+      "expected_bars": 8928,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "fed27b31f98bc439",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\ETH\\5m\\20260501T000000Z_20260531T235500Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-30T11:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 8485,
+      "recomputed_canonical_checksums": [
+        "78fbda518848a5978922e1efdcbf78a355e5b95a2d6536230ecd3cb51337a711"
+      ],
+      "recomputed_expected_bars": 8928,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "ETH",
+      "timeframe": "5m"
+    },
+    {
+      "actual_bars": 2976,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=SOL\\timeframe=15m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "fbc05f5b10fcfd065341d885e1e87ad48e5d8c1d1eaccf62dd14d25fcae21fdc",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:45:00+00:00",
+      "expected_bars": 2976,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "da443d27dac4f5ba",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\SOL\\15m\\20260501T000000Z_20260531T234500Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T23:45:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 2976,
+      "recomputed_canonical_checksums": [
+        "fbc05f5b10fcfd065341d885e1e87ad48e5d8c1d1eaccf62dd14d25fcae21fdc"
+      ],
+      "recomputed_expected_bars": 2976,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "SOL",
+      "timeframe": "15m"
+    },
+    {
+      "actual_bars": 31,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=SOL\\timeframe=1d\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "b4fa6d8884caf81baace3756e36d33abcc5a38410d642d5566bfb4b019a002b5",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T00:00:00+00:00",
+      "expected_bars": 31,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "69784ebd451231d4",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\SOL\\1d\\20260501T000000Z_20260531T000000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T00:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 31,
+      "recomputed_canonical_checksums": [
+        "b4fa6d8884caf81baace3756e36d33abcc5a38410d642d5566bfb4b019a002b5"
+      ],
+      "recomputed_expected_bars": 31,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "SOL",
+      "timeframe": "1d"
+    },
+    {
+      "actual_bars": 744,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=SOL\\timeframe=1h\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "5f94c1d9315d6a16884741356ed0ddba8c2d95287627990050e0b48ed260d0b2",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:00:00+00:00",
+      "expected_bars": 744,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "1d6faeda5b3bc291",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\SOL\\1h\\20260501T000000Z_20260531T230000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T23:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 744,
+      "recomputed_canonical_checksums": [
+        "5f94c1d9315d6a16884741356ed0ddba8c2d95287627990050e0b48ed260d0b2"
+      ],
+      "recomputed_expected_bars": 744,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "SOL",
+      "timeframe": "1h"
+    },
+    {
+      "actual_bars": 44640,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=SOL\\timeframe=1m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "5765715798a3448c47cb8ec09c96e02451dee571a4621b05251d9687ef0c9edf",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:59:00+00:00",
+      "expected_bars": 44640,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "2d5dffba414cc59e",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\SOL\\1m\\20260501T000000Z_20260531T235900Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-30T11:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 42421,
+      "recomputed_canonical_checksums": [
+        "07c8441135550a01313f2af3aaf08f829ae6895f13e6c52d6270436a3414ffaa"
+      ],
+      "recomputed_expected_bars": 44640,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "SOL",
+      "timeframe": "1m"
+    },
+    {
+      "actual_bars": 1488,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=SOL\\timeframe=30m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "d45d9115e11e8e9a816477059e35a0b47bc424ba56237bdf5307ac8d00771e30",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:30:00+00:00",
+      "expected_bars": 1488,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "8b85f9592b62a29d",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\SOL\\30m\\20260501T000000Z_20260531T233000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T23:30:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 1488,
+      "recomputed_canonical_checksums": [
+        "d45d9115e11e8e9a816477059e35a0b47bc424ba56237bdf5307ac8d00771e30"
+      ],
+      "recomputed_expected_bars": 1488,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "SOL",
+      "timeframe": "30m"
+    },
+    {
+      "actual_bars": 186,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=SOL\\timeframe=4h\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "a808229542b39db4aed7327cae69fed54c93a1221671b5ea5ab0b0960af47d81",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T20:00:00+00:00",
+      "expected_bars": 186,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "4cafe8beb933cd2d",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\SOL\\4h\\20260501T000000Z_20260531T200000Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-31T20:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 186,
+      "recomputed_canonical_checksums": [
+        "a808229542b39db4aed7327cae69fed54c93a1221671b5ea5ab0b0960af47d81"
+      ],
+      "recomputed_expected_bars": 186,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "SOL",
+      "timeframe": "4h"
+    },
+    {
+      "actual_bars": 8928,
+      "adjustment_policy": "crypto_raw_perp_policy_v1",
+      "calendar": "crypto_utc_24_7_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=crypto_perp\\source=hyperliquid\\kind=trades\\symbol=SOL\\timeframe=5m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "7d474550ce656572084182a350a194c07e62613e76dd240bc9079dfd5ba809fe",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-31T23:55:00+00:00",
+      "expected_bars": 8928,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "54cf330e6447e5b8",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\hyperliquid\\crypto_perp\\SOL\\5m\\20260501T000000Z_20260531T235500Z.market_data_manifest.json",
+      "market": "crypto_perp",
+      "observed_end_ts": "2026-05-30T11:00:00+00:00",
+      "observed_start_ts": "2026-05-01T00:00:00+00:00",
+      "recomputed_actual_bars": 8485,
+      "recomputed_canonical_checksums": [
+        "dd9c0decd61613cc89008166a88b99c457e90d6b054b0064a3623edfec91f2f7"
+      ],
+      "recomputed_expected_bars": 8928,
+      "slippage_model_version": "slippage_v1",
+      "source": "hyperliquid",
+      "start_ts": "2026-05-01T00:00:00+00:00",
+      "symbol": "SOL",
+      "timeframe": "5m"
+    }
+  ],
+  "slippage_model_version": "slippage_v1"
+}

@@ -223,6 +223,7 @@ class ConfirmatoryRerank(BaseModel):
     compared_candidate_ids: list[str] = Field(default_factory=list)
     variants: list[ConfirmatoryVariant] = Field(default_factory=list)
     adopted_candidate_id: str = ""
+    adopted_source: MonthlyCandidateSource = MonthlyCandidateSource.UNKNOWN
     no_adoption_reason: str = ""
     selection_rule: str = ""
     objective_version: str = OBJECTIVE_WEIGHTS_VERSION
@@ -242,6 +243,8 @@ class ConfirmatoryRerank(BaseModel):
             raise ValueError("adopted candidate must be listed in compared_candidate_ids")
         if self.primary_candidate_id and self.primary_candidate_id not in set(self.compared_candidate_ids):
             raise ValueError("primary candidate must be listed in compared_candidate_ids")
+        if self.adopted_candidate_id and self.adopted_source == MonthlyCandidateSource.UNKNOWN:
+            self.adopted_source = self.primary_source
         return self
 
 

@@ -1,0 +1,32 @@
+{
+  "bundle_id": "00819e1ff598c5ae",
+  "data_repo_path": ".",
+  "data_repo_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "data_repo_branch": "master",
+  "slice_manifests": [
+    {
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/5m/20260401T220000Z_20260430T205500Z.market_data_manifest.json",
+      "manifest_id": "2f68422b883b9866",
+      "source": "ibkr",
+      "market": "cme_futures",
+      "symbol": "NQ",
+      "timeframe": "5m",
+      "start_ts": "2026-04-01T22:00:00Z",
+      "end_ts": "2026-04-30T20:55:00Z",
+      "checksum": "1d70bdf93cfb0c2500b30707bbe527304d790a56eb9c54d326b3abf99654697c",
+      "calendar": "cme_equity_index_futures_v1",
+      "authoritative": true
+    }
+  ],
+  "bundle_checksum": "6c6466e40fd29d8ba02c5970f0ce920053a7063161a75e38ece42dfa8a067f3e",
+  "calendars": [
+    "cme_equity_index_futures_v1"
+  ],
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "adjustment_policy": "cme_futures_panama_v1",
+  "status": "authoritative",
+  "diagnostics_only_reason": "",
+  "schema_version": "data_bundle_manifest_v1",
+  "generated_at": "2026-05-31T16:28:03.661970Z"
+}

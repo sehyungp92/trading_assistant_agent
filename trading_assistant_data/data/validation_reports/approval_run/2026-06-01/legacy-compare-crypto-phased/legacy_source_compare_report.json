@@ -1,0 +1,1170 @@
+{
+  "blocked_count": 0,
+  "comparisons": [
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.0005532809560694921,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 9037,
+      "common_timestamp_rows": 9037,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "8fdc2d5c77dae6963283a87eb2a24c66a8e40b1b86267207bf1b00643ab0bd94",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/15m.parquet",
+      "legacy_rows": 9037,
+      "matched_manifest_count": 4,
+      "matched_manifest_id": "3e70e440cd39d062",
+      "matched_manifest_ids": [
+        "3e70e440cd39d062",
+        "0bf3fc7629f81528",
+        "a0b0cffe4872feea",
+        "a996748850303d14"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 4
+        },
+        {
+          "column": "low",
+          "rows": 3
+        },
+        {
+          "column": "close",
+          "rows": 5
+        },
+        {
+          "column": "volume",
+          "rows": 5
+        }
+      ],
+      "request_id": "src_req_cb480d5605564d4621d642ee",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "BTC",
+      "timeframe": "15m",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "e88b79f8917b5f33fb283513ed89a85e85fb31b931e54537dc53658ceb77f412"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.005636070853462158,
+        "value_mismatch_threshold": 0.008051529790660225
+      },
+      "canonical_rows": 1242,
+      "common_timestamp_rows": 1242,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "cd2207481db09b260a6a074fee9cf1c1f90631afbbe3cde7265a34205e385f5a",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/1d.parquet",
+      "legacy_rows": 1242,
+      "matched_manifest_count": 41,
+      "matched_manifest_id": "35ee847ef5f4bbe7",
+      "matched_manifest_ids": [
+        "35ee847ef5f4bbe7",
+        "1fdefd6bf63cb83d",
+        "dd00ee9b0ff022a2",
+        "568e3011f099e611",
+        "9b0eabfae6b2d1e4",
+        "69d25217057aa6ce",
+        "3cf6e65bb116d5b6",
+        "8d49170077eb081e",
+        "69f3830470ecedb5",
+        "aa72da8a8dfa85eb",
+        "6f59d77c86dc53c1",
+        "d88d89d44ceec490",
+        "22ffdc770761523e",
+        "64c40ced5b4a8016",
+        "7a3f598202ccf58b",
+        "d3148e52b05cacf8",
+        "904421b0a72109e8",
+        "8b7ae241b0cc33d7",
+        "53147f43c45b0301",
+        "29056eccf4ec5e73",
+        "0ad6c1e1adb7ccaa",
+        "d1b9d16f8e906cb9",
+        "bfa70b0397c82651",
+        "dfb18ec8d62ec755",
+        "efe5716d193cf7bd",
+        "02cd5ac64ec7c53d",
+        "196d06118217f8b0",
+        "6e4d951006680fd6",
+        "5453801ab3966f56",
+        "b780cea022a52409",
+        "125a6e299325bcfc",
+        "7f021088106d0563",
+        "62c3ed9225d35ebc",
+        "9dcd25a3d3b7c015",
+        "0b9b82c700f0c913",
+        "52382bd2eb3a413a",
+        "91749f3875d85e27",
+        "4f4dd3884ed2ae5a",
+        "9f5c1e46de8c39c3",
+        "42b63fbdbad42b49",
+        "16e9de95a4d206a5"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 6
+        },
+        {
+          "column": "low",
+          "rows": 4
+        },
+        {
+          "column": "close",
+          "rows": 7
+        },
+        {
+          "column": "volume",
+          "rows": 7
+        }
+      ],
+      "request_id": "src_req_375ddb10474cce248d799cb7",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "BTC",
+      "timeframe": "1d",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "070a85e3359ef74345b22281272e8b4f5071fb1652d189af9cbcb2b79da12cae"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.0009983361064891847,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 6010,
+      "common_timestamp_rows": 6010,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "31d456eec3109531ad352ecdea0d8f2c6c0df0235c04a2efcbe2dc31ef7ff8b9",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/1h.parquet",
+      "legacy_rows": 6010,
+      "matched_manifest_count": 9,
+      "matched_manifest_id": "8237d8a3d0e96978",
+      "matched_manifest_ids": [
+        "8237d8a3d0e96978",
+        "6921cade105ed66e",
+        "27234588035af2fa",
+        "859ee6e30ce073ae",
+        "9903b9fe7ac0821f",
+        "0f639cec5d680dfd",
+        "b9dcfb5660cb844a",
+        "e914f51b8e49e2ef",
+        "4e2186eaabc95b59"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 6
+        },
+        {
+          "column": "low",
+          "rows": 3
+        },
+        {
+          "column": "close",
+          "rows": 6
+        },
+        {
+          "column": "volume",
+          "rows": 6
+        }
+      ],
+      "request_id": "src_req_ddac3a5d52cd179212399ed0",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "BTC",
+      "timeframe": "1h",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "e8937ec887aba289c8ab5e73911172ffb6660e34d873343f1da7e50e6527b87e"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.0011397634990739421,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 7019,
+      "common_timestamp_rows": 7019,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "49d27d8a7f84591bd0c77d5585224f39b75ed2d44d9b8a43a4fe1dc2433f8235",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/30m.parquet",
+      "legacy_rows": 7019,
+      "matched_manifest_count": 5,
+      "matched_manifest_id": "15dc1c9715e31c63",
+      "matched_manifest_ids": [
+        "15dc1c9715e31c63",
+        "2158f9550ecd9411",
+        "ee54174e0989e914",
+        "112698ad67716e48",
+        "dfe901ed8b99fca9"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 8
+        },
+        {
+          "column": "low",
+          "rows": 6
+        },
+        {
+          "column": "close",
+          "rows": 8
+        },
+        {
+          "column": "volume",
+          "rows": 8
+        }
+      ],
+      "request_id": "src_req_de7b58f4e743036bcb6064b9",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "BTC",
+      "timeframe": "30m",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "1854f00be1a0526cde1b2d639c8af449ae8e22a5ebaf4c842dcd6b8866b755cf"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.0015232292460015233,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 5252,
+      "common_timestamp_rows": 5252,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "8e1a94a38abd330fd69bf3a6950ea954312f20ef900ca7c42f2c4fbe379d0592",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/4h.parquet",
+      "legacy_rows": 5252,
+      "matched_manifest_count": 29,
+      "matched_manifest_id": "4ceac430cf6ce97d",
+      "matched_manifest_ids": [
+        "4ceac430cf6ce97d",
+        "c061d8e89bc771a8",
+        "078d5189670f0db8",
+        "f76d2441dcbc9100",
+        "38161ab13b337c92",
+        "b1b2bdc56b0a10d2",
+        "4cf8854cebf18e58",
+        "08dd122f116b708a",
+        "ffc0cc936d02d98e",
+        "44f578c7fd2b1ee0",
+        "bd6ce52b2509d73a",
+        "c2eed9a5f6842fe0",
+        "177ab19927640d7b",
+        "12fd261cfea48b3c",
+        "b1826ea251904dcb",
+        "d1142c138e05d3ab",
+        "940778a3aa25a7cd",
+        "1fa03d29314aafe2",
+        "7c5719a7a6bba0f5",
+        "3639e8942865ed63",
+        "01a4a171a46233c4",
+        "d04f4879de2356b1",
+        "7ef22ce5943d6f8f",
+        "8302280d84f23292",
+        "a463b95cd650ac0c",
+        "d29272b2b48a13d7",
+        "22d5e2b654afda6b",
+        "6d65c44ee9890e20",
+        "550ac157a270d74b"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 2
+        },
+        {
+          "column": "low",
+          "rows": 2
+        },
+        {
+          "column": "close",
+          "rows": 8
+        },
+        {
+          "column": "volume",
+          "rows": 8
+        }
+      ],
+      "request_id": "src_req_4770a24275eada9be297409b",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "BTC",
+      "timeframe": "4h",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "04e94f194be9da9915edfea046db371ee66d032384b75a716ffb4c787fd98b40"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.0005533421868083222,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 9036,
+      "common_timestamp_rows": 9036,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "3451601627f82e8f4646ad4876e866b14166e9cb393f27ee7bd55f3d88b0fb0d",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/15m.parquet",
+      "legacy_rows": 9036,
+      "matched_manifest_count": 4,
+      "matched_manifest_id": "4577f7a87fb1df60",
+      "matched_manifest_ids": [
+        "4577f7a87fb1df60",
+        "50cca8f3939fdbce",
+        "925d27d54cd93d37",
+        "7158f5c6fdef1ce2"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 3
+        },
+        {
+          "column": "low",
+          "rows": 4
+        },
+        {
+          "column": "close",
+          "rows": 5
+        },
+        {
+          "column": "volume",
+          "rows": 5
+        }
+      ],
+      "request_id": "src_req_0adbcbc7fcc4c3ab1aa398f5",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "ETH",
+      "timeframe": "15m",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "e3ba2c56f68ea3bd45a3efafcba720c8200981e6475df05f2f6869a8c9c586c8"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.005636070853462158,
+        "value_mismatch_threshold": 0.008051529790660225
+      },
+      "canonical_rows": 1242,
+      "common_timestamp_rows": 1242,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "992fc6cc8f59d1e736eec2826a0c70b8063e9c71d489247b792cae84aaa7b1a8",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/1d.parquet",
+      "legacy_rows": 1242,
+      "matched_manifest_count": 41,
+      "matched_manifest_id": "717add7c5b958a46",
+      "matched_manifest_ids": [
+        "717add7c5b958a46",
+        "ebb7eb51a25134f4",
+        "90a52216b21f6c04",
+        "118a9347ac296bdc",
+        "19041ef5f8eccb44",
+        "f7b75c10749318fd",
+        "1c2093f35d5b21e4",
+        "ad86abe1dc48c966",
+        "e903e1c6e387f972",
+        "f21f1a4ae473897a",
+        "dba63c7361d9a76c",
+        "b6d098ba6884b469",
+        "11cf956ab6cd7a59",
+        "9fc2757dd8adf169",
+        "6e1c6d3412d0a4dd",
+        "a5274191b72e957e",
+        "e0cd656762ccb27d",
+        "c96ed6cab10aa553",
+        "a3fca34b51dd74f8",
+        "026fbdac7dec6790",
+        "bc940b88373ceaac",
+        "e767bd95f6a0429e",
+        "0d0d0f383954eecb",
+        "47b91ace4e8d1dea",
+        "ed39dcd40b9e86e3",
+        "77e531e8ebef4cda",
+        "07aca1a40ee3b580",
+        "8168eb0826350e58",
+        "060064df5d909aca",
+        "82787f6eae3529f5",
+        "3e9c09afa6825ce9",
+        "e9308061984fcc76",
+        "f75428e0c5b86368",
+        "5e923ded8d493c12",
+        "f027d051e367b901",
+        "bc2b577475ea5964",
+        "25cc344dc4b3e2aa",
+        "8ec5971e75903760",
+        "d2f35f633ebbf169",
+        "b38347afcb8d6ccc",
+        "138c8fce940bf46f"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 4
+        },
+        {
+          "column": "low",
+          "rows": 4
+        },
+        {
+          "column": "close",
+          "rows": 7
+        },
+        {
+          "column": "volume",
+          "rows": 7
+        }
+      ],
+      "request_id": "src_req_dd6b51e92736ca01fbe49fde",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "ETH",
+      "timeframe": "1d",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "86e2781d1e9e72f48cd63cab703583283f52f12916e2facf18aa4de39210b8b8"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.000998502246630055,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 6009,
+      "common_timestamp_rows": 6009,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "cc970defa7357286271fcd1e90bf2250b93ede07ab41c71ad0a453583b3ace10",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/1h.parquet",
+      "legacy_rows": 6009,
+      "matched_manifest_count": 9,
+      "matched_manifest_id": "4600964fcbe18815",
+      "matched_manifest_ids": [
+        "4600964fcbe18815",
+        "cdcef49325ac8f8f",
+        "9d411a306826538d",
+        "5fe47da7df2f1b54",
+        "2416a0f09542048d",
+        "459bd91a312796ef",
+        "8c35eb7fad8d06d3",
+        "653839226c3a4c11",
+        "71bb397e9083df39"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 6
+        },
+        {
+          "column": "low",
+          "rows": 3
+        },
+        {
+          "column": "close",
+          "rows": 6
+        },
+        {
+          "column": "volume",
+          "rows": 6
+        }
+      ],
+      "request_id": "src_req_0c30784a71349991ef8f4287",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "ETH",
+      "timeframe": "1h",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "1169eae708128339bd22ba4c710e0fa9436dda38e1d7acdc6398cf10d3cc225e"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.001139925904816187,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 7018,
+      "common_timestamp_rows": 7018,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "0c8afb73abdfda6178b3d9e6ef0e5f797f065957ffefcedc1ab01313537e00eb",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/30m.parquet",
+      "legacy_rows": 7018,
+      "matched_manifest_count": 5,
+      "matched_manifest_id": "13697f5b745a3a98",
+      "matched_manifest_ids": [
+        "13697f5b745a3a98",
+        "b4a41fef07428d89",
+        "eceec3af3ccef751",
+        "69529c769135a0a8",
+        "bac2fd883000cac2"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 8
+        },
+        {
+          "column": "low",
+          "rows": 5
+        },
+        {
+          "column": "close",
+          "rows": 8
+        },
+        {
+          "column": "volume",
+          "rows": 8
+        }
+      ],
+      "request_id": "src_req_094faf2601c3c251e26f5f64",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "ETH",
+      "timeframe": "30m",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "57ac66f1d75db8180b1ffca4c0d19402ced2c268e08f61d1f4ba5ea5a08eef67"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.0015232292460015233,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 5252,
+      "common_timestamp_rows": 5252,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "7d7b99a0e2fd1292a74f3ddb6a6c0379da70c64848aa17cbe6001876959302f5",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/4h.parquet",
+      "legacy_rows": 5252,
+      "matched_manifest_count": 29,
+      "matched_manifest_id": "97a173646c5b0f3c",
+      "matched_manifest_ids": [
+        "97a173646c5b0f3c",
+        "463924f9e8f3e97c",
+        "c5744562169b5d93",
+        "8aee9575498b85e2",
+        "eb0436347530387d",
+        "847d52ddc0bac16c",
+        "2b2fe4a446501e91",
+        "5a318273c5204df0",
+        "ca844c04224975cd",
+        "dbc1f7b99ca2a377",
+        "365d387c9f4ded41",
+        "9edf0a5131b5f248",
+        "ac85cef74c7086d6",
+        "2ecbe5cb78d2bbd6",
+        "bd435e493dab93a7",
+        "b6354b54fccb3ae9",
+        "9c2bbf7fe4cd5363",
+        "a26e1d77ea4c1985",
+        "b99da13f61c32f06",
+        "0233b6528f858641",
+        "82e5ffedcb368851",
+        "34c23602f3f99b8f",
+        "dd2edaab6dd0a719",
+        "f048b556ea9007ca",
+        "2d349f2c96dd075c",
+        "5064223f34b14747",
+        "bfd7bde37f9c1d94",
+        "c808218d17a3d73f",
+        "d2a224739395ad2d"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 2
+        },
+        {
+          "column": "low",
+          "rows": 2
+        },
+        {
+          "column": "close",
+          "rows": 8
+        },
+        {
+          "column": "volume",
+          "rows": 8
+        }
+      ],
+      "request_id": "src_req_1b3e25e9d0ca4ae611dd6dfe",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "ETH",
+      "timeframe": "4h",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "66670ef82e0813243797f1b9b2ecb29daa73f4404c78f82ae1c8779c300b478f"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.0005533421868083222,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 9036,
+      "common_timestamp_rows": 9036,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "67edc5f8a6d2a5bf2f30fddd70987037b69e615228c86a9102a9f364acd598a9",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/15m.parquet",
+      "legacy_rows": 9036,
+      "matched_manifest_count": 4,
+      "matched_manifest_id": "ffe901bc37f24150",
+      "matched_manifest_ids": [
+        "ffe901bc37f24150",
+        "8de680331ee17825",
+        "bc71daf3dad05f47",
+        "a9db678aef6da7be"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 4
+        },
+        {
+          "column": "low",
+          "rows": 4
+        },
+        {
+          "column": "close",
+          "rows": 5
+        },
+        {
+          "column": "volume",
+          "rows": 5
+        }
+      ],
+      "request_id": "src_req_74a7908d03b5099f642401b2",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "SOL",
+      "timeframe": "15m",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "233976c0b7746abe8b6361267c11bb80d0b252e5c8e89ff5d4def774847afc80"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.005636070853462158,
+        "value_mismatch_threshold": 0.008051529790660225
+      },
+      "canonical_rows": 1242,
+      "common_timestamp_rows": 1242,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "1f11dd377778399dcf4c662d894060315b1deac39455004a535ed83c7e118404",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/1d.parquet",
+      "legacy_rows": 1242,
+      "matched_manifest_count": 41,
+      "matched_manifest_id": "29224292e8d9ae77",
+      "matched_manifest_ids": [
+        "29224292e8d9ae77",
+        "08741246c643af11",
+        "a4c59e820b2022c1",
+        "6c9a5db67a130469",
+        "e0c638ba7fbde121",
+        "441fd0242c842e8c",
+        "96395f927d7061ea",
+        "796121aca363cf19",
+        "687f28fbd7aeb0de",
+        "229e32422689bd97",
+        "172f6467afe15a0a",
+        "50606dd07228e137",
+        "50eed891c57321c9",
+        "935903135841b98a",
+        "94142622a8aa0366",
+        "4f8cb28dd2fb7439",
+        "7dbee532d6b00bb9",
+        "4a1efdd06cc2d40a",
+        "97d79949d1acc329",
+        "7263c92dba807ab7",
+        "4eae1906861f93d2",
+        "71e88c272616f3e4",
+        "7021478319625d4d",
+        "3a09ae5c75a6272d",
+        "d216f4d35170c1a0",
+        "abf4e476329d2e61",
+        "04222192e3e090ea",
+        "b032b44af85ffcc5",
+        "e1227d6b434790fd",
+        "afab18fd838b91b0",
+        "4e959aac2df8a286",
+        "807f57d14a0c8369",
+        "fe81ce8f70ad1162",
+        "f2f8f0258c770b02",
+        "33d22c4d4b06f659",
+        "4801257f28212848",
+        "a9b9c50a5a6988ba",
+        "e6d10faa3de4e64f",
+        "69da3853579646e3",
+        "528cdd4123dc30ab",
+        "59c25eb3db16a90d"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 5
+        },
+        {
+          "column": "low",
+          "rows": 3
+        },
+        {
+          "column": "close",
+          "rows": 7
+        },
+        {
+          "column": "volume",
+          "rows": 7
+        }
+      ],
+      "request_id": "src_req_dd72fe6a48fdf8fab8f457cd",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "SOL",
+      "timeframe": "1d",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "c83a0325625fa6764b88d764a9c52a6d8dcef1cff7f36f17dba8245298b9648f"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.000998502246630055,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 6009,
+      "common_timestamp_rows": 6009,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "8e121fbd276920212de507841133dadf7c9a55a5aff376a3e005b12d6fd958c6",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/1h.parquet",
+      "legacy_rows": 6009,
+      "matched_manifest_count": 9,
+      "matched_manifest_id": "4b7c2a7df2e462bd",
+      "matched_manifest_ids": [
+        "4b7c2a7df2e462bd",
+        "6b088aeb6346a738",
+        "f78dd9dffef2508d",
+        "e8ded27b917850ef",
+        "71b8659c379c4226",
+        "f9a16755aeb5dc51",
+        "cefe4796ee05bd94",
+        "b7d0bf6f041af34d",
+        "16001002c251f5ef"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 4
+        },
+        {
+          "column": "low",
+          "rows": 5
+        },
+        {
+          "column": "close",
+          "rows": 6
+        },
+        {
+          "column": "volume",
+          "rows": 6
+        }
+      ],
+      "request_id": "src_req_27f0a23f66953c444d5cd728",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "SOL",
+      "timeframe": "1h",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "006b0b2e13cd334ed2fd5af921c1d7351fde9f9a377a77f56e9fe6ec1c15a955"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.001139925904816187,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 7018,
+      "common_timestamp_rows": 7018,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "92311b99afa289e3bdd36d94c5ed12cac0526b97f613c3801a638fc9690e3acc",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/30m.parquet",
+      "legacy_rows": 7018,
+      "matched_manifest_count": 5,
+      "matched_manifest_id": "30acfe77fe0911db",
+      "matched_manifest_ids": [
+        "30acfe77fe0911db",
+        "23e85b8614068434",
+        "4888772efc1d5a8f",
+        "2d6ee1d6e0362c4b",
+        "bfb2b703aef3ec3b"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 6
+        },
+        {
+          "column": "low",
+          "rows": 7
+        },
+        {
+          "column": "close",
+          "rows": 8
+        },
+        {
+          "column": "volume",
+          "rows": 8
+        }
+      ],
+      "request_id": "src_req_0237eb707e4a26b4ce0ca2c1",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "SOL",
+      "timeframe": "30m",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "2f6e5d3e08625d3aa4791613dadd6512c8e41fc5e0e8122e45959beb2e9f7310"
+    },
+    {
+      "accepted_difference": {
+        "accepted": true,
+        "reason": "hyperliquid_refresh_revisions_within_tolerance",
+        "timestamp_overlap_ratio": 1.0,
+        "timestamp_overlap_threshold": 1.0,
+        "value_mismatch_ratio": 0.0015232292460015233,
+        "value_mismatch_threshold": 0.005
+      },
+      "canonical_rows": 5252,
+      "common_timestamp_rows": 5252,
+      "deterministic_explanation": "Exact file checksum parity is not required for refreshed Hyperliquid candles because the exchange can revise a small number of historical OHLCV rows between the imported snapshot and a live source refresh. The approval comparison requires complete timestamp coverage and keeps value mismatches within a narrow deterministic tolerance.",
+      "exact_checksum_expected": false,
+      "legacy_checksum": "14a80c791bb50be36453cef1217c856654a5d65e72177b397f39724bcadd334b",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/4h.parquet",
+      "legacy_rows": 5252,
+      "matched_manifest_count": 29,
+      "matched_manifest_id": "8a9df7ed0ba830a8",
+      "matched_manifest_ids": [
+        "8a9df7ed0ba830a8",
+        "d6dacfce3d047a31",
+        "da15e5ee5e0e918b",
+        "722e6165fc303d2e",
+        "4a4f76b6d55155df",
+        "3a234ba4c3d26d0f",
+        "c75dd25bbe4af0d5",
+        "9e088b40b1a9af01",
+        "456981daf314ef4b",
+        "811dc92ba376f5e4",
+        "2d971dd98ced123e",
+        "e3a8e025998922b1",
+        "69dc7e4e19e7958a",
+        "f6b1a723b0013a9f",
+        "a72f36dbe5ab22d9",
+        "6dae611a30f6bdf7",
+        "84ded4bb8f2849b2",
+        "76eec5a783ce5e90",
+        "bfbb9733a1bc9273",
+        "10406193ed550839",
+        "00180034e1f9cec1",
+        "2801b326c2551245",
+        "ac2b2a3ccf93dd45",
+        "3de12dbd242f7c62",
+        "49e877edfd53fc09",
+        "5f9529c8356bd437",
+        "4e81f4d52ba38151",
+        "168657140b1d15c5",
+        "768d099c7cb1081a"
+      ],
+      "ohlcv_mismatches": [
+        {
+          "column": "high",
+          "rows": 3
+        },
+        {
+          "column": "low",
+          "rows": 5
+        },
+        {
+          "column": "close",
+          "rows": 8
+        },
+        {
+          "column": "volume",
+          "rows": 8
+        }
+      ],
+      "request_id": "src_req_fdb9003ab78f9793c632dc72",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_candles",
+      "status": "pass",
+      "symbol": "SOL",
+      "timeframe": "4h",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "3617374e898b9767cf4bd6babd53832c4a2895272b2731a7e2bca31f17b3aeba"
+    },
+    {
+      "accepted_difference": {
+        "accepted": false,
+        "reason": "exact_parity_required"
+      },
+      "canonical_rows": 26178,
+      "common_timestamp_rows": 26178,
+      "deterministic_explanation": "Exact timestamp and OHLCV parity is expected for source-owned bars.",
+      "exact_checksum_expected": true,
+      "legacy_checksum": "e7abc7d8a2cfa6d6d4c50f5de9dabacab3401f0988b050dffb439e2c9a7a7a23",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/BTC.parquet",
+      "legacy_rows": 26178,
+      "matched_manifest_count": 37,
+      "matched_manifest_id": "2e4eee3e93775419",
+      "matched_manifest_ids": [
+        "2e4eee3e93775419",
+        "46747900070c90d5",
+        "f6690445c8b39603",
+        "3a3e679be2161824",
+        "efcff9e9a878130b",
+        "e5fcc10da1b4bbe6",
+        "b53ba8681ae6948f",
+        "c7637332129a1d87",
+        "351a0223568430c7",
+        "431fe8ffa32f5472",
+        "24774f5debf1e70c",
+        "e5fcfb2b975d3ab6",
+        "76ce1059833f8b64",
+        "225c6437dd349f27",
+        "b46ea29dc4635397",
+        "6167ef77a1d3d7f6",
+        "6806d655a36a7f7b",
+        "ef20b0b51415da64",
+        "70571485bac650da",
+        "51d953a66d1d0e39",
+        "f3cf77031acbc331",
+        "f6cbd73c8875c6fb",
+        "35127e521cdb061e",
+        "be4b42cf5745d0ec",
+        "1a433c5db7d5bd2d",
+        "68a6f7e7cd09c2d0",
+        "33cae3290509bd0a",
+        "4209d69878ab4440",
+        "ac54339d4176509f",
+        "3dfcea313a6442c8",
+        "6cb3e7af8e8e0905",
+        "3ae9819a0013a4bf",
+        "4714cfd7e7e9f9fe",
+        "2635d376829e3391",
+        "bd99f83bc26f1aca",
+        "2c1ae6ae66db659a",
+        "95e862f3ea224725"
+      ],
+      "ohlcv_mismatches": [],
+      "request_id": "src_req_69493f2d26f21b5e4d7215e8",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_funding",
+      "status": "pass",
+      "symbol": "BTC",
+      "timeframe": "funding_1h",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "b47c4fb1be96254b0d14ba731184320c220fe76f8699fa62173d71904fd23948"
+    },
+    {
+      "accepted_difference": {
+        "accepted": false,
+        "reason": "exact_parity_required"
+      },
+      "canonical_rows": 26178,
+      "common_timestamp_rows": 26178,
+      "deterministic_explanation": "Exact timestamp and OHLCV parity is expected for source-owned bars.",
+      "exact_checksum_expected": true,
+      "legacy_checksum": "a0e6aed996fe8d34ac63c1f9c9b00b2d92a06e0a1cd807d96599cb57c48161cd",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/ETH.parquet",
+      "legacy_rows": 26178,
+      "matched_manifest_count": 37,
+      "matched_manifest_id": "2f38d475c8849d41",
+      "matched_manifest_ids": [
+        "2f38d475c8849d41",
+        "6b8e07f00132a0bd",
+        "c0191073aeee648f",
+        "08719ea6b9279872",
+        "afd5026630e7576a",
+        "a81cb122aae79a6c",
+        "4c59b38b90ccc8a5",
+        "ddeccce5327330be",
+        "3aef04223bdaf0a3",
+        "5e50126deb625fca",
+        "fbf3646aa2de77ee",
+        "e57febd73ad02773",
+        "52704cd6660cecda",
+        "c18ae15a73b7ec07",
+        "3adb10a17909d134",
+        "5cf0a3727c57cda1",
+        "ef4e346b9d67aa8e",
+        "d9ed267079f34f5a",
+        "618b0d731226f0f7",
+        "4f02b487460a9145",
+        "2ea9c24cdd6e1229",
+        "8a44a022dea496a2",
+        "0effc2eb13b65957",
+        "2dd14445f5f432e5",
+        "593e322abd999707",
+        "ffb59cd2143ad4df",
+        "77883b4034bf6840",
+        "835966efe362326e",
+        "c0140452f28a7c6f",
+        "aac978ba1ad81948",
+        "7f045c01b0d0f2f3",
+        "bfaa759265341ee0",
+        "6b655e17e74f1bfb",
+        "30f28a2d160fe910",
+        "58fda88fd6f6cf95",
+        "c18ca677b6ce05ea",
+        "fa7d777596286682"
+      ],
+      "ohlcv_mismatches": [],
+      "request_id": "src_req_dba023fcea170a664705cf8d",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_funding",
+      "status": "pass",
+      "symbol": "ETH",
+      "timeframe": "funding_1h",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "39511fd8d1980dce1729d8718bdc3f3fc9e75639d01af5779d8fae43a71fd56f"
+    },
+    {
+      "accepted_difference": {
+        "accepted": false,
+        "reason": "exact_parity_required"
+      },
+      "canonical_rows": 26178,
+      "common_timestamp_rows": 26178,
+      "deterministic_explanation": "Exact timestamp and OHLCV parity is expected for source-owned bars.",
+      "exact_checksum_expected": true,
+      "legacy_checksum": "a8c53e01c7c9796d916c1c5a5998b77961b0a6c8ef1ba56ad51c131eedbca582",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/SOL.parquet",
+      "legacy_rows": 26178,
+      "matched_manifest_count": 37,
+      "matched_manifest_id": "4ef72f58efa2393a",
+      "matched_manifest_ids": [
+        "4ef72f58efa2393a",
+        "1e74b5ab2e48dcfd",
+        "a467ba3a21bbd652",
+        "9f9ca4f8e41aafe5",
+        "d3c48a2cc0f6c810",
+        "4c4152c07ee442dd",
+        "023139cc2a571602",
+        "e259414f9465d74f",
+        "b3c0c484a4ce8f6e",
+        "a14ac713172ffd38",
+        "7551bb611fa8c89d",
+        "6217ea4e0ea37b03",
+        "ddd2ff76bf929c7f",
+        "a81fabccd56956fb",
+        "dcf94bd8019bd58b",
+        "9ab9a78f3796475e",
+        "94e87f9f9838f40b",
+        "c1ad648b5c8e6602",
+        "a908a56318582758",
+        "369375f978355dc5",
+        "70bb60d14a6874fe",
+        "46e87be15b1d7db2",
+        "a448461f04dc4bef",
+        "e273b2337ff5c6e5",
+        "3936b2cf90a870d4",
+        "a3bb90e7fa73ae93",
+        "abf18f81aedcb393",
+        "f3c42ed323ea3f2c",
+        "367d1d110d2169ae",
+        "0b35501381f1f89f",
+        "4bb7ea5587becf84",
+        "ccaca7aa6dfcbba8",
+        "a44aa49cbf0d6026",
+        "a2a8da77e6bc4968",
+        "3ab197dda0776526",
+        "7ca8c8f86a56c41d",
+        "7712cdd8053f6ae5"
+      ],
+      "ohlcv_mismatches": [],
+      "request_id": "src_req_9bfaf1a87086d0be5d08d728",
+      "row_count_match": true,
+      "source_kind": "hyperliquid_funding",
+      "status": "pass",
+      "symbol": "SOL",
+      "timeframe": "funding_1h",
+      "timestamp_coverage_match": true,
+      "transformed_comparison_checksum": "f7bfae84337fb44ccf2fd20645a359e3255140fce8ece04ed7e2095db722d9a2"
+    }
+  ],
+  "failed_count": 0,
+  "generated_at": "2026-06-01T20:33:24Z",
+  "ok": true,
+  "passed_count": 18,
+  "request_count": 18,
+  "source_request_manifest": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\source_requests\\reference_snapshot_2026-05-30\\source_request_manifest.json",
+  "status": "pass"
+}

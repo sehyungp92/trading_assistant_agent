@@ -13,6 +13,7 @@ READ_ONLY_TR_IDS = {
     "FHKST01010200",  # orderbook quote
     "FHKST03010100",  # daily chart
     "FHKST03010200",  # minute chart
+    "FHKST03010230",  # historical minute chart by date/time cursor
     "FHKST01010900",  # investor trend
     "FHPST01710000",  # volume ranking
     "FHPST01700000",  # fluctuation ranking
@@ -47,26 +48,54 @@ class KisReadOnlyClient:
             "/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice",
             "FHKST03010100",
             {
-                "fid_cond_mrkt_div_code": "J",
-                "fid_input_iscd": symbol,
-                "fid_input_date_1": start_yyyymmdd,
-                "fid_input_date_2": end_yyyymmdd,
-                "fid_period_div_code": "D",
-                "fid_org_adj_prc": "1",
+                "FID_COND_MRKT_DIV_CODE": "J",
+                "FID_INPUT_ISCD": symbol,
+                "FID_INPUT_DATE_1": start_yyyymmdd,
+                "FID_INPUT_DATE_2": end_yyyymmdd,
+                "FID_PERIOD_DIV_CODE": "D",
+                "FID_ORG_ADJ_PRC": "0",
             },
         )
 
-    def get_minute_chart(self, symbol: str, minute: int = 1) -> dict[str, Any]:
+    def get_minute_chart(
+        self,
+        symbol: str,
+        minute: int = 1,
+        *,
+        input_hour_hhmmss: str = "",
+        include_previous: bool = True,
+    ) -> dict[str, Any]:
         return self._get(
             "/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice",
             "FHKST03010200",
             {
-                "fid_cond_mrkt_div_code": "J",
-                "fid_input_iscd": symbol,
-                "fid_pw_data_incu_yn": "Y",
-                "fid_etc_cls_code": "",
-                "fid_input_hour_1": "",
-                "fid_period_div_code": str(minute),
+                "FID_ETC_CLS_CODE": "",
+                "FID_COND_MRKT_DIV_CODE": "J",
+                "FID_INPUT_ISCD": symbol,
+                "FID_INPUT_HOUR_1": input_hour_hhmmss,
+                "FID_PW_DATA_INCU_YN": "Y" if include_previous else "N",
+            },
+        )
+
+    def get_historical_minute_page(
+        self,
+        symbol: str,
+        *,
+        date_yyyymmdd: str,
+        hour_hhmmss: str,
+        market_code: str = "J",
+        include_previous: bool = True,
+    ) -> dict[str, Any]:
+        return self._get(
+            "/uapi/domestic-stock/v1/quotations/inquire-time-dailychartprice",
+            "FHKST03010230",
+            {
+                "FID_COND_MRKT_DIV_CODE": market_code,
+                "FID_INPUT_ISCD": symbol,
+                "FID_INPUT_DATE_1": date_yyyymmdd,
+                "FID_INPUT_HOUR_1": hour_hhmmss,
+                "FID_PW_DATA_INCU_YN": "Y" if include_previous else "N",
+                "FID_FAKE_TICK_INCU_YN": "",
             },
         )
 
@@ -117,4 +146,3 @@ class KisReadOnlyClient:
         if not isinstance(data, dict):
             raise ValueError("KIS response was not a JSON object")
         return data
-

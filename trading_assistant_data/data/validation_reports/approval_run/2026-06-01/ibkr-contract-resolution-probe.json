@@ -1,0 +1,395 @@
+{
+  "checked_at_utc": "2026-06-01T12:00:00Z",
+  "roots": {
+    "ES": {
+      "contains_legacy_first_contracts": {
+        "ESH2": false,
+        "NQU3": false
+      },
+      "contract_details_count": 29,
+      "contracts": [
+        {
+          "con_id": "551601561",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20240621",
+          "local_symbol": "ESM4",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "568550526",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20240920",
+          "local_symbol": "ESU4",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "495512557",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20241220",
+          "local_symbol": "ESZ4",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "603558932",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20250321",
+          "local_symbol": "ESH5",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "620731015",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20250620",
+          "local_symbol": "ESM5",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "637533641",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20250919",
+          "local_symbol": "ESU5",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "495512563",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20251219",
+          "local_symbol": "ESZ5",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "649180695",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20260320",
+          "local_symbol": "ESH6",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "649180678",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20260618",
+          "local_symbol": "ESM6",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "649180671",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20260918",
+          "local_symbol": "ESU6",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "515416632",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20261218",
+          "local_symbol": "ESZ6",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "649180684",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20270319",
+          "local_symbol": "ESH7",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "649180661",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20270617",
+          "local_symbol": "ESM7",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "649180681",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20270917",
+          "local_symbol": "ESU7",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "586139767",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20271217",
+          "local_symbol": "ESZ7",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "649180666",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20280317",
+          "local_symbol": "ESH8",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "649180690",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20280616",
+          "local_symbol": "ESM8",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "649180675",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20280915",
+          "local_symbol": "ESU8",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "654503299",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20281215",
+          "local_symbol": "ESZ8",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "672387437",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20290316",
+          "local_symbol": "ESH9",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "691171642",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20290615",
+          "local_symbol": "ESM9",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "711280049",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20290921",
+          "local_symbol": "ESU9",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "730283071",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20291221",
+          "local_symbol": "ESZ9",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "750150169",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20300315",
+          "local_symbol": "ESH0",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "770561177",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20300621",
+          "local_symbol": "ESM0",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "793356200",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20300920",
+          "local_symbol": "ESU0",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "815824241",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20301220",
+          "local_symbol": "ESZ0",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "840227374",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20310321",
+          "local_symbol": "ESH1",
+          "trading_class": "ES"
+        },
+        {
+          "con_id": "866514761",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20310620",
+          "local_symbol": "ESM1",
+          "trading_class": "ES"
+        }
+      ],
+      "earliest_available": {
+        "con_id": "551601561",
+        "exchange": "CME",
+        "last_trade_date_or_contract_month": "20240621",
+        "local_symbol": "ESM4",
+        "trading_class": "ES"
+      },
+      "latest_available": {
+        "con_id": "866514761",
+        "exchange": "CME",
+        "last_trade_date_or_contract_month": "20310620",
+        "local_symbol": "ESM1",
+        "trading_class": "ES"
+      }
+    },
+    "NQ": {
+      "contains_legacy_first_contracts": {
+        "ESH2": false,
+        "NQU3": false
+      },
+      "contract_details_count": 20,
+      "contracts": [
+        {
+          "con_id": "620730920",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20240621",
+          "local_symbol": "NQM4",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "637533450",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20240920",
+          "local_symbol": "NQU4",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "563947733",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20241220",
+          "local_symbol": "NQZ4",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "666754605",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20250321",
+          "local_symbol": "NQH5",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "672387474",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20250620",
+          "local_symbol": "NQM5",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "691171690",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20250919",
+          "local_symbol": "NQU5",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "563947738",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20251219",
+          "local_symbol": "NQZ5",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "730283097",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20260320",
+          "local_symbol": "NQH6",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "750150196",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20260618",
+          "local_symbol": "NQM6",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "770561204",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20260918",
+          "local_symbol": "NQU6",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "563947726",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20261218",
+          "local_symbol": "NQZ6",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "815824270",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20270319",
+          "local_symbol": "NQH7",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "840227400",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20270617",
+          "local_symbol": "NQM7",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "866514788",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20270917",
+          "local_symbol": "NQU7",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "586139864",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20271217",
+          "local_symbol": "NQZ7",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "861451229",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20280616",
+          "local_symbol": "NQM8",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "654503325",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20281215",
+          "local_symbol": "NQZ8",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "861451224",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20290615",
+          "local_symbol": "NQM9",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "711280076",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20291221",
+          "local_symbol": "NQZ9",
+          "trading_class": "NQ"
+        },
+        {
+          "con_id": "793356228",
+          "exchange": "CME",
+          "last_trade_date_or_contract_month": "20301220",
+          "local_symbol": "NQZ0",
+          "trading_class": "NQ"
+        }
+      ],
+      "earliest_available": {
+        "con_id": "620730920",
+        "exchange": "CME",
+        "last_trade_date_or_contract_month": "20240621",
+        "local_symbol": "NQM4",
+        "trading_class": "NQ"
+      },
+      "latest_available": {
+        "con_id": "793356228",
+        "exchange": "CME",
+        "last_trade_date_or_contract_month": "20301220",
+        "local_symbol": "NQZ0",
+        "trading_class": "NQ"
+      }
+    }
+  }
+}
+

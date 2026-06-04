@@ -1,0 +1,13 @@
+﻿{
+  "bundle_checksum": "fbd1ac05c8f18cdeeace44454d9c6d726fa5446973c8c121834df6ee622b5df1",
+  "bundle_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\crypto_portfolio\\full_crypto_bars\\data_bundle_manifest.json",
+  "dry_run": false,
+  "slice_index_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\crypto_portfolio\\full_crypto_bars\\slice_index.json",
+  "status": "authoritative",
+  "validation": {
+    "errors": [],
+    "status": "authoritative",
+    "valid": true,
+    "warnings": []
+  }
+}

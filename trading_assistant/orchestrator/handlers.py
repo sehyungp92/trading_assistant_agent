@@ -621,9 +621,12 @@ class Handlers:
                         run_month=run_month,
                         strategy_version=str(details.get("strategy_version", "")),
                         config_version=str(details.get("config_version", "")),
+                        config_hash=str(details.get("config_hash", "")),
                         deployment_id=str(details.get("deployment_id", "")),
                         parameter_set_id=str(details.get("parameter_set_id", "")),
                         market_data_manifest_path=_optional_path(details.get("market_data_manifest_path")),
+                        data_bundle_manifest_path=_optional_path(details.get("data_bundle_manifest_path")),
+                        data_bundle_checksum=str(details.get("data_bundle_checksum") or ""),
                         telemetry_manifest_path=_optional_path(details.get("telemetry_manifest_path")),
                         backtest_command=(
                             _string_list(details.get("backtest_command"))
@@ -652,6 +655,7 @@ class Handlers:
                         trading_repo_path=str(details.get("trading_repo_path", "")),
                         trading_repo_branch=str(details.get("trading_repo_branch", "")),
                         trading_repo_commit_sha=str(details.get("trading_repo_commit_sha", "")),
+                        deployment_metadata_path=_optional_path(details.get("deployment_metadata_path")),
                         workflow_contract_path=(
                             str(details.get("workflow_contract_path", ""))
                             or self._monthly_workflow_contract_path

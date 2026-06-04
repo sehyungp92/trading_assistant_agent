@@ -20,30 +20,42 @@ def canonicalize_candles(
     interval: str,
     source_file: str = "",
 ) -> pd.DataFrame:
-    required = {"ts", "open", "high", "low", "close", "volume"}
-    missing = sorted(required - set(frame.columns))
-    if missing:
-        raise ValueError(f"Hyperliquid candle frame missing columns: {missing}")
     source = frame.copy()
+    ts = _column(source, "ts", "t", "time", "timestamp")
+    open_ = _column(source, "open", "o")
+    high = _column(source, "high", "h")
+    low = _column(source, "low", "l")
+    close = _column(source, "close", "c")
+    volume = _column(source, "volume", "v")
+    raw = pd.DataFrame(
+        {
+            "ts": source[ts],
+            "open": source[open_],
+            "high": source[high],
+            "low": source[low],
+            "close": source[close],
+            "volume": source[volume],
+        }
+    )
     out = pd.DataFrame(
         {
-            "timestamp_utc": pd.to_datetime(source["ts"], unit="ms", utc=True),
-            "timestamp_exchange": pd.to_datetime(source["ts"], unit="ms", utc=True).astype(str),
+            "timestamp_utc": pd.to_datetime(raw["ts"], unit="ms", utc=True),
+            "timestamp_exchange": pd.to_datetime(raw["ts"], unit="ms", utc=True).astype(str),
             "symbol": symbol.upper(),
             "market": "crypto_perp",
             "source": "hyperliquid",
             "timeframe": interval,
             "kind": "trades",
-            "open": source["open"].astype("float64"),
-            "high": source["high"].astype("float64"),
-            "low": source["low"].astype("float64"),
-            "close": source["close"].astype("float64"),
-            "volume": source["volume"].astype("float64"),
+            "open": raw["open"].astype("float64"),
+            "high": raw["high"].astype("float64"),
+            "low": raw["low"].astype("float64"),
+            "close": raw["close"].astype("float64"),
+            "volume": raw["volume"].astype("float64"),
             "source_file": source_file,
-            "source_ts_ms": source["ts"].astype("int64"),
+            "source_ts_ms": raw["ts"].astype("int64"),
         }
     )
-    out["source_row_hash"] = stable_row_hashes(source[sorted(required)])
+    out["source_row_hash"] = stable_row_hashes(raw)
     return out.sort_values("timestamp_utc").drop_duplicates("timestamp_utc", keep="last")
 
 
@@ -53,25 +65,32 @@ def canonicalize_funding(
     symbol: str,
     source_file: str = "",
 ) -> pd.DataFrame:
-    required = {"ts", "rate"}
-    missing = sorted(required - set(frame.columns))
-    if missing:
-        raise ValueError(f"Hyperliquid funding frame missing columns: {missing}")
     source = frame.copy()
+    ts = _column(source, "ts", "time", "timestamp")
+    rate = _column(source, "rate", "fundingRate", "funding_rate")
+    raw = pd.DataFrame({"ts": source[ts], "rate": source[rate]})
+    timestamp_utc = pd.to_datetime(raw["ts"], unit="ms", utc=True).dt.floor("h")
     out = pd.DataFrame(
         {
-            "timestamp_utc": pd.to_datetime(source["ts"], unit="ms", utc=True),
-            "timestamp_exchange": pd.to_datetime(source["ts"], unit="ms", utc=True).astype(str),
+            "timestamp_utc": timestamp_utc,
+            "timestamp_exchange": timestamp_utc.astype(str),
             "symbol": symbol.upper(),
             "market": "crypto_perp",
             "source": "hyperliquid",
-            "rate": source["rate"].astype("float64"),
+            "rate": raw["rate"].astype("float64"),
             "source_file": source_file,
-            "source_ts_ms": source["ts"].astype("int64"),
+            "source_ts_ms": raw["ts"].astype("int64"),
         }
     )
-    out["source_row_hash"] = stable_row_hashes(source[sorted(required)])
+    out["source_row_hash"] = stable_row_hashes(raw)
     return out.sort_values("timestamp_utc").drop_duplicates("timestamp_utc", keep="last")
+
+
+def _column(frame: pd.DataFrame, *names: str) -> str:
+    for name in names:
+        if name in frame.columns:
+            return name
+    raise ValueError(f"Hyperliquid frame missing one of columns: {list(names)}")
 
 
 def write_monthly_partitions(frame: pd.DataFrame, root: Path, *parts: str) -> list[Path]:
@@ -88,4 +107,3 @@ def write_monthly_partitions(frame: pd.DataFrame, root: Path, *parts: str) -> li
         group.drop(columns=["year", "month"]).to_parquet(path, engine="pyarrow", index=False)
         paths.append(path)
     return paths
-

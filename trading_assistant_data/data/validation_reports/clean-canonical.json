@@ -1,0 +1,27 @@
+{
+  "deleted_canonical_dirs": [
+    "data/canonical/bars/market=cme_futures/source=ibkr/kind=bid_ask/symbol=ES/timeframe=1m",
+    "data/canonical/bars/market=cme_futures/source=ibkr/kind=bid_ask/symbol=NQ/timeframe=1m"
+  ],
+  "deleted_manifest_paths": [
+    "data/manifests/slices/ibkr/cme_futures/ES/1m/20240620T220000Z_20240621T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/ES/1m/20240919T220000Z_20240920T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/ES/1m/20241219T230000Z_20241220T215900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/ES/1m/20250320T220000Z_20250321T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/ES/1m/20250618T220000Z_20250620T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/ES/1m/20250918T220000Z_20250919T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/ES/1m/20251218T230000Z_20251219T215900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/ES/1m/20260319T220000Z_20260320T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/NQ/1m/20240620T220000Z_20240621T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/NQ/1m/20240919T220000Z_20240920T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/NQ/1m/20241219T230000Z_20241220T215900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/NQ/1m/20250320T220000Z_20250321T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/NQ/1m/20250618T220000Z_20250620T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/NQ/1m/20250918T220000Z_20250919T205900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/NQ/1m/20251218T230000Z_20251219T215900Z.market_data_manifest.json",
+    "data/manifests/slices/ibkr/cme_futures/NQ/1m/20260319T220000Z_20260320T205900Z.market_data_manifest.json"
+  ],
+  "dry_run": false,
+  "name": "clean_stale_cme_bid_ask_aliases",
+  "removed_index_entries": 16
+}

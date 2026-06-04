@@ -1,0 +1,37 @@
+{
+  "manifest_id": "c813cd111ae3fe0c",
+  "source": "kis",
+  "market": "krx_equity",
+  "symbol": "079550",
+  "timeframe": "1m",
+  "start_ts": "2025-10-01T00:00:00Z",
+  "end_ts": "2025-10-31T06:30:00Z",
+  "expected_bars": 6840,
+  "actual_bars": 6858,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
+  "timezone": "Asia/Seoul",
+  "checksum": "1686da595d47ddcf4d76dae16a490d150edb445ccb76c37a02e5040e8b710e70",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "diagnostic_reference_snapshot",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/079550/079550_1m_20250512_20260512.parquet",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "kis_intraday_exchange_timestamp_v1_unverified"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "KRX intraday timestamp/session audit required before authority"
+  ],
+  "generated_at": "2026-05-31T15:29:47.804601Z"
+}

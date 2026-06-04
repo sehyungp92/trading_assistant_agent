@@ -1,0 +1,140 @@
+{
+  "manifest_id": "ab5486c548cdc881",
+  "source": "ibkr",
+  "market": "cme_futures",
+  "symbol": "ES",
+  "timeframe": "1d",
+  "start_ts": "2021-12-21T00:00:00Z",
+  "end_ts": "2026-05-01T00:00:00Z",
+  "expected_bars": 1095,
+  "actual_bars": 1028,
+  "coverage_ratio": 0.9388127853881278,
+  "missing_ranges": [
+    {
+      "start_ts": "2021-12-21T00:00:00Z",
+      "end_ts": "2021-12-23T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2021-12-27T00:00:00Z",
+      "end_ts": "2021-12-31T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-01-03T00:00:00Z",
+      "end_ts": "2022-01-07T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-01-10T00:00:00Z",
+      "end_ts": "2022-01-14T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-01-18T00:00:00Z",
+      "end_ts": "2022-01-21T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-01-24T00:00:00Z",
+      "end_ts": "2022-01-28T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-01-31T00:00:00Z",
+      "end_ts": "2022-02-04T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-02-07T00:00:00Z",
+      "end_ts": "2022-02-11T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-02-14T00:00:00Z",
+      "end_ts": "2022-02-18T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-02-22T00:00:00Z",
+      "end_ts": "2022-02-25T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-02-28T00:00:00Z",
+      "end_ts": "2022-03-04T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-03-07T00:00:00Z",
+      "end_ts": "2022-03-11T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-03-14T00:00:00Z",
+      "end_ts": "2022-03-18T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-03-21T00:00:00Z",
+      "end_ts": "2022-03-21T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2022-11-11T00:00:00Z",
+      "end_ts": "2022-11-11T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2023-02-06T00:00:00Z",
+      "end_ts": "2023-02-09T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2023-07-03T00:00:00Z",
+      "end_ts": "2023-07-03T00:00:00Z",
+      "reason": "missing expected source bar"
+    },
+    {
+      "start_ts": "2025-01-09T00:00:00Z",
+      "end_ts": "2025-01-09T00:00:00Z",
+      "reason": "missing expected source bar"
+    }
+  ],
+  "session_calendar": "cme_equity_index_futures_v1",
+  "timezone": "America/Chicago",
+  "checksum": "d3fd5c5c94038109e8df5203c95ad82892313c062a05135e532bb09095439313",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "adjustment_policy": "cme_futures_panama_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "source_endpoint": "ibkr://historical-data/FUT/CME/ES/TRADES",
+    "export_id": "ibkr-es-1d-7361f6bdfe7b7acf",
+    "pulled_at_utc": "2026-06-01T12:39:09Z",
+    "config_hash": "387c66ae4fdbe3e17ef3f2a20842705ebc41eb32703cc195f439edc0ae119eb3",
+    "session_policy": "cme_equity_index_futures_v1",
+    "market_rule_authority_path": "data/market_rules/cme/equity_index_futures_v1.json",
+    "market_rule_authority_checksum": "94878aabf39be835af0818b115745bf42ea89f33dd9f8f9e2d73d63e66341525",
+    "roll_policy": "quarterly_index_future_roll_four_calendar_days_before_third_friday_v1",
+    "contract_chain_checksum": "b8b11afbdb1b8c7909c3020f6c6ce67c3b9d4376b1e48c1bc81ac71ce083f995",
+    "continuous_construction_checksum": "29197d9647e7f1d1e25b3cefb30d475fbeb4c8589e7cf9fa4273ec78048515c2",
+    "source_contract_coverage": "all_rows",
+    "credential_contract_id": "ibkr_read_only_market_data_credentials_v1",
+    "adapter_id": "ibkr_cme_nq_read_only_adapter_v1",
+    "authority_contract_id": "ibkr_cme_nq_read_only_authority_v1",
+    "pacing_policy": "ibkr_historical_bars_pacing_v1",
+    "raw_write_checksum": "9a8f44806f13b87598beb7321c58e4d6e4317a9808b62ffe9a3228c05f1a6e9e",
+    "canonical_write_checksum": "d3fd5c5c94038109e8df5203c95ad82892313c062a05135e532bb09095439313",
+    "idempotency_key": "1b1335e57a7dbb476f7163195e33d1b309e7350af64e83e1b6c1236e9f5b6667",
+    "raw_path": "data/raw/ibkr/read_only_cme_futures/symbol=ES/timeframe=1d/export_id=ibkr-es-1d-7361f6bdfe7b7acf/bars.parquet",
+    "canonical_path": "data/canonical/bars/market=cme_futures/source=ibkr/kind=read_only_authority/symbol=ES/timeframe=1d/year=2021/month=12/part.parquet",
+    "read_only": "true"
+  },
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "source-aware missing ranges present"
+  ],
+  "generated_at": "2026-06-01T12:39:16.447354Z"
+}

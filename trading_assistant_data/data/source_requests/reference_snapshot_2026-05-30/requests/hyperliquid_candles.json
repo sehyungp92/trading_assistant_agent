@@ -1,0 +1,869 @@
+{
+  "request_count": 21,
+  "requests": [
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "BTC",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "15m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-02-25T08:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/15m.parquet",
+      "legacy_row_count": 9037,
+      "legacy_sha256": "29452118877b43ab5109b67af36ca9be41aa71e3f47340291a26106db6774c0b",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-02-25T08:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_cb480d5605564d4621d642ee",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/BTC/15m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "BTC",
+      "timeframe": "15m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "BTC",
+        "end": "2026-05-30T00:00:00+00:00",
+        "interval": "1d",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2023-01-05T00:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/1d.parquet",
+      "legacy_row_count": 1242,
+      "legacy_sha256": "d42db859e2972087755fc3736dc6fe4d7be78e042f60107eb51890bb2eddc0f5",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T00:00:00+00:00",
+        "start": "2023-01-05T00:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_375ddb10474cce248d799cb7",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/BTC/1d",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "BTC",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "BTC",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "1h",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2025-09-22T02:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/1h.parquet",
+      "legacy_row_count": 6010,
+      "legacy_sha256": "5d6c456d8b8fcb62f8ab569bbda2ab33f4d511a57d2edab5a86f61a9d5f396b9",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2025-09-22T02:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_ddac3a5d52cd179212399ed0",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/BTC/1h",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "BTC",
+      "timeframe": "1h"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "BTC",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "1m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-04-14T22:40:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/1m.parquet",
+      "legacy_row_count": 64818,
+      "legacy_sha256": "d57128313a163c1210bc217da54aa791f25c24a43dcb6601302f9c91862638b8",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-04-14T22:40:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_66c7e8e46d995543b38fdd79",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/BTC/1m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "BTC",
+      "timeframe": "1m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "BTC",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "30m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-01-04T06:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/30m.parquet",
+      "legacy_row_count": 7019,
+      "legacy_sha256": "aa20885a2aef110a0603cf6b9eb3d69384479dcce285f1b886b8e9a94b6893d0",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-01-04T06:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_de7b58f4e743036bcb6064b9",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/BTC/30m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "BTC",
+      "timeframe": "30m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "BTC",
+        "end": "2026-05-30T08:00:00+00:00",
+        "interval": "4h",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2024-01-06T04:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/4h.parquet",
+      "legacy_row_count": 5252,
+      "legacy_sha256": "4e4fda0e35a4aedea6584b0a142820be77bfabdffbc4d8a55ada1aad4c7094d2",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T08:00:00+00:00",
+        "start": "2024-01-06T04:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_4770a24275eada9be297409b",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/BTC/4h",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "BTC",
+      "timeframe": "4h"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "BTC",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "5m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-04-01T01:20:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/5m.parquet",
+      "legacy_row_count": 17109,
+      "legacy_sha256": "5e97aae951633613db8028517004f0ff7029d0da1a4873917422e6ec51b13e3b",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-04-01T01:20:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_0b561f950b17fae6057cc363",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/BTC/5m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "BTC",
+      "timeframe": "5m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "ETH",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "15m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-02-25T08:15:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/15m.parquet",
+      "legacy_row_count": 9036,
+      "legacy_sha256": "0b22d29e43cfade2dcbb6838f78a4c95b35e8e4f03df015d95aff89ba0ed4cc9",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-02-25T08:15:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_0adbcbc7fcc4c3ab1aa398f5",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/ETH/15m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "ETH",
+      "timeframe": "15m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "ETH",
+        "end": "2026-05-30T00:00:00+00:00",
+        "interval": "1d",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2023-01-05T00:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/1d.parquet",
+      "legacy_row_count": 1242,
+      "legacy_sha256": "c5640df44c0eb144e137aee29f4792fca97b7ed5afb5b1121210713575b08e44",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T00:00:00+00:00",
+        "start": "2023-01-05T00:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_dd6b51e92736ca01fbe49fde",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/ETH/1d",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "ETH",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "ETH",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "1h",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2025-09-22T03:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/1h.parquet",
+      "legacy_row_count": 6009,
+      "legacy_sha256": "d4c0c713803cb731d7bce23a1eeb14ea7d1c0f7a4239b54f590c73c528837383",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2025-09-22T03:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_0c30784a71349991ef8f4287",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/ETH/1h",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "ETH",
+      "timeframe": "1h"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "ETH",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "1m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-04-14T22:42:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/1m.parquet",
+      "legacy_row_count": 64813,
+      "legacy_sha256": "ed17fcb853b93d450e4a652ad0b70d233de073d6c2cb7aab6bf4589b35a5768e",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-04-14T22:42:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_cb3759a90b124a06fa261e3f",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/ETH/1m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "ETH",
+      "timeframe": "1m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "ETH",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "30m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-01-04T06:30:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/30m.parquet",
+      "legacy_row_count": 7018,
+      "legacy_sha256": "e76baeb569e1dbbe53cba9d269ba0133742298d73b60bddf5701dbdb3ecf5d9c",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-01-04T06:30:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_094faf2601c3c251e26f5f64",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/ETH/30m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "ETH",
+      "timeframe": "30m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "ETH",
+        "end": "2026-05-30T08:00:00+00:00",
+        "interval": "4h",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2024-01-06T04:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/4h.parquet",
+      "legacy_row_count": 5252,
+      "legacy_sha256": "e8e4c29d3502c0a561521bd6403bca28659545dbcb75424a33215eede06f072a",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T08:00:00+00:00",
+        "start": "2024-01-06T04:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_1b3e25e9d0ca4ae611dd6dfe",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/ETH/4h",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "ETH",
+      "timeframe": "4h"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "ETH",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "5m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-04-01T01:25:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/5m.parquet",
+      "legacy_row_count": 17108,
+      "legacy_sha256": "ab9cef491e733720dbb338b7b22598a951bf41588f6c1b35c2244a172ba85452",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-04-01T01:25:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_fbfcade77d0dc736c109e2a0",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/ETH/5m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "ETH",
+      "timeframe": "5m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "SOL",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "15m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-02-25T08:15:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/15m.parquet",
+      "legacy_row_count": 9036,
+      "legacy_sha256": "20296b6aaae92bff21dabf7eaf51e214d003667d2accc992cf93e8ff953a262d",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-02-25T08:15:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_74a7908d03b5099f642401b2",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/SOL/15m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "SOL",
+      "timeframe": "15m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "SOL",
+        "end": "2026-05-30T00:00:00+00:00",
+        "interval": "1d",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2023-01-05T00:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/1d.parquet",
+      "legacy_row_count": 1242,
+      "legacy_sha256": "75ca525d75f3c8b5ec7f46aa43cf609d65c61f802a561a8211bc49046049aad5",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T00:00:00+00:00",
+        "start": "2023-01-05T00:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_dd72fe6a48fdf8fab8f457cd",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/SOL/1d",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "SOL",
+      "timeframe": "1d"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "SOL",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "1h",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2025-09-22T03:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/1h.parquet",
+      "legacy_row_count": 6009,
+      "legacy_sha256": "02b87fcb76d19c7afe919d540954de64a2976f19f5a4b19a92350f606c3be869",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2025-09-22T03:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_27f0a23f66953c444d5cd728",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/SOL/1h",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "SOL",
+      "timeframe": "1h"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "SOL",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "1m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-04-14T22:51:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/1m.parquet",
+      "legacy_row_count": 64795,
+      "legacy_sha256": "7ce03f3370696b4c5525252bff25be0c9f7d6bad6bc623f1b93deb4c5ce9f46f",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-04-14T22:51:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_92856480b5f5a6f5338faa6e",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/SOL/1m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "SOL",
+      "timeframe": "1m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "SOL",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "30m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-01-04T06:30:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/30m.parquet",
+      "legacy_row_count": 7018,
+      "legacy_sha256": "f070f540e9a481021f9ddd7af204b825724fe3fcb3772047e2da2042ece00ca9",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-01-04T06:30:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_0237eb707e4a26b4ce0ca2c1",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/SOL/30m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "SOL",
+      "timeframe": "30m"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "SOL",
+        "end": "2026-05-30T08:00:00+00:00",
+        "interval": "4h",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2024-01-06T04:00:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/4h.parquet",
+      "legacy_row_count": 5252,
+      "legacy_sha256": "6f6e9afb942851cfd5ed09d79f67318a49097a8d4eb3f8acd459689ade23191e",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T08:00:00+00:00",
+        "start": "2024-01-06T04:00:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_fdb9003ab78f9793c632dc72",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/SOL/4h",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "SOL",
+      "timeframe": "4h"
+    },
+    {
+      "authority_status": "declared_request_ready",
+      "canonical_expectations": {
+        "adjustment_policy": "crypto_raw_adjustment_policy_v1",
+        "calendar": "hyperliquid_24x7_v1",
+        "fee_policy": "hyperliquid_fee_schedule_v1",
+        "slippage_policy": "crypto_portfolio_default_slippage_v1"
+      },
+      "data_kind": "ohlcv",
+      "download_request": {
+        "coin": "SOL",
+        "end": "2026-05-30T11:00:00+00:00",
+        "interval": "5m",
+        "provider": "hyperliquid",
+        "request_type": "candles",
+        "start": "2026-04-01T01:35:00+00:00"
+      },
+      "execution_requirements": {
+        "credentials_are_not_serialized": true,
+        "read_only": true,
+        "required_env": []
+      },
+      "legacy_family": "crypto_trader",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/5m.parquet",
+      "legacy_row_count": 17106,
+      "legacy_sha256": "9a1f6366081eed35e06795f3d7bddc26bf8b2d958c2ae3e0feb99ea3b77f4630",
+      "legacy_snapshot": "2026-05-30",
+      "legacy_time_bounds": {
+        "column": "ts",
+        "end": "2026-05-30T11:00:00+00:00",
+        "start": "2026-04-01T01:35:00+00:00"
+      },
+      "market": "crypto_perp",
+      "request_id": "src_req_97d2e366a5ba90b1bb2faa47",
+      "schema_version": "source_request_v1",
+      "source": "hyperliquid",
+      "source_endpoint": "hyperliquid://info/candles/SOL/5m",
+      "source_kind": "hyperliquid_candles",
+      "symbol": "SOL",
+      "timeframe": "5m"
+    }
+  ],
+  "schema_version": "source_request_manifest_v1",
+  "snapshot": "2026-05-30",
+  "source_kind": "hyperliquid_candles"
+}

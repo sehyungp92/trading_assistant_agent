@@ -1,0 +1,70 @@
+{
+  "coverage_mode": "retention-covered",
+  "coverage_report": {
+    "adjustments": [
+      {
+        "contract_chain": [
+          "NQM4",
+          "NQU4",
+          "NQZ4",
+          "NQH5",
+          "NQM5",
+          "NQU5",
+          "NQZ5",
+          "NQH6",
+          "NQM6"
+        ],
+        "coverage_note": "retention-covered live TWS lane; older legacy contracts require archived IBKR raw payloads and contract metadata",
+        "end": "2026-05-01T20:55:00+00:00",
+        "legacy_family": "trading_momentum",
+        "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/NQ_5m.parquet",
+        "original_start": "2023-07-05T14:15:00+00:00",
+        "request_id": "src_req_3969a2ff698ae5ef1aea7dc7",
+        "retention_start": "2024-03-11T00:00:00+00:00",
+        "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/5m",
+        "source_kind": "ibkr_cme_futures_historical_bars",
+        "start": "2023-07-05T14:15:00+00:00",
+        "symbol": "NQ",
+        "timeframe": "5m"
+      }
+    ],
+    "contract_probe_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\validation_reports\\approval_run\\2026-06-01\\ibkr-contract-resolution-probe.json",
+    "coverage_mode": "retention-covered",
+    "probe_loaded": true
+  },
+  "dry_run": false,
+  "failure_count": 1,
+  "failures": [
+    {
+      "end": "2026-05-01T20:55:00+00:00",
+      "error": "Panama futures stitch returned no usable bars",
+      "legacy_family": "trading_momentum",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/NQ_5m.parquet",
+      "request_id": "src_req_3969a2ff698ae5ef1aea7dc7",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/5m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "start": "2024-03-11T00:00:00+00:00",
+      "symbol": "NQ",
+      "timeframe": "5m"
+    }
+  ],
+  "ok": false,
+  "request_count": 1,
+  "requests": [
+    {
+      "end": "2026-05-01T20:55:00+00:00",
+      "legacy_family": "trading_momentum",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/NQ_5m.parquet",
+      "request_id": "src_req_3969a2ff698ae5ef1aea7dc7",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/5m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "start": "2024-03-11T00:00:00+00:00",
+      "symbol": "NQ",
+      "timeframe": "5m"
+    }
+  ],
+  "result_count": 0,
+  "results": [],
+  "source": "ibkr",
+  "status": "failed"
+}

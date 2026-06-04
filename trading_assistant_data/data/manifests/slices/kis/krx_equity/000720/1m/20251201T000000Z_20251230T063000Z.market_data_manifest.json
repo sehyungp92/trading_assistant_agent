@@ -1,244 +1,162 @@
 {
-  "manifest_id": "e068919c19c83fd8",
+  "manifest_id": "626046f723747bea",
   "source": "kis",
   "market": "krx_equity",
   "symbol": "000720",
   "timeframe": "1m",
   "start_ts": "2025-12-01T00:00:00Z",
   "end_ts": "2025-12-30T06:30:00Z",
-  "expected_bars": 7980,
+  "expected_bars": 8190,
   "actual_bars": 7998,
-  "coverage_ratio": 1.0,
+  "coverage_ratio": 0.9765567765567765,
   "missing_ranges": [
     {
       "start_ts": "2025-12-01T06:20:00Z",
       "end_ts": "2025-12-01T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-01T06:31:00Z",
-      "end_ts": "2025-12-01T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-02T06:20:00Z",
       "end_ts": "2025-12-02T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-02T06:31:00Z",
-      "end_ts": "2025-12-02T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-03T06:20:00Z",
       "end_ts": "2025-12-03T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-03T06:31:00Z",
-      "end_ts": "2025-12-03T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-04T06:20:00Z",
       "end_ts": "2025-12-04T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-04T06:31:00Z",
-      "end_ts": "2025-12-04T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-05T05:12:00Z",
       "end_ts": "2025-12-05T05:13:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-05T06:20:00Z",
       "end_ts": "2025-12-05T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-05T06:31:00Z",
-      "end_ts": "2025-12-07T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-08T06:20:00Z",
       "end_ts": "2025-12-08T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-08T06:31:00Z",
-      "end_ts": "2025-12-08T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-09T06:20:00Z",
       "end_ts": "2025-12-09T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-09T06:31:00Z",
-      "end_ts": "2025-12-09T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-10T06:20:00Z",
       "end_ts": "2025-12-10T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-10T06:31:00Z",
-      "end_ts": "2025-12-10T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-11T06:20:00Z",
       "end_ts": "2025-12-11T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-11T06:31:00Z",
-      "end_ts": "2025-12-11T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-12T06:20:00Z",
       "end_ts": "2025-12-12T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-12T06:31:00Z",
-      "end_ts": "2025-12-14T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T00:01:00Z",
       "end_ts": "2025-12-15T00:01:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-15T06:20:00Z",
       "end_ts": "2025-12-15T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-15T06:31:00Z",
-      "end_ts": "2025-12-15T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-16T06:20:00Z",
       "end_ts": "2025-12-16T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-16T06:31:00Z",
-      "end_ts": "2025-12-16T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-17T06:20:00Z",
       "end_ts": "2025-12-17T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-17T06:31:00Z",
-      "end_ts": "2025-12-17T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-18T06:20:00Z",
       "end_ts": "2025-12-18T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-18T06:31:00Z",
-      "end_ts": "2025-12-18T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-19T06:20:00Z",
       "end_ts": "2025-12-19T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-19T06:31:00Z",
-      "end_ts": "2025-12-21T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-22T06:20:00Z",
       "end_ts": "2025-12-22T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-22T06:31:00Z",
-      "end_ts": "2025-12-22T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-23T06:20:00Z",
       "end_ts": "2025-12-23T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-23T06:31:00Z",
-      "end_ts": "2025-12-23T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-24T06:20:00Z",
       "end_ts": "2025-12-24T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-24T06:31:00Z",
-      "end_ts": "2025-12-25T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-26T06:20:00Z",
       "end_ts": "2025-12-26T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-26T06:31:00Z",
-      "end_ts": "2025-12-28T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-29T06:20:00Z",
       "end_ts": "2025-12-29T06:29:00Z",
-      "reason": "gap>1min"
-    },
-    {
-      "start_ts": "2025-12-29T06:31:00Z",
-      "end_ts": "2025-12-29T23:59:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     },
     {
       "start_ts": "2025-12-30T06:20:00Z",
       "end_ts": "2025-12-30T06:29:00Z",
-      "reason": "gap>1min"
+      "reason": "missing expected bar"
     }
   ],
-  "session_calendar": "krx_equities_v1",
+  "session_calendar": "krx_equities_kis_intraday_continuous_auction_v1",
   "timezone": "Asia/Seoul",
-  "checksum": "998923941596ef456fce0b9198bf1ecb2af2d13cd75e04c6349302d649e9e14f",
+  "checksum": "06bbe6e9301738a87b3b65046ed559b649d151932059ad301e9c9e4f20282575",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "krx_split_adjusted_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
+  "lineage": {
+    "authority_status": "archived_kis_updater_parquet",
+    "source_endpoint": "kis://uapi/domestic-stock/v1/quotations/inquire-time-dailychartprice/J/000720/1m",
+    "export_id": "kis-intraday-parquet-v1:9a83c16610e170b6",
+    "pulled_at_utc": "2026-06-01T17:55:41.360790+00:00",
+    "config_hash": "9a83c16610e170b6ea03fa496fda54db180401fc7920168c914635ac1cb2a9a7",
+    "adjustment_policy": "krx_split_adjusted_policy_v1",
+    "corporate_action_policy": "krx_split_adjusted_policy_v1",
+    "sector_schema_version": "krx_sector_map_v1",
+    "session_policy": "krx_stock_regular_session_0900_1530_kst_v1",
+    "source_files": "data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/000720/000720_1m_20250512_20260512.parquet,data/imported/reference_snapshot_2026-05-30/k_stock_trader/data/kis_intraday_parquet/000720/000720_1m_20250529_20260529.parquet",
+    "source_file_count": "2",
+    "timestamp_policy": "krx_exchange_timestamp_kst_to_utc_v1",
+    "raw_timeframe": "1m",
+    "derived_from_raw_timeframe": "false",
+    "refresh_adapter": "k_stock_trader.update_kis_intraday.py",
+    "archive_import_policy": "source_owned_kis_updater_parquet_v1",
+    "strategy_data_family": "k_stock_olr_kalcb"
+  },
   "usable_for_authoritative_validation": false,
   "blocking_reasons": [
-    "KRX intraday timestamp/session audit required before authority",
-    "missing ranges present",
-    "source_version is not a data repo commit SHA"
+    "KIS intraday slice is outside the approved k_stock 5m universe",
+    "missing ranges present"
   ],
-  "generated_at": "2026-05-30T22:12:14.924314Z"
+  "generated_at": "2026-06-01T21:54:05.697995Z"
 }

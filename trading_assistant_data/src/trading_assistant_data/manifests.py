@@ -49,6 +49,7 @@ class MarketDataManifest(BaseModel):
     adjustment_policy: str = ""
     fee_model_version: str = ""
     slippage_model_version: str = ""
+    lineage: dict[str, str] = Field(default_factory=dict)
     usable_for_authoritative_validation: bool = False
     blocking_reasons: list[str] = Field(default_factory=list)
     generated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

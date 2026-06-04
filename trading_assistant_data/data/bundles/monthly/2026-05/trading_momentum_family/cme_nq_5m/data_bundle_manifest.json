@@ -1,0 +1,58 @@
+{
+  "bundle_id": "e63c4a429ea204f1",
+  "data_repo_path": ".",
+  "data_repo_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "data_repo_branch": "master",
+  "slice_manifests": [
+    {
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/ES/1d/20240311T000000Z_20260501T000000Z.market_data_manifest.json",
+      "manifest_id": "bc071b66fc2f6af8",
+      "source": "ibkr",
+      "market": "cme_futures",
+      "symbol": "ES",
+      "timeframe": "1d",
+      "start_ts": "2024-03-11T00:00:00Z",
+      "end_ts": "2026-05-01T00:00:00Z",
+      "checksum": "39c6516f4f5de4d701fc77b887238dc31456aa9a3415adaa67e6c4b3d98bfbdc",
+      "calendar": "cme_equity_index_futures_v1",
+      "authoritative": true
+    },
+    {
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/5m/20240311T000000Z_20260501T205500Z.market_data_manifest.json",
+      "manifest_id": "3a6fe94108245480",
+      "source": "ibkr",
+      "market": "cme_futures",
+      "symbol": "NQ",
+      "timeframe": "5m",
+      "start_ts": "2024-03-11T00:00:00Z",
+      "end_ts": "2026-05-01T20:55:00Z",
+      "checksum": "c79c1a9838ffb0f1dfc902fafab1a0d7fbe89dd2b97f8e038028f9c73b6c7d6d",
+      "calendar": "cme_equity_index_futures_v1",
+      "authoritative": true
+    },
+    {
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/5m/20260503T220000Z_20260529T205500Z.market_data_manifest.json",
+      "manifest_id": "ba77144597338de7",
+      "source": "ibkr",
+      "market": "cme_futures",
+      "symbol": "NQ",
+      "timeframe": "5m",
+      "start_ts": "2026-05-03T22:00:00Z",
+      "end_ts": "2026-05-29T20:55:00Z",
+      "checksum": "9cf9684a0ef59c4a14a7a5c1443ce6bf8c45876aeb39e1ad93d1119de28a6835",
+      "calendar": "cme_equity_index_futures_v1",
+      "authoritative": true
+    }
+  ],
+  "bundle_checksum": "8ec7b634d0e5817a040b6a42763229357837968b2cc12e038b3f8afe2292dcd0",
+  "calendars": [
+    "cme_equity_index_futures_v1"
+  ],
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "adjustment_policy": "cme_futures_panama_v1",
+  "status": "authoritative",
+  "diagnostics_only_reason": "",
+  "schema_version": "data_bundle_manifest_v1",
+  "generated_at": "2026-06-01T14:19:44.712642Z"
+}

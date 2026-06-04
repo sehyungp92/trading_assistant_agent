@@ -1,0 +1,228 @@
+{
+  "blocked_count": 24,
+  "comparisons": [
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/15m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_cb480d5605564d4621d642ee",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "BTC",
+      "timeframe": "15m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/1d.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_375ddb10474cce248d799cb7",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "BTC",
+      "timeframe": "1d"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/1h.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_ddac3a5d52cd179212399ed0",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "BTC",
+      "timeframe": "1h"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/1m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_66c7e8e46d995543b38fdd79",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "BTC",
+      "timeframe": "1m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/30m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_de7b58f4e743036bcb6064b9",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "BTC",
+      "timeframe": "30m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/4h.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_4770a24275eada9be297409b",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "BTC",
+      "timeframe": "4h"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/BTC/5m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_0b561f950b17fae6057cc363",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "BTC",
+      "timeframe": "5m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/15m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_0adbcbc7fcc4c3ab1aa398f5",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "ETH",
+      "timeframe": "15m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/1d.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_dd6b51e92736ca01fbe49fde",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "ETH",
+      "timeframe": "1d"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/1h.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_0c30784a71349991ef8f4287",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "ETH",
+      "timeframe": "1h"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/1m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_cb3759a90b124a06fa261e3f",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "ETH",
+      "timeframe": "1m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/30m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_094faf2601c3c251e26f5f64",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "ETH",
+      "timeframe": "30m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/4h.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_1b3e25e9d0ca4ae611dd6dfe",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "ETH",
+      "timeframe": "4h"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/5m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_fbfcade77d0dc736c109e2a0",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "ETH",
+      "timeframe": "5m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/15m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_74a7908d03b5099f642401b2",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "SOL",
+      "timeframe": "15m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/1d.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_dd72fe6a48fdf8fab8f457cd",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "SOL",
+      "timeframe": "1d"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/1h.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_27f0a23f66953c444d5cd728",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "SOL",
+      "timeframe": "1h"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/1m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_92856480b5f5a6f5338faa6e",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "SOL",
+      "timeframe": "1m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/30m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_0237eb707e4a26b4ce0ca2c1",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "SOL",
+      "timeframe": "30m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/4h.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_fdb9003ab78f9793c632dc72",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "SOL",
+      "timeframe": "4h"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/SOL/5m.parquet",
+      "reason": "no source-owned canonical slice covers the legacy request window",
+      "request_id": "src_req_97d2e366a5ba90b1bb2faa47",
+      "source_kind": "hyperliquid_candles",
+      "status": "blocked",
+      "symbol": "SOL",
+      "timeframe": "5m"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/BTC.parquet",
+      "reason": "legacy parquet has no comparable bars",
+      "request_id": "src_req_69493f2d26f21b5e4d7215e8",
+      "source_kind": "hyperliquid_funding",
+      "status": "blocked",
+      "symbol": "BTC",
+      "timeframe": "funding_8h"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/ETH.parquet",
+      "reason": "legacy parquet has no comparable bars",
+      "request_id": "src_req_dba023fcea170a664705cf8d",
+      "source_kind": "hyperliquid_funding",
+      "status": "blocked",
+      "symbol": "ETH",
+      "timeframe": "funding_8h"
+    },
+    {
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/funding/SOL.parquet",
+      "reason": "legacy parquet has no comparable bars",
+      "request_id": "src_req_9bfaf1a87086d0be5d08d728",
+      "source_kind": "hyperliquid_funding",
+      "status": "blocked",
+      "symbol": "SOL",
+      "timeframe": "funding_8h"
+    }
+  ],
+  "failed_count": 0,
+  "generated_at": "2026-06-01T19:23:09Z",
+  "ok": false,
+  "passed_count": 0,
+  "request_count": 24,
+  "source_request_manifest": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\source_requests\\reference_snapshot_2026-05-30\\source_request_manifest.json",
+  "status": "blocked"
+}

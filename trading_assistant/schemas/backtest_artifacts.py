@@ -27,6 +27,7 @@ REQUIRED_BACKTEST_ARTIFACTS = [
 ]
 
 PHASE4_OPTIMIZER_ARTIFACTS = [
+    "optimizer_run_manifest.json",
     "leakage_report.json",
     "cost_sensitivity.json",
     "fold_validation.json",
@@ -40,6 +41,15 @@ PHASE4_OPTIMIZER_ARTIFACTS = [
     "candidate_attempts.jsonl",
     "runner_observability.json",
     "confirmatory_rerank.json",
+    "fold_candidate_results.jsonl",
+    "fold_score_matrix.json",
+    "selection_oos_evaluation.json",
+    "selection_oos_repair_trigger.json",
+    "repair_failure_attribution.json",
+    "accepted_mutation_chain.json",
+    "repair_candidate_results.jsonl",
+    "repair_checkpoint.json",
+    "round_n_plus_1_recommendation.json",
 ]
 
 PHASE4_OOS_REPAIR_ARTIFACTS = [
@@ -48,6 +58,7 @@ PHASE4_OOS_REPAIR_ARTIFACTS = [
 
 PHASE4_STRUCTURAL_CANDIDATE_ARTIFACTS = [
     "structural_candidate_plan.json",
+    "structural_selection_gate.json",
     "live_repo_patch.diff",
     "backtest_adapter_patch.diff",
     "config_patch.diff",

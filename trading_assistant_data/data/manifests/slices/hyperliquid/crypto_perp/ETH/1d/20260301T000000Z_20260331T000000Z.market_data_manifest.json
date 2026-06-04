@@ -1,5 +1,5 @@
 {
-  "manifest_id": "7152997a3740edb0",
+  "manifest_id": "d2f35f633ebbf169",
   "source": "hyperliquid",
   "market": "crypto_perp",
   "symbol": "ETH",
@@ -12,15 +12,21 @@
   "missing_ranges": [],
   "session_calendar": "crypto_utc_24_7_v1",
   "timezone": "UTC",
-  "checksum": "18115469858cf2811b7e907837069dfaff7fec9e4fc55ce77f75233fbaad7917",
+  "checksum": "1abf0ea17ecf1d516d45f81dd29680643e50ef76de0eaaca9d4a76865057d532",
   "schema_version": "market_data_manifest_v1",
-  "source_version": "reference_snapshot_2026-05-30",
+  "source_version": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "adjustment_policy": "crypto_raw_perp_policy_v1",
   "fee_model_version": "fees_v1",
   "slippage_model_version": "slippage_v1",
-  "usable_for_authoritative_validation": false,
-  "blocking_reasons": [
-    "source_version is not a data repo commit SHA"
-  ],
-  "generated_at": "2026-05-30T22:02:10.991683Z"
+  "lineage": {
+    "authority_status": "archived_reference_snapshot_plus_live_hyperliquid_refresh",
+    "source_endpoint": "data/imported/reference_snapshot_2026-05-30/crypto_trader/data/candles/ETH/1d.parquet,data/raw/hyperliquid/candles/symbol=ETH/interval=1d/20260321T000000Z_20260601T202730Z.json",
+    "export_id": "reference_snapshot_2026-05-30",
+    "pulled_at_utc": "",
+    "config_hash": "",
+    "adjustment_policy": "crypto_raw_perp_policy_v1"
+  },
+  "usable_for_authoritative_validation": true,
+  "blocking_reasons": [],
+  "generated_at": "2026-06-01T20:27:41.898796Z"
 }

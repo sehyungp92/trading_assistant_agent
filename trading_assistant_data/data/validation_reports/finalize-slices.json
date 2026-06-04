@@ -1,10 +1,10 @@
 {
-  "data_commit_sha": "a4b376c4e1417784a1e59c3c128a8ddca37fd4b3",
+  "data_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
   "dry_run": false,
   "skipped": [],
   "skipped_count": 0,
   "updated": [
-    "data/manifests/slices/hyperliquid/crypto_perp/BTC/1m/20260501T000000Z_20260530T110000Z.market_data_manifest.json"
+    "data/manifests/slices/hyperliquid/crypto_perp/BTC/1d/20260501T000000Z_20260530T000000Z.market_data_manifest.json"
   ],
   "updated_count": 1
 }

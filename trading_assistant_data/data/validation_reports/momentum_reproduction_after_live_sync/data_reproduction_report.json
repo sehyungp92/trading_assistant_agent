@@ -1,0 +1,103 @@
+{
+  "adjustment_policy": "cme_futures_panama_v1",
+  "bundle_checksum": "4dd9f93f367f80476aff8910e0988b04065221df1baafd87c7a53648c3e25c39",
+  "bundle_id": "1476e0681cec1665",
+  "bundle_manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\trading_momentum_family\\cme_nq_5m\\data_bundle_manifest.json",
+  "calendars": [
+    "cme_equity_index_futures_v1"
+  ],
+  "checks": [
+    {
+      "errors": [],
+      "name": "bundle_is_authoritative",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "bundle_checksum_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice_index_bundle_checksum_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba77144597338de7:manifest_fields_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba77144597338de7:slice_index_paths_exist",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba77144597338de7:checksum_matches_canonical_parquet",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba77144597338de7:bar_count_matches_manifest",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba77144597338de7:expected_bars_match_calendar",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba77144597338de7:coverage_matches",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba77144597338de7:policy_versions_match_bundle",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "name": "slice:ba77144597338de7:calendar_matches_bundle",
+      "passed": true
+    }
+  ],
+  "fee_model_version": "fees_v1",
+  "generated_at": "2026-05-31T23:06:49Z",
+  "ok": true,
+  "recomputed_bundle_checksum": "4dd9f93f367f80476aff8910e0988b04065221df1baafd87c7a53648c3e25c39",
+  "report_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\validation_reports\\momentum_reproduction_after_live_sync\\data_reproduction_report.json",
+  "slice_count": 1,
+  "slices": [
+    {
+      "actual_bars": 5244,
+      "adjustment_policy": "cme_futures_panama_v1",
+      "calendar": "cme_equity_index_futures_v1",
+      "canonical_paths": [
+        "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=cme_futures\\source=ibkr\\kind=read_only_authority\\symbol=NQ\\timeframe=5m\\year=2026\\month=05\\part.parquet"
+      ],
+      "checksum": "9cf9684a0ef59c4a14a7a5c1443ce6bf8c45876aeb39e1ad93d1119de28a6835",
+      "coverage_ratio": 1.0,
+      "end_ts": "2026-05-29T20:55:00+00:00",
+      "expected_bars": 5244,
+      "fee_model_version": "fees_v1",
+      "manifest_id": "ba77144597338de7",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\ibkr\\cme_futures\\NQ\\5m\\20260503T220000Z_20260529T205500Z.market_data_manifest.json",
+      "market": "cme_futures",
+      "observed_end_ts": "2026-05-29T20:55:00+00:00",
+      "observed_start_ts": "2026-05-03T22:00:00+00:00",
+      "recomputed_actual_bars": 5244,
+      "recomputed_canonical_checksums": [
+        "9cf9684a0ef59c4a14a7a5c1443ce6bf8c45876aeb39e1ad93d1119de28a6835"
+      ],
+      "recomputed_expected_bars": 5244,
+      "slippage_model_version": "slippage_v1",
+      "source": "ibkr",
+      "start_ts": "2026-05-03T22:00:00+00:00",
+      "symbol": "NQ",
+      "timeframe": "5m"
+    }
+  ],
+  "slippage_model_version": "slippage_v1"
+}

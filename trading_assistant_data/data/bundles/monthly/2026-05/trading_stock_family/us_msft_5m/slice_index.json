@@ -1,0 +1,14 @@
+{
+  "bundle_checksum": "21501cf52e54a22f4c96a6f3ebad8d8e313213594fdefc4921c37827d2cb8623",
+  "generated_at": "2026-05-31T17:02:40.028543+00:00",
+  "schema_version": "bundle_slice_index_v1",
+  "slices": [
+    {
+      "canonical_paths": [
+        "data/canonical/bars/market=us_equity/source=ibkr/kind=read_only_authority/symbol=MSFT/timeframe=5m/year=2026/month=05/part.parquet"
+      ],
+      "manifest_id": "774a095ca5660934",
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/MSFT/5m/20260501T000000Z_20260531T235900Z.market_data_manifest.json"
+    }
+  ]
+}

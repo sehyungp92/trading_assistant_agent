@@ -1,0 +1,97 @@
+{
+  "bundle_id": "c9f7cf430558cf0a",
+  "data_repo_path": ".",
+  "data_repo_commit_sha": "406ce4295a797b56b1d53a23294e8f0bab54c6a2",
+  "data_repo_branch": "master",
+  "slice_manifests": [
+    {
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/GLD/15m/20210208T090000Z_20260501T230000Z.market_data_manifest.json",
+      "manifest_id": "f0425921f6e88b4a",
+      "source": "ibkr",
+      "market": "us_equity",
+      "symbol": "GLD",
+      "timeframe": "15m",
+      "start_ts": "2021-02-08T09:00:00Z",
+      "end_ts": "2026-05-01T23:00:00Z",
+      "checksum": "d1a37dc921bbc752f2ecaf1e56306a6104f012463b273b582e572639523c022b",
+      "calendar": "us_equities_xnys_xnas_v1",
+      "authoritative": true
+    },
+    {
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/GLD/1d/20210208T000000Z_20260501T000000Z.market_data_manifest.json",
+      "manifest_id": "226f69093c67266b",
+      "source": "ibkr",
+      "market": "us_equity",
+      "symbol": "GLD",
+      "timeframe": "1d",
+      "start_ts": "2021-02-08T00:00:00Z",
+      "end_ts": "2026-05-01T00:00:00Z",
+      "checksum": "67839a08f10a7e5e948af83ea6938a68e5fa78cf03c39e41562123864e672a4f",
+      "calendar": "us_equities_xnys_xnas_v1",
+      "authoritative": true
+    },
+    {
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/GLD/1h/20210208T090000Z_20260501T230000Z.market_data_manifest.json",
+      "manifest_id": "183cfdf195a0d57e",
+      "source": "ibkr",
+      "market": "us_equity",
+      "symbol": "GLD",
+      "timeframe": "1h",
+      "start_ts": "2021-02-08T09:00:00Z",
+      "end_ts": "2026-05-01T23:00:00Z",
+      "checksum": "97b3d081a96a3167cee48718d0343e8499c5738b32ea84f7b77544e23b8fdfb6",
+      "calendar": "us_equities_xnys_xnas_v1",
+      "authoritative": true
+    },
+    {
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/QQQ/15m/20210208T090000Z_20260501T230000Z.market_data_manifest.json",
+      "manifest_id": "01c2db19c4d5161a",
+      "source": "ibkr",
+      "market": "us_equity",
+      "symbol": "QQQ",
+      "timeframe": "15m",
+      "start_ts": "2021-02-08T09:00:00Z",
+      "end_ts": "2026-05-01T23:00:00Z",
+      "checksum": "166f8101ab2d1f7fbb16abc700ea28bbf6ab004751df52dbd6f5bbb4df823b37",
+      "calendar": "us_equities_xnys_xnas_v1",
+      "authoritative": true
+    },
+    {
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/QQQ/1d/20210208T000000Z_20260501T000000Z.market_data_manifest.json",
+      "manifest_id": "8201d65d6a460ac2",
+      "source": "ibkr",
+      "market": "us_equity",
+      "symbol": "QQQ",
+      "timeframe": "1d",
+      "start_ts": "2021-02-08T00:00:00Z",
+      "end_ts": "2026-05-01T00:00:00Z",
+      "checksum": "3919271a98ee1e6449818486e1edd1ba15796207a946330cd8df2345aea48ed4",
+      "calendar": "us_equities_xnys_xnas_v1",
+      "authoritative": true
+    },
+    {
+      "manifest_path": "data/manifests/slices/ibkr/us_equity/QQQ/1h/20210208T090000Z_20260501T230000Z.market_data_manifest.json",
+      "manifest_id": "da9315f765337645",
+      "source": "ibkr",
+      "market": "us_equity",
+      "symbol": "QQQ",
+      "timeframe": "1h",
+      "start_ts": "2021-02-08T09:00:00Z",
+      "end_ts": "2026-05-01T23:00:00Z",
+      "checksum": "c62008dd8d3096e62648b9b8454c5713dd5d830ee5d848bcd6ab9d90b702528a",
+      "calendar": "us_equities_xnys_xnas_v1",
+      "authoritative": true
+    }
+  ],
+  "bundle_checksum": "443132ca746da35f0ed41613c6da1aeac39ca9555b7cf53dd7e08de34b40f65e",
+  "calendars": [
+    "us_equities_xnys_xnas_v1"
+  ],
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "adjustment_policy": "us_equity_split_dividend_adjusted_policy_v1",
+  "status": "authoritative",
+  "diagnostics_only_reason": "",
+  "schema_version": "data_bundle_manifest_v1",
+  "generated_at": "2026-06-02T01:30:43.192064Z"
+}

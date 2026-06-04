@@ -1,0 +1,46 @@
+{
+  "coverage_mode": "full-legacy",
+  "coverage_report": {
+    "adjustments": [],
+    "contract_probe_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\validation_reports\\approval_run\\2026-06-01\\ibkr-contract-resolution-probe.json",
+    "coverage_mode": "full-legacy",
+    "probe_loaded": true
+  },
+  "dry_run": false,
+  "failure_count": 1,
+  "failures": [
+    {
+      "end": "2026-05-01T00:00:00+00:00",
+      "error": "provider returned no bars",
+      "legacy_family": "trading_stock",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/stock/data/raw/DKNG_1d.parquet",
+      "request_id": "src_req_7d56904cef91f2a8f9cf083e",
+      "source_endpoint": "ibkr://historical-data/STK/SMART/primary-exchange-required/DKNG/TRADES/1d/RTH",
+      "source_kind": "ibkr_us_equity_historical_bars",
+      "start": "2021-03-23T00:00:00+00:00",
+      "strategy_data_family": "trading_stock",
+      "symbol": "DKNG",
+      "timeframe": "1d"
+    }
+  ],
+  "ok": false,
+  "request_count": 1,
+  "requests": [
+    {
+      "end": "2026-05-01T00:00:00+00:00",
+      "legacy_family": "trading_stock",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/stock/data/raw/DKNG_1d.parquet",
+      "request_id": "src_req_7d56904cef91f2a8f9cf083e",
+      "source_endpoint": "ibkr://historical-data/STK/SMART/primary-exchange-required/DKNG/TRADES/1d/RTH",
+      "source_kind": "ibkr_us_equity_historical_bars",
+      "start": "2021-03-23T00:00:00+00:00",
+      "strategy_data_family": "trading_stock",
+      "symbol": "DKNG",
+      "timeframe": "1d"
+    }
+  ],
+  "result_count": 0,
+  "results": [],
+  "source": "ibkr",
+  "status": "failed"
+}

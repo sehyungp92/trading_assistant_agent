@@ -1,0 +1,7 @@
+{
+  "errors": [],
+  "manifest": "data\\manifests\\slices\\ibkr\\cme_futures\\NQ\\5m\\20240311T000000Z_20260501T205500Z.market_data_manifest.json",
+  "status": "authoritative",
+  "valid": true,
+  "warnings": []
+}

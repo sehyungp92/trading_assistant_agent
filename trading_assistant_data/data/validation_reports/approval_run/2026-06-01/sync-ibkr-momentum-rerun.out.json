@@ -1,0 +1,68 @@
+{
+  "dry_run": false,
+  "failure_count": 0,
+  "failures": [],
+  "ok": true,
+  "request_count": 2,
+  "requests": [
+    {
+      "end": "2026-05-01T00:00:00+00:00",
+      "legacy_family": "trading_momentum",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/ES_1d.parquet",
+      "request_id": "src_req_d13ba9baddbe0f6b065e7c20",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/ES/TRADES/1d",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "start": "2021-12-21T00:00:00+00:00",
+      "symbol": "ES",
+      "timeframe": "1d"
+    },
+    {
+      "end": "2026-05-01T20:55:00+00:00",
+      "legacy_family": "trading_momentum",
+      "legacy_path": "data/imported/reference_snapshot_2026-05-30/trading/backtests/momentum/data/raw/NQ_5m.parquet",
+      "request_id": "src_req_2b9c218ab7585eb7cca33c19",
+      "source_endpoint": "ibkr://historical-data/FUT/CME/NQ/TRADES/5m",
+      "source_kind": "ibkr_cme_futures_historical_bars",
+      "start": "2023-07-05T14:15:00+00:00",
+      "symbol": "NQ",
+      "timeframe": "5m"
+    }
+  ],
+  "result_count": 2,
+  "results": [
+    {
+      "blocking_reasons": [
+        "source-aware missing ranges present"
+      ],
+      "canonical_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=cme_futures\\source=ibkr\\kind=read_only_authority\\symbol=ES\\timeframe=1d\\year=2021\\month=12\\part.parquet",
+      "checksum": "d3fd5c5c94038109e8df5203c95ad82892313c062a05135e532bb09095439313",
+      "end": "2026-05-01T00:00:00+00:00",
+      "manifest_id": "ab5486c548cdc881",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\ibkr\\cme_futures\\ES\\1d\\20211221T000000Z_20260501T000000Z.market_data_manifest.json",
+      "raw_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\raw\\ibkr\\read_only_cme_futures\\symbol=ES\\timeframe=1d\\export_id=ibkr-es-1d-7361f6bdfe7b7acf\\bars.parquet",
+      "start": "2021-12-21T00:00:00+00:00",
+      "status": "complete",
+      "symbol": "ES",
+      "timeframe": "1d",
+      "usable_for_authoritative_validation": false
+    },
+    {
+      "blocking_reasons": [
+        "source-aware missing ranges present"
+      ],
+      "canonical_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\canonical\\bars\\market=cme_futures\\source=ibkr\\kind=read_only_authority\\symbol=NQ\\timeframe=5m\\year=2023\\month=07\\part.parquet",
+      "checksum": "c33cab452dc07b4a65f98a98ccc6fffa6c8213be662b110ba6cd8f071cfc3afe",
+      "end": "2026-05-01T20:55:00+00:00",
+      "manifest_id": "dfe5250e30b5895e",
+      "manifest_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\manifests\\slices\\ibkr\\cme_futures\\NQ\\5m\\20230705T141500Z_20260501T205500Z.market_data_manifest.json",
+      "raw_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\raw\\ibkr\\read_only_cme_futures\\symbol=NQ\\timeframe=5m\\export_id=ibkr-nq-5m-a0dd65f72521a6d6\\bars.parquet",
+      "start": "2023-07-05T14:15:00+00:00",
+      "status": "complete",
+      "symbol": "NQ",
+      "timeframe": "5m",
+      "usable_for_authoritative_validation": false
+    }
+  ],
+  "source": "ibkr",
+  "status": "complete"
+}

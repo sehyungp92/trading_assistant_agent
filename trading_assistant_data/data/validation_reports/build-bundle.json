@@ -1,8 +1,8 @@
 {
-  "bundle_checksum": "58ad4ad21eae99363066f6a8ab814dc074573e3835e31a5fced5a96bba4ae70e",
-  "bundle_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\crypto_portfolio\\btc_1m\\data_bundle_manifest.json",
+  "bundle_checksum": "a6785e47a3b9407eeb1d08358551e43ec4735cded9ef1dca48ba26a8e115f923",
+  "bundle_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-04\\k_stock_olr_kalcb\\portfolio\\data_bundle_manifest.json",
   "dry_run": false,
-  "slice_index_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-05\\crypto_portfolio\\btc_1m\\slice_index.json",
+  "slice_index_path": "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\bundles\\monthly\\2026-04\\k_stock_olr_kalcb\\portfolio\\slice_index.json",
   "status": "authoritative",
   "validation": {
     "errors": [],

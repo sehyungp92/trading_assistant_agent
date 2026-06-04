@@ -200,6 +200,28 @@ class TestWeeklyPromptAssembler:
         package = assembler.assemble()
         assert "weekly" in package.task_prompt.lower()
 
+    def test_package_includes_weekly_focus_rotation_contract(self, setup_dirs):
+        curated, memory, runs = setup_dirs
+        assembler = WeeklyPromptAssembler(
+            week_start="2026-06-01",
+            week_end="2026-06-07",
+            bots=["k_stock_trader", "trading"],
+            curated_dir=curated,
+            memory_dir=memory,
+            runs_dir=runs,
+        )
+        package = assembler.assemble()
+
+        assert package.metadata["weekly_focus_id"] == "k_stock_and_trading_stock"
+        assert package.data["weekly_focus"]["focus_id"] == "k_stock_and_trading_stock"
+        assert package.data["weekly_focus"]["week_start"] == "2026-06-01"
+        assert "trading_stock" in package.data["weekly_focus"]["portfolio_families"]
+        assert len(package.data["weekly_focus_rotation"]) == 4
+        assert "Active weekly focus" in package.task_prompt
+        assert "WEEKLY PORTFOLIO FOCUS ROTATION" in package.instructions
+        assert "monthly_search_brief only" in package.instructions
+        assert "satisfy approval gates" in package.instructions
+
     def test_corrections_loaded(self, setup_dirs):
         curated, memory, runs = setup_dirs
         assembler = WeeklyPromptAssembler(
