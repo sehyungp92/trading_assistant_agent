@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.validation.bridge_readiness import run_bridge_readiness_audit
 from trading_assistant_backtest.validation.deployment_metadata_contract import (
     live_deployment_metadata_errors,
@@ -253,7 +253,7 @@ def _deployment_metadata_checks(bridge_id: str, agent_root: Path) -> list[dict[s
     metadata = _read_json(metadata_path)
     live_emission_errors = live_deployment_metadata_errors(metadata)
     repo_url = str(metadata.get("repo_url") or "")
-    contract_hash = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+    contract_hash = sha256_file(contract_path)
     telemetry_schema = str(metadata.get("telemetry_schema_version") or "")
     telemetry_ok = telemetry_schema in set(contract.get("required_telemetry_schemas") or [])
     return [

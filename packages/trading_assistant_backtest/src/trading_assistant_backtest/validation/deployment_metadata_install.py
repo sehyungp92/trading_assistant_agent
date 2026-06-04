@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import shutil
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.validation.approval_grade_audit import CONTRACT_PATHS
 from trading_assistant_backtest.validation.deployment_metadata_contract import (
     live_deployment_metadata_errors,
@@ -121,7 +121,7 @@ def _metadata_checks(
     contract_path: Path,
 ) -> list[dict[str, Any]]:
     live_errors = live_deployment_metadata_errors(metadata)
-    contract_hash = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+    contract_hash = sha256_file(contract_path)
     required_schemas = set(contract.get("required_telemetry_schemas") or [])
     repo_url = str(metadata.get("repo_url") or "")
     repo_url_ok = bool(repo_url) and not repo_url.startswith("local://")

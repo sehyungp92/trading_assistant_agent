@@ -5,6 +5,7 @@ import json
 import subprocess
 from pathlib import Path
 
+from trading_assistant_backtest.file_hashes import sha256_file
 import trading_assistant_backtest.validation.approval_grade_audit as audit_module
 from trading_assistant_backtest.validation.approval_grade_audit import (
     _deployment_metadata_checks,
@@ -108,9 +109,7 @@ def test_approval_grade_audit_rejects_local_shadow_deployment_metadata(
         {
             "metadata_source": "local clean live-repo checkout shadow snapshot",
             "repo_url": "local://_references/crypto_trader",
-            "strategy_plugin_contract_hash": hashlib.sha256(
-                contract_path.read_bytes()
-            ).hexdigest(),
+            "strategy_plugin_contract_hash": sha256_file(contract_path),
         }
     )
     metadata_path.write_text(json.dumps(metadata), encoding="utf-8")
@@ -143,9 +142,7 @@ def test_approval_grade_audit_accepts_live_emitted_metadata_contract_fields(
             "source_control_commit_sha": "a" * 40,
             "source_control_worktree_clean": True,
             "repo_url": "https://github.com/example/crypto_trader.git",
-            "strategy_plugin_contract_hash": hashlib.sha256(
-                contract_path.read_bytes()
-            ).hexdigest(),
+            "strategy_plugin_contract_hash": sha256_file(contract_path),
         }
     )
     metadata_path.write_text(json.dumps(metadata), encoding="utf-8")
@@ -164,9 +161,7 @@ def test_approval_grade_audit_rejects_generic_runtime_metadata_without_live_prov
         {
             "metadata_source": "runtime_deployment_metadata_v1",
             "repo_url": "https://github.com/example/crypto_trader.git",
-            "strategy_plugin_contract_hash": hashlib.sha256(
-                contract_path.read_bytes()
-            ).hexdigest(),
+            "strategy_plugin_contract_hash": sha256_file(contract_path),
         }
     )
     metadata_path.write_text(json.dumps(metadata), encoding="utf-8")
@@ -790,7 +785,7 @@ def _optimizer_patch_fingerprints() -> tuple[str, str]:
 
 
 def _sha256_file(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return sha256_file(path)
 
 
 def _stable_json_hash(value: object) -> str:

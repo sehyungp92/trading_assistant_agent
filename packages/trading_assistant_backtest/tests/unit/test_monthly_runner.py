@@ -19,6 +19,7 @@ from trading_assistant_backtest.contract_models import (
     MonthlyRunMode,
 )
 from trading_assistant_backtest.auto.types import Candidate, CandidateEvaluation, PhaseSpec
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.monthly import (
     _STRUCTURAL_PARITY_BUILDERS,
     ArtifactWriter,
@@ -783,11 +784,11 @@ def test_optimizer_run_manifest_payload_emits_all_crypto_bridge_hashes(
     assert set(payload["bridge_contract_paths"]) == crypto_bridge_ids
     assert set(payload["bridge_deployment_metadata_paths"]) == crypto_bridge_ids
     assert payload["bridge_contract_hashes"] == {
-        bridge_id: hashlib.sha256(path.read_bytes()).hexdigest()
+        bridge_id: sha256_file(path)
         for bridge_id, path in expected_contract_paths.items()
     }
     assert payload["bridge_deployment_metadata_hashes"] == {
-        bridge_id: hashlib.sha256(path.read_bytes()).hexdigest()
+        bridge_id: sha256_file(path)
         for bridge_id, path in expected_metadata_paths.items()
     }
 
@@ -902,25 +903,21 @@ def test_shadow_monthly_cycle_uses_committed_bundle_and_mature_crypto_contract(
     )
     crypto_bridge_ids = {"crypto_trend_v1", "crypto_momentum_v1", "crypto_breakout_v1"}
     expected_contract_hashes = {
-        bridge_id: hashlib.sha256(
-            (
-                PROJECT_ROOT
-                / "contracts"
-                / bridge_id
-                / "strategy_plugin_contract.json"
-            ).read_bytes()
-        ).hexdigest()
+        bridge_id: sha256_file(
+            PROJECT_ROOT
+            / "contracts"
+            / bridge_id
+            / "strategy_plugin_contract.json"
+        )
         for bridge_id in crypto_bridge_ids
     }
     expected_metadata_hashes = {
-        bridge_id: hashlib.sha256(
-            (
-                PROJECT_ROOT
-                / "contracts"
-                / bridge_id
-                / "deployment_metadata.json"
-            ).read_bytes()
-        ).hexdigest()
+        bridge_id: sha256_file(
+            PROJECT_ROOT
+            / "contracts"
+            / bridge_id
+            / "deployment_metadata.json"
+        )
         for bridge_id in crypto_bridge_ids
     }
 

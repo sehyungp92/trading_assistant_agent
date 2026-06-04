@@ -185,6 +185,9 @@ def test_trading_stock_requirements_are_explicit_stock_family_allowlist() -> Non
 
 def test_source_requests_read_annotated_stock_universe_primary_exchanges() -> None:
     repo_root = Path(__file__).resolve().parents[1]
+    trading_root = MONOREPO_ROOT / "_references" / "trading"
+    if not trading_root.exists():
+        pytest.skip("trading reference repo is local-only and not available in CI")
     mapping = source_requests._load_trading_primary_exchange_map(repo_root)
 
     assert mapping["BRK B"] == "NYSE"
@@ -201,6 +204,8 @@ def test_k_stock_requirements_are_explicit_olr_kalcb_universe_contract() -> None
         MONOREPO_ROOT / "_references" / "k_stock_trader" / "config" / "olr_kalcb"
         / "olr_deployment_universe_103.yaml"
     )
+    if not universe_path.exists():
+        pytest.skip("k_stock_trader reference repo is local-only and not available in CI")
     payload = json.loads(requirements_path.read_text(encoding="utf-8"))
     universe = yaml.safe_load(universe_path.read_text(encoding="utf-8"))
     symbols = {str(symbol).zfill(6) for symbol in universe["symbols"]}

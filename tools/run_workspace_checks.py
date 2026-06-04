@@ -108,20 +108,29 @@ def backtest_approval() -> int:
 
 
 def manifest_validate() -> int:
-    return _run(
-        [
-            sys.executable,
-            "-m",
-            "trading_assistant_backtest.monthly",
-            "--manifest",
-            "artifacts/validation/monthly_smoke/k_stock_olr_kalcb/run_manifest.json",
-            "--validate-only",
-        ],
-        cwd=_workspace("trading_assistant_backtest"),
-    )
+    with tempfile.TemporaryDirectory(prefix="ta_manifest_validate_") as root:
+        manifest_path = _write_manifest_validation_fixture(Path(root))
+        return _run(
+            [
+                sys.executable,
+                "-m",
+                "trading_assistant_backtest.monthly",
+                "--manifest",
+                str(manifest_path),
+                "--validate-only",
+            ],
+            cwd=_workspace("trading_assistant_backtest"),
+        )
 
 
 def data_reproduction_smoke() -> int:
+    missing = _missing_data_reproduction_inputs()
+    if missing:
+        print(
+            "data reproduction smoke skipped: canonical parquet is local-only; "
+            f"first missing path: {missing[0]}"
+        )
+        return 0
     with tempfile.TemporaryDirectory(prefix="ta_data_reproduction_") as artifact_root:
         return _run_json_summary(
             [
@@ -146,6 +155,12 @@ def data_reproduction_smoke() -> int:
 
 
 def validation_matrix() -> int:
+    if not _local_validation_inputs_available():
+        print(
+            "validation matrix skipped: local reference repos or canonical parquet "
+            "are not available in this checkout"
+        )
+        return 0
     with tempfile.TemporaryDirectory(prefix="ta_validation_matrix_") as artifact_root:
         return _run_json_summary(
             [
@@ -221,6 +236,87 @@ def imports() -> int:
         [sys.executable, "-c", "import trading_assistant_backtest.monthly"],
     )
     return _run_many(tuple((command, ROOT, None) for command in commands))
+
+
+def _write_manifest_validation_fixture(root: Path) -> Path:
+    from trading_assistant_backtest.contract_models import (
+        JSON_ARTIFACTS,
+        JSONL_ARTIFACTS,
+        REQUIRED_BACKTEST_ARTIFACTS,
+    )
+
+    artifact_root = root / "artifacts"
+    artifact_root.mkdir(parents=True, exist_ok=True)
+    run_id = "monthly-ci-manifest-validate-2026-04"
+    manifest_path = root / "run_manifest.json"
+    manifest = {
+        "run_id": run_id,
+        "run_month": "2026-04",
+        "mode": "incumbent_validation",
+        "bot_id": "ci",
+        "strategy_id": "manifest_validate",
+        "latest_month_start": "2026-04-01",
+        "latest_month_end": "2026-04-30",
+        "market_data_manifest_path": str(root / "data_bundle.json"),
+        "telemetry_manifest_path": str(root / "telemetry.json"),
+        "artifact_root": str(artifact_root),
+    }
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    (root / "data_bundle.json").write_text("{}", encoding="utf-8")
+    (root / "telemetry.json").write_text("{}", encoding="utf-8")
+    for name in REQUIRED_BACKTEST_ARTIFACTS:
+        path = artifact_root / name
+        if name in JSON_ARTIFACTS:
+            path.write_text("{}", encoding="utf-8")
+        elif name in JSONL_ARTIFACTS:
+            path.write_text("", encoding="utf-8")
+        else:
+            path.write_text("", encoding="utf-8")
+    (artifact_root / "artifact_index.json").write_text(
+        json.dumps(
+            {
+                "run_id": run_id,
+                "artifact_root": str(artifact_root),
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    return manifest_path
+
+
+def _local_validation_inputs_available() -> bool:
+    reference_root = ROOT / "_references"
+    return (
+        all(
+            (reference_root / name).exists()
+            for name in ("crypto_trader", "k_stock_trader", "trading")
+        )
+        and not _missing_data_reproduction_inputs()
+    )
+
+
+def _missing_data_reproduction_inputs() -> list[Path]:
+    data_root = _workspace("trading_assistant_data")
+    bundle_root = data_root / "data" / "bundles" / "monthly"
+    bundle_paths = sorted(
+        bundle_root.glob("*/crypto_portfolio/phased_optimizer/data_bundle_manifest.json")
+    )
+    if not bundle_paths:
+        return []
+    slice_index_path = bundle_paths[-1].with_name("slice_index.json")
+    if not slice_index_path.exists():
+        return []
+    slice_index = json.loads(slice_index_path.read_text(encoding="utf-8"))
+    missing: list[Path] = []
+    for item in slice_index.get("slices", []):
+        if not isinstance(item, dict):
+            continue
+        for raw_path in item.get("canonical_paths", []):
+            path = data_root / str(raw_path)
+            if not path.exists():
+                missing.append(path)
+    return missing
 
 
 def main(argv: Sequence[str] | None = None) -> int:

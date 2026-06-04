@@ -187,6 +187,12 @@ def test_committed_crypto_phased_optimizer_reproduction_report_passes(tmp_path: 
     )
     if not bundle_path.exists():
         pytest.skip("Crypto phased optimizer committed bundle fixture is not present")
+    missing_canonical_paths = _missing_bundle_canonical_paths(repo_root, bundle_path)
+    if missing_canonical_paths:
+        pytest.skip(
+            "Crypto phased optimizer canonical parquet data is local-only; "
+            f"first missing path: {missing_canonical_paths[0]}"
+        )
 
     report = reproduce_data_bundle(
         repo_root=repo_root,
@@ -505,6 +511,8 @@ def test_trading_stock_requirements_match_current_stock_strategy_contract() -> N
 
 def test_trading_stock_live_approval_scope_uses_98_symbol_lane_not_archive_count() -> None:
     stock_universe_path = MONOREPO_ROOT / "_references" / "trading" / "strategies" / "stock" / "live_universe.py"
+    if not stock_universe_path.exists():
+        pytest.skip("trading reference repo is local-only and not available in CI")
     text = stock_universe_path.read_text(encoding="utf-8")
     assert '"BRK B"' in text
 
@@ -529,6 +537,22 @@ def test_trading_stock_live_approval_scope_uses_98_symbol_lane_not_archive_count
     assert len(live_requirements) == approval_scope["live_intraday_requirement_count"] == 294
     assert approval_scope["declared_requirement_count"] == 611
     assert approval_scope["declared_requirement_count"] != approval_scope["live_intraday_requirement_count"]
+
+
+def _missing_bundle_canonical_paths(repo_root: Path, bundle_path: Path) -> list[Path]:
+    slice_index_path = bundle_path.with_name("slice_index.json")
+    if not slice_index_path.exists():
+        return []
+    slice_index = json.loads(slice_index_path.read_text(encoding="utf-8"))
+    missing: list[Path] = []
+    for item in slice_index.get("slices", []):
+        if not isinstance(item, dict):
+            continue
+        for raw_path in item.get("canonical_paths", []):
+            path = repo_root / str(raw_path)
+            if not path.exists():
+                missing.append(path)
+    return missing
 
 
 def test_kis_intraday_no_trade_authority_reuses_krx_symbol_dates(tmp_path: Path) -> None:

@@ -19,6 +19,7 @@ from trading_assistant_backtest.contract_models import (
     MonthlyRunMode,
     StrategyPluginMaturity,
 )
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.strategies.contracts import load_strategy_plugin_contract
 from trading_assistant_backtest.strategies.crypto.breakout import (
     DECISION_API_VERSION as CRYPTO_BREAKOUT_DECISION_API_VERSION,
@@ -242,7 +243,7 @@ def run_crypto_trend_decision_parity_validation(
     )
 
     adapter_path = _resolve_adapter_path(contract.backtest_adapter_path)
-    adapter_hash = hashlib.sha256(adapter_path.read_bytes()).hexdigest()
+    adapter_hash = sha256_file(adapter_path)
     adapter_errors = (
         []
         if adapter_hash == contract.backtest_adapter_commit_sha

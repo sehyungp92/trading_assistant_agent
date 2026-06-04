@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, model_validator
 
 from trading_assistant_backtest.contract_models import MonthlyRunManifest, StrategyPluginContract
+from trading_assistant_backtest.file_hashes import sha256_file
 
 
 class DeploymentMetadata(BaseModel):
@@ -124,7 +124,7 @@ def _contract_artifact_errors(
                 "deployment metadata strategy_plugin_contract_path does not match run manifest"
             )
     if declared_path.exists():
-        digest = hashlib.sha256(declared_path.read_bytes()).hexdigest()
+        digest = sha256_file(declared_path)
         if digest != metadata.strategy_plugin_contract_hash:
             errors.append(
                 "deployment metadata strategy_plugin_contract_hash does not match contract artifact"

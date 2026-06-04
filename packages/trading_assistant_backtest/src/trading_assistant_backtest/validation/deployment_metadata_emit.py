@@ -17,6 +17,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.validation.deployment_metadata_contract import (
     APPROVAL_EMISSION_ENVIRONMENTS,
     APPROVAL_METADATA_SOURCES,
@@ -138,13 +139,13 @@ def emit_runtime_deployment_metadata(
         "source_control_commit_sha": source_control_commit_sha,
         "source_control_worktree_clean": clean,
         "deployed_commit_sha": source_control_commit_sha,
-        "config_hash": _sha256_file(config_path),
+        "config_hash": sha256_file(config_path, missing_ok=True),
         "strategy_version": strategy_version,
         "config_version": config_version,
         "telemetry_schema_version": telemetry_schema_version,
         "deployment_id": deployment_id,
         "strategy_plugin_contract_path": contract_path_in_metadata,
-        "strategy_plugin_contract_hash": _sha256_file(contract_path),
+        "strategy_plugin_contract_hash": sha256_file(contract_path, missing_ok=True),
         "dry_run": False,
     }
     checks = _emission_checks(
@@ -229,12 +230,6 @@ def _read_json(path: Path) -> dict[str, Any]:
     except json.JSONDecodeError:
         return {}
     return payload if isinstance(payload, dict) else {}
-
-
-def _sha256_file(path: Path) -> str:
-    if not path.exists():
-        return ""
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _utc_now() -> str:

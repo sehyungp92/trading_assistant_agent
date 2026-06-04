@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 from calendar import monthrange
@@ -12,6 +11,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.paths import (
     monorepo_root,
     normalize_workspace_path,
@@ -1393,7 +1393,7 @@ def _bridge_artifact_hashes(
             artifact_name=artifact_name,
         )
         if path and path.exists() and path.is_file():
-            hashes[bridge_id] = hashlib.sha256(path.read_bytes()).hexdigest()
+            hashes[bridge_id] = sha256_file(path)
     return hashes
 
 

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import tempfile
 from collections.abc import Callable, Iterable
@@ -21,6 +20,7 @@ from trading_assistant_backtest.contract_models import (
     MonthlyRunMode,
     StrategyPluginMaturity,
 )
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.strategies.contracts import load_strategy_plugin_contract
 from trading_assistant_backtest.strategies.deployment import (
     deployment_metadata_errors,
@@ -264,7 +264,7 @@ def run_week1_decision_parity_validation(
     )
 
     adapter_path = _resolve_adapter_path(contract.backtest_adapter_path)
-    adapter_hash = hashlib.sha256(adapter_path.read_bytes()).hexdigest()
+    adapter_hash = sha256_file(adapter_path)
     hash_errors = (
         []
         if adapter_hash == contract.backtest_adapter_commit_sha

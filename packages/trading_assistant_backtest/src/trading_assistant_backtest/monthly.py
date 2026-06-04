@@ -51,6 +51,7 @@ from trading_assistant_backtest.data.bundle_loader import (
     data_bundle_errors,
     load_data_bundle,
 )
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.manifest_loader import load_manifest
 from trading_assistant_backtest.observability import runner_event
 from trading_assistant_backtest.paths import package_root
@@ -1275,7 +1276,7 @@ def _string_path_map(paths: dict[str, Path]) -> dict[str, str]:
 def _sha256_file_if_exists(path: Path | None) -> str:
     if path is None or not path.exists() or not path.is_file():
         return ""
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return sha256_file(path, missing_ok=True)
 
 
 def _write_replay_lineage_artifacts(

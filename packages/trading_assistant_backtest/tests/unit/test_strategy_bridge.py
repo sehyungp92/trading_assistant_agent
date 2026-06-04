@@ -18,6 +18,7 @@ from trading_assistant_backtest.contract_models import (
     MonthlyRunManifest,
     StrategyPluginMaturity,
 )
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.replay.decision_trace import DecisionTraceEvent
 from trading_assistant_backtest.replay.parity import decision_parity_report_from_traces
 from trading_assistant_backtest.strategies.contracts import (
@@ -43,6 +44,8 @@ from tests.paths import MONOREPO_ROOT, package_workspace
 
 AGENT_ROOT = MONOREPO_ROOT
 CRYPTO_TRADER_REPO = AGENT_ROOT / "_references" / "crypto_trader"
+K_STOCK_TRADER_REPO = AGENT_ROOT / "_references" / "k_stock_trader"
+TRADING_REPO = AGENT_ROOT / "_references" / "trading"
 PERSISTED_CRYPTO_CONTRACT = (
     package_workspace("trading_assistant_backtest")
     / "contracts"
@@ -387,6 +390,7 @@ def test_persisted_crypto_trend_shadow_contract_has_broad_parity_fixtures(tmp_pa
     assert contract.eligible_for_optimizer is True
     assert contract.eligible_for_approval is False
     assert Path(contract.live_repo_path).resolve() == CRYPTO_TRADER_REPO.resolve()
+    reference_config = CRYPTO_TRADER_REPO / "config" / "strategies" / "trend.json"
     deployment = load_deployment_metadata(PERSISTED_CRYPTO_DEPLOYMENT)
     deployment_payload = json.loads(PERSISTED_CRYPTO_DEPLOYMENT.read_text(encoding="utf-8"))
     assert deployment.deployed_commit_sha == contract.live_repo_commit_sha
@@ -396,9 +400,6 @@ def test_persisted_crypto_trend_shadow_contract_has_broad_parity_fixtures(tmp_pa
     ).resolve() == PERSISTED_CRYPTO_CONTRACT.resolve()
     assert deployment_payload["strategy_plugin_contract_hash"] == _sha256_file(
         PERSISTED_CRYPTO_CONTRACT
-    )
-    assert deployment.config_hash == _stable_strategy_config_hash(
-        CRYPTO_TRADER_REPO / "config" / "strategies" / "trend.json"
     )
     assert contract.backtest_adapter_commit_sha == _sha256_file(
         package_workspace("trading_assistant_backtest")
@@ -410,6 +411,9 @@ def test_persisted_crypto_trend_shadow_contract_has_broad_parity_fixtures(tmp_pa
     )
     assert len(contract.parity_fixture_set) >= 4
     assert all(Path(path).exists() for path in contract.parity_fixture_set)
+    if not reference_config.exists():
+        pytest.skip("crypto_trader reference repo is local-only and not available in CI")
+    assert deployment.config_hash == _stable_strategy_config_hash(reference_config)
 
     manifest = _manifest(tmp_path)
     manifest.strategy_plugin_id = contract.plugin_id
@@ -434,6 +438,8 @@ def test_persisted_crypto_trend_shadow_contract_has_broad_parity_fixtures(tmp_pa
 def test_formal_crypto_trend_decision_parity_validation_emits_artifact(tmp_path: Path) -> None:
     if not PERSISTED_CRYPTO_CONTRACT.exists():
         pytest.skip("persisted crypto trend strategy contract is not available")
+    if not (CRYPTO_TRADER_REPO / "config" / "strategies" / "trend.json").exists():
+        pytest.skip("crypto_trader reference repo is local-only and not available in CI")
 
     result = run_crypto_trend_decision_parity_validation(
         contract_path=PERSISTED_CRYPTO_CONTRACT,
@@ -462,6 +468,8 @@ def test_formal_crypto_trend_decision_parity_validation_emits_artifact(tmp_path:
 def test_formal_week1_decision_parity_validation_emits_artifacts(tmp_path: Path) -> None:
     if not PERSISTED_K_STOCK_CONTRACT.exists() or not PERSISTED_TRADING_STOCK_CONTRACT.exists():
         pytest.skip("persisted week-1 strategy contracts are not available")
+    if not K_STOCK_TRADER_REPO.exists() or not TRADING_REPO.exists():
+        pytest.skip("week-1 reference repos are local-only and not available in CI")
 
     result = run_week1_decision_parity_validations(
         contract_paths=[PERSISTED_K_STOCK_CONTRACT, PERSISTED_TRADING_STOCK_CONTRACT],
@@ -633,7 +641,7 @@ def _git(args: list[str], cwd: Path) -> str:
 
 
 def _sha256_file(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return sha256_file(path)
 
 
 def _stable_strategy_config_hash(path: Path) -> str:

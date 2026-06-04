@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from trading_assistant_backtest.file_hashes import sha256_file
 from trading_assistant_backtest.strategies.plugin_semantics import (
     evaluated_patch_fingerprint,
     patch_fingerprint_for,
@@ -785,9 +786,7 @@ def _append_hash_path_errors(
 
 
 def _file_sha256(path: Path) -> str:
-    import hashlib
-
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return sha256_file(path)
 
 
 def _fold_patch_fingerprint_errors(rows: list[dict[str, Any]]) -> list[str]:
