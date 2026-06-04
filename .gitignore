@@ -1,0 +1,22 @@
+# Local source-refresh credentials and machine paths.
+.env
+.env.local
+.env.*.local
+
+# Common local caches.
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+.venv/
+build/
+dist/
+*.egg-info/
+
+# Local agent and reference workspaces.
+.agents/
+.claude/
+_references/
+
+# Local migration safety backups; not part of the monorepo.
+.monorepo-git-backups/

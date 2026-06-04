@@ -1,0 +1,29 @@
+{
+  "plugin_id": "trading-swing-family",
+  "live_repo_path": "../../../_references/trading",
+  "live_repo_commit_sha": "5a901bc9547cf90fd2beaa8b820994feb384e6d6",
+  "backtest_adapter_path": "src/trading_assistant_backtest/strategies/trading/swing.py",
+  "backtest_adapter_commit_sha": "599e7a8a7e10f4a4793069d3a2bfd81c92e96135900fc66ec585f5df7662ce6f",
+  "config_schema_version": "trading_swing_family_shadow_config_v1",
+  "decision_api_version": "trading_swing_live_shadow_decision_api_v1",
+  "required_telemetry_schemas": [
+    "trading_live_shadow_contract_v1",
+    "trading_swing_family_state_v1"
+  ],
+  "supported_symbols": [
+    "QQQ"
+  ],
+  "supported_timeframes": [
+    "15m",
+    "1h",
+    "4h",
+    "1d"
+  ],
+  "parity_fixture_set": [
+    "../../../_references/trading/tests/fixtures/parity/layer2/tpc_entry_fill.json",
+    "../../../_references/trading/tests/fixtures/parity/layer3/swing_family_overlay_rebalance.json"
+  ],
+  "maturity": "shadow_validated",
+  "contract_version": "strategy_plugin_contract_v1",
+  "generated_at": "2026-05-31T14:13:11Z"
+}

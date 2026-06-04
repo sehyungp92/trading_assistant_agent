@@ -1,0 +1,29 @@
+{
+  "plugin_id": "k-stock-olr-kalcb",
+  "live_repo_path": "../../../_references/k_stock_trader",
+  "live_repo_commit_sha": "1613edbaeedd535a306c2711cfdf367dd370b7c2",
+  "backtest_adapter_path": "src/trading_assistant_backtest/strategies/krx/olr_kalcb.py",
+  "backtest_adapter_commit_sha": "b079e06cf231204bd91f8c69728b989eea6095cc4480be4544f1168ae165f780",
+  "config_schema_version": "k_stock_olr_kalcb_shadow_config_v1",
+  "decision_api_version": "k_stock_olr_kalcb_artifact_replay_decision_api_v1",
+  "required_telemetry_schemas": [
+    "olr_kalcb_decision_stream_v1",
+    "olr_kalcb_artifact_generation_v1"
+  ],
+  "supported_symbols": [
+    "005930",
+    "000660",
+    "035420"
+  ],
+  "supported_timeframes": [
+    "1d",
+    "5m"
+  ],
+  "parity_fixture_set": [
+    "../../../_references/k_stock_trader/tests/fixtures/live_replay_parity/kalcb/manifest.json",
+    "../../../_references/k_stock_trader/tests/fixtures/live_replay_parity/olr/manifest.json"
+  ],
+  "maturity": "shadow_validated",
+  "contract_version": "strategy_plugin_contract_v1",
+  "generated_at": "2026-05-31T03:00:00Z"
+}

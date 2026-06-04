@@ -1,0 +1,15 @@
+{
+  "bot_id": "trading",
+  "strategy_id": "trading_stock_family",
+  "repo_url": "local://_references/trading",
+  "deployed_commit_sha": "5a901bc9547cf90fd2beaa8b820994feb384e6d6",
+  "config_hash": "4bfd5d145d581942bf785fe1bea580c4fea286cdab94ea3e72b32d059f94411c",
+  "strategy_version": "trading_stock_shadow_v1",
+  "config_version": "trading_stock_family_shadow_2026-05-31",
+  "telemetry_schema_version": "trading_live_shadow_contract_v1",
+  "deployment_id": "trading-stock-family-shadow-5a901bc9",
+  "strategy_plugin_contract_path": "strategy_plugin_contract.json",
+  "strategy_plugin_contract_hash": "1be0c3a5b9ee811f9da088d625713d4da8037469274eec8562c04ad7f0082f5e",
+  "metadata_source": "local clean live-repo checkout shadow snapshot",
+  "generated_at": "2026-05-31T14:13:11Z"
+}
