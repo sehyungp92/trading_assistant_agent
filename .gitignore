@@ -27,3 +27,23 @@ _references/
 
 # Local migration safety backups; not part of the monorepo.
 .monorepo-git-backups/
+
+# Large/generated market data stays local; manifests and requirements may remain tracked.
+packages/trading_assistant_data/data/canonical/
+packages/trading_assistant_data/data/imported/
+packages/trading_assistant_data/data/raw/
+packages/trading_assistant_data/data/export/
+trading_assistant_data/data/canonical/
+trading_assistant_data/data/imported/
+trading_assistant_data/data/raw/
+trading_assistant_data/data/export/
+packages/trading_assistant_data/data/**/*.parquet
+packages/trading_assistant_data/data/**/*.csv
+packages/trading_assistant_data/data/**/*.db
+packages/trading_assistant_data/data/**/*.sqlite
+packages/trading_assistant_data/data/**/*.sqlite3
+trading_assistant_data/data/**/*.parquet
+trading_assistant_data/data/**/*.csv
+trading_assistant_data/data/**/*.db
+trading_assistant_data/data/**/*.sqlite
+trading_assistant_data/data/**/*.sqlite3
