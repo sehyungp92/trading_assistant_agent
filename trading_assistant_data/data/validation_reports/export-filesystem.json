@@ -1,0 +1,8 @@
+{
+  "bundle_manifest_path": "data\\bundles\\monthly\\2026-05\\crypto_portfolio\\btc_1m\\data_bundle_manifest.json",
+  "dry_run": false,
+  "exported": [
+    "C:\\Users\\sehyu\\Documents\\Other\\Projects\\trading_assistant_agent\\trading_assistant_data\\data\\export\\filesystem\\crypto_perp\\BTC\\1m\\2026-05.parquet"
+  ],
+  "run_month": "2026-05"
+}

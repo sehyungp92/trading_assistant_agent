@@ -1,0 +1,54 @@
+{
+  "manifest_id": "1b9a5a9e6b181621",
+  "source": "kis",
+  "market": "krx_equity",
+  "symbol": "010120",
+  "timeframe": "30m",
+  "start_ts": "2026-05-04T00:00:00Z",
+  "end_ts": "2026-05-12T01:30:00Z",
+  "expected_bars": 64,
+  "actual_bars": 74,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [
+    {
+      "start_ts": "2026-05-04T07:00:00Z",
+      "end_ts": "2026-05-05T23:30:00Z",
+      "reason": "gap>30min"
+    },
+    {
+      "start_ts": "2026-05-06T07:00:00Z",
+      "end_ts": "2026-05-06T23:30:00Z",
+      "reason": "gap>30min"
+    },
+    {
+      "start_ts": "2026-05-07T07:00:00Z",
+      "end_ts": "2026-05-07T23:30:00Z",
+      "reason": "gap>30min"
+    },
+    {
+      "start_ts": "2026-05-08T07:00:00Z",
+      "end_ts": "2026-05-10T23:30:00Z",
+      "reason": "gap>30min"
+    },
+    {
+      "start_ts": "2026-05-11T07:00:00Z",
+      "end_ts": "2026-05-11T23:30:00Z",
+      "reason": "gap>30min"
+    }
+  ],
+  "session_calendar": "krx_equities_v1",
+  "timezone": "Asia/Seoul",
+  "checksum": "fffe98244d8ff67eb1954ff89fc190a602e1ad458c52fe7561c2517c297c3bcb",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "KRX intraday timestamp/session audit required before authority",
+    "missing ranges present",
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:19:49.413683Z"
+}

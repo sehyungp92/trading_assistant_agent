@@ -1,0 +1,26 @@
+{
+  "manifest_id": "6330ef517eb924d7",
+  "source": "hyperliquid",
+  "market": "crypto_perp",
+  "symbol": "ETH",
+  "timeframe": "5m",
+  "start_ts": "2026-05-01T00:00:00Z",
+  "end_ts": "2026-05-30T11:00:00Z",
+  "expected_bars": 8485,
+  "actual_bars": 8485,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "crypto_utc_24_7_v1",
+  "timezone": "UTC",
+  "checksum": "78fbda518848a5978922e1efdcbf78a355e5b95a2d6536230ecd3cb51337a711",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "crypto_raw_perp_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:02:17.617947Z"
+}

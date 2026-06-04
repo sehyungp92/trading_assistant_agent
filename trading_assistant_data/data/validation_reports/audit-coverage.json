@@ -1,0 +1,1384 @@
+{
+  "authoritative_count": 24,
+  "diagnostics_only": [
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/ES/1d/20260501T000000Z_20260511T000000Z.market_data_manifest.json",
+      "symbol": "ES",
+      "timeframe": "1d"
+    },
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/ES/1h/20260507T220000Z_20260512T130000Z.market_data_manifest.json",
+      "symbol": "ES",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/ES/1m/20260507T220000Z_20260512T120500Z.market_data_manifest.json",
+      "symbol": "ES",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/ES/4h/20260508T000000Z_20260512T160000Z.market_data_manifest.json",
+      "symbol": "ES",
+      "timeframe": "4h"
+    },
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/ES/5m/20260507T220000Z_20260512T120500Z.market_data_manifest.json",
+      "symbol": "ES",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/1d/20260501T000000Z_20260512T000000Z.market_data_manifest.json",
+      "symbol": "NQ",
+      "timeframe": "1d"
+    },
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/1h/20260507T220000Z_20260512T190000Z.market_data_manifest.json",
+      "symbol": "NQ",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/1m/20260507T220000Z_20260512T180500Z.market_data_manifest.json",
+      "symbol": "NQ",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/4h/20260508T000000Z_20260512T200000Z.market_data_manifest.json",
+      "symbol": "NQ",
+      "timeframe": "4h"
+    },
+    {
+      "blocking_reasons": [
+        "CME session/roll authority requires final exchange calendar and roll checksum",
+        "session calendar missing"
+      ],
+      "manifest_path": "data/manifests/slices/ibkr/cme_futures/NQ/5m/20260507T220000Z_20260512T180500Z.market_data_manifest.json",
+      "symbol": "NQ",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000100/15m/20260504T000000Z_20260512T033000Z.market_data_manifest.json",
+      "symbol": "000100",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000100/1h/20260504T000000Z_20260512T030000Z.market_data_manifest.json",
+      "symbol": "000100",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000100/1m/20260504T000000Z_20260512T033700Z.market_data_manifest.json",
+      "symbol": "000100",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000100/30m/20260504T000000Z_20260512T033000Z.market_data_manifest.json",
+      "symbol": "000100",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000100/5m/20260504T000000Z_20260512T033500Z.market_data_manifest.json",
+      "symbol": "000100",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000270/15m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "000270",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000270/1h/20260504T000000Z_20260511T060000Z.market_data_manifest.json",
+      "symbol": "000270",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000270/1m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "000270",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000270/30m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "000270",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000270/5m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "000270",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000660/15m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "000660",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000660/1h/20260504T000000Z_20260511T060000Z.market_data_manifest.json",
+      "symbol": "000660",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000660/1m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "000660",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000660/30m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "000660",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000660/5m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "000660",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000720/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "000720",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000720/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "000720",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000720/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "000720",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000720/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "000720",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000720/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "000720",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000810/15m/20260504T000000Z_20260512T044500Z.market_data_manifest.json",
+      "symbol": "000810",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000810/1m/20260504T000000Z_20260512T045400Z.market_data_manifest.json",
+      "symbol": "000810",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000810/30m/20260504T000000Z_20260512T043000Z.market_data_manifest.json",
+      "symbol": "000810",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000810/5m/20260504T000000Z_20260512T045000Z.market_data_manifest.json",
+      "symbol": "000810",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000880/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "000880",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000880/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "000880",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000880/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "000880",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000880/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "000880",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/000880/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "000880",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/001040/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "001040",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/001040/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "001040",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/001040/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "001040",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/001040/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "001040",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/001040/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "001040",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/002790/15m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "002790",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/002790/1h/20260504T000000Z_20260513T060000Z.market_data_manifest.json",
+      "symbol": "002790",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/002790/1m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "002790",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/002790/30m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "002790",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003490/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "003490",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003490/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "003490",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003490/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "003490",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003490/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "003490",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003490/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "003490",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003550/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "003550",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003550/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "003550",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003550/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "003550",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003550/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "003550",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003550/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "003550",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003670/15m/20260504T000000Z_20260512T004500Z.market_data_manifest.json",
+      "symbol": "003670",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003670/1m/20260504T000000Z_20260512T005100Z.market_data_manifest.json",
+      "symbol": "003670",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003670/30m/20260504T000000Z_20260512T003000Z.market_data_manifest.json",
+      "symbol": "003670",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/003670/5m/20260504T000000Z_20260512T005000Z.market_data_manifest.json",
+      "symbol": "003670",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004020/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "004020",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004020/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "004020",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004020/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "004020",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004020/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "004020",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004170/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "004170",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004170/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "004170",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004170/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "004170",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004170/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "004170",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004990/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "004990",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004990/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "004990",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/004990/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "004990",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005300/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "005300",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005300/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "005300",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005300/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "005300",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005300/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "005300",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005380/15m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "005380",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005380/1h/20260504T000000Z_20260511T060000Z.market_data_manifest.json",
+      "symbol": "005380",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005380/1m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "005380",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005380/30m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "005380",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005380/5m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "005380",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005490/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "005490",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005490/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "005490",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005490/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "005490",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005830/15m/20260504T000000Z_20260512T053000Z.market_data_manifest.json",
+      "symbol": "005830",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005830/1h/20260504T000000Z_20260512T050000Z.market_data_manifest.json",
+      "symbol": "005830",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005830/1m/20260504T000000Z_20260512T054100Z.market_data_manifest.json",
+      "symbol": "005830",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/005830/5m/20260504T000000Z_20260512T054000Z.market_data_manifest.json",
+      "symbol": "005830",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/009150/30m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "009150",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/009150/5m/20260504T000000Z_20260511T063000Z.market_data_manifest.json",
+      "symbol": "009150",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010120/15m/20260504T000000Z_20260512T013000Z.market_data_manifest.json",
+      "symbol": "010120",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010130/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "010130",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010130/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "010130",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010130/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "010130",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010130/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "010130",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010950/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "010950",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/010950/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "010950",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/011170/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "011170",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/011200/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "011200",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/011200/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "011200",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/011790/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "011790",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/011790/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "011790",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/012330/1h/20260504T000000Z_20260512T000000Z.market_data_manifest.json",
+      "symbol": "012330",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/012330/1m/20260504T000000Z_20260512T000100Z.market_data_manifest.json",
+      "symbol": "012330",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/012330/30m/20260504T000000Z_20260512T000000Z.market_data_manifest.json",
+      "symbol": "012330",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/066570/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "066570",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/066570/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "066570",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/068270/30m/20260504T000000Z_20260512T020000Z.market_data_manifest.json",
+      "symbol": "068270",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/078930/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "078930",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/079550/5m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "079550",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086520/15m/20260504T000000Z_20260512T013000Z.market_data_manifest.json",
+      "symbol": "086520",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086520/1m/20260504T000000Z_20260512T013000Z.market_data_manifest.json",
+      "symbol": "086520",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086520/30m/20260504T000000Z_20260512T013000Z.market_data_manifest.json",
+      "symbol": "086520",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086520/5m/20260504T000000Z_20260512T013000Z.market_data_manifest.json",
+      "symbol": "086520",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086790/15m/20260504T000000Z_20260512T050000Z.market_data_manifest.json",
+      "symbol": "086790",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086790/1h/20260504T000000Z_20260512T050000Z.market_data_manifest.json",
+      "symbol": "086790",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086790/1m/20260504T000000Z_20260512T050200Z.market_data_manifest.json",
+      "symbol": "086790",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/086790/30m/20260504T000000Z_20260512T050000Z.market_data_manifest.json",
+      "symbol": "086790",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/090430/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "090430",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/090430/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "090430",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/090430/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "090430",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/090430/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "090430",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/090435/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "090435",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/090435/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "090435",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/096770/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "096770",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/097950/15m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "097950",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/097950/1h/20260504T000000Z_20260513T060000Z.market_data_manifest.json",
+      "symbol": "097950",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/097950/1m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "097950",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/097950/5m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "097950",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/105560/15m/20260504T000000Z_20260512T041500Z.market_data_manifest.json",
+      "symbol": "105560",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/105560/1h/20260504T000000Z_20260512T040000Z.market_data_manifest.json",
+      "symbol": "105560",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/105560/1m/20260504T000000Z_20260512T041800Z.market_data_manifest.json",
+      "symbol": "105560",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/108320/15m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "108320",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/108320/1h/20260504T000000Z_20260513T060000Z.market_data_manifest.json",
+      "symbol": "108320",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/108320/1m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "108320",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/108320/30m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "108320",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/108320/5m/20260504T000000Z_20260513T063000Z.market_data_manifest.json",
+      "symbol": "108320",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/141080/1m/20260504T000000Z_20260512T033600Z.market_data_manifest.json",
+      "symbol": "141080",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/141080/30m/20260504T000000Z_20260512T033000Z.market_data_manifest.json",
+      "symbol": "141080",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/145020/30m/20260504T000000Z_20260512T023000Z.market_data_manifest.json",
+      "symbol": "145020",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/145020/5m/20260504T000000Z_20260512T025500Z.market_data_manifest.json",
+      "symbol": "145020",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/161390/15m/20260504T000000Z_20260512T000000Z.market_data_manifest.json",
+      "symbol": "161390",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/161390/1h/20260504T000000Z_20260512T000000Z.market_data_manifest.json",
+      "symbol": "161390",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/161390/1m/20260504T000000Z_20260512T000900Z.market_data_manifest.json",
+      "symbol": "161390",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/161390/30m/20260504T000000Z_20260512T000000Z.market_data_manifest.json",
+      "symbol": "161390",
+      "timeframe": "30m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/175330/15m/20260504T000000Z_20260512T053000Z.market_data_manifest.json",
+      "symbol": "175330",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/175330/1h/20260504T000000Z_20260512T050000Z.market_data_manifest.json",
+      "symbol": "175330",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/175330/5m/20260504T000000Z_20260512T054000Z.market_data_manifest.json",
+      "symbol": "175330",
+      "timeframe": "5m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/180640/15m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "180640",
+      "timeframe": "15m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/180640/1h/20260504T000000Z_20260512T060000Z.market_data_manifest.json",
+      "symbol": "180640",
+      "timeframe": "1h"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/180640/1m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "180640",
+      "timeframe": "1m"
+    },
+    {
+      "blocking_reasons": [
+        "KRX intraday timestamp/session audit required before authority",
+        "missing ranges present"
+      ],
+      "manifest_path": "data/manifests/slices/kis/krx_equity/180640/30m/20260504T000000Z_20260512T063000Z.market_data_manifest.json",
+      "symbol": "180640",
+      "timeframe": "30m"
+    }
+  ],
+  "run_month": "2026-05",
+  "slice_count": 177
+}

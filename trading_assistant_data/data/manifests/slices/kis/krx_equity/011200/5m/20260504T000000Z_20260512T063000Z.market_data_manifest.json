@@ -1,0 +1,84 @@
+{
+  "manifest_id": "9c04e5eac347a240",
+  "source": "kis",
+  "market": "krx_equity",
+  "symbol": "011200",
+  "timeframe": "5m",
+  "start_ts": "2026-05-04T00:00:00Z",
+  "end_ts": "2026-05-12T06:30:00Z",
+  "expected_bars": 456,
+  "actual_bars": 462,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [
+    {
+      "start_ts": "2026-05-04T06:20:00Z",
+      "end_ts": "2026-05-04T06:25:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-04T06:35:00Z",
+      "end_ts": "2026-05-05T23:55:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-06T06:20:00Z",
+      "end_ts": "2026-05-06T06:25:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-06T06:35:00Z",
+      "end_ts": "2026-05-06T23:55:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-07T06:20:00Z",
+      "end_ts": "2026-05-07T06:25:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-07T06:35:00Z",
+      "end_ts": "2026-05-07T23:55:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-08T06:20:00Z",
+      "end_ts": "2026-05-08T06:25:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-08T06:35:00Z",
+      "end_ts": "2026-05-10T23:55:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-11T06:20:00Z",
+      "end_ts": "2026-05-11T06:25:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-11T06:35:00Z",
+      "end_ts": "2026-05-11T23:55:00Z",
+      "reason": "gap>5min"
+    },
+    {
+      "start_ts": "2026-05-12T06:20:00Z",
+      "end_ts": "2026-05-12T06:25:00Z",
+      "reason": "gap>5min"
+    }
+  ],
+  "session_calendar": "krx_equities_v1",
+  "timezone": "Asia/Seoul",
+  "checksum": "b50471f8b77a754765a6de61ef527b3192fb5747213832fd2a6e62e0e3713806",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "KRX intraday timestamp/session audit required before authority",
+    "missing ranges present",
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:20:58.191614Z"
+}

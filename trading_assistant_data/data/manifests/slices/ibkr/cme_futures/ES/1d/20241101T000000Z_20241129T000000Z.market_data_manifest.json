@@ -1,0 +1,28 @@
+{
+  "manifest_id": "f28594758a830fd8",
+  "source": "ibkr",
+  "market": "cme_futures",
+  "symbol": "ES",
+  "timeframe": "1d",
+  "start_ts": "2024-11-01T00:00:00Z",
+  "end_ts": "2024-11-29T00:00:00Z",
+  "expected_bars": 20,
+  "actual_bars": 20,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "",
+  "timezone": "UTC",
+  "checksum": "2f5a707bad061b4a56bbf20eb9ddff31d2d5c987f62c2f5d70b11a0e25175b33",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "cme_futures_panama_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "CME session/roll authority requires final exchange calendar and roll checksum",
+    "session calendar missing",
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:26:55.505630Z"
+}

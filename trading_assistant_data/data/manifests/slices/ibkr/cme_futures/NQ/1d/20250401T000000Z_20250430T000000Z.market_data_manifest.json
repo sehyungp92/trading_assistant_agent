@@ -1,0 +1,28 @@
+{
+  "manifest_id": "1384b20761862df1",
+  "source": "ibkr",
+  "market": "cme_futures",
+  "symbol": "NQ",
+  "timeframe": "1d",
+  "start_ts": "2025-04-01T00:00:00Z",
+  "end_ts": "2025-04-30T00:00:00Z",
+  "expected_bars": 21,
+  "actual_bars": 21,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "",
+  "timezone": "UTC",
+  "checksum": "a442b10ab79a54322c9f3b38187438911f05cbc8e8f9725753ee9e07c8df52bb",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "cme_futures_panama_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "CME session/roll authority requires final exchange calendar and roll checksum",
+    "session calendar missing",
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:26:57.980955Z"
+}

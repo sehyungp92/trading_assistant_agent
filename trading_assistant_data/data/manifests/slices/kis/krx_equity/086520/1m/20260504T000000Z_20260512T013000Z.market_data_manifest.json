@@ -1,0 +1,79 @@
+{
+  "manifest_id": "83f09b5dd5479661",
+  "source": "kis",
+  "market": "krx_equity",
+  "symbol": "086520",
+  "timeframe": "1m",
+  "start_ts": "2026-05-04T00:00:00Z",
+  "end_ts": "2026-05-12T01:30:00Z",
+  "expected_bars": 1991,
+  "actual_bars": 1996,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [
+    {
+      "start_ts": "2026-05-04T06:20:00Z",
+      "end_ts": "2026-05-04T06:29:00Z",
+      "reason": "gap>1min"
+    },
+    {
+      "start_ts": "2026-05-04T06:31:00Z",
+      "end_ts": "2026-05-05T23:59:00Z",
+      "reason": "gap>1min"
+    },
+    {
+      "start_ts": "2026-05-06T06:20:00Z",
+      "end_ts": "2026-05-06T06:29:00Z",
+      "reason": "gap>1min"
+    },
+    {
+      "start_ts": "2026-05-06T06:31:00Z",
+      "end_ts": "2026-05-06T23:59:00Z",
+      "reason": "gap>1min"
+    },
+    {
+      "start_ts": "2026-05-07T06:20:00Z",
+      "end_ts": "2026-05-07T06:29:00Z",
+      "reason": "gap>1min"
+    },
+    {
+      "start_ts": "2026-05-07T06:31:00Z",
+      "end_ts": "2026-05-07T23:59:00Z",
+      "reason": "gap>1min"
+    },
+    {
+      "start_ts": "2026-05-08T06:20:00Z",
+      "end_ts": "2026-05-08T06:29:00Z",
+      "reason": "gap>1min"
+    },
+    {
+      "start_ts": "2026-05-08T06:31:00Z",
+      "end_ts": "2026-05-10T23:59:00Z",
+      "reason": "gap>1min"
+    },
+    {
+      "start_ts": "2026-05-11T06:20:00Z",
+      "end_ts": "2026-05-11T06:29:00Z",
+      "reason": "gap>1min"
+    },
+    {
+      "start_ts": "2026-05-11T06:31:00Z",
+      "end_ts": "2026-05-11T23:59:00Z",
+      "reason": "gap>1min"
+    }
+  ],
+  "session_calendar": "krx_equities_v1",
+  "timezone": "Asia/Seoul",
+  "checksum": "58c5ef0e9c0ca5dd77d598bf3609d861d86c19d6c1cc1a40391f6292f64cb5e6",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "KRX intraday timestamp/session audit required before authority",
+    "missing ranges present",
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T21:39:25.051597Z"
+}

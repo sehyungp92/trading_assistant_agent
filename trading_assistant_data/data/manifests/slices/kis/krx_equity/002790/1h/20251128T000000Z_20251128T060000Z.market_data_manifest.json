@@ -1,0 +1,27 @@
+{
+  "manifest_id": "ec069347f986dbbe",
+  "source": "kis",
+  "market": "krx_equity",
+  "symbol": "002790",
+  "timeframe": "1h",
+  "start_ts": "2025-11-28T00:00:00Z",
+  "end_ts": "2025-11-28T06:00:00Z",
+  "expected_bars": 6,
+  "actual_bars": 7,
+  "coverage_ratio": 1.0,
+  "missing_ranges": [],
+  "session_calendar": "krx_equities_v1",
+  "timezone": "Asia/Seoul",
+  "checksum": "75e74edf23ccc17e668cd81f0416c8f3741fce2c08a0cf1cb1c11abaf05b5d18",
+  "schema_version": "market_data_manifest_v1",
+  "source_version": "reference_snapshot_2026-05-30",
+  "adjustment_policy": "krx_split_adjusted_policy_v1",
+  "fee_model_version": "fees_v1",
+  "slippage_model_version": "slippage_v1",
+  "usable_for_authoritative_validation": false,
+  "blocking_reasons": [
+    "KRX intraday timestamp/session audit required before authority",
+    "source_version is not a data repo commit SHA"
+  ],
+  "generated_at": "2026-05-30T22:13:36.558075Z"
+}

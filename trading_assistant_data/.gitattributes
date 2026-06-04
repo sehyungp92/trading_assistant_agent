@@ -1,0 +1,6 @@
+*.parquet filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs -text
+*.db filter=lfs diff=lfs merge=lfs -text
+data/imported/** filter=lfs diff=lfs merge=lfs -text
+data/canonical/** filter=lfs diff=lfs merge=lfs -text
+

@@ -1,0 +1,12 @@
+{
+  "version": "us_equity_split_adjusted_policy_v1",
+  "source": "Reference IBKR/parquet snapshot policy seed",
+  "effective_date": "2026-05-30",
+  "markets_covered": ["us_equity"],
+  "instruments_covered": ["US equity universe"],
+  "formula": "Canonical bars must state whether source files are split-adjusted. No strategy logic may infer adjustment state from symbol alone.",
+  "known_limitations": [
+    "Imported stock universe requires source adjustment audit before authority."
+  ]
+}
+
