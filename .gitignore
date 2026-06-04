@@ -24,6 +24,7 @@ htmlcov/
 .agents/
 .claude/
 _references/
+docs/
 
 # Local migration safety backups; not part of the monorepo.
 .monorepo-git-backups/
