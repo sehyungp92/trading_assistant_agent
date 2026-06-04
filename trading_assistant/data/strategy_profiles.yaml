@@ -1,0 +1,571 @@
+strategies:
+  ATRSS:
+    display_name: "ATR Swing Strategy"
+    bot_id: swing_multi_01
+    family: swing
+    archetype: trend_follow
+    asset_class: mixed
+    symbols: [QQQ, GLD]
+    preferred_regimes: [trending_up, trending_down]
+    adverse_regimes: [ranging]
+    holding_period: multi_day
+    risk:
+      unit_risk_dollars: 200.0
+      daily_stop_R: 2.0
+      max_heat_R: 1.50
+      tp_ratio: 2.0
+    allocation:
+      base_risk_pct: 0.018
+    macro_regime_sensitivity: {G: full, R: full, S: reduced, D: reduced}
+
+  AKC_HELIX:
+    display_name: "AKC Helix Divergence Swing"
+    bot_id: swing_multi_01
+    family: swing
+    archetype: divergence_swing
+    asset_class: mixed
+    symbols: [QQQ, GLD]
+    preferred_regimes: [trending_up, trending_down, volatile]
+    adverse_regimes: [ranging]
+    holding_period: multi_day
+    risk:
+      unit_risk_dollars: 200.0
+      daily_stop_R: 2.0
+      max_heat_R: 1.50
+      tp_ratio: 2.5
+    allocation:
+      base_risk_pct: 0.018
+    macro_regime_sensitivity: {G: full, R: full, S: reduced, D: reduced}
+
+  TPC:
+    display_name: "TPC Pullback Combo"
+    bot_id: swing_multi_01
+    family: swing
+    archetype: pullback
+    asset_class: mixed
+    symbols: [QQQ, GLD]
+    preferred_regimes: [trending_up, trending_down]
+    adverse_regimes: [ranging, volatile]
+    holding_period: multi_day
+    risk:
+      unit_risk_dollars: 200.0
+      daily_stop_R: 2.0
+      max_heat_R: 1.50
+      tp_ratio: 1.5
+    allocation:
+      base_risk_pct: 0.018
+    macro_regime_sensitivity: {G: full, R: full, S: reduced, D: reduced}
+    entry_types: [TYPE_A, TYPE_B, TYPE_C, PB30, EMA20_VALUE_TOUCH, SECOND_ENTRY]
+    key_metadata_fields: [score_grade, type_label, fib_zone, pullback_bars, vwap_confirmation, structure_confirmation]
+    exit_profile:
+      tiers:
+        - tier_name: T1
+          tier_type: take_profit
+          r_target: 1.5
+          partial_pct: 0.45
+        - tier_name: T2
+          tier_type: take_profit
+          r_target: 2.0
+          partial_pct: 0.275
+      has_chandelier: false
+      regime_multipliers:
+        trending_up: 1.0
+        trending_down: 1.0
+        volatile: 0.85
+    analysis_focus:
+      - type_a_vs_b_vs_c_performance
+      - pb30_vs_1h_pullback_efficacy
+      - score_grade_calibration
+      - second_entry_attribution
+      - mfe_giveback_protection_value
+
+  IARIC_v1:
+    display_name: "IARIC Pullback Mean-Reversion"
+    bot_id: stock_trader
+    family: stock
+    archetype: mean_reversion_pullback
+    asset_class: equity
+    symbols: []
+    preferred_regimes: [trending_up, trending_down]
+    adverse_regimes: [ranging]
+    holding_period: multi_day
+    risk:
+      unit_risk_dollars: 100.0
+      daily_stop_R: 2.0
+      max_heat_R: 4.00
+      tp_ratio: 1.5
+    allocation:
+      base_risk_pct: 0.015
+    macro_regime_sensitivity: {G: full, R: reduced, S: minimal, D: minimal}
+    key_metadata_fields: [conviction_multiplier, sponsorship_class, signal_family, daily_signal_score, daily_signal_rank_pct]
+    analysis_focus:
+      - conviction_factor_decomposition
+      - sponsorship_signal_quality
+      - carry_duration_optimization
+      - pullback_depth_vs_conviction
+      - tier_selectivity_impact
+
+  ALCB_v1:
+    display_name: "ALCB Adaptive Breakout"
+    bot_id: stock_trader
+    family: stock
+    archetype: intraday_momentum
+    asset_class: equity
+    symbols: []
+    preferred_regimes: [trending_up, volatile]
+    adverse_regimes: [ranging]
+    holding_period: intraday
+    risk:
+      unit_risk_dollars: 100.0
+      daily_stop_R: 2.0
+      max_heat_R: 4.00
+      tp_ratio: 0.0
+    allocation:
+      base_risk_pct: 0.015
+    macro_regime_sensitivity: {G: full, R: reduced, S: minimal, D: minimal}
+    entry_types: [OPENING_RANGE, PRIOR_DAY_HIGH, COMBINED]
+    key_metadata_fields: [momentum_score, mfe_r, mae_r]
+    analysis_focus:
+      - gate_funnel_effectiveness
+      - filter_attribution
+      - breakout_type_comparison
+      - exit_cascade_timing
+
+  NQ_REGIME:
+    display_name: "NQ Regime Engine"
+    bot_id: momentum_nq_01
+    family: momentum
+    archetype: intraday_momentum
+    asset_class: futures
+    symbols: [MNQ, NQ]
+    preferred_regimes: [trending_up, trending_down, volatile]
+    adverse_regimes: [ranging]
+    holding_period: intraday
+    risk:
+      unit_risk_dollars: 50.0
+      daily_stop_R: 3.0
+      max_heat_R: 1.50
+      tp_ratio: 2.0
+    allocation:
+      base_risk_pct: 0.006
+    macro_regime_sensitivity: {G: full, R: full, S: reduced, D: reduced}
+    sub_engines: [STRUCTURAL_EXPANSION, LIQUIDITY_REVERSION, SECOND_WIND]
+    regime_model: "ib_classified_intraday"
+    key_metadata_fields: [module_id, grade, ib_type, regime_confidence, regime_margin, score, room_r]
+    exit_profile:
+      tiers:
+        - tier_name: T1
+          tier_type: take_profit
+          r_target: 1.0
+          partial_pct: 0.40
+        - tier_name: T2
+          tier_type: take_profit
+          r_target: 2.0
+          partial_pct: 0.30
+      has_chandelier: false
+      regime_multipliers:
+        trending_up: 1.0
+        trending_down: 1.0
+        volatile: 0.85
+    analysis_focus:
+      - module_performance_comparison
+      - ib_type_routing_accuracy
+      - regime_confidence_calibration
+      - structural_vs_reversion_attribution
+      - second_wind_pm_window_efficacy
+
+  "NQDTC_v2.1":
+    display_name: "NQ Day Trade Channel v2.1"
+    bot_id: momentum_nq_01
+    family: momentum
+    archetype: box_breakout
+    asset_class: futures
+    symbols: [NQ]
+    preferred_regimes: [compression]
+    adverse_regimes: [trending_up, trending_down]
+    holding_period: intraday
+    risk:
+      unit_risk_dollars: 50.0
+      daily_stop_R: 3.0
+      max_heat_R: 2.00
+      tp_ratio: 2.0
+    allocation:
+      base_risk_pct: 0.020
+    macro_regime_sensitivity: {G: full, R: full, S: reduced, D: reduced}
+
+  VdubusNQ_v4:
+    display_name: "Vdubus NQ VWAP Pullback v4"
+    bot_id: momentum_nq_01
+    family: momentum
+    archetype: vwap_pullback
+    asset_class: futures
+    symbols: [NQ]
+    preferred_regimes: [trending_up, trending_down]
+    adverse_regimes: [ranging]
+    holding_period: intraday
+    risk:
+      unit_risk_dollars: 200.0
+      daily_stop_R: 3.0
+      max_heat_R: 2.00
+      tp_ratio: 1.5
+    allocation:
+      base_risk_pct: 0.020
+    macro_regime_sensitivity: {G: full, R: full, S: reduced, D: reduced}
+
+  DownturnDominator_v1:
+    display_name: "Downturn Multi-Engine Bear"
+    bot_id: momentum_nq_01
+    family: momentum
+    archetype: multi_engine_bear
+    asset_class: futures
+    symbols: [NQ]
+    preferred_regimes: [trending_down, volatile]
+    adverse_regimes: [trending_up, ranging]
+    holding_period: intraday
+    risk:
+      unit_risk_dollars: 50.0
+      daily_stop_R: 3.0
+      max_heat_R: 2.00
+      tp_ratio: 0.0
+    allocation:
+      base_risk_pct: 0.020
+    macro_regime_sensitivity: {G: disabled, R: disabled, S: full, D: full}
+    sub_engines: [REVERSAL, BREAKDOWN, FADE]
+    regime_model: "composite_with_vol_state"
+    key_metadata_fields: [engine_tag, composite_regime_at_entry, vol_state_at_entry, in_correction_window, predator_present, signal_class]
+    exit_profile:
+      tiers:
+        - tier_name: TP0
+          tier_type: take_profit
+          r_target: 1.0
+          partial_pct: 0.50
+        - tier_name: TP1
+          tier_type: take_profit
+          r_target: 2.0
+          partial_pct: 0.30
+        - tier_name: TP2
+          tier_type: take_profit
+          r_target: 3.0
+          partial_pct: 0.20
+      has_chandelier: true
+      regime_multipliers:
+        trending_down: 1.0
+        volatile: 0.8
+        ranging: 0.6
+    analysis_focus:
+      - engine_performance_comparison
+      - composite_regime_accuracy
+      - vol_state_impact_on_outcomes
+      - profit_floor_vs_fixed_tp_effectiveness
+
+  # --- k_stock_trader (Korean equity, separate VPS, Asia/Seoul) ---
+
+  KMP:
+    display_name: "Korean Momentum Play"
+    bot_id: k_stock_trader
+    family: k_stock
+    archetype: intraday_momentum
+    asset_class: k_equity
+    symbols: []
+    preferred_regimes: [trending_up]
+    adverse_regimes: [ranging]
+    holding_period: intraday
+    risk:
+      unit_risk_dollars: 0.0
+      daily_stop_R: 3.0
+      max_heat_R: 6.00
+      tp_ratio: 1.67
+    allocation:
+      base_risk_pct: 0.020
+    macro_regime_sensitivity: {}
+
+  KPR:
+    display_name: "Korean VWAP Pullback"
+    bot_id: k_stock_trader
+    family: k_stock
+    archetype: vwap_pullback
+    asset_class: k_equity
+    symbols: []
+    preferred_regimes: [ranging, volatile]
+    adverse_regimes: [trending_up, trending_down]
+    holding_period: intraday
+    risk:
+      unit_risk_dollars: 0.0
+      daily_stop_R: 3.0
+      max_heat_R: 6.00
+      tp_ratio: 2.0
+    allocation:
+      base_risk_pct: 0.020
+    macro_regime_sensitivity: {}
+
+  PCIM:
+    display_name: "Post-Close Intraday Momentum"
+    bot_id: k_stock_trader
+    family: k_stock
+    archetype: intraday_momentum
+    asset_class: k_equity
+    symbols: []
+    preferred_regimes: [trending_up, ranging]
+    adverse_regimes: [volatile]
+    holding_period: intraday
+    risk:
+      unit_risk_dollars: 0.0
+      daily_stop_R: 3.0
+      max_heat_R: 6.00
+      tp_ratio: 1.67
+    allocation:
+      base_risk_pct: 0.020
+    macro_regime_sensitivity: {}
+
+  NULRIMOK:
+    display_name: "Leader Flow Following"
+    bot_id: k_stock_trader
+    family: k_stock
+    archetype: flow_following
+    asset_class: k_equity
+    symbols: []
+    preferred_regimes: [trending_up, ranging]
+    adverse_regimes: [volatile]
+    holding_period: multi_day
+    risk:
+      unit_risk_dollars: 0.0
+      daily_stop_R: 3.0
+      max_heat_R: 6.00
+      tp_ratio: 1.25
+    allocation:
+      base_risk_pct: 0.020
+    macro_regime_sensitivity: {}
+
+  # --- crypto_trader (BTC/ETH/SOL perpetual futures, Hyperliquid) ---
+
+  MomentumPullback_M15:
+    display_name: "Momentum Pullback M15"
+    bot_id: crypto_trader
+    family: crypto
+    archetype: momentum_pullback_crypto
+    asset_class: crypto_perpetual
+    symbols: [BTC, ETH, SOL]
+    preferred_regimes: [trending_up, trending_down]
+    adverse_regimes: [ranging]
+    holding_period: multi_day
+    risk:
+      unit_risk_dollars: 0.0
+      daily_stop_R: 3.0
+      max_heat_R: 3.00
+      tp_ratio: 2.0
+    allocation:
+      base_risk_pct: 0.0075
+    macro_regime_sensitivity: {G: 1.0, R: 1.0, S: 0.5, D: 0.7}
+    entry_types: [PULLBACK_LONG, PULLBACK_SHORT]
+    key_metadata_fields: [setup_grade, confluence_count, funding_rate, bias_direction, adx_entry]
+    analysis_focus:
+      - confluence_vs_outcome
+      - funding_cost_vs_hold_duration
+      - grade_selectivity
+      - time_of_day_liquidity
+    exit_profile:
+      tiers:
+        - tier_name: TP1
+          tier_type: take_profit
+          r_target: 1.2
+          partial_pct: 0.16
+        - tier_name: TP2
+          tier_type: take_profit
+          r_target: 2.5
+          partial_pct: 0.20
+      has_chandelier: false
+      regime_multipliers: {}
+
+  InstitutionalAnchor_H1:
+    display_name: "Institutional Anchor H1"
+    bot_id: crypto_trader
+    family: crypto
+    archetype: institutional_anchor
+    asset_class: crypto_perpetual
+    symbols: [BTC, ETH, SOL]
+    preferred_regimes: [trending_up, trending_down]
+    adverse_regimes: [ranging]
+    holding_period: multi_day
+    risk:
+      unit_risk_dollars: 0.0
+      daily_stop_R: 3.0
+      max_heat_R: 3.00
+      tp_ratio: 2.0
+    allocation:
+      base_risk_pct: 0.0075
+    macro_regime_sensitivity: {G: 1.1, R: 1.0, S: 0.4, D: 0.8}
+    entry_types: [ON_CLOSE_LONG, ON_CLOSE_SHORT, ON_BREAKOUT_LONG, ON_BREAKOUT_SHORT]
+    key_metadata_fields: [setup_grade, confluence_count, funding_rate, bias_direction, h1_adx]
+    analysis_focus:
+      - confluence_vs_outcome
+      - funding_cost_vs_hold_duration
+      - grade_selectivity
+      - entry_method_comparison
+    exit_profile:
+      tiers:
+        - tier_name: TP1
+          tier_type: take_profit
+          r_target: 1.0
+          partial_pct: 0.30
+        - tier_name: TP2
+          tier_type: take_profit
+          r_target: 2.0
+          partial_pct: 0.40
+      has_chandelier: false
+      regime_multipliers: {}
+
+  VolumeProfileBreakout_M30:
+    display_name: "Volume Profile Breakout M30"
+    bot_id: crypto_trader
+    family: crypto
+    archetype: volume_profile_breakout
+    asset_class: crypto_perpetual
+    symbols: [BTC, ETH, SOL]
+    preferred_regimes: [compression]
+    adverse_regimes: [trending_up, trending_down]
+    holding_period: multi_day
+    risk:
+      unit_risk_dollars: 0.0
+      daily_stop_R: 3.0
+      max_heat_R: 3.00
+      tp_ratio: 2.0
+    allocation:
+      base_risk_pct: 0.0075
+    macro_regime_sensitivity: {G: 0.8, R: 0.9, S: 1.1, D: 0.6}
+    entry_types: [BREAKOUT_LONG, BREAKOUT_SHORT]
+    key_metadata_fields: [setup_grade, confluence_count, funding_rate, bias_direction, volume_surge]
+    analysis_focus:
+      - balance_zone_quality
+      - failed_breakout_rate
+      - funding_cost_vs_hold_duration
+      - grade_selectivity
+    exit_profile:
+      tiers:
+        - tier_name: TP1
+          tier_type: take_profit
+          r_target: 0.8
+          partial_pct: 0.30
+        - tier_name: TP2
+          tier_type: take_profit
+          r_target: 2.0
+          partial_pct: 0.40
+      has_chandelier: false
+      regime_multipliers: {}
+
+coordination:
+  signals:
+    - trigger: {strategy: ATRSS, event: ENTRY_FILL}
+      target: {strategy: AKC_HELIX, action: TIGHTEN_STOP_BE}
+      condition: SAME_SYMBOL
+    - trigger: {strategy: ATRSS, event: POSITION_OPEN}
+      target: {strategy: AKC_HELIX, action: SIZE_BOOST}
+      condition: SAME_SYMBOL_SAME_DIRECTION
+      params: {size_mult: 1.25}
+  cooldown_pairs: []
+  direction_filter:
+    observer: VdubusNQ_v4
+    reference: "NQDTC_v2.1"
+    agree_mult: 1.50
+    oppose_mult: 0.0
+  stock_coordination:
+    directional_cap_R: 8.0
+    symbol_collision_action: half_size
+    strategies: [IARIC_v1, ALCB_v1]
+
+portfolio:
+  heat_cap_R: 2.5
+  portfolio_daily_stop_R: 3.0
+  portfolio_weekly_stop_R: 5.0
+  family_allocations:
+    swing: 0.3334
+    stock: 0.3333
+    momentum: 0.3333
+    k_stock: 0.0  # separate capital pool (KRW), not allocated from USD portfolio
+    crypto: 0.0  # separate capital pool (USDC), not allocated from USD portfolio
+  drawdown_tiers:
+    - [0.08, 1.00]
+    - [0.12, 0.50]
+    - [0.15, 0.25]
+    - [1.00, 0.00]
+
+archetype_expectations:
+  trend_follow:
+    expected_win_rate: [0.35, 0.50]
+    expected_payoff_ratio: [1.8, 3.0]
+    regime_sensitivity: high
+    typical_holding_bars: [20, 200]
+  divergence_swing:
+    expected_win_rate: [0.40, 0.55]
+    expected_payoff_ratio: [1.5, 2.5]
+    regime_sensitivity: medium
+    typical_holding_bars: [10, 100]
+  breakout:
+    expected_win_rate: [0.30, 0.45]
+    expected_payoff_ratio: [2.0, 4.0]
+    regime_sensitivity: high
+    typical_holding_bars: [5, 50]
+  pullback:
+    expected_win_rate: [0.45, 0.60]
+    expected_payoff_ratio: [1.2, 2.0]
+    regime_sensitivity: medium
+    typical_holding_bars: [10, 80]
+  intraday_momentum:
+    expected_win_rate: [0.40, 0.55]
+    expected_payoff_ratio: [1.2, 2.0]
+    regime_sensitivity: medium
+    typical_holding_bars: [1, 20]
+  opening_range_breakout:
+    expected_win_rate: [0.35, 0.50]
+    expected_payoff_ratio: [1.5, 2.5]
+    regime_sensitivity: medium
+    typical_holding_bars: [1, 10]
+  multi_tf_momentum:
+    expected_win_rate: [0.40, 0.55]
+    expected_payoff_ratio: [1.5, 2.5]
+    regime_sensitivity: high
+    typical_holding_bars: [5, 40]
+  box_breakout:
+    expected_win_rate: [0.30, 0.45]
+    expected_payoff_ratio: [2.0, 3.5]
+    regime_sensitivity: high
+    typical_holding_bars: [3, 30]
+  vwap_pullback:
+    expected_win_rate: [0.45, 0.60]
+    expected_payoff_ratio: [1.0, 1.8]
+    regime_sensitivity: medium
+    typical_holding_bars: [1, 15]
+  flow_following:
+    expected_win_rate: [0.40, 0.55]
+    expected_payoff_ratio: [1.0, 1.5]
+    regime_sensitivity: medium
+    typical_holding_bars: [5, 150]
+  bear_regime_swing:
+    expected_win_rate: [0.30, 0.45]
+    expected_payoff_ratio: [2.0, 4.0]
+    regime_sensitivity: high
+    typical_holding_bars: [10, 480]
+  multi_engine_bear:
+    expected_win_rate: [0.35, 0.50]
+    expected_payoff_ratio: [1.5, 3.0]
+    regime_sensitivity: high
+    typical_holding_bars: [5, 150]
+  mean_reversion_pullback:
+    expected_win_rate: [0.55, 0.70]
+    expected_payoff_ratio: [0.8, 1.5]
+    regime_sensitivity: medium
+    typical_holding_bars: [5, 156]
+  momentum_pullback_crypto:
+    expected_win_rate: [0.35, 0.50]
+    expected_payoff_ratio: [1.5, 2.5]
+    regime_sensitivity: high
+    typical_holding_bars: [4, 40]
+  institutional_anchor:
+    expected_win_rate: [0.35, 0.50]
+    expected_payoff_ratio: [1.5, 2.5]
+    regime_sensitivity: high
+    typical_holding_bars: [4, 48]
+  volume_profile_breakout:
+    expected_win_rate: [0.30, 0.45]
+    expected_payoff_ratio: [1.5, 3.0]
+    regime_sensitivity: high
+    typical_holding_bars: [2, 24]
