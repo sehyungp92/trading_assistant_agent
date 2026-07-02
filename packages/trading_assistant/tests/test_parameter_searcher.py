@@ -2,12 +2,10 @@
 """Tests for ParameterSearcher — autoresearch-style parameter neighborhood search."""
 from __future__ import annotations
 
-import math
 from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import MagicMock
 
-import pytest
 
 from trading_assistant.schemas.events import TradeEvent
 from trading_assistant.schemas.parameter_search import (
@@ -23,13 +21,8 @@ from trading_assistant.skills.cost_model import CostModel
 from trading_assistant.schemas.regime_conditional import RegimeParameterAnalysis
 from trading_assistant.skills.parameter_searcher import (
     ParameterSearcher,
-    _APPROVE_IMPROVEMENT,
-    _APPROVE_ROBUSTNESS,
-    _EXPERIMENT_IMPROVEMENT,
-    _EXPERIMENT_ROBUSTNESS,
     _MAX_CANDIDATES,
     _REGIME_SENSITIVITY_THRESHOLD,
-    _SAFETY_CRITICAL_IMPROVEMENT,
 )
 from tests.factories import make_trade
 
@@ -170,7 +163,6 @@ class TestSearchRouting:
 
     def test_all_fail_safety_returns_discard(self):
         """When no candidate passes safety → DISCARD."""
-        call_count = 0
 
         def bad_simulate(trades, missed, params, cost_multiplier=1.0):
             return SimulationMetrics(
@@ -190,7 +182,6 @@ class TestSearchRouting:
 
     def test_strong_candidate_routes_approve(self):
         """Strong candidate → APPROVE routing."""
-        baseline_call = [True]
 
         def good_simulate(trades, missed, params, cost_multiplier=1.0):
             val = params.get("signal_strength_min", 0.5)

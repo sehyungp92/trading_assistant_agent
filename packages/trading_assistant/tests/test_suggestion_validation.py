@@ -11,9 +11,8 @@ from __future__ import annotations
 import json
 import math
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
-import pytest
 
 from trading_assistant.schemas.suggestion_validation import (
     SuggestionValidationResult,
@@ -583,7 +582,7 @@ class TestHandlerWiringSuggestionValidation:
             approved_suggestions=[suggestion],
         )
 
-        id_map = handlers._record_agent_suggestions(validation, "run_001")
+        handlers._record_agent_suggestions(validation, "run_001")
         assert len(tracker.recorded) == 1
         rec = tracker.recorded[0]
         ctx = rec.detection_context
@@ -676,7 +675,7 @@ class TestHandlerWiringSuggestionValidation:
         # Patch validator to raise an exception
         with patch("trading_assistant.skills.suggestion_validator.SuggestionValidator.validate") as mock_validate:
             mock_validate.side_effect = RuntimeError("Backtest failed")
-            id_map = handlers._record_agent_suggestions(validation, "run_004")
+            handlers._record_agent_suggestions(validation, "run_004")
 
         # Suggestion should still be recorded despite validator failure
         assert len(tracker.recorded) == 1

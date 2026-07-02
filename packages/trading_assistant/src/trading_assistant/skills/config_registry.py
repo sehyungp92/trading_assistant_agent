@@ -8,14 +8,13 @@ to matching parameter definitions.
 from __future__ import annotations
 
 import logging
-import re
 from pathlib import Path
 from typing import Any
 
 import yaml
 
 from trading_assistant.schemas.bot_profile import BotConfigProfile
-from trading_assistant.schemas.parameter_definition import ParameterDefinition, ParameterType
+from trading_assistant.schemas.parameter_definition import ParameterDefinition
 from trading_assistant.skills.file_change_generator import FileChangeGenerator
 
 logger = logging.getLogger(__name__)

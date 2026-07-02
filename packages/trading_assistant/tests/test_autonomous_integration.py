@@ -15,7 +15,7 @@ import pytest
 import yaml
 
 from trading_assistant.schemas.approval import ApprovalRequest, ApprovalStatus, RepoRiskTier
-from trading_assistant.schemas.repo_changes import ChangeKind, PRResult
+from trading_assistant.schemas.repo_changes import ChangeKind
 from trading_assistant.schemas.suggestion_tracking import SuggestionRecord
 from trading_assistant.skills.approval_handler import ApprovalHandler
 from trading_assistant.skills.approval_tracker import ApprovalTracker

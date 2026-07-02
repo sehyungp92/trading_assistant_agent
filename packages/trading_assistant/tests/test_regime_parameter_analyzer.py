@@ -294,7 +294,7 @@ class TestMinPerRegime:
                 pnl=100.0 if i % 2 == 0 else -50.0,
                 strategy_params={"quality_min": 0.5},
             ))
-        for i in range(5):
+        for _ in range(5):
             trade_dicts.append(_make_trade(
                 regime="volatile",
                 pnl=50.0,
@@ -389,13 +389,13 @@ class TestFullAnalyze:
     def test_unknown_regime_excluded(self):
         """Trades with regime='unknown' should be excluded from analysis."""
         trade_dicts = []
-        for i in range(20):
+        for _i in range(20):
             trade_dicts.append(_make_trade(
                 regime="unknown",
                 pnl=100.0,
                 strategy_params={"quality_min": 0.5},
             ))
-        for i in range(20):
+        for _i in range(20):
             trade_dicts.append(_make_trade(
                 regime="trending",
                 pnl=50.0,
@@ -425,14 +425,14 @@ class TestFullAnalyze:
         """When sensitivity is high and optima differ, recommendations are generated."""
         trade_dicts = []
         # Regime A: param=0.1 performs best (high pnl)
-        for i in range(20):
+        for _i in range(20):
             trade_dicts.append(_make_trade(
                 regime="trending",
                 pnl=200.0,
                 strategy_params={"quality_min": 0.1},
             ))
         # Regime B: param=0.9 performs best (high pnl)
-        for i in range(20):
+        for _i in range(20):
             trade_dicts.append(_make_trade(
                 regime="volatile",
                 pnl=200.0,
@@ -454,7 +454,7 @@ class TestFullAnalyze:
     def test_optimal_per_regime_populated(self):
         """optimal_per_regime dict should map regime -> optimal value."""
         trade_dicts = []
-        for i in range(20):
+        for _i in range(20):
             trade_dicts.append(_make_trade(
                 regime="trending",
                 pnl=100.0,

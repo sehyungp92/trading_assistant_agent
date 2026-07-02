@@ -1,6 +1,5 @@
 """Tests for cross-bot portfolio risk computation."""
 from trading_assistant.schemas.daily_metrics import BotDailySummary
-from trading_assistant.schemas.portfolio_risk import PortfolioRiskCard, CrowdingAlert
 from trading_assistant.skills.compute_portfolio_risk import PortfolioRiskComputer
 
 

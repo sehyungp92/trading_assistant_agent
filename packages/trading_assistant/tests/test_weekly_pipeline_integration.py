@@ -7,13 +7,10 @@ Flow: daily curated data → weekly metrics builder → strategy engine →
 import json
 from pathlib import Path
 
-import pytest
 
 from trading_assistant.schemas.daily_metrics import (
     BotDailySummary,
-    FilterAnalysis,
 )
-from trading_assistant.schemas.weekly_metrics import FilterWeeklySummary, RegimePerformanceTrend
 from trading_assistant.skills.build_weekly_metrics import WeeklyMetricsBuilder
 from trading_assistant.analysis.strategy_engine import StrategyEngine
 from trading_assistant.analysis.weekly_prompt_assembler import WeeklyPromptAssembler

@@ -10,16 +10,27 @@ I run multiple automated trading bots across several VPSes. I am a solo operator
 
 This is not "protect capital at all costs" — it is an optimization problem. I want the highest risk-adjusted returns achievable. A strategy change that increases expected returns by 8% while increasing max drawdown by 2% is likely worth it. A change that increases returns by 3% while doubling drawdown is not. The system should actively seek opportunities to improve returns, not just avoid losses.
 
-Concretely, the metrics I optimize for (composite score weights):
+Concretely, my high-level human utility frame is a set of flexible prompt
+weights, not a fixed scoring formula:
 
-1. **Net profit / expected total return** (30%) — annualized net PnL after fees, slippage, and all costs
-2. **Calmar ratio** (20%) — annualized return / max drawdown (preferred risk-adjusted metric)
-3. **Profit factor** (15%) — gross wins / gross losses, target > 1.5
-4. **Expectancy** (15%) — win rate × (average win / average loss)
-5. **Max drawdown** (10%) — hard constraint, must stay within per-bot and portfolio limits
-6. **Process quality** (10%) — anti-gaming safeguard
+1. **Return / net alpha** (usually 25-30%) — annualized net PnL after fees, slippage, and all costs
+2. **Edge / profit quality** (usually 15-20%) — profit factor, expectancy, win/R quality, and repeatable edge
+3. **Opportunity coverage** (usually 15-20%) — trade frequency, usable coverage, and avoiding under-trading
+4. **Capture / signal quality** (usually 10-15%) — entry, exit, selection, and alpha-capture quality
+5. **Risk / drawdown control** (usually 10-20%) — drawdown, Calmar/risk efficiency, and risk resilience; heavier at portfolio level
+6. **Process / stability quality** (usually 5-10%) — rule adherence, robustness, and anti-gaming safeguards
 
-When evaluating changes, frame them in terms of composite score impact. "This filter change is expected to increase net profit by $X/month while increasing max drawdown from Y% to Z%, moving Calmar from A to B."
+Use those bands only as a communication and helper-evaluation frame. For
+material strategy/config changes, monthly/phased-auto ranking is governed by the
+strategy-family immutable score profile recorded in validation artifacts as
+`effective_objective_version=immutable_score_profiles_v1` and
+`objective_profile_id=<profile>`. Do not mechanically sum the prompt bands or
+override that binding score from the helper frame.
+
+When evaluating changes, frame them in terms of the binding monthly objective
+when available, and include the human utility trade-offs. "This filter change
+is expected to increase net profit by $X/month while increasing max drawdown
+from Y% to Z%, moving Calmar from A to B, under profile <profile>."
 
 ## What I Value
 
@@ -65,10 +76,10 @@ When evaluating a suggestion:
 I approve changes faster when they: have strong evidence (>50 trades, >60 days), improve Calmar ratio, have bounded downside, and are easily reversible. I'm willing to accept moderate drawdown increases if the return improvement is proportionally larger.
 
 For material strategy/config changes, the binding measurement is the monthly
-full-fidelity validation loop. Early before/after measurements are
-screening/context only. Trade frequency is a viability and under-trading gate,
-not an objective that can override expected return, Calmar, drawdown, or
-expectancy.
+full-fidelity validation loop and its immutable score profile. Early
+before/after measurements and helper composites are screening/context only.
+Trade frequency is a viability and under-trading gate, not an objective that
+can override expected return, Calmar, drawdown, or expectancy.
 
 ## What I Don't Want
 

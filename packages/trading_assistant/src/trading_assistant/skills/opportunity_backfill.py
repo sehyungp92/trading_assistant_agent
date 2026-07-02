@@ -83,7 +83,7 @@ class OpportunityBackfill:
         """Compute backfill for a batch of missed opportunities."""
         if snapshots is None:
             snapshots = [None] * len(events)
-        return [self.compute(e, s) for e, s in zip(events, snapshots)]
+        return [self.compute(e, s) for e, s in zip(events, snapshots, strict=False)]
 
     def _determine_entry_price(
         self,

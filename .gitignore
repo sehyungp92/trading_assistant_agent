@@ -24,7 +24,12 @@ htmlcov/
 .agents/
 .claude/
 _references/
-docs/
+
+# Local-only docs scratch areas. Existing tracked files remain tracked; new
+# files default to ignored. adr/ and architecture/ stay fully tracked.
+docs/audits/
+docs/instrumentation/
+docs/plans/
 
 # Local migration safety backups; not part of the monorepo.
 .monorepo-git-backups/

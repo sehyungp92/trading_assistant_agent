@@ -23,7 +23,7 @@ class BotConfig(BaseModel):
         try:
             ZoneInfo(v)
         except (ZoneInfoNotFoundError, KeyError):
-            raise ValueError(f"Invalid IANA timezone: {v!r}")
+            raise ValueError(f"Invalid IANA timezone: {v!r}") from None
         return v
 
     @field_validator("market_close_local")
@@ -37,5 +37,7 @@ class BotConfig(BaseModel):
             if not (0 <= h <= 23 and 0 <= m <= 59):
                 raise ValueError
         except ValueError:
-            raise ValueError(f"market_close_local must be HH:MM with valid hours/minutes, got {v!r}")
+            raise ValueError(
+                f"market_close_local must be HH:MM with valid hours/minutes, got {v!r}"
+            ) from None
         return v

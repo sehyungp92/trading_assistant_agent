@@ -48,7 +48,7 @@ class TestDiscordBotAdapter:
 
     @pytest.mark.asyncio
     async def test_pin_message(self, adapter, mock_channel):
-        msg = await mock_channel.fetch_message(42)
+        await mock_channel.fetch_message(42)
         await adapter.pin_message(42)
         mock_channel.fetch_message.assert_called_with(42)
 

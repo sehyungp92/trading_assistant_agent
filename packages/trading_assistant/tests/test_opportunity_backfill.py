@@ -7,7 +7,7 @@ from trading_assistant.schemas.simulation_policy import (
     TPSLConfig,
     TPSLMethod,
 )
-from trading_assistant.skills.opportunity_backfill import BackfillResult, OpportunityBackfill
+from trading_assistant.skills.opportunity_backfill import OpportunityBackfill
 
 
 def _event(

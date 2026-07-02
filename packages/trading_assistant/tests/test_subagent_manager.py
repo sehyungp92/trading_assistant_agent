@@ -1,7 +1,6 @@
 """Tests for subagent manager (M3)."""
 from __future__ import annotations
 import asyncio
-import pytest
 from trading_assistant.orchestrator.subagent import SubagentManager
 
 class TestSubagentManager:
@@ -63,10 +62,13 @@ class TestSubagentManager:
         async def quick_work():
             return "done"
 
-        agent_id = await mgr.spawn("fast", quick_work)
+        await mgr.spawn("fast", quick_work)
         await asyncio.sleep(0)  # Let it complete
         assert len(mgr.get_running()) == 0
-        assert len(mgr.get_all()) == 1
+        all_agents = mgr.get_all()
+        assert len(all_agents) == 1
+        assert all_agents[0].status == "completed"
+        assert all_agents[0].task is None
 
     async def test_cancel_all(self):
         mgr = SubagentManager(max_concurrent=5)
@@ -86,9 +88,27 @@ class TestSubagentManager:
         async def failing_work():
             raise ValueError("boom")
 
-        agent_id = await mgr.spawn("failing", failing_work)
+        await mgr.spawn("failing", failing_work)
         await asyncio.sleep(0)
 
         # Should be in all but not in running
         assert len(mgr.get_running()) == 0
-        assert len(mgr.get_all()) == 1
+        all_agents = mgr.get_all()
+        assert len(all_agents) == 1
+        assert all_agents[0].status == "failed"
+        assert all_agents[0].error == "boom"
+        assert all_agents[0].task is None
+
+    async def test_terminal_history_is_bounded(self):
+        mgr = SubagentManager(terminal_history_limit=2)
+
+        async def quick_work():
+            return "done"
+
+        for i in range(3):
+            await mgr.spawn(f"fast-{i}", quick_work)
+            await asyncio.sleep(0)
+
+        all_agents = mgr.get_all()
+        assert len(all_agents) == 2
+        assert [agent.agent_type for agent in all_agents] == ["fast-2", "fast-1"]

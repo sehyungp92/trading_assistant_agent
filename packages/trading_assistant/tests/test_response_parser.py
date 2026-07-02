@@ -4,10 +4,8 @@ from __future__ import annotations
 
 import json
 
-import pytest
 
 from trading_assistant.analysis.response_parser import parse_response
-from trading_assistant.schemas.agent_response import ParsedAnalysis
 
 
 class TestParseResponse:

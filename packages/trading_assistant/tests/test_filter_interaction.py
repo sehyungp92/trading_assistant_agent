@@ -331,7 +331,7 @@ class TestHandlerFilterInteractionWiring:
         results = handlers._run_weekly_simulations(EmptyReport(), "2026-02-24", "2026-02-28")
 
         # Should have filter interaction result for bot1
-        assert f"filter_interaction_bot1" in results
+        assert "filter_interaction_bot1" in results
         fi_data = results["filter_interaction_bot1"]
         assert fi_data["bot_id"] == "bot1"
         assert fi_data["total_filters_analyzed"] >= 2

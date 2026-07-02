@@ -13,6 +13,7 @@ import pandas as pd
 
 from .repo import git_commit_sha
 from .manifests import load_market_manifest
+from .slices import is_authoritative_slice_manifest
 from .sources.ibkr.cme_nq_read_only import CmeNqRefreshRequest, IBKRCmeNqReadOnlyAdapter
 from .sources.ibkr.live_read_only import IBAsyncHistoricalBarProvider, _contract_specs_for_request
 from .sources.ibkr.us_equity_read_only import IBKRUsEquityReadOnlyAdapter, UsEquityRefreshRequest
@@ -383,7 +384,7 @@ def _latest_authoritative_kis_end(repo_root: Path, source_request: dict[str, Any
             manifest = load_market_manifest(path)
         except (OSError, ValueError):
             continue
-        if not manifest.usable_for_authoritative_validation:
+        if not is_authoritative_slice_manifest(manifest):
             continue
         if manifest.lineage.get("strategy_data_family", "") != family:
             continue

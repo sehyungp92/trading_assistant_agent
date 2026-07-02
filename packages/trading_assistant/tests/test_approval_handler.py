@@ -250,7 +250,7 @@ class TestApprovalCardEditing:
             config_registry=registry,
             telegram_bot=telegram_bot,
         )
-        req = _create_pending_request(approval_tracker)
+        _create_pending_request(approval_tracker)
         # Set message_id to simulate Telegram card
         approval_tracker.set_message_id("req1", 42)
 

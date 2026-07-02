@@ -31,7 +31,7 @@ def runner(tmp_path: Path, session_store: SessionStore, event_stream: EventStrea
     )
 
 
-def _make_state() -> _ClaudeStreamState:
+def _make_state() -> StreamState:
     return StreamState()
 
 

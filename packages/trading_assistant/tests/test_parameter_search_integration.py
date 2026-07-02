@@ -3,26 +3,20 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import MagicMock
 
 import pytest
 import yaml
 
-from trading_assistant.schemas.approval import ApprovalRequest
-from trading_assistant.schemas.parameter_definition import ParameterDefinition, ParameterType
 from trading_assistant.schemas.repo_changes import (
     ChangeKind,
 )
-from trading_assistant.schemas.events import TradeEvent, MissedOpportunityEvent
 from trading_assistant.schemas.parameter_search import ParameterSearchReport, SearchRouting
-from trading_assistant.schemas.simulation_metrics import SimulationMetrics
 from trading_assistant.skills.approval_tracker import ApprovalTracker
 from trading_assistant.skills.autonomous_pipeline import AutonomousPipeline
 from trading_assistant.skills.config_registry import ConfigRegistry
 from trading_assistant.skills.suggestion_backtester import SuggestionBacktester
-from trading_assistant.skills.suggestion_tracker import SuggestionTracker
 
 
 # ─── Helpers ─────────────────────────────────────────────────────────
@@ -264,7 +258,7 @@ class TestLegacyPath:
             for t in trades:
                 f.write(json.dumps(t) + "\n")
 
-        results = await pipeline.process_new_suggestions(["sug1"])
+        await pipeline.process_new_suggestions(["sug1"])
         # Legacy path runs backtester.backtest_suggestion
         # Result depends on trade data quality
         # The key assertion: searcher was NOT called

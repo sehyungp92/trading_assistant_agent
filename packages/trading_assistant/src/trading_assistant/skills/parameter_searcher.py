@@ -1,9 +1,12 @@
 # skills/parameter_searcher.py
-"""Autoresearch-style inner loop: explore parameter neighborhood, pick best."""
+"""Autoresearch-style helper loop: explore parameter neighborhoods, pick best.
+
+This local triage score is a legacy/helper composite for proposal screening.
+Replay-backed monthly/phased-auto ranking uses immutable score profiles instead.
+"""
 from __future__ import annotations
 
 import logging
-import math
 from typing import Any
 
 from trading_assistant.schemas.parameter_definition import ParameterDefinition
@@ -42,7 +45,7 @@ _REGIME_SENSITIVITY_THRESHOLD = 0.3
 
 
 class ParameterSearcher:
-    """Explore parameter neighborhood and route to APPROVE/EXPERIMENT/DISCARD."""
+    """Explore parameter neighborhoods and route helper proposals."""
 
     def __init__(
         self,
@@ -338,11 +341,12 @@ class ParameterSearcher:
         metrics: SimulationMetrics,
         baseline: SimulationMetrics,
     ) -> float:
-        """Ratio-based composite for candidate ranking (baseline = 1.0).
+        """Ratio-based helper composite for candidate ranking (baseline = 1.0).
 
         Uses shared weights from schemas.objective_weights (excl. process_quality).
         Output is a ratio, NOT a [0, 1] score — see objective_weights.py for the
-        intentional divergence between this and GroundTruthComputer's z-score scale.
+        intentional divergence between this, GroundTruthComputer's z-score scale,
+        and the monthly immutable score profiles.
         Use ratio_to_unit_scale() for [0, 1] normalization when needed.
         """
         # Baseline guards — avoid division by zero and perverse sign flips

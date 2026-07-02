@@ -90,7 +90,7 @@ def detect_large_gaps(df: pd.DataFrame, timeframe: str) -> list[Gap]:
     threshold = gap_threshold(timeframe)
     diffs = frame.index.to_series().diff().dropna()
     gaps: list[Gap] = []
-    for ts, delta in diffs[diffs > threshold].items():
+    for ts, _delta in diffs[diffs > threshold].items():
         previous_pos = frame.index.get_loc(ts) - 1
         previous_ts = frame.index[previous_pos]
         gaps.append(

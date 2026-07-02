@@ -4,9 +4,15 @@ from __future__ import annotations
 import json
 import logging
 import threading
+from collections.abc import Iterable
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from trading_assistant.orchestrator.jsonl_store import (
+    jsonl_file_lock,
+    read_json_projection,
+    write_json_projection,
+)
 from trading_assistant.schemas.strategy_change_ledger import (
     RollbackStatus,
     StrategyChangeRecord,
@@ -22,7 +28,7 @@ class StrategyChangeLedger:
     def __init__(self, store_dir: Path) -> None:
         self._store_dir = Path(store_dir)
         self._path = self._store_dir / "strategy_change_ledger.jsonl"
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
 
     @property
     def path(self) -> Path:
@@ -31,24 +37,34 @@ class StrategyChangeLedger:
     def record(self, record: StrategyChangeRecord) -> bool:
         """Append a record. Returns False when record_id already exists."""
 
-        with self._lock:
-            if record.record_id in {rec.record_id for rec in self._read_records()}:
+        with jsonl_file_lock(self._path), self._lock:
+            records = self._read_record_map_unlocked()
+            if record.record_id in records:
                 return False
-            self._append({"type": "record", "payload": record.model_dump(mode="json")})
-            return True
+            self._append_unlocked({"type": "record", "payload": record.model_dump(mode="json")})
+            records[record.record_id] = record
+            self._write_projection_unlocked(records.values())
+        self._refresh_performance_learning_projection()
+        return True
 
     def update(self, record_id: str, **changes) -> bool:
-        with self._lock:
-            records = self._read_records()
-            if not any(record.record_id == record_id for record in records):
+        with jsonl_file_lock(self._path), self._lock:
+            records = self._read_record_map_unlocked()
+            record = records.get(record_id)
+            if record is None:
                 return False
             payload = {
                 "record_id": record_id,
                 "updated_at": datetime.now(timezone.utc).isoformat(),
                 **changes,
             }
-            self._append({"type": "update", "payload": payload})
-            return True
+            self._append_unlocked({"type": "update", "payload": payload})
+            merged = record.model_dump(mode="json")
+            merged.update(payload)
+            records[record_id] = StrategyChangeRecord.model_validate(merged)
+            self._write_projection_unlocked(records.values())
+        self._refresh_performance_learning_projection()
+        return True
 
     def record_monthly_review(
         self,
@@ -273,10 +289,8 @@ class StrategyChangeLedger:
         return rows[:limit] if limit is not None else rows
 
     def get_by_id(self, record_id: str) -> StrategyChangeRecord | None:
-        for record in self._read_records():
-            if record.record_id == record_id:
-                return record
-        return None
+        with jsonl_file_lock(self._path), self._lock:
+            return self._read_record_map_unlocked().get(record_id)
 
     def _find_record_id_by_approval(self, approval_request_id: str) -> str:
         if not approval_request_id:
@@ -287,15 +301,41 @@ class StrategyChangeLedger:
         return ""
 
     def _append(self, event: dict) -> None:
+        with jsonl_file_lock(self._path), self._lock:
+            self._append_unlocked(event)
+
+    def _append_unlocked(self, event: dict) -> None:
         self._store_dir.mkdir(parents=True, exist_ok=True)
         with self._path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(event, default=str) + "\n")
 
+    def _refresh_performance_learning_projection(self) -> None:
+        try:
+            from trading_assistant.skills.performance_learning_ledger import (
+                PerformanceLearningRefreshMarkerError,
+                refresh_performance_learning_projection,
+            )
+
+            refresh_performance_learning_projection(self._store_dir)
+        except PerformanceLearningRefreshMarkerError:
+            raise
+        except Exception:
+            logger.warning("Failed to refresh performance-learning projection", exc_info=True)
+
     def _read_records(self) -> list[StrategyChangeRecord]:
+        with jsonl_file_lock(self._path), self._lock:
+            records = self._read_record_map_unlocked()
+        return sorted(records.values(), key=lambda record: record.updated_at, reverse=True)
+
+    def _read_record_map_unlocked(self) -> dict[str, StrategyChangeRecord]:
+        projection = self._read_projection_unlocked()
+        if projection:
+            return projection
+
         records: dict[str, StrategyChangeRecord] = {}
         if not self._path.exists():
-            return []
-        for line_no, line in enumerate(self._path.read_text(encoding="utf-8").splitlines(), 1):
+            return records
+        for line_no, line in enumerate(self._path.open("r", encoding="utf-8"), 1):
             if not line.strip():
                 continue
             try:
@@ -316,7 +356,49 @@ class StrategyChangeLedger:
                     records[record.record_id] = record
             except Exception:
                 logger.warning("Skipping malformed strategy-change ledger line %d", line_no)
-        return sorted(records.values(), key=lambda record: record.updated_at, reverse=True)
+        self._write_projection_unlocked(records.values())
+        return records
+
+    def _read_projection_unlocked(self) -> dict[str, StrategyChangeRecord]:
+        if not self._path.exists():
+            return {}
+        projection_path = Path(str(self._path) + ".index.json")
+        if not projection_path.exists() or projection_path.stat().st_mtime < self._path.stat().st_mtime:
+            return {}
+        records: dict[str, StrategyChangeRecord] = {}
+        for record_id, payload in read_json_projection(self._path).items():
+            try:
+                record = StrategyChangeRecord.model_validate(payload)
+            except Exception:
+                return {}
+            records[record_id] = record
+        return records
+
+    def _write_projection_unlocked(self, records: Iterable[StrategyChangeRecord]) -> None:
+        write_json_projection(
+            self._path,
+            key_field="record_id",
+            records=[
+                record.model_dump(mode="json")
+                for record in records
+                if isinstance(record, StrategyChangeRecord)
+            ],
+        )
+
+    def compact(self) -> int:
+        """Rewrite the event log to one latest-state record per strategy change."""
+        from trading_assistant.skills._atomic_write import atomic_rewrite_jsonl
+
+        with jsonl_file_lock(self._path), self._lock:
+            records = self._read_record_map_unlocked()
+            ordered = sorted(records.values(), key=lambda record: record.updated_at)
+            events = [
+                {"type": "record", "payload": record.model_dump(mode="json")}
+                for record in ordered
+            ]
+            atomic_rewrite_jsonl(self._path, events)
+            self._write_projection_unlocked(ordered)
+            return len(events)
 
 
 def project_strategy_change_record(record: StrategyChangeRecord) -> dict:

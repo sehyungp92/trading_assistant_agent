@@ -14,7 +14,6 @@ from typing import Optional
 from trading_assistant.schemas.bug_triage import (
     BugSeverity,
     ErrorEvent,
-    TriageOutcome,
     TriageResult,
 )
 from trading_assistant.skills.bug_complexity_classifier import BugComplexityClassifier

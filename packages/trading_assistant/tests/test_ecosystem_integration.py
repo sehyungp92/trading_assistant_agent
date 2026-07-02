@@ -1,8 +1,5 @@
 """Integration tests for ecosystem evaluation gap implementations."""
-import json
-from pathlib import Path
 
-import pytest
 
 from trading_assistant.schemas.events import MissedOpportunityEvent
 from tests.factories import make_trade

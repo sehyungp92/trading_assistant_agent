@@ -1,9 +1,7 @@
 """Tests for DriftAnalyzer — allocation drift computation and trend analysis."""
 from __future__ import annotations
 
-import pytest
 
-from trading_assistant.schemas.allocation_history import AllocationSnapshot, BotAllocationSnapshot
 from trading_assistant.schemas.portfolio_allocation import (
     BotAllocationRecommendation,
     PortfolioAllocationReport,

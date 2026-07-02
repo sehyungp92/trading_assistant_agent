@@ -55,7 +55,8 @@ class TestAppConfig:
         # Clear all relevant env vars
         for key in ["BOT_IDS", "RELAY_URL", "TELEGRAM_BOT_TOKEN", "DISCORD_BOT_TOKEN",
                      "SMTP_HOST", "SMTP_USER", "DATA_DIR", "LOG_LEVEL",
-                     "ALLOW_UNAUTHENTICATED_LOCAL"]:
+                     "ALLOW_UNAUTHENTICATED_LOCAL", "BIND_HOST", "UVICORN_HOST",
+                     "ENVIRONMENT", "DIRECT_INGEST_ONLY"]:
             monkeypatch.delenv(key, raising=False)
         config = AppConfig.from_env()
         assert config.bot_ids == []
@@ -65,6 +66,35 @@ class TestAppConfig:
         assert config.log_level == "INFO"
         assert config.smtp_port == 587
         assert config.allow_unauthenticated_local is False
+        assert config.bind_host == "127.0.0.1"
+        assert config.configured_bind_host == ""
+        assert config.bind_host_explicit is False
+        assert config.environment == "development"
+        assert config.direct_ingest_only is False
+
+    def test_from_env_records_explicit_bind_host(self, monkeypatch):
+        monkeypatch.setenv("BIND_HOST", "0.0.0.0")
+        config = AppConfig.from_env()
+        assert config.bind_host == "0.0.0.0"
+        assert config.configured_bind_host == "0.0.0.0"
+        assert config.bind_host_explicit is True
+
+    def test_from_env_prefers_uvicorn_host_as_actual_launcher_host(self, monkeypatch):
+        monkeypatch.setenv("BIND_HOST", "127.0.0.1")
+        monkeypatch.setenv("UVICORN_HOST", "0.0.0.0")
+        config = AppConfig.from_env()
+        assert config.bind_host == "0.0.0.0"
+        assert config.configured_bind_host == "127.0.0.1"
+        assert config.uvicorn_host == "0.0.0.0"
+        assert config.bind_host_explicit is True
+
+    def test_from_env_reads_environment_and_direct_ingest_mode(self, monkeypatch):
+        monkeypatch.setenv("ENVIRONMENT", "production")
+        monkeypatch.setenv("DIRECT_INGEST_ONLY", "true")
+        config = AppConfig.from_env()
+        assert config.environment == "production"
+        assert config.is_production is True
+        assert config.direct_ingest_only is True
 
     def test_direct_construction(self):
         config = AppConfig(bot_ids=["a", "b"], relay_url="http://test")

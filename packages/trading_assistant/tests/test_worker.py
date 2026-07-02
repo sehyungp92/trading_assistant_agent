@@ -1,13 +1,17 @@
 import json
+import asyncio
 from unittest.mock import AsyncMock
 
 import pytest
 
+from trading_assistant.orchestrator.app import create_app
+from trading_assistant.orchestrator.config import AppConfig
 from trading_assistant.orchestrator.worker import Worker
 from trading_assistant.orchestrator.orchestrator_brain import OrchestratorBrain
 from trading_assistant.orchestrator.db.queue import EventQueue
 from trading_assistant.orchestrator.subagent import CapacityExceeded
 from trading_assistant.orchestrator.task_registry import TaskRegistry
+from trading_assistant.schemas.tasks import TaskStatus
 
 
 @pytest.fixture
@@ -111,6 +115,155 @@ class TestWorker:
         assert len(pending) == 1
         assert pending[0]["event_id"] == "daily-trigger-001"
         assert pending[0]["retry_count"] == 0
+
+    async def test_spawned_handler_failure_is_retryable_by_source_event(self, tmp_path):
+        app = create_app(
+            db_dir=str(tmp_path),
+            config=AppConfig(
+                bot_ids=["bot1"],
+                allow_unauthenticated_local=True,
+                bind_host="127.0.0.1",
+            ),
+        )
+        await app.state.queue.initialize()
+        await app.state.registry.initialize()
+
+        async def failing_daily_handler(action):
+            await asyncio.sleep(0)
+            raise RuntimeError("post-spawn boom")
+
+        app.state.daily_analysis_loop.handle = failing_daily_handler
+        await app.state.queue.enqueue({
+            "event_id": "daily-trigger-linked",
+            "bot_id": "bot1",
+            "event_type": "daily_analysis_trigger",
+            "payload": "{}",
+            "exchange_timestamp": "2026-03-01T14:00:00+00:00",
+            "received_at": "2026-03-01T14:00:01+00:00",
+        })
+
+        processed = await app.state.worker.process_batch(limit=1)
+        assert processed == 1
+        assert await app.state.queue.peek(limit=10) == []
+
+        linked = []
+        for _ in range(20):
+            linked = await app.state.registry.list_by_source_event("daily-trigger-linked")
+            if linked and linked[0].status == TaskStatus.PENDING:
+                break
+            await asyncio.sleep(0.01)
+
+        assert len(linked) == 1
+        assert linked[0].status == TaskStatus.PENDING
+        assert linked[0].retries == 1
+        assert linked[0].source_action_type == "spawn_daily_analysis"
+        assert "post-spawn boom" in linked[0].error
+
+        await app.state.queue.close()
+        await app.state.registry.close()
+
+    async def test_linked_subagent_reconciler_retries_and_completes(self, tmp_path):
+        app = create_app(
+            db_dir=str(tmp_path),
+            config=AppConfig(
+                bot_ids=["bot1"],
+                allow_unauthenticated_local=True,
+                bind_host="127.0.0.1",
+            ),
+        )
+        await app.state.queue.initialize()
+        await app.state.registry.initialize()
+
+        attempts = 0
+
+        async def flaky_daily_handler(action):
+            nonlocal attempts
+            attempts += 1
+            await asyncio.sleep(0)
+            if attempts == 1:
+                raise RuntimeError("retry me")
+
+        app.state.daily_analysis_loop.handle = flaky_daily_handler
+        await app.state.queue.enqueue({
+            "event_id": "daily-trigger-retry",
+            "bot_id": "bot1",
+            "event_type": "daily_analysis_trigger",
+            "payload": "{}",
+            "exchange_timestamp": "2026-03-01T14:00:00+00:00",
+            "received_at": "2026-03-01T14:00:01+00:00",
+        })
+
+        processed = await app.state.worker.process_batch(limit=1)
+        assert processed == 1
+        for _ in range(20):
+            linked = await app.state.registry.list_by_source_event("daily-trigger-retry")
+            if linked and linked[0].status == TaskStatus.PENDING:
+                break
+            await asyncio.sleep(0.01)
+
+        result = await app.state.reconcile_linked_subagent_tasks()
+        assert result["retried"] == 1
+
+        for _ in range(20):
+            linked = await app.state.registry.list_by_source_event("daily-trigger-retry")
+            if linked and linked[0].status == TaskStatus.COMPLETED:
+                break
+            await asyncio.sleep(0.01)
+
+        assert attempts == 2
+        assert linked[0].status == TaskStatus.COMPLETED
+        assert linked[0].retries == 1
+
+        await app.state.queue.close()
+        await app.state.registry.close()
+
+    async def test_linked_subagent_reconciler_marks_terminal_after_retry_budget(self, tmp_path):
+        app = create_app(
+            db_dir=str(tmp_path),
+            config=AppConfig(
+                bot_ids=["bot1"],
+                allow_unauthenticated_local=True,
+                bind_host="127.0.0.1",
+            ),
+        )
+        await app.state.queue.initialize()
+        await app.state.registry.initialize()
+
+        async def always_failing_daily_handler(action):
+            await asyncio.sleep(0)
+            raise RuntimeError("still broken")
+
+        app.state.daily_analysis_loop.handle = always_failing_daily_handler
+        await app.state.queue.enqueue({
+            "event_id": "daily-trigger-terminal",
+            "bot_id": "bot1",
+            "event_type": "daily_analysis_trigger",
+            "payload": "{}",
+            "exchange_timestamp": "2026-03-01T14:00:00+00:00",
+            "received_at": "2026-03-01T14:00:01+00:00",
+        })
+
+        processed = await app.state.worker.process_batch(limit=1)
+        assert processed == 1
+        for _ in range(20):
+            linked = await app.state.registry.list_by_source_event("daily-trigger-terminal")
+            if linked and linked[0].status == TaskStatus.PENDING:
+                break
+            await asyncio.sleep(0.01)
+
+        result = await app.state.reconcile_linked_subagent_tasks()
+        assert result["retried"] == 1
+        for _ in range(20):
+            linked = await app.state.registry.list_by_source_event("daily-trigger-terminal")
+            if linked and linked[0].status == TaskStatus.FAILED:
+                break
+            await asyncio.sleep(0.01)
+
+        assert linked[0].status == TaskStatus.FAILED
+        assert linked[0].retries == linked[0].max_retries
+
+        await app.state.queue.close()
+        await app.state.registry.close()
 
 
 class TestPersistRawEvent:

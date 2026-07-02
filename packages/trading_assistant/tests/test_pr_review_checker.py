@@ -8,7 +8,6 @@ from trading_assistant.schemas.pr_review import (
     TradingSafetyResult,
     PRReviewResult,
 )
-from trading_assistant.schemas.permissions import PermissionTier
 from trading_assistant.skills.pr_review_checker import PRReviewChecker
 
 

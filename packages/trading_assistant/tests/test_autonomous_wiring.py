@@ -2,7 +2,6 @@
 """Tests for autonomous pipeline wiring into handlers, app, and config."""
 from __future__ import annotations
 
-import json
 import os
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -11,7 +10,6 @@ import pytest
 import yaml
 
 from trading_assistant.orchestrator.config import AppConfig
-from trading_assistant.schemas.suggestion_tracking import SuggestionRecord
 
 
 class TestAppConfig:
@@ -33,7 +31,6 @@ class TestAppConfig:
 
 class TestHandlersWiring:
     def test_handlers_accepts_autonomous_pipeline(self, tmp_path: Path):
-        from trading_assistant.orchestrator.agent_runner import AgentRunner
         from trading_assistant.orchestrator.event_stream import EventStream
         from trading_assistant.schemas.notifications import NotificationPreferences
 
@@ -55,7 +52,6 @@ class TestHandlersWiring:
         assert handlers_obj._autonomous_pipeline is not None
 
     def test_handlers_without_autonomous_pipeline(self, tmp_path: Path):
-        from trading_assistant.orchestrator.agent_runner import AgentRunner
         from trading_assistant.orchestrator.event_stream import EventStream
         from trading_assistant.schemas.notifications import NotificationPreferences
 
@@ -76,7 +72,6 @@ class TestHandlersWiring:
 
     @pytest.mark.asyncio
     async def test_pipeline_called_with_suggestion_ids(self, tmp_path: Path):
-        from trading_assistant.orchestrator.agent_runner import AgentRunner
         from trading_assistant.orchestrator.event_stream import EventStream
         from trading_assistant.schemas.notifications import NotificationPreferences
         from trading_assistant.orchestrator.handlers import Handlers
@@ -105,7 +100,6 @@ class TestHandlersWiring:
 
     @pytest.mark.asyncio
     async def test_pipeline_not_called_when_none(self, tmp_path: Path):
-        from trading_assistant.orchestrator.agent_runner import AgentRunner
         from trading_assistant.orchestrator.event_stream import EventStream
         from trading_assistant.schemas.notifications import NotificationPreferences
         from trading_assistant.orchestrator.handlers import Handlers
@@ -129,7 +123,6 @@ class TestHandlersWiring:
 class TestRecordSuggestionsConfidence:
     def test_confidence_preserved_in_record(self, tmp_path: Path):
         """Verify that _record_suggestions carries confidence to SuggestionRecord."""
-        from trading_assistant.orchestrator.agent_runner import AgentRunner
         from trading_assistant.orchestrator.event_stream import EventStream
         from trading_assistant.schemas.notifications import NotificationPreferences
         from trading_assistant.schemas.strategy_suggestions import StrategySuggestion, SuggestionTier

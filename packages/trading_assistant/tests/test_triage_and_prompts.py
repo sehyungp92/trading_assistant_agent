@@ -13,7 +13,6 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
-import pytest
 
 from trading_assistant.analysis.daily_triage import DailyTriage, SignificantEvent, TriageReport
 from trading_assistant.analysis.weekly_triage import (

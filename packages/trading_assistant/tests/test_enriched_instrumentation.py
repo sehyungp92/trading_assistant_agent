@@ -6,14 +6,10 @@ and integration of enriched data through the pipeline.
 from __future__ import annotations
 
 import json
-import statistics
 from datetime import datetime
-from pathlib import Path
-from unittest.mock import MagicMock
 
-import pytest
 
-from trading_assistant.schemas.events import TradeEvent, DailySnapshot, MissedOpportunityEvent
+from trading_assistant.schemas.events import TradeEvent, DailySnapshot
 from trading_assistant.schemas.daily_metrics import BotDailySummary
 from trading_assistant.skills.build_daily_metrics import DailyMetricsBuilder
 from trading_assistant.analysis.strategy_engine import StrategyEngine

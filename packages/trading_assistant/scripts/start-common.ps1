@@ -1,6 +1,6 @@
 # Shared helpers for starting the trading assistant orchestrator on Windows.
 
-$Script:OrchestratorHealthUrl = "http://127.0.0.1:8000/health"
+$Script:OrchestratorHealthUrl = "http://127.0.0.1:8000/ready"
 $Script:OrchestratorCommandLinePattern = "trading_assistant.orchestrator.app:app"
 
 function Enter-OrchestratorSupervisorLock {
@@ -119,7 +119,15 @@ function Test-OrchestratorHealthy {
             -TimeoutSec $TimeoutSeconds `
             -UseBasicParsing `
             -ErrorAction Stop
-        return $response.StatusCode -eq 200
+        if ($response.StatusCode -ne 200) {
+            return $false
+        }
+        $content = $response.Content
+        if ($content -is [byte[]]) {
+            $content = [System.Text.Encoding]::UTF8.GetString($content)
+        }
+        $payload = $content | ConvertFrom-Json -ErrorAction Stop
+        return $payload.status -eq "ok"
     } catch {
         return $false
     }
@@ -230,27 +238,13 @@ function Test-OrchestratorAlreadyRunning {
     param(
         [Parameter(Mandatory = $true)]
         [string]$PidFile,
-        [string]$HealthUrl = $Script:OrchestratorHealthUrl,
-        [int]$StartupGraceSeconds = 90
+        [string]$HealthUrl = $Script:OrchestratorHealthUrl
     )
 
     $process = Get-OrchestratorProcessFromPidFile -PidFile $PidFile
     if ($process) {
         if (Test-OrchestratorHealthy -Url $HealthUrl) {
             return $true
-        }
-
-        $startedRecently = $false
-        try {
-            $startedRecently = $process.StartTime -ge (Get-Date).AddSeconds(-1 * $StartupGraceSeconds)
-        } catch {
-        }
-
-        if ($startedRecently) {
-            $processRecord = Get-OrchestratorProcessMetadata -ProcessId $process.Id
-            if (Test-OrchestratorProcessRecordMatches -ProcessRecord $processRecord) {
-                return $true
-            }
         }
     }
 

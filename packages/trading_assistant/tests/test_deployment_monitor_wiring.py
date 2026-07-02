@@ -2,7 +2,6 @@
 """Tests for deployment monitor wiring — Task 17."""
 from __future__ import annotations
 
-import asyncio
 import os
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -130,7 +129,7 @@ class TestHandlersDeploymentMonitor:
     @pytest.mark.asyncio
     async def test_check_deployments_processes_pending_merge(self, tmp_path: Path):
         """_check_deployments calls check_merge_status for PENDING_MERGE deployments."""
-        from trading_assistant.schemas.deployment_monitoring import DeploymentRecord, DeploymentStatus
+        from trading_assistant.schemas.deployment_monitoring import DeploymentStatus
 
         record = MagicMock()
         record.status = DeploymentStatus.PENDING_MERGE

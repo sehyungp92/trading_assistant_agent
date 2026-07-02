@@ -14,9 +14,7 @@ from trading_assistant.schemas.approval import (
 from trading_assistant.schemas.bot_profile import BotConfigProfile
 from trading_assistant.schemas.parameter_definition import ParameterDefinition, ParameterType
 from trading_assistant.schemas.repo_changes import (
-    FileChange,
     PreflightResult,
-    PRRequest,
     PRResult,
     PRReviewStatus,
     ReviewState,

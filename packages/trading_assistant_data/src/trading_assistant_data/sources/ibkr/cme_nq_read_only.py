@@ -29,7 +29,8 @@ from trading_assistant_data.checksums import (
     stable_row_hashes,
 )
 from trading_assistant_data.manifests import MarketDataManifest, MissingRange, write_model
-from trading_assistant_data.normalization import SliceWrite, _update_slice_index
+from trading_assistant_data.slices import SliceWrite
+from trading_assistant_data.slices.writer import update_slice_index
 from trading_assistant_data.repo import git_commit_sha
 from trading_assistant_data.source_authority import (
     SourceAuthorityContract,
@@ -242,7 +243,7 @@ class IBKRCmeNqReadOnlyAdapter:
         manifest_path = _manifest_path(repo_root, manifest)
         if not dry_run:
             write_model(manifest_path, manifest)
-            _update_slice_index(
+            update_slice_index(
                 repo_root,
                 [SliceWrite(manifest_path, [canonical_path], manifest)],
             )

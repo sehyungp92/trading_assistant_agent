@@ -12,6 +12,7 @@ from datetime import datetime, time, timezone
 from pathlib import Path
 
 from trading_assistant.analysis.context_builder import ContextBuilder
+from trading_assistant.analysis.evidence_memory import EvidenceMemory
 from trading_assistant.schemas.prompt_package import PromptPackage
 
 logger = logging.getLogger(__name__)
@@ -335,7 +336,17 @@ class DailyPromptAssembler:
         self.corrections_lookback_days = corrections_lookback_days
         self.bot_configs = bot_configs
         self.strategy_registry = strategy_registry
-        self._ctx = ContextBuilder(memory_dir, curated_dir=curated_dir, run_index=run_index)
+        self._evidence = EvidenceMemory(
+            memory_dir,
+            run_index=run_index,
+            strategy_registry=strategy_registry,
+        )
+        self._ctx = ContextBuilder(
+            memory_dir,
+            curated_dir=curated_dir,
+            run_index=run_index,
+            evidence_memory=self._evidence,
+        )
 
     def assemble(self, triage_report=None, session_store=None) -> PromptPackage:
         """Build the complete prompt package.
@@ -353,7 +364,7 @@ class DailyPromptAssembler:
             strategy_registry=self.strategy_registry,
             bot_id=self.bots[0] if len(self.bots) == 1 else "",
         )
-        pkg.corrections = self._ctx.load_corrections(
+        pkg.corrections = self._evidence.findings.load_corrections(
             bot_id=self.bots[0] if len(self.bots) == 1 else "",
             max_age_days=self.corrections_lookback_days,
             as_of=_end_of_report_day(self.date),

@@ -3,7 +3,6 @@
 from trading_assistant.comms.email_renderer import EmailRenderer
 from trading_assistant.comms.renderer import MessageRenderer
 from trading_assistant.schemas.notifications import (
-    ControlPanelState,
     NotificationPayload,
     NotificationPriority,
 )

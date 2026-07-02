@@ -1,7 +1,6 @@
 """Tests for BotConfig schema and AppConfig bot_configs parsing."""
 from __future__ import annotations
 
-import os
 
 import pytest
 

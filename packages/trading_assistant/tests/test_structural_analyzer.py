@@ -1,7 +1,6 @@
 """Tests for StructuralAnalyzer — lifecycle, mismatches, filter ROI."""
 from __future__ import annotations
 
-import pytest
 
 from trading_assistant.schemas.structural_analysis import (
     ArchitectureMismatch,

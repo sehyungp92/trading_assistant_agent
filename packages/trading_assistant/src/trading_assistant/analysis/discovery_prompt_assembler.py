@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from trading_assistant.analysis.context_builder import ContextBuilder
+from trading_assistant.analysis.evidence_memory import EvidenceMemory
 from trading_assistant.schemas.prompt_package import PromptPackage
 
 _DISCOVERY_INSTRUCTIONS = """\
@@ -164,7 +165,12 @@ class DiscoveryPromptAssembler:
         self.memory_dir = memory_dir
         self.lookback_days = lookback_days
         self.bot_configs = bot_configs
-        self._ctx = ContextBuilder(memory_dir, curated_dir=curated_dir)
+        self._evidence = EvidenceMemory(memory_dir)
+        self._ctx = ContextBuilder(
+            memory_dir,
+            curated_dir=curated_dir,
+            evidence_memory=self._evidence,
+        )
 
     def assemble(self, session_store=None) -> PromptPackage:
         """Build the complete prompt package for discovery analysis."""

@@ -1,6 +1,6 @@
 # tests/test_corrections.py
 """Tests for human correction schema."""
-from datetime import datetime, timezone
+from datetime import datetime
 
 from trading_assistant.schemas.corrections import HumanCorrection, CorrectionType
 

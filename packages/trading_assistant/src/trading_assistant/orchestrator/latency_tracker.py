@@ -6,7 +6,7 @@ Computes p50, p95, max percentiles for monitoring and alerting.
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone
 
 

@@ -489,7 +489,7 @@ class PRBuilder:
     ) -> str:
         """Format a PR body with context, rollback notes, and diff previews."""
         lines: list[str] = []
-        lines.append(f"## Change Type")
+        lines.append("## Change Type")
         lines.append("")
         lines.append(f"- `{request.change_kind.value}`")
 

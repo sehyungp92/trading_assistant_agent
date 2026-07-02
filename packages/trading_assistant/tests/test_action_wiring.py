@@ -11,7 +11,7 @@ from trading_assistant.orchestrator.scheduler import (
     build_scheduled_job_specs,
     create_scheduler_jobs,
 )
-from trading_assistant.schemas.discovery import DiscoveryReport, StrategyIdea, TradeReference
+from trading_assistant.schemas.discovery import DiscoveryReport, StrategyIdea
 
 
 # ── Discovery scheduling ──

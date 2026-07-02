@@ -1,8 +1,7 @@
 # tests/test_feedback_wiring.py
 """Tests for feedback loop wiring — Telegram callbacks -> FeedbackHandler -> corrections.jsonl."""
-from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 
 import pytest
 

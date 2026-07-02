@@ -46,7 +46,7 @@
 - Cross-reference strategy engine suggestions against rejected suggestions history — do not re-suggest rejected items
 - Review the weekly retrospective data and assess which past predictions were accurate
 - Propose structural improvements (Tier 3-4) with specific backtest configurations when possible
-- Maximum 5 actionable suggestions, ranked by expected composite score impact (net_profit 30%, calmar 20%, profit_factor 15%, expectancy 15%, max_drawdown 10%)
+- Maximum 5 actionable suggestions. For weekly framing, rank by expected human-utility impact across return/net alpha, edge/profit quality, opportunity coverage, capture/signal quality, risk/drawdown control, and process/stability. For material strategy/config validation, defer ranking to the monthly/phased-auto immutable score profile recorded as `effective_objective_version=immutable_score_profiles_v1` and `objective_profile_id=<profile>`.
 - Consider cross-bot patterns from the pattern library — propose transfers where evidence supports it
 - Every suggestion must include: expected return impact, drawdown impact, evidence base, reversibility
 
@@ -61,6 +61,7 @@
 **Risk tolerance:** Low. Reject results that show signs of overfitting even if in-sample performance is strong. Require robust out-of-sample performance.
 
 **Rules:**
+- Treat `effective_objective_version=immutable_score_profiles_v1` and its `objective_profile_id` as the binding score contract when reviewing replay-backed monthly candidates.
 - Check for overfitting: large in-sample vs out-of-sample performance gap (>30%) is a red flag
 - Validate parameter stability across folds — jumping parameters suggest noise, not signal
 - Check regime robustness — does the parameter set work across different market conditions?

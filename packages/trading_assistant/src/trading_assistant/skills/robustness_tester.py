@@ -9,7 +9,6 @@ From roadmap §4.4:
 from __future__ import annotations
 
 import statistics
-from collections import defaultdict
 
 from trading_assistant.schemas.events import TradeEvent, MissedOpportunityEvent
 from trading_assistant.schemas.parameter_space import ParameterSpace, RobustnessConfig
@@ -93,7 +92,7 @@ class RobustnessTester:
         regime_ratio = profitable_count / self._config.total_regime_types if self._config.total_regime_types > 0 else 0
         score += 50 * regime_ratio
 
-        flags = self.detect_safety_flags(neighborhood, regime_stable, best_sharpe)
+        self.detect_safety_flags(neighborhood, regime_stable, best_sharpe)
 
         return RobustnessResult(
             neighborhood_scores=neighborhood,

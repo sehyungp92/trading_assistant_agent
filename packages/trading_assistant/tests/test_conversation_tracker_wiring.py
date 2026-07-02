@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock
 
 from trading_assistant.orchestrator.app import create_app
 from trading_assistant.orchestrator.config import AppConfig
 from trading_assistant.orchestrator.conversation_tracker import ConversationTracker
-from trading_assistant.orchestrator.orchestrator_brain import OrchestratorBrain, Action, ActionType
+from trading_assistant.orchestrator.orchestrator_brain import OrchestratorBrain
 from trading_assistant.orchestrator.worker import Worker
 
 
@@ -79,7 +79,6 @@ async def test_chain_id_populated_on_action():
         conversation_tracker=tracker,
     )
 
-    original_dispatch = worker._dispatch
 
     async def capture_dispatch(action):
         dispatched_actions.append(action)
@@ -104,7 +103,7 @@ async def test_spawned_events_extend_the_chain():
 
 @pytest.mark.asyncio
 async def test_loop_detected_when_depth_exceeds_max():
-    queue = AsyncMock()
+    AsyncMock()
     tracker = ConversationTracker(max_depth=2)
     chain = tracker.begin_chain("ev0")
 

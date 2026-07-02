@@ -224,7 +224,7 @@ class SynergyAnalyzer:
         same_inst = self._same_instrument(flat[key_a], flat[key_b])
 
         # Signal overlap: count days where both have non-zero PnL
-        overlap_days = sum(1 for a, b in zip(sa, sb) if a != 0 and b != 0)
+        overlap_days = sum(1 for a, b in zip(sa, sb, strict=False) if a != 0 and b != 0)
         active_days = max(sum(1 for v in sa if v != 0), 1)
         overlap_pct = overlap_days / active_days * 100.0
 
@@ -254,7 +254,7 @@ class SynergyAnalyzer:
         if corr > self._thresh_redundant:
             # Check if one has negative marginal contribution → cannibalistic
             portfolio_sharpe = self._sharpe(
-                [a + b for a, b in zip(series[key_a], series[key_b])]
+                [a + b for a, b in zip(series[key_a], series[key_b], strict=False)]
             )
             sharpe_a = self._sharpe(series[key_a])
             sharpe_b = self._sharpe(series[key_b])
@@ -314,8 +314,6 @@ class SynergyAnalyzer:
         self, a: StrategyWeeklySummary, b: StrategyWeeklySummary,
     ) -> bool:
         """Detect if two strategies trade the same base instrument."""
-        symbols_a = set()
-        symbols_b = set()
         # Use bot_id heuristics for known instrument mappings
         # Also check the strategy summaries if symbols are available
         bot_a = a.bot_id
@@ -337,7 +335,7 @@ class SynergyAnalyzer:
         mean_x = sum(x) / n
         mean_y = sum(y) / n
 
-        cov = sum((xi - mean_x) * (yi - mean_y) for xi, yi in zip(x, y))
+        cov = sum((xi - mean_x) * (yi - mean_y) for xi, yi in zip(x, y, strict=False))
         var_x = sum((xi - mean_x) ** 2 for xi in x)
         var_y = sum((yi - mean_y) ** 2 for yi in y)
 

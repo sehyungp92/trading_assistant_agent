@@ -1,7 +1,6 @@
 """Tests for MemoryIndex data availability checks (B1)."""
 from __future__ import annotations
 
-import pytest
 
 from trading_assistant.analysis.context_builder import ContextBuilder
 from trading_assistant.schemas.memory import MemoryIndex

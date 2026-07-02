@@ -3,8 +3,7 @@
 from datetime import datetime
 
 from trading_assistant.schemas.events import TradeEvent, MissedOpportunityEvent
-from trading_assistant.schemas.simulation_metrics import SimulationMetrics
-from trading_assistant.schemas.cost_model import CostModelConfig, SlippageModel
+from trading_assistant.schemas.cost_model import CostModelConfig
 from trading_assistant.skills.backtest_simulator import BacktestSimulator
 from trading_assistant.skills.cost_model import CostModel
 

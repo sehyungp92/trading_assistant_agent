@@ -41,6 +41,7 @@ class ScheduledJobSpec:
     trigger: str
     job_class: ScheduledJobClass
     execute: TrackedScheduledFn
+    contract_id: str = ""
     scope_key: str = "global"
     hour: int | None = None
     minute: int | None = None
@@ -932,6 +933,7 @@ def _append_cron_specs(
                 trigger="cron",
                 job_class=job_class,
                 execute=trigger_def["fn"],
+                contract_id=trigger_def.get("contract_id", job_key),
                 scope_key=trigger_def.get("scope_key", suffix),
                 day_of_week=trigger_def.get("day_of_week", default_day_of_week),
                 day=trigger_def.get("day", default_day),
@@ -957,6 +959,7 @@ def _append_cron_specs(
         trigger="cron",
         job_class=job_class,
         execute=default_fn,
+        contract_id=job_key,
         day_of_week=default_day_of_week,
         day=default_day,
         hour=default_hour,

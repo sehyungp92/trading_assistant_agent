@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import threading
+import time
 from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -128,7 +130,6 @@ class TestDailyAnalysis:
         await handlers.handle_daily_analysis(action)
 
         mock_agent_runner.invoke.assert_called_once()
-        call_kwargs = mock_agent_runner.invoke.call_args
 
 
 class TestMonthlyValidation:
@@ -298,6 +299,96 @@ class TestMonthlyValidation:
         failed = history_rows[-1]
         assert failed["status"] == "failed"
         assert failed["metadata"]["partial_results"] is True
+
+    @pytest.mark.parametrize(
+        ("config_limit", "requested_limit", "expected_limit"),
+        [(2, 4, 2), (3, 1, 1)],
+    )
+    @pytest.mark.asyncio
+    async def test_handler_caps_or_narrows_parallel_strategy_limit(
+        self,
+        tmp_path: Path,
+        mock_agent_runner,
+        event_stream: EventStream,
+        mock_dispatcher,
+        monkeypatch,
+        config_limit: int,
+        requested_limit: int,
+        expected_limit: int,
+    ):
+        class FakeRegistry:
+            def strategies_for_bot(self, bot_id: str):
+                return {"strat1": object(), "strat2": object(), "strat3": object()}
+
+        active = 0
+        max_active = 0
+        lock = threading.Lock()
+
+        class FakeMonthlyValidationOrchestrator:
+            def __init__(self, **_kwargs):
+                pass
+
+            def run(self, request):
+                nonlocal active, max_active
+                with lock:
+                    active += 1
+                    max_active = max(max_active, active)
+                try:
+                    time.sleep(0.05)
+                finally:
+                    with lock:
+                        active -= 1
+
+                class Result:
+                    run_month = request.run_month
+                    bot_id = request.bot_id
+                    strategy_id = request.strategy_id
+                    status = SimpleNamespace(value="watch")
+                    approval_ready_candidate_count = 0
+                    approval_request_ids: list[str] = []
+
+                    def model_dump(self, mode="json"):
+                        return {
+                            "run_month": self.run_month,
+                            "bot_id": self.bot_id,
+                            "strategy_id": self.strategy_id,
+                            "status": self.status.value,
+                        }
+
+                return Result()
+
+        import trading_assistant.skills.monthly_validation_orchestrator as monthly_module
+
+        monkeypatch.setattr(
+            monthly_module,
+            "MonthlyValidationOrchestrator",
+            FakeMonthlyValidationOrchestrator,
+        )
+        handlers = Handlers(
+            agent_runner=mock_agent_runner,
+            event_stream=event_stream,
+            dispatcher=mock_dispatcher,
+            notification_prefs=NotificationPreferences(),
+            curated_dir=tmp_path / "curated",
+            memory_dir=tmp_path / "memory",
+            runs_dir=tmp_path / "runs",
+            source_root=tmp_path,
+            bots=["bot1"],
+            strategy_registry=FakeRegistry(),
+            monthly_validation_mode="shadow",
+            backtest_max_parallel_strategies=config_limit,
+        )
+
+        await handlers.handle_monthly_validation(_make_action(
+            ActionType.SPAWN_MONTHLY_VALIDATION,
+            details={
+                "bot_id": "bot1",
+                "run_month": "2026-04",
+                "max_parallel_strategies": requested_limit,
+            },
+        ))
+
+        assert max_active == expected_limit
 
     @pytest.mark.asyncio
     async def test_quality_gate_degraded_still_invokes_claude(

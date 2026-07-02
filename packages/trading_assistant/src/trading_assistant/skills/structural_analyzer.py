@@ -110,7 +110,7 @@ class StructuralAnalyzer:
         """Classify strategy as growing/mature/decaying from daily PnL series."""
         daily_pnl = summary.daily_pnl
         sorted_dates = sorted(daily_pnl.keys())
-        n = len(sorted_dates)
+        len(sorted_dates)
 
         # Build Sharpe over 30d/60d/90d windows (use available data, capped)
         sharpe_30d = self._sharpe_window(daily_pnl, sorted_dates, 30)

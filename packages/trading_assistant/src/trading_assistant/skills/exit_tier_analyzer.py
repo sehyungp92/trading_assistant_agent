@@ -7,7 +7,6 @@ for optimal tier targets that maximize expected PnL.
 from __future__ import annotations
 
 import statistics
-from typing import Any
 
 from trading_assistant.schemas.events import TradeEvent
 from trading_assistant.schemas.strategy_profile import StrategyRegistry

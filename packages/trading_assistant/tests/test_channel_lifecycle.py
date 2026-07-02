@@ -5,7 +5,7 @@ import asyncio
 import pytest
 
 from trading_assistant.comms.base_channel import BaseChannel
-from trading_assistant.comms.dispatcher import NotificationDispatcher, ChannelHealth
+from trading_assistant.comms.dispatcher import NotificationDispatcher
 from trading_assistant.schemas.notifications import NotificationChannel
 
 

@@ -70,6 +70,17 @@ FORBIDDEN_IMPORTS = {
     },
 }
 
+MODULE_SIZE_LIMITS = {
+    "packages/trading_assistant/src/trading_assistant/orchestrator/app.py": 800,
+    "packages/trading_assistant/src/trading_assistant/orchestrator/handlers.py": 120,
+    "packages/trading_assistant/src/trading_assistant/orchestrator/_handler_implementation.py": 250,
+    "packages/trading_assistant/src/trading_assistant/analysis/context_builder.py": 900,
+    "packages/trading_assistant/src/trading_assistant/analysis/strategy_engine.py": 1300,
+    "packages/trading_assistant_data/src/trading_assistant_data/normalization.py": 2300,
+    "packages/trading_assistant_backtest/src/trading_assistant_backtest/monthly.py": 120,
+    "packages/trading_assistant_backtest/src/trading_assistant_backtest/monthly_execution/runner.py": 180,
+}
+
 
 def _rel(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
@@ -78,6 +89,22 @@ def _rel(path: Path) -> str:
 def _load_toml(path: Path) -> dict:
     with path.open("rb") as handle:
         return tomllib.load(handle)
+
+
+def _read_python_source(path: Path, errors: list[str]) -> str | None:
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        errors.append(f"could not read {_rel(path)}: {exc}")
+        return None
+    if raw.startswith(b"\xef\xbb\xbf"):
+        errors.append(f"{_rel(path)} starts with a UTF-8 BOM; remove the BOM")
+        return None
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        errors.append(f"could not decode {_rel(path)} as UTF-8: {exc}")
+        return None
 
 
 def _check_exists(workspaces: dict[str, Path], errors: list[str]) -> None:
@@ -228,8 +255,11 @@ def _check_import_boundaries(
             workspaces=workspaces,
             runtime_dirs=runtime_dirs,
         ):
+            source = _read_python_source(path, errors)
+            if source is None:
+                continue
             try:
-                tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+                tree = ast.parse(source, filename=str(path))
             except SyntaxError as exc:
                 errors.append(f"could not parse {_rel(path)}: {exc}")
                 continue
@@ -255,6 +285,26 @@ def _check_final_control_namespace_imports(
     )
 
 
+def _check_module_size_watch(errors: list[str]) -> None:
+    for relative, max_lines in MODULE_SIZE_LIMITS.items():
+        path = ROOT / relative
+        if not path.exists():
+            continue
+        source = _read_python_source(path, errors)
+        if source is None:
+            continue
+        try:
+            ast.parse(source, filename=str(path))
+        except SyntaxError as exc:
+            errors.append(f"could not parse {_rel(path)}: {exc}")
+            continue
+        line_count = len(source.splitlines())
+        if line_count > max_lines:
+            errors.append(
+                f"{relative} has {line_count} lines; module-size watch limit is {max_lines}"
+            )
+
+
 def _check_layout(layout: str) -> list[str]:
     errors: list[str] = []
     workspaces = LAYOUTS[layout]
@@ -271,6 +321,7 @@ def _check_layout(layout: str) -> list[str]:
     )
     if layout == "final":
         _check_final_control_namespace_imports(workspaces, errors)
+        _check_module_size_watch(errors)
     return errors
 
 
@@ -334,6 +385,7 @@ def _check_transition_layout() -> tuple[str, list[str]]:
         forbidden_imports=forbidden_imports,
         errors=errors,
     )
+    _check_module_size_watch(errors)
     label = ", ".join(f"{name}={state}" for name, state in sorted(states.items()))
     return label, errors
 

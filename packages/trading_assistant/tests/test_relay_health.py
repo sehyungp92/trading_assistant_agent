@@ -5,10 +5,8 @@ HTTP relay (no dependency on _references/trading/apps/relay/).
 """
 from __future__ import annotations
 
-import json
 from datetime import datetime, timedelta, timezone
 
-import pytest
 from httpx import ASGITransport, AsyncClient
 from starlette.applications import Starlette
 from starlette.requests import Request
@@ -198,7 +196,7 @@ class TestCheckRelayHealth:
     async def test_client_factory_used(self):
         """Verify _relay_client_factory is called instead of creating default client."""
         factory_called = False
-        now = datetime.now(timezone.utc).isoformat()
+        datetime.now(timezone.utc).isoformat()
         app = _make_health_app({
             "status": "ok",
             "pending_events": 0,

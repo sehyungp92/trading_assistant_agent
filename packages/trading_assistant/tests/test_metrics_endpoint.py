@@ -1,7 +1,7 @@
 # tests/test_metrics_endpoint.py
 """Tests for /metrics observability endpoint."""
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 from trading_assistant.schemas.orchestrator_metrics import OrchestratorMetrics
 
@@ -53,8 +53,8 @@ class TestMetricsEndpoint:
             data_dir="/tmp/test_metrics",
             allow_unauthenticated_local=True,
         )
-        with patch("trading_assistant.orchestrator.app.EventQueue") as MockQueue, \
-             patch("trading_assistant.orchestrator.app.TaskRegistry") as MockRegistry:
+        with patch("trading_assistant.orchestrator.runtime.EventQueue") as MockQueue, \
+             patch("trading_assistant.orchestrator.runtime.TaskRegistry") as MockRegistry:
             mock_q = AsyncMock()
             mock_q.initialize = AsyncMock()
             mock_q.close = AsyncMock()

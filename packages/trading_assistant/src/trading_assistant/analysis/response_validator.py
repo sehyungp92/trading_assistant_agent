@@ -271,7 +271,7 @@ class ResponseValidator:
             for b in blocked:
                 notes_lines.append(f"- \"{b.suggestion.title}\" — {b.reason}")
 
-        calibration_adj = self._forecast_meta.get("calibration_adjustment", 0)
+        self._forecast_meta.get("calibration_adjustment", 0)
         rolling_acc = self._forecast_meta.get("rolling_accuracy_4w", 0)
         if rolling_acc and rolling_acc < 0.5:
             notes_lines.append(
@@ -306,7 +306,7 @@ class ResponseValidator:
         for rejected in self._rejected:
             rej_bot = rejected.get("bot_id", "")
             rej_title = rejected.get("title", "")
-            rej_tier = rejected.get("tier", "")
+            rejected.get("tier", "")
 
             # Must be same bot
             if rej_bot and suggestion.bot_id and rej_bot != suggestion.bot_id:
@@ -848,7 +848,7 @@ class ResponseValidator:
         ptype = proposal_type.value if hasattr(proposal_type, "value") else str(proposal_type)
         current = getattr(proposal, "current_config", {}) or {}
         proposed = getattr(proposal, "proposed_config", {}) or {}
-        evidence = getattr(proposal, "evidence_summary", "") or ""
+        getattr(proposal, "evidence_summary", "") or ""
         obs_window = getattr(proposal, "observation_window_days", 0) or 0
         confidence = getattr(proposal, "confidence", 0.5) or 0.5
 
@@ -911,7 +911,7 @@ class ResponseValidator:
                 return "Drawdown tier removal is blocked — tiers can only narrow"
 
             # Block loosening (higher thresholds or higher multipliers)
-            for i, (old_t, new_t) in enumerate(zip(old_tiers, new_tiers)):
+            for i, (old_t, new_t) in enumerate(zip(old_tiers, new_tiers, strict=False)):
                 old_thresh = old_t[0] if isinstance(old_t, (list, tuple)) else 0
                 new_thresh = new_t[0] if isinstance(new_t, (list, tuple)) else 0
                 old_mult = old_t[1] if isinstance(old_t, (list, tuple)) and len(old_t) > 1 else 1.0

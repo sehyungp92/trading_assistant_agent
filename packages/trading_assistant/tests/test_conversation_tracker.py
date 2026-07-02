@@ -1,8 +1,7 @@
 """Tests for conversation chain tracking with loop protection (M5)."""
 from __future__ import annotations
 from datetime import datetime, timezone, timedelta
-import pytest
-from trading_assistant.orchestrator.conversation_tracker import ConversationTracker, ConversationChain
+from trading_assistant.orchestrator.conversation_tracker import ConversationTracker
 
 class TestConversationTracker:
     def test_begin_chain_creates_chain(self):

@@ -12,6 +12,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
+from pydantic import ValidationError
 
 
 # ---------------------------------------------------------------------------
@@ -45,7 +46,7 @@ class TestPortfolioProposalSchema:
     def test_confidence_clamped(self):
         from trading_assistant.schemas.portfolio_proposal import PortfolioProposal, PortfolioProposalType
 
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             PortfolioProposal(
                 proposal_type=PortfolioProposalType.ALLOCATION_REBALANCE,
                 confidence=1.5,  # out of range
@@ -174,7 +175,6 @@ class TestPortfolioValidatorGuardrails:
         assert len(blocked) == 0
 
     def test_block_excessive_allocation_change(self):
-        from trading_assistant.schemas.portfolio_proposal import PortfolioProposalType
 
         v = self._make_validator()
         proposals = [self._make_proposal(
@@ -844,7 +844,6 @@ class TestPortfolioWhatIfTradeLevelEnriched:
 
     def test_handler_load_family_trades(self, tmp_path: Path):
         """Mock curated directory with JSONL files, verify correct family grouping."""
-        from unittest.mock import MagicMock
         from trading_assistant.schemas.strategy_profile import StrategyProfile, StrategyRegistry
 
         # Setup strategy registry

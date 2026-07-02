@@ -14,6 +14,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from filelock import FileLock, Timeout
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
@@ -29,12 +30,13 @@ from trading_assistant.schemas.exit_efficiency import ExitEfficiencyStats
 from trading_assistant.schemas.factor_attribution import FactorAttribution, FactorStats
 from trading_assistant.schemas.daily_metrics import (
     BotDailySummary,
-    WinnerLoserRecord,
-    ProcessFailureRecord,
-    NotableMissedRecord,
-    RegimeAnalysis,
     FilterAnalysis,
+    NotableMissedRecord,
+    PerStrategySummary,
+    ProcessFailureRecord,
+    RegimeAnalysis,
     RootCauseSummary,
+    WinnerLoserRecord,
 )
 
 
@@ -108,6 +110,8 @@ class DailyMetricsBuilder:
         status_map = {
             "FILL": "FILLED",
             "FILLED": "FILLED",
+            "EXECUTED": "FILLED",
+            "DONE": "FILLED",
             "PARTIAL": "PARTIAL_FILL",
             "PARTIAL_FILL": "PARTIAL_FILL",
             "PARTIAL_FILLED": "PARTIAL_FILL",
@@ -511,10 +515,8 @@ class DailyMetricsBuilder:
 
     def build_per_strategy_from_snapshot(
         self, daily_snapshot: dict,
-    ) -> dict[str, "PerStrategySummary"]:
+    ) -> dict[str, PerStrategySummary]:
         """Map DailySnapshot.per_strategy_summary (loose dict) into typed objects."""
-        from trading_assistant.schemas.daily_metrics import PerStrategySummary
-
         result = {}
         raw = daily_snapshot.get("per_strategy_summary", {})
 
@@ -883,20 +885,31 @@ class DailyMetricsBuilder:
                 continue
 
             processed_events += 1
-            status = self._normalize_order_status(payload.get("status"))
+            event_type = str(payload.get("event_type") or event.get("event_type") or "").lower()
+            status = self._normalize_order_status(
+                payload.get("status")
+                or payload.get("order_status")
+                or payload.get("execution_status")
+            )
+            if status == "UNKNOWN" and event_type in {"fill", "fills", "inferred_fill"}:
+                status = "FILLED"
             status_counts[status] += 1
 
             order_id = str(
                 payload.get("order_id")
                 or payload.get("oms_order_id")
+                or payload.get("kis_order_id")
                 or payload.get("client_order_id")
+                or payload.get("idempotency_key")
+                or payload.get("fill_id")
                 or ""
             )
             if order_id:
                 order_ids.add(order_id)
 
             strategy = str(
-                payload.get("strategy_type")
+                payload.get("assistant_strategy_id")
+                or payload.get("strategy_type")
                 or payload.get("strategy_id")
                 or payload.get("strategy")
                 or "unknown"
@@ -934,6 +947,7 @@ class DailyMetricsBuilder:
 
             event_timestamp = self._event_timestamp(event, payload)
             evidence = {
+                "event_type": event_type,
                 "order_id": order_id,
                 "pair": str(payload.get("pair") or payload.get("symbol") or payload.get("contract") or ""),
                 "side": str(payload.get("side") or ""),
@@ -1306,7 +1320,7 @@ class DailyMetricsBuilder:
                 sorted_pairs[2 * third:],
             ]
             bucket_stats = []
-            for i, bucket in enumerate(buckets):
+            for _i, bucket in enumerate(buckets):
                 if not bucket:
                     continue
                 vals = [p[0] for p in bucket]
@@ -1362,7 +1376,7 @@ class DailyMetricsBuilder:
         bucket_slices = [sorted_by_exp[:third], sorted_by_exp[third:2*third], sorted_by_exp[2*third:]]
 
         by_exposure_level: dict[str, dict] = {}
-        for name, bucket in zip(level_names, bucket_slices):
+        for name, bucket in zip(level_names, bucket_slices, strict=False):
             if not bucket:
                 continue
             pnls = [b[1] for b in bucket]
@@ -1475,7 +1489,7 @@ class DailyMetricsBuilder:
             return 0.0
         mean_x = sum(x) / n
         mean_y = sum(y) / n
-        cov = sum((xi - mean_x) * (yi - mean_y) for xi, yi in zip(x, y))
+        cov = sum((xi - mean_x) * (yi - mean_y) for xi, yi in zip(x, y, strict=False))
         std_x = (sum((xi - mean_x) ** 2 for xi in x)) ** 0.5
         std_y = (sum((yi - mean_y) ** 2 for yi in y)) ** 0.5
         if std_x == 0 or std_y == 0:
@@ -1985,7 +1999,7 @@ class DailyMetricsBuilder:
         per_grade: dict[str, float] = {}
         from collections import defaultdict
         grade_levs: dict[str, list[float]] = defaultdict(list)
-        for t, lev in zip(trades, leverages):
+        for t, lev in zip(trades, leverages, strict=False):
             if t.setup_grade:
                 grade_levs[t.setup_grade].append(lev)
         for grade, levs in grade_levs.items():
@@ -1993,7 +2007,7 @@ class DailyMetricsBuilder:
         # Near-liquidation count (mae_r > 0.8 * (1/leverage))
         near_liq = 0
         worst_mae_r = 0.0
-        for t, lev in zip(trades, leverages):
+        for t, lev in zip(trades, leverages, strict=False):
             if t.mae_r is not None and lev > 1.0:
                 threshold = 0.8 * (1.0 / lev)
                 if t.mae_r > threshold:
@@ -2160,7 +2174,7 @@ class DailyMetricsBuilder:
         websocket_disconnects = 0
         error_count = 0
 
-        for snapshot, report in zip(snapshots, reports):
+        for snapshot, report in zip(snapshots, reports, strict=False):
             for alert in report.get("alerts", []) if isinstance(report, dict) else []:
                 if isinstance(alert, dict):
                     alerts.append(alert)
@@ -2282,23 +2296,74 @@ class DailyMetricsBuilder:
 # ── Standalone portfolio-level helpers (Phase 0) ────────────────────
 
 
+_PORTFOLIO_RULE_EVENT_TYPES = {"portfolio_rule_check", "portfolio_rule"}
+
+
+def _unwrap_raw_event_payload(event: dict) -> dict | None:
+    payload = event.get("payload", event)
+    if isinstance(payload, str):
+        try:
+            payload = json.loads(payload)
+        except Exception:
+            return None
+    return payload if isinstance(payload, dict) else None
+
+
+def _portfolio_rule_event_type(event: dict, payload: dict) -> str:
+    for source in (event, payload):
+        value = source.get("event_type") or source.get("type")
+        if value:
+            return str(value)
+    return ""
+
+
+def _portfolio_rule_name(payload: dict) -> str:
+    for key in ("rule_name", "rule", "blocking_rule"):
+        value = payload.get(key)
+        if value:
+            return str(value)
+
+    for item in payload.get("rule_evaluations") or payload.get("evaluations") or []:
+        if not isinstance(item, dict):
+            continue
+        if item.get("passed") is False or item.get("approved") is False:
+            return str(item.get("rule") or item.get("rule_name") or "unknown")
+    return "unknown"
+
+
+def _portfolio_rule_result(payload: dict) -> str:
+    result = str(payload.get("result") or "").lower()
+    if result:
+        return result
+
+    action = str(payload.get("action") or "").lower()
+    if action:
+        return action
+
+    if payload.get("allowed") is False or payload.get("approved") is False:
+        return "blocked"
+    return "pass"
+
+
 def build_portfolio_rules_summary(raw_events: list[dict]) -> dict:
-    """Scan raw events for portfolio_rule_check entries and summarize (0B).
+    """Scan raw events for portfolio rule entries and summarize (0B).
 
     Args:
         raw_events: list of raw event dicts (from JSONL ingest).  Each
-            ``portfolio_rule_check`` event is expected to have at least
+            ``portfolio_rule_check``/``portfolio_rule`` event is expected to have at least
             ``rule_name``, ``result`` (pass/fail), and optionally
             ``details`` with ``blocked_symbol``, ``reason``, ``exposure_pct``.
 
     Returns:
         Dict with rule evaluation counts, block counts, and per-rule breakdown.
     """
-    rule_checks = [
-        e for e in raw_events
-        if e.get("event_type") == "portfolio_rule_check"
-        or e.get("type") == "portfolio_rule_check"
-    ]
+    rule_checks: list[tuple[dict, dict]] = []
+    for event in raw_events:
+        payload = _unwrap_raw_event_payload(event)
+        if payload is None:
+            continue
+        if _portfolio_rule_event_type(event, payload) in _PORTFOLIO_RULE_EVENT_TYPES:
+            rule_checks.append((event, payload))
 
     if not rule_checks:
         return {
@@ -2315,29 +2380,30 @@ def build_portfolio_rules_summary(raw_events: list[dict]) -> dict:
     })
     blocked_symbols: set[str] = set()
 
-    for evt in rule_checks:
-        payload = evt.get("payload", evt)
-        if isinstance(payload, str):
-            try:
-                payload = json.loads(payload)
-            except Exception:
-                continue
-
-        rule_name = payload.get("rule_name", "unknown")
-        result = payload.get("result", "pass")
+    for _, payload in rule_checks:
+        rule_name = _portfolio_rule_name(payload)
+        result = _portfolio_rule_result(payload)
         details = payload.get("details", {})
+        if not isinstance(details, dict):
+            details = {}
 
         bucket = by_rule[rule_name]
         bucket["evaluations"] += 1
 
-        if result in ("fail", "block", "blocked"):
+        if result in ("fail", "block", "blocked", "reject", "rejected", "deny", "denied"):
             bucket["blocks"] += 1
-            reason = details.get("reason", "")
+            reason = (
+                details.get("reason")
+                or payload.get("reason")
+                or payload.get("denial_reason")
+                or payload.get("blocking_rule")
+                or ""
+            )
             if reason:
-                bucket["block_reasons"].append(reason)
-            symbol = details.get("blocked_symbol", "")
+                bucket["block_reasons"].append(str(reason))
+            symbol = details.get("blocked_symbol") or payload.get("blocked_symbol") or payload.get("symbol") or ""
             if symbol:
-                blocked_symbols.add(symbol)
+                blocked_symbols.add(str(symbol))
 
     total_evals = sum(v["evaluations"] for v in by_rule.values())
     total_blocks = sum(v["blocks"] for v in by_rule.values())

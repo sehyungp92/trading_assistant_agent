@@ -4,13 +4,14 @@ from __future__ import annotations
 
 import logging
 import os
+from collections.abc import Mapping
 from json import JSONDecodeError
 from pathlib import Path
 from typing import ClassVar, Literal
 
 from pydantic import BaseModel, model_validator
 
-from trading_assistant.paths import package_root
+from trading_assistant.paths import memory_root, package_root
 from trading_assistant.schemas.bot_config import BotConfig
 from trading_assistant.schemas.strategy_profile import StrategyRegistry
 
@@ -142,6 +143,8 @@ class AppConfig(BaseModel):
     monthly_validation_agent_model: str = ""
     monthly_model_review_agent_provider: str = ""
     monthly_model_review_agent_model: str = ""
+    monthly_verifier_agent_provider: str = ""
+    monthly_verifier_agent_model: str = ""
     triage_agent_provider: str = ""
     triage_agent_model: str = ""
     relay_url: str = ""
@@ -149,10 +152,15 @@ class AppConfig(BaseModel):
     relay_api_key: str = ""
     orchestrator_api_key: str = ""
     allow_unauthenticated_local: bool = False
-    # Operator-declared bind host. When set to a non-loopback value (anything
-    # other than 127.0.0.1, ::1, or localhost), the lifespan refuses to start
-    # if orchestrator_api_key is empty. See P0-2.
+    # Effective launcher bind host used for auth policy. When UVICORN_HOST is
+    # present it is the process-level host, while configured_bind_host keeps
+    # the raw BIND_HOST policy value for mismatch validation.
     bind_host: str = "127.0.0.1"
+    bind_host_explicit: bool = True
+    uvicorn_host: str = ""
+    configured_bind_host: str = ""
+    environment: str = "development"
+    direct_ingest_only: bool = False
     # Worker throughput controls (P1-2). The default 200/30s lets the worker
     # drain ~tens of thousands of events per minute when the queue is hot.
     worker_batch_size: int = 200
@@ -168,6 +176,7 @@ class AppConfig(BaseModel):
     email_from: str = ""
     email_to: str = ""
     data_dir: str = "data"
+    memory_dir: str = ""
     log_level: str = "INFO"
     bot_config_dir: str = "data/bot_configs"
     bot_repo_dir: str = "."
@@ -205,7 +214,12 @@ class AppConfig(BaseModel):
     def _normalize_monthly_validation_flag(self) -> AppConfig:
         if self.monthly_validation_mode != "disabled":
             self.monthly_validation_enabled = True
+        self.environment = (self.environment or "development").strip().lower()
         return self
+
+    @property
+    def is_production(self) -> bool:
+        return self.environment in {"prod", "production"}
 
     @classmethod
     def from_env(cls, dotenv_path: str | Path | None = None) -> AppConfig:
@@ -223,6 +237,16 @@ class AppConfig(BaseModel):
         strategy_profiles_path = env.get("STRATEGY_PROFILES_PATH", "")
         strategy_registry = load_strategy_registry(
             Path(strategy_profiles_path) if strategy_profiles_path else None
+        )
+
+        bind_host_env = env.get("BIND_HOST", "")
+        uvicorn_host_env = env.get("UVICORN_HOST", "")
+        bind_host_explicit = bool(bind_host_env or uvicorn_host_env)
+        environment = (
+            env.get("ENVIRONMENT")
+            or env.get("APP_ENV")
+            or env.get("DEPLOYMENT_ENV")
+            or "development"
         )
 
         config = cls(
@@ -251,6 +275,8 @@ class AppConfig(BaseModel):
             monthly_validation_agent_model=env.get("MONTHLY_VALIDATION_AGENT_MODEL", ""),
             monthly_model_review_agent_provider=env.get("MONTHLY_MODEL_REVIEW_AGENT_PROVIDER", ""),
             monthly_model_review_agent_model=env.get("MONTHLY_MODEL_REVIEW_AGENT_MODEL", ""),
+            monthly_verifier_agent_provider=env.get("MONTHLY_VERIFIER_AGENT_PROVIDER", ""),
+            monthly_verifier_agent_model=env.get("MONTHLY_VERIFIER_AGENT_MODEL", ""),
             triage_agent_provider=env.get("TRIAGE_AGENT_PROVIDER", ""),
             triage_agent_model=env.get("TRIAGE_AGENT_MODEL", ""),
             relay_url=env.get("RELAY_URL", ""),
@@ -260,7 +286,12 @@ class AppConfig(BaseModel):
             allow_unauthenticated_local=_parse_bool(
                 env.get("ALLOW_UNAUTHENTICATED_LOCAL", "false"),
             ),
-            bind_host=env.get("BIND_HOST", env.get("UVICORN_HOST", "127.0.0.1")),
+            bind_host=uvicorn_host_env or bind_host_env or "127.0.0.1",
+            bind_host_explicit=bind_host_explicit,
+            uvicorn_host=uvicorn_host_env,
+            configured_bind_host=bind_host_env,
+            environment=environment,
+            direct_ingest_only=_parse_bool(env.get("DIRECT_INGEST_ONLY", "false")),
             worker_batch_size=int(env.get("WORKER_BATCH_SIZE", "200")),
             worker_drain_seconds=float(env.get("WORKER_DRAIN_SECONDS", "30")),
             telegram_bot_token=env.get("TELEGRAM_BOT_TOKEN", ""),
@@ -274,6 +305,7 @@ class AppConfig(BaseModel):
             email_from=env.get("EMAIL_FROM", ""),
             email_to=env.get("EMAIL_TO", ""),
             data_dir=env.get("DATA_DIR", "data"),
+            memory_dir=env.get("MEMORY_DIR", ""),
             log_level=env.get("LOG_LEVEL", "INFO"),
             bot_config_dir=env.get("BOT_CONFIG_DIR", "data/bot_configs"),
             bot_repo_dir=env.get("BOT_REPO_DIR", "."),
@@ -335,6 +367,7 @@ class AppConfig(BaseModel):
             ("WEEKLY_AGENT_PROVIDER", self.weekly_agent_provider),
             ("MONTHLY_VALIDATION_AGENT_PROVIDER", self.monthly_validation_agent_provider),
             ("MONTHLY_MODEL_REVIEW_AGENT_PROVIDER", self.monthly_model_review_agent_provider),
+            ("MONTHLY_VERIFIER_AGENT_PROVIDER", self.monthly_verifier_agent_provider),
             ("TRIAGE_AGENT_PROVIDER", self.triage_agent_provider),
         ):
             if name:
@@ -384,3 +417,104 @@ class AppConfig(BaseModel):
                 "Monthly validation can run only in diagnostics mode until MARKET_DATA_ROOT exists: %s",
                 self.market_data_root,
             )
+
+
+def resolve_runtime_memory_dir(
+    config: AppConfig,
+    *,
+    db_dir: str | Path | None = None,
+    db_dir_explicit: bool = False,
+) -> Path:
+    """Resolve the memory root used by runtime context and projections.
+
+    Default startup should read and write the checked package memory so loop
+    contracts, work logs, and performance ledgers validated by workspace checks
+    are the same artifacts agents see. Explicit app-factory ``db_dir`` overrides
+    keep tests and isolated harnesses self-contained unless ``MEMORY_DIR`` is set.
+    """
+
+    if config.memory_dir.strip():
+        return _package_relative_path(config.memory_dir)
+    if db_dir_explicit and db_dir is not None:
+        return Path(db_dir) / "memory"
+    return memory_root()
+
+
+def runtime_scheduler_config_from_app_config(config: AppConfig):
+    from trading_assistant.orchestrator.scheduler import SchedulerConfig
+
+    return SchedulerConfig(
+        market_data_sync_day_of_month=config.market_data_sync_day_of_month,
+        market_data_sync_hour=config.market_data_sync_hour,
+        market_data_sync_minute=config.market_data_sync_minute,
+        monthly_validation_day_of_month=config.monthly_validation_day_of_month,
+        monthly_validation_hour=config.monthly_validation_hour,
+        monthly_validation_minute=config.monthly_validation_minute,
+    )
+
+
+def runtime_scheduler_config_from_env(env: Mapping[str, str] | None = None):
+    from trading_assistant.orchestrator.scheduler import SchedulerConfig
+
+    merged = _load_dotenv_defaults()
+    merged.update(os.environ)
+    if env:
+        merged.update({key: str(value) for key, value in env.items()})
+    defaults = SchedulerConfig()
+    return SchedulerConfig(
+        market_data_sync_day_of_month=_int_env(
+            merged,
+            "MARKET_DATA_SYNC_DAY_OF_MONTH",
+            defaults.market_data_sync_day_of_month,
+        ),
+        market_data_sync_hour=_int_env(merged, "MARKET_DATA_SYNC_HOUR", defaults.market_data_sync_hour),
+        market_data_sync_minute=_int_env(
+            merged,
+            "MARKET_DATA_SYNC_MINUTE",
+            defaults.market_data_sync_minute,
+        ),
+        monthly_validation_day_of_month=_int_env(
+            merged,
+            "MONTHLY_VALIDATION_DAY_OF_MONTH",
+            defaults.monthly_validation_day_of_month,
+        ),
+        monthly_validation_hour=_int_env(
+            merged,
+            "MONTHLY_VALIDATION_HOUR",
+            defaults.monthly_validation_hour,
+        ),
+        monthly_validation_minute=_int_env(
+            merged,
+            "MONTHLY_VALIDATION_MINUTE",
+            defaults.monthly_validation_minute,
+        ),
+    )
+
+
+def runtime_memory_dir_from_env(
+    env: Mapping[str, str] | None = None,
+    *,
+    db_dir_explicit: bool = False,
+) -> Path:
+    merged = _load_dotenv_defaults()
+    merged.update(os.environ)
+    if env:
+        merged.update({key: str(value) for key, value in env.items()})
+    config = AppConfig(
+        data_dir=merged.get("DATA_DIR", "data"),
+        memory_dir=merged.get("MEMORY_DIR", ""),
+    )
+    return resolve_runtime_memory_dir(
+        config,
+        db_dir=config.data_dir,
+        db_dir_explicit=db_dir_explicit,
+    )
+
+
+def _package_relative_path(raw: str) -> Path:
+    path = Path(raw)
+    return path if path.is_absolute() else package_root() / path
+
+
+def _int_env(env: Mapping[str, str], name: str, default: int) -> int:
+    return int(env.get(name, str(default)))

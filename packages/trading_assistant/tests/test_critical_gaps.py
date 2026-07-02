@@ -6,26 +6,20 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 from trading_assistant.analysis.response_parser import parse_response
 from trading_assistant.schemas.agent_response import (
-    AgentPrediction,
     AgentSuggestion,
-    CATEGORY_TO_TIER,
     ParsedAnalysis,
-    StructuralProposal,
 )
-from trading_assistant.schemas.forecast_tracking import ForecastMetaAnalysis, ForecastRecord
+from trading_assistant.schemas.forecast_tracking import ForecastRecord
 from trading_assistant.schemas.pattern_library import PatternEntry, PatternStatus
-from trading_assistant.schemas.suggestion_tracking import SuggestionRecord, SuggestionStatus
+from trading_assistant.schemas.suggestion_tracking import SuggestionRecord
 from trading_assistant.skills.forecast_tracker import ForecastTracker
 from trading_assistant.skills.pattern_library import PatternLibrary
 from trading_assistant.skills.suggestion_scorer import SuggestionScorer
-from trading_assistant.skills.suggestion_tracker import SuggestionTracker
 from tests.factories import make_handlers as _factory_make_handlers
 
 

@@ -6,16 +6,12 @@ measure → calibrate.
 """
 from __future__ import annotations
 
-import json
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
 from trading_assistant.analysis.context_builder import ContextBuilder
-from trading_assistant.analysis.feedback_handler import FeedbackHandler
 from trading_assistant.orchestrator.orchestrator_brain import Action, ActionType
-from trading_assistant.schemas.corrections import CorrectionType
 from trading_assistant.schemas.suggestion_tracking import SuggestionOutcome, SuggestionRecord, SuggestionStatus
 from trading_assistant.skills.suggestion_tracker import SuggestionTracker
 from tests.factories import make_handlers as _factory_make_handlers

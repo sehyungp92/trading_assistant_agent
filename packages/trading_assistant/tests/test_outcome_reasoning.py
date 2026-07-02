@@ -11,10 +11,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
 
-import pytest
 
 from trading_assistant.schemas.outcome_reasoning import OutcomeReasoning, OutcomeReasoningReport
 from trading_assistant.schemas.prompt_package import PromptPackage

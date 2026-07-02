@@ -11,7 +11,6 @@ from trading_assistant.schemas.bug_triage import (
     TriageOutcome,
     TriageResult,
 )
-from trading_assistant.schemas.pr_review import PRReviewStatus, TradingSafetyCheck
 from trading_assistant.skills.run_bug_triage import TriageRunner
 from trading_assistant.skills.failure_log import FailureLog
 from trading_assistant.skills.pr_review_checker import PRReviewChecker

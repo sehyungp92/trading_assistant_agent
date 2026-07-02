@@ -134,8 +134,8 @@ the `/api/agent-preferences` endpoint.
 
 | Provider | Runtime | Env Vars |
 |----------|---------|----------|
-| `claude_max` (default) | Claude CLI | Claude Max subscription |
-| `codex_pro` | Codex CLI | ChatGPT Plus/Pro login |
+| `codex_pro` (default) | Codex CLI | ChatGPT Plus/Pro login |
+| `claude_max` | Claude CLI | Claude Max subscription |
 | `zai_coding_plan` | Claude CLI (redirected) | `ZAI_API_KEY` |
 | `openrouter` | Claude CLI (redirected) | `OPENROUTER_API_KEY` |
 

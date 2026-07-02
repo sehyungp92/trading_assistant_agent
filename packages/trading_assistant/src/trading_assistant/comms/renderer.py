@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from trading_assistant.schemas.notifications import ControlPanelState, NotificationPayload, NotificationPriority
+from trading_assistant.schemas.notifications import ControlPanelState, NotificationPayload
 
 
 @runtime_checkable

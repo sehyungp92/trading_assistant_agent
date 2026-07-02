@@ -42,6 +42,7 @@ from trading_assistant.schemas.monthly_optimizer import (
 from trading_assistant.schemas.monthly_run_manifest import MonthlyRunManifest, MonthlyRunMode
 from trading_assistant.schemas.strategy_plugin_contract import StrategyPluginContract
 from trading_assistant.skills.backtest_runner_client import BacktestRunnerClient
+from trading_assistant.skills.monthly_artifact_contract import MonthlyArtifactContract
 from trading_assistant.skills.monthly_deployment_metadata import deployment_metadata_errors
 
 
@@ -474,83 +475,81 @@ class MonthlyOptimizerRunner:
     ) -> MonthlyOptimizerSequenceResult:
         errors: list[str] = []
         evidence_paths: list[str] = []
+        artifact_contract = MonthlyArtifactContract.from_index(
+            artifact_index,
+            manifest=manifest,
+        )
         artifact_index_path = Path(artifact_index.artifact_root) / "artifact_index.json"
         if artifact_index_path.exists():
             evidence_paths.append(str(artifact_index_path))
         if manifest_path is not None:
             evidence_paths.append(str(manifest_path))
 
-        missing = _missing_named_artifacts(artifact_index, CORE_PHASE4_SEQUENCE_ARTIFACTS)
+        missing = artifact_contract.missing_named_artifacts(CORE_PHASE4_SEQUENCE_ARTIFACTS)
         if missing:
             errors.append(f"missing core phase4 optimizer artifacts: {', '.join(missing)}")
 
-        fold_manifest = _load_model(artifact_index, "fold_manifest.json", FoldManifest, errors)
-        experiment_plan = _load_model(
-            artifact_index,
+        fold_manifest = artifact_contract.load_model("fold_manifest.json", FoldManifest, errors)
+        experiment_plan = artifact_contract.load_model(
             "llm_experiment_plan.json",
             OptimizerExperimentPlan,
             errors,
         )
-        confirmatory = _load_model(
-            artifact_index,
+        confirmatory = artifact_contract.load_model(
             "confirmatory_rerank.json",
             ConfirmatoryRerank,
             errors,
         )
-        rounds_manifest = _load_model(artifact_index, "rounds_manifest.json", RoundsManifest, errors)
-        optimizer_run_manifest = _load_json_artifact(
-            artifact_index,
+        rounds_manifest = artifact_contract.load_model("rounds_manifest.json", RoundsManifest, errors)
+        optimizer_run_manifest = artifact_contract.load_json_object(
             "optimizer_run_manifest.json",
             errors,
         )
-        fold_candidate_results = _load_jsonl(
-            artifact_index,
+        fold_candidate_results = artifact_contract.load_jsonl(
             "fold_candidate_results.jsonl",
             errors,
         )
-        fold_score_matrix = _load_json_artifact(
-            artifact_index,
+        fold_score_matrix = artifact_contract.load_json_object(
             "fold_score_matrix.json",
             errors,
         )
-        selection_oos_evaluation = _load_json_artifact(
-            artifact_index,
+        selection_oos_evaluation = artifact_contract.load_json_object(
             "selection_oos_evaluation.json",
             errors,
         )
-        selection_oos_repair_trigger = _load_json_artifact(
-            artifact_index,
+        selection_oos_repair_trigger = artifact_contract.load_json_object(
             "selection_oos_repair_trigger.json",
             errors,
         )
-        repair_failure_attribution = _load_json_artifact(
-            artifact_index,
+        repair_failure_attribution = artifact_contract.load_json_object(
             "repair_failure_attribution.json",
             errors,
         )
-        accepted_mutation_chain = _load_json_artifact(
-            artifact_index,
+        accepted_mutation_chain = artifact_contract.load_json_object(
             "accepted_mutation_chain.json",
             errors,
         )
-        repair_candidate_results = _load_jsonl(
-            artifact_index,
+        repair_candidate_results = artifact_contract.load_jsonl(
             "repair_candidate_results.jsonl",
             errors,
         )
-        repair_checkpoint = _load_json_artifact(
-            artifact_index,
+        repair_checkpoint = artifact_contract.load_json_object(
             "repair_checkpoint.json",
             errors,
         )
-        round_n_plus_1_recommendation = _load_json_artifact(
-            artifact_index,
+        round_n_plus_1_recommendation = artifact_contract.load_json_object(
             "round_n_plus_1_recommendation.json",
             errors,
         )
-        selected = _load_candidates(artifact_index, "selected_candidates.json", errors)
-        rejected = _load_jsonl(artifact_index, "rejected_candidates.jsonl", errors)
-        attempts = _load_attempts(artifact_index, errors)
+        selected = [
+            MonthlyImprovementCandidate.from_raw(item)
+            for item in artifact_contract.load_candidate_rows("selected_candidates.json", errors)
+        ]
+        rejected = artifact_contract.load_jsonl("rejected_candidates.jsonl", errors)
+        attempts = _load_attempts_from_rows(
+            artifact_contract.load_jsonl("candidate_attempts.jsonl", errors),
+            errors,
+        )
 
         _validate_manifest_alignment(
             manifest=manifest,
@@ -603,44 +602,42 @@ class MonthlyOptimizerRunner:
 
         repair_triggered = bool(confirmatory and confirmatory.repair_triggered)
         if repair_triggered:
-            repair_missing = _missing_named_artifacts(artifact_index, PHASE4_OOS_REPAIR_ARTIFACTS)
+            repair_missing = artifact_contract.missing_named_artifacts(PHASE4_OOS_REPAIR_ARTIFACTS)
             if repair_missing:
                 errors.append(f"missing OOS repair artifacts: {', '.join(repair_missing)}")
 
         paths = {
-            "fold_manifest_path": _artifact_path_str(artifact_index, "fold_manifest.json"),
-            "optimizer_run_manifest_path": _artifact_path_str(
-                artifact_index,
+            "fold_manifest_path": artifact_contract.path_str("fold_manifest.json"),
+            "optimizer_run_manifest_path": artifact_contract.path_str(
                 "optimizer_run_manifest.json",
             ),
-            "experiment_plan_path": _artifact_path_str(artifact_index, "llm_experiment_plan.json"),
-            "candidate_attempts_path": _artifact_path_str(artifact_index, "candidate_attempts.jsonl"),
-            "runner_observability_path": _artifact_path_str(
-                artifact_index,
+            "experiment_plan_path": artifact_contract.path_str("llm_experiment_plan.json"),
+            "candidate_attempts_path": artifact_contract.path_str("candidate_attempts.jsonl"),
+            "runner_observability_path": artifact_contract.path_str(
                 "runner_observability.json",
             ),
-            "repair_ablation_matrix_path": _artifact_path_str(
-                artifact_index,
+            "repair_ablation_matrix_path": artifact_contract.path_str(
                 "repair_ablation_matrix.jsonl",
             ),
-            "confirmatory_rerank_path": _artifact_path_str(artifact_index, "confirmatory_rerank.json"),
-            "rounds_manifest_path": _artifact_path_str(artifact_index, "rounds_manifest.json"),
-            "end_of_round_diagnostics_path": _artifact_path_str(
-                artifact_index,
+            "confirmatory_rerank_path": artifact_contract.path_str("confirmatory_rerank.json"),
+            "rounds_manifest_path": artifact_contract.path_str("rounds_manifest.json"),
+            "end_of_round_diagnostics_path": artifact_contract.path_str(
                 "end_of_round_diagnostics.json",
             ),
         }
         evidence_paths.extend(path for path in paths.values() if path)
         if fold_manifest:
-            evidence_paths.extend(_existing_paths([path for fold in fold_manifest.folds for path in fold.evidence_paths]))
+            evidence_paths.extend(artifact_contract.existing_paths(
+                path for fold in fold_manifest.folds for path in fold.evidence_paths
+            ))
         if experiment_plan:
-            evidence_paths.extend(_existing_paths(experiment_plan.evidence_paths))
+            evidence_paths.extend(artifact_contract.existing_paths(experiment_plan.evidence_paths))
         if confirmatory:
-            evidence_paths.extend(_existing_paths(confirmatory.evidence_paths))
+            evidence_paths.extend(artifact_contract.existing_paths(confirmatory.evidence_paths))
         if rounds_manifest:
-            evidence_paths.extend(_existing_paths([
+            evidence_paths.extend(artifact_contract.existing_paths(
                 path for record in rounds_manifest.records for path in record.evidence_paths
-            ]))
+            ))
 
         no_adoption_reason = ""
         adopted_candidate_id = ""
@@ -722,109 +719,13 @@ def _attempt_id(run_id: str, candidate_id: str, attempt_number: int) -> str:
 
 
 def _missing_named_artifacts(index: BacktestArtifactIndex, names: list[str]) -> list[str]:
-    missing: list[str] = []
-    for name in names:
-        path = index.artifact_path(name)
-        if path is None or not path.exists():
-            missing.append(name)
-    return missing
+    return MonthlyArtifactContract.from_index(index).missing_named_artifacts(names)
 
 
-def _artifact_path_str(index: BacktestArtifactIndex, name: str) -> str:
-    path = index.artifact_path(name)
-    return str(path) if path is not None and path.exists() else ""
-
-
-def _load_model(
-    index: BacktestArtifactIndex,
-    name: str,
-    model_type: type[Any],
-    errors: list[str],
-) -> Any:
-    path = index.artifact_path(name)
-    if path is None or not path.exists():
-        return None
-    try:
-        return model_type.model_validate(json.loads(path.read_text(encoding="utf-8")))
-    except Exception as exc:
-        errors.append(f"invalid {name}: {exc}")
-        return None
-
-
-def _load_candidates(
-    index: BacktestArtifactIndex,
-    name: str,
-    errors: list[str],
-) -> list[MonthlyImprovementCandidate]:
-    path = index.artifact_path(name)
-    if path is None or not path.exists():
-        return []
-    try:
-        raw = json.loads(path.read_text(encoding="utf-8"))
-    except Exception as exc:
-        errors.append(f"invalid {name}: {exc}")
-        return []
-    if isinstance(raw, dict):
-        items = (
-            raw.get("candidates")
-            or raw.get("selected_candidates")
-            or raw.get("selected")
-            or raw.get("shortlist")
-            or []
-        )
-    else:
-        items = raw
-    if not isinstance(items, list):
-        errors.append(f"invalid {name}: expected list of candidates")
-        return []
-    return [
-        MonthlyImprovementCandidate.from_raw(item)
-        for item in items
-        if isinstance(item, dict)
-    ]
-
-
-def _load_json_artifact(
-    index: BacktestArtifactIndex,
-    name: str,
-    errors: list[str],
-) -> dict[str, Any]:
-    path = index.artifact_path(name)
-    if path is None or not path.exists():
-        return {}
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception as exc:
-        errors.append(f"invalid {name}: {exc}")
-        return {}
-    if not isinstance(payload, dict):
-        errors.append(f"invalid {name}: expected JSON object")
-        return {}
-    return payload
-
-
-def _load_jsonl(index: BacktestArtifactIndex, name: str, errors: list[str]) -> list[dict[str, Any]]:
-    path = index.artifact_path(name)
-    if path is None or not path.exists():
-        return []
-    rows: list[dict[str, Any]] = []
-    try:
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if not line.strip():
-                continue
-            value = json.loads(line)
-            if isinstance(value, dict):
-                rows.append(value)
-    except Exception as exc:
-        errors.append(f"invalid {name}: {exc}")
-    return rows
-
-
-def _load_attempts(
-    index: BacktestArtifactIndex,
+def _load_attempts_from_rows(
+    rows: list[dict[str, Any]],
     errors: list[str],
 ) -> list[CandidateAttemptRecord]:
-    rows = _load_jsonl(index, "candidate_attempts.jsonl", errors)
     attempts: list[CandidateAttemptRecord] = []
     for row in rows:
         try:
@@ -2089,10 +1990,6 @@ def _append_missing_paths(paths: list[str], label: str, errors: list[str]) -> No
     missing = [path for path in paths if path and not Path(path).exists()]
     if missing:
         errors.append(f"{label} paths do not exist: {', '.join(missing[:5])}")
-
-
-def _existing_paths(paths: list[str]) -> list[str]:
-    return [path for path in paths if path and Path(path).exists()]
 
 
 def _string_set(value: Any) -> set[str]:

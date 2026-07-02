@@ -8,7 +8,10 @@ from typing import Any
 
 from pydantic import BaseModel, Field, model_validator
 
-from trading_assistant.schemas.objective_weights import OBJECTIVE_WEIGHTS_VERSION
+from trading_assistant.schemas.objective_weights import (
+    IMMUTABLE_MONTHLY_OBJECTIVE_VERSION,
+    OBJECTIVE_WEIGHTS_VERSION,
+)
 
 
 class MonthlyCandidateSource(str, Enum):
@@ -53,6 +56,8 @@ class MonthlyCandidateGateReport(BaseModel):
     passed: bool = False
     checks: list[MonthlyGateCheck] = Field(default_factory=list)
     objective_version: str = OBJECTIVE_WEIGHTS_VERSION
+    effective_objective_version: str = ""
+    objective_profile_id: str = ""
     generated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     @model_validator(mode="after")
@@ -89,6 +94,14 @@ class MonthlyImprovementCandidate(BaseModel):
     baseline_score: float = 0.0
     objective_delta: float = 0.0
     objective_deltas: dict[str, float] = Field(default_factory=dict)
+    objective_version: str = OBJECTIVE_WEIGHTS_VERSION
+    effective_objective_version: str = ""
+    immutable_objective_version: str = ""
+    objective_profile_id: str = ""
+    objective_profile_family: str = ""
+    objective_profile_scope: str = ""
+    score_component_cap: int = 0
+    immutable_score: dict[str, Any] = Field(default_factory=dict)
     deterministic_gate_inputs: dict[str, Any] = Field(default_factory=dict)
     evidence_paths: list[str] = Field(default_factory=list)
     artifact_paths: list[str] = Field(default_factory=list)
@@ -169,6 +182,34 @@ class MonthlyImprovementCandidate(BaseModel):
         if objective_delta == 0.0:
             objective_delta = _first_delta(objective_deltas)
 
+        immutable_score = _dict_value(payload.get("immutable_score"))
+        objective_breakdown = _dict_value(payload.get("objective_breakdown"))
+        if not immutable_score and objective_breakdown:
+            immutable_score = _score_payload_from_breakdown(objective_breakdown)
+        profile_payload = _dict_value(immutable_score.get("profile"))
+        objective_profile_id = str(
+            payload.get("objective_profile_id")
+            or immutable_score.get("profile_id")
+            or profile_payload.get("profile_id")
+            or ""
+        )
+        effective_objective_version = str(
+            payload.get("effective_objective_version")
+            or payload.get("immutable_objective_version")
+            or immutable_score.get("profile_version")
+            or immutable_score.get("version")
+            or profile_payload.get("version")
+            or ""
+        )
+        if not effective_objective_version and objective_profile_id:
+            effective_objective_version = IMMUTABLE_MONTHLY_OBJECTIVE_VERSION
+        immutable_objective_version = str(
+            payload.get("immutable_objective_version")
+            or immutable_score.get("profile_version")
+            or effective_objective_version
+            or ""
+        )
+
         candidate = cls(
             candidate_id=str(payload.get("candidate_id") or payload.get("id") or ""),
             source=source,
@@ -184,6 +225,29 @@ class MonthlyImprovementCandidate(BaseModel):
             baseline_score=baseline_score,
             objective_delta=objective_delta,
             objective_deltas=objective_deltas,
+            objective_version=str(payload.get("objective_version") or OBJECTIVE_WEIGHTS_VERSION),
+            effective_objective_version=effective_objective_version,
+            immutable_objective_version=immutable_objective_version,
+            objective_profile_id=objective_profile_id,
+            objective_profile_family=str(
+                payload.get("objective_profile_family")
+                or immutable_score.get("family")
+                or profile_payload.get("family")
+                or ""
+            ),
+            objective_profile_scope=str(
+                payload.get("objective_profile_scope")
+                or immutable_score.get("scope")
+                or profile_payload.get("scope")
+                or ""
+            ),
+            score_component_cap=_int(
+                payload.get("score_component_cap")
+                or payload.get("score_component_count")
+                or immutable_score.get("score_component_cap")
+                or profile_payload.get("component_cap")
+            ),
+            immutable_score=immutable_score,
             deterministic_gate_inputs={**gates, **_top_level_gate_inputs(payload)},
             evidence_paths=_string_list(payload.get("evidence_paths")),
             artifact_paths=_string_list(payload.get("artifact_paths")),
@@ -253,6 +317,10 @@ class MonthlyApprovalEvidencePacket(BaseModel):
     incumbent_validation_summary: str = ""
     smoke_or_phased_evidence: str = ""
     objective_deltas: dict[str, float] = Field(default_factory=dict)
+    objective_version: str = OBJECTIVE_WEIGHTS_VERSION
+    effective_objective_version: str = ""
+    objective_profile_id: str = ""
+    score_component_cap: int = 0
     latest_month_behavior: str = ""
     calibration_support: str = ""
     data_coverage_status: str = ""
@@ -261,6 +329,10 @@ class MonthlyApprovalEvidencePacket(BaseModel):
     rollback_plan: str = ""
     artifact_paths: list[str] = Field(default_factory=list)
     model_review_path: str = ""
+    model_review_validation_path: str = ""
+    evidence_verification_path: str = ""
+    evidence_verification_id: str = ""
+    evidence_verification_verdict: str = ""
     human_summary: str = ""
     machine_readable_payload: dict[str, Any] = Field(default_factory=dict)
     approval_ready: bool = False
@@ -284,8 +356,11 @@ class MonthlyCandidateProcessingResult(BaseModel):
     candidate_summary_path: str = ""
     gate_report_path: str = ""
     approval_packet_paths: list[str] = Field(default_factory=list)
+    proposal_ids: list[str] = Field(default_factory=list)
     model_review_path: str = ""
     model_review_validation_path: str = ""
+    evidence_verification_paths: list[str] = Field(default_factory=list)
+    evidence_verification_verdicts: dict[str, str] = Field(default_factory=dict)
     model_review_valid: bool | None = None
     model_review_issues: list[str] = Field(default_factory=list)
     generated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -327,6 +402,8 @@ def _candidate_id(candidate: MonthlyImprovementCandidate) -> str:
         candidate.bot_id,
         candidate.strategy_id,
         candidate.source.value,
+        candidate.effective_objective_version,
+        candidate.objective_profile_id,
         candidate.family,
         candidate.title,
         str(candidate.objective_delta),
@@ -359,7 +436,7 @@ def _int(value: Any) -> int:
     if isinstance(value, bool):
         return 0
     try:
-        return int(value)
+        return int(float(value))
     except (TypeError, ValueError):
         return 0
 
@@ -378,6 +455,30 @@ def _dict_list(value: Any) -> list[dict[str, Any]]:
     if isinstance(value, list | tuple):
         return [dict(item) for item in value if isinstance(item, dict)]
     return []
+
+
+def _dict_value(value: Any) -> dict[str, Any]:
+    return dict(value) if isinstance(value, dict) else {}
+
+
+def _score_payload_from_breakdown(breakdown: dict[str, Any]) -> dict[str, Any]:
+    profile = _dict_value(breakdown.get("profile"))
+    payload = {
+        "profile_id": str(breakdown.get("objective_profile_id") or ""),
+        "profile_version": str(
+            breakdown.get("effective_objective_version")
+            or breakdown.get("immutable_objective_version")
+            or ""
+        ),
+        "objective_score": _float(breakdown.get("objective_score")),
+        "rejected": bool(breakdown.get("hard_rejected", False)),
+        "reject_reasons": breakdown.get("reject_reasons", []),
+        "score_component_cap": _int(breakdown.get("score_component_cap")),
+        "renormalized_components": breakdown.get("renormalized_components", []),
+    }
+    if profile:
+        payload["profile"] = profile
+    return payload
 
 
 def _top_level_gate_inputs(payload: dict[str, Any]) -> dict[str, Any]:

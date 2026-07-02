@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
-from trading_assistant.orchestrator.latency_tracker import LatencyTracker, LatencyStats
+from trading_assistant.orchestrator.latency_tracker import LatencyTracker
 
 
 class TestLatencyTracker:

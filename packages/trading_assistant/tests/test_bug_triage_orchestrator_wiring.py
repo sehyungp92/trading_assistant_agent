@@ -1,7 +1,6 @@
 # tests/test_bug_triage_orchestrator_wiring.py
 """Tests for Phase 5 orchestrator wiring — brain + worker + scheduler."""
 import json
-import pytest
 
 from trading_assistant.orchestrator.orchestrator_brain import OrchestratorBrain, ActionType
 from trading_assistant.orchestrator.scheduler import SchedulerConfig, create_scheduler_jobs

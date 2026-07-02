@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import subprocess
 import sys
 import threading
@@ -13,6 +12,7 @@ import pytest
 
 
 START_COMMON = Path(__file__).resolve().parents[1] / "scripts" / "start-common.ps1"
+START_SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "start.ps1"
 
 
 def _run_powershell(command: str) -> str:
@@ -30,6 +30,25 @@ def _run_powershell(command: str) -> str:
         check=True,
     )
     return result.stdout.strip()
+
+
+def test_start_script_passes_uvicorn_host_to_bind_env():
+    source = START_SCRIPT.read_text(encoding="utf-8")
+    assert "$env:BIND_HOST = $UvicornHost" in source
+    assert "$env:UVICORN_HOST = $UvicornHost" in source
+    assert '"--host", $UvicornHost' in source
+
+
+def test_duplicate_start_detection_requires_ready_json_not_startup_grace():
+    source = START_COMMON.read_text(encoding="utf-8")
+    body = source.split("function Test-OrchestratorAlreadyRunning", 1)[1].split(
+        "function ",
+        1,
+    )[0]
+
+    assert "StartupGraceSeconds" not in body
+    assert "StartTime" not in body
+    assert "Test-OrchestratorHealthy -Url $HealthUrl" in body
 
 
 @pytest.mark.skipif(sys.platform != "win32", reason="Windows-only startup script tests")
@@ -66,14 +85,13 @@ def test_resolve_interpreter_falls_back_to_venv(tmp_path: Path):
 @pytest.mark.skipif(sys.platform != "win32", reason="Windows-only startup script tests")
 def test_healthy_existing_process_prevents_duplicate_start(tmp_path: Path):
     pid_file = tmp_path / "trading_assistant.orchestrator.pid"
-    pid_file.write_text(str(os.getpid()), encoding="utf-8")
 
     class _HealthHandler(BaseHTTPRequestHandler):
         def do_GET(self):  # noqa: N802
-            if self.path == "/health":
+            if self.path == "/ready":
                 self.send_response(200)
                 self.end_headers()
-                self.wfile.write(b"ok")
+                self.wfile.write(b'{"status":"ok"}')
                 return
             self.send_response(404)
             self.end_headers()
@@ -87,7 +105,9 @@ def test_healthy_existing_process_prevents_duplicate_start(tmp_path: Path):
 
     try:
         output = _run_powershell(
-            ". '{0}'; Test-OrchestratorAlreadyRunning -PidFile '{1}' -HealthUrl 'http://127.0.0.1:{2}/health'".format(
+            ". '{0}'; "
+            "Set-Content -Path '{1}' -Value $PID -Encoding ASCII; "
+            "Test-OrchestratorAlreadyRunning -PidFile '{1}' -HealthUrl 'http://127.0.0.1:{2}/ready'".format(
                 START_COMMON,
                 pid_file,
                 server.server_port,
@@ -99,6 +119,40 @@ def test_healthy_existing_process_prevents_duplicate_start(tmp_path: Path):
         thread.join(timeout=2)
 
     assert output == "True"
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows-only startup script tests")
+def test_degraded_readiness_is_not_healthy(tmp_path: Path):
+    class _HealthHandler(BaseHTTPRequestHandler):
+        def do_GET(self):  # noqa: N802
+            if self.path == "/ready":
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(b'{"status":"degraded"}')
+                return
+            self.send_response(404)
+            self.end_headers()
+
+        def log_message(self, format, *args):  # noqa: A003
+            return
+
+    server = HTTPServer(("127.0.0.1", 0), _HealthHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+
+    try:
+        output = _run_powershell(
+            ". '{0}'; Test-OrchestratorHealthy -Url 'http://127.0.0.1:{1}/ready'".format(
+                START_COMMON,
+                server.server_port,
+            )
+        )
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
+
+    assert output == "False"
 
 
 @pytest.mark.skipif(sys.platform != "win32", reason="Windows-only startup script tests")

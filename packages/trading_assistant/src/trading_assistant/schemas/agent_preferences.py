@@ -18,6 +18,7 @@ class AgentWorkflow(str, Enum):
     WEEKLY_ANALYSIS = "weekly_analysis"
     MONTHLY_VALIDATION = "monthly_validation"
     MONTHLY_MODEL_REVIEW = "monthly_model_review"
+    MONTHLY_VERIFIER = "monthly_verifier"
     TRIAGE = "triage"
 
 
@@ -46,7 +47,7 @@ class WorkflowTuning(BaseModel):
 
 class AgentPreferences(BaseModel):
     default: AgentSelection = Field(
-        default_factory=lambda: AgentSelection(provider=AgentProvider.CLAUDE_MAX)
+        default_factory=lambda: AgentSelection(provider=AgentProvider.CODEX_PRO)
     )
     overrides: dict[AgentWorkflow, AgentSelection | None] = Field(default_factory=dict)
     fallback_chain: list[FallbackEntry] = Field(default_factory=list)

@@ -6,7 +6,6 @@ import asyncio
 import json
 import logging
 from collections import deque
-from datetime import datetime, timezone
 from pathlib import Path
 
 from trading_assistant.schemas.stream_events import StreamEvent

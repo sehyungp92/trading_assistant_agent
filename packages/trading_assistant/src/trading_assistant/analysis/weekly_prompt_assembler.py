@@ -13,6 +13,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from trading_assistant.analysis.context_builder import ContextBuilder
+from trading_assistant.analysis.evidence_memory import EvidenceMemory
 from trading_assistant.schemas.prompt_package import PromptPackage
 from trading_assistant.schemas.weekly_focus_rotation import (
     weekly_focus_for_week,
@@ -344,7 +345,17 @@ class WeeklyPromptAssembler:
         self.runs_dir = runs_dir
         self.bot_configs = bot_configs
         self.strategy_registry = strategy_registry
-        self._ctx = ContextBuilder(memory_dir, curated_dir=curated_dir, run_index=run_index)
+        self._evidence = EvidenceMemory(
+            memory_dir,
+            run_index=run_index,
+            strategy_registry=strategy_registry,
+        )
+        self._ctx = ContextBuilder(
+            memory_dir,
+            curated_dir=curated_dir,
+            run_index=run_index,
+            evidence_memory=self._evidence,
+        )
 
     def assemble(self, triage_report=None, session_store=None) -> PromptPackage:
         """Build the complete weekly prompt package.

@@ -4,44 +4,34 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
+from trading_assistant.analysis.context_sources.common import (
+    apply_temporal_window as _apply_temporal_window,
+    safe_jsonl as _safe_jsonl,
+)
+from trading_assistant.analysis.context_sources.learning_context import LearningContextMixin
+from trading_assistant.analysis.context_sources.market_context import MarketContextMixin
+from trading_assistant.analysis.context_sources.session_recall_context import (
+    SessionRecallContextMixin,
+)
+from trading_assistant.analysis.context_sources.source_facade_context import (
+    SourceFacadeContextMixin,
+)
 from trading_assistant.schemas.memory import MemoryIndex
 from trading_assistant.schemas.prompt_package import PromptPackage
 
 logger = logging.getLogger(__name__)
+
+__all__ = ["ContextBuilder", "_apply_temporal_window", "_safe_jsonl"]
 
 _POLICY_FILES = ["agent.md", "trading_rules.md", "soul.md"]
 _FINDINGS_MAX_AGE_DAYS = 90
 _FINDINGS_MAX_ENTRIES = 50
 
 
-def _safe_jsonl(path: Path) -> list[dict]:
-    """Read a JSONL file tolerantly (P2-1).
-
-    Skips and logs malformed lines instead of crashing. A single corrupt
-    findings line should not block daily/weekly prompt assembly.
-    """
-    if not path.exists():
-        return []
-    out: list[dict] = []
-    try:
-        text = path.read_text(encoding="utf-8")
-    except OSError:
-        logger.warning("Could not read %s", path)
-        return out
-    for n, line in enumerate(text.splitlines(), 1):
-        if not line.strip():
-            continue
-        try:
-            entry = json.loads(line)
-        except json.JSONDecodeError:
-            logger.warning("Skipping malformed JSON line %s:%d", path, n)
-            continue
-        if isinstance(entry, dict):
-            out.append(entry)
-    return out
 
 
 def _merge_retrieval_profile(base: dict, override: dict) -> dict:
@@ -68,103 +58,14 @@ def _merge_retrieval_profile(base: dict, override: dict) -> dict:
     return merged
 
 
-def _parse_timestamp(entry: dict) -> datetime | None:
-    """Try to parse a timestamp from common fields."""
-    for key in ("timestamp", "created_at", "updated_at", "recorded_at", "measured_at", "date"):
-        val = entry.get(key)
-        if val and isinstance(val, str):
-            try:
-                parsed = datetime.fromisoformat(val)
-                if "T" not in val and len(val) == 10:
-                    parsed = parsed.replace(hour=23, minute=59, second=59, microsecond=999999)
-                return parsed
-            except (ValueError, TypeError):
-                pass
-    return None
 
 
-def _filter_by_bot(entries: list[dict], bot_id: str) -> list[dict]:
-    """Filter entries by bot_id. Keeps entries that match or have no bot_id field."""
-    if not bot_id:
-        return entries
-    result = []
-    for entry in entries:
-        entry_bot = entry.get("bot_id", "") or entry.get("target_id", "")
-        # Keep entries that match the bot_id or are bot-agnostic (no bot_id field)
-        if not entry_bot or bot_id in entry_bot:
-            result.append(entry)
-    return result
 
 
-def _filter_inactive_strategies(
-    entries: list[dict], registry: object | None,
-) -> list[dict]:
-    """Drop entries pinned to a retired strategy_id.
-
-    Records with no `strategy_id` (legacy or genuinely bot-wide) and records
-    whose `strategy_id` is still in the registry are kept. Records pinned to
-    a strategy_id that is no longer registered are silently dropped; this
-    prevents retired strategies from polluting prompt context.
-    """
-    if registry is None:
-        return entries
-    is_active = getattr(registry, "is_active", None)
-    if not callable(is_active):
-        return entries
-    result: list[dict] = []
-    for entry in entries:
-        sid = entry.get("strategy_id")
-        if not sid or is_active(sid):
-            result.append(entry)
-    return result
 
 
-def _apply_temporal_window(
-    entries: list[dict],
-    max_age_days: int = _FINDINGS_MAX_AGE_DAYS,
-    max_entries: int = _FINDINGS_MAX_ENTRIES,
-    now: datetime | None = None,
-) -> list[dict]:
-    """Sort by recency, exclude entries older than max_age_days, cap at max_entries."""
-    now = now or datetime.now(timezone.utc)
-    if now.tzinfo is None:
-        now = now.replace(tzinfo=timezone.utc)
-    cutoff = now - timedelta(days=max_age_days)
-
-    # Separate entries with and without timestamps
-    with_ts: list[tuple[datetime, dict]] = []
-    without_ts: list[dict] = []
-
-    for entry in entries:
-        ts = _parse_timestamp(entry)
-        if ts is not None:
-            # Make timezone-aware if naive
-            if ts.tzinfo is None:
-                ts = ts.replace(tzinfo=timezone.utc)
-            cutoff_date = cutoff.date()
-            if _has_date_only_timestamp(entry):
-                cutoff_date = cutoff_date - timedelta(days=1)
-            if ts.date() >= cutoff_date:
-                with_ts.append((ts, entry))
-        else:
-            without_ts.append(entry)
-
-    # Sort by exponential decay score (half-life = 2 weeks, most influential first)
-    half_life = 14.0
-
-    def _decay_score(ts: datetime) -> float:
-        age_days = max(0.0, (now - ts).total_seconds() / 86400.0)
-        return 2.0 ** (-age_days / half_life)
-
-    with_ts.sort(key=lambda x: _decay_score(x[0]), reverse=True)
-    result = [e for _, e in with_ts] + without_ts
-
-    return result[:max_entries]
 
 
-def _has_date_only_timestamp(entry: dict) -> bool:
-    value = entry.get("date")
-    return isinstance(value, str) and len(value) == 10 and "T" not in value
 
 
 _DEFAULT_CONTEXT_BUDGET_ITEMS = 15
@@ -185,13 +86,25 @@ def _estimate_tokens(value: object) -> int:
     return max(1, len(text) // 4)
 
 
-class ContextBuilder:
+class ContextBuilder(
+    SourceFacadeContextMixin,
+    SessionRecallContextMixin,
+    LearningContextMixin,
+    MarketContextMixin,
+):
     """Loads shared context (policies, corrections, metadata) used by all assemblers."""
 
-    def __init__(self, memory_dir: Path, curated_dir: Path | None = None, run_index: object | None = None) -> None:
+    def __init__(
+        self,
+        memory_dir: Path,
+        curated_dir: Path | None = None,
+        run_index: object | None = None,
+        evidence_memory: Any | None = None,
+    ) -> None:
         self._memory_dir = memory_dir
         self._curated_dir = curated_dir
         self._run_index = run_index
+        self._provided_evidence_memory = evidence_memory
         self._strategy_registry = None  # lazy-loaded on first use
 
     @property
@@ -214,152 +127,33 @@ class ContextBuilder:
             self._strategy_registry = StrategyRegistry()
         return self._strategy_registry
 
+    def _evidence_memory(self):
+        if self._provided_evidence_memory is not None:
+            return self._provided_evidence_memory
+        from trading_assistant.analysis.evidence_memory import EvidenceMemory
+
+        return EvidenceMemory(
+            self._memory_dir,
+            run_index=self._run_index,
+            strategy_registry=self._get_strategy_registry(),
+        )
+
     def build_system_prompt(self) -> str:
         """Load policy files from memory/policies/v1/ into a system prompt."""
-        parts: list[str] = []
-        policy_dir = self._memory_dir / "policies" / "v1"
-        for name in _POLICY_FILES:
-            path = policy_dir / name
-            if path.exists():
-                parts.append(f"--- {name} ---\n{path.read_text(encoding='utf-8')}")
-        return "\n\n".join(parts)
+        return self._evidence_memory().policies.build_system_prompt()
 
-    def load_corrections(
-        self,
-        bot_id: str = "",
-        *,
-        max_age_days: int = _FINDINGS_MAX_AGE_DAYS,
-        as_of: datetime | None = None,
-    ) -> list[dict]:
-        """Load manual corrections from findings/corrections.jsonl.
 
-        Applies temporal decay and caps at 50 entries.
-        If bot_id is provided, only returns corrections relevant to that bot.
-        """
-        corrections = _safe_jsonl(self._memory_dir / "findings" / "corrections.jsonl")
-        filtered = _filter_by_bot(corrections, bot_id) if bot_id else corrections
-        return _apply_temporal_window(filtered, max_age_days=max_age_days, now=as_of)
 
-    def load_failure_log(self, bot_id: str = "") -> list[dict]:
-        """Load failure log entries from findings/failure-log.jsonl.
-
-        Applies temporal decay: sorted by recency, capped at 90 days / 50 entries.
-        If bot_id is provided, only returns entries relevant to that bot.
-        Drops entries pinned to retired strategies.
-        """
-        path = self._memory_dir / "findings" / "failure-log.jsonl"
-        entries = _safe_jsonl(path)
-        filtered = _filter_by_bot(entries, bot_id) if bot_id else entries
-        filtered = _filter_inactive_strategies(filtered, self._get_strategy_registry())
-        return _apply_temporal_window(filtered)
-
-    def load_rejected_suggestions(self) -> list[dict]:
-        """Load rejected suggestions from findings/suggestions.jsonl.
-
-        Drops entries pinned to retired strategies.
-        """
-        path = self._memory_dir / "findings" / "suggestions.jsonl"
-        rejected = [
-            rec for rec in _safe_jsonl(path) if rec.get("status") == "rejected"
-        ]
-        rejected = _filter_inactive_strategies(rejected, self._get_strategy_registry())
-        return _apply_temporal_window(rejected)
 
     _QUALITY_RANK = {"high": 3, "medium": 2, "low": 1, "insufficient": 0}
 
-    def load_outcome_measurements(
-        self, min_quality: str = "medium",
-    ) -> tuple[list[dict], list[dict]]:
-        """Load outcome measurements from findings/outcomes.jsonl.
 
-        Deduplicates by suggestion_id (last-write-wins) to prevent
-        double-counting from legacy dual-write patterns.
 
-        Filters by measurement_quality: only HIGH/MEDIUM (by default) are
-        returned as reliable outcomes. LOW/INSUFFICIENT entries are returned
-        separately as low-quality outcomes for spurious_outcomes injection.
 
-        Args:
-            min_quality: Minimum quality tier to include ("high", "medium",
-                "low", "insufficient"). Defaults to "medium".
-
-        Returns:
-            Tuple of (reliable_outcomes, low_quality_outcomes).
-            Entries without a measurement_quality field are included in
-            reliable_outcomes for backward compatibility.
-        """
-        path = self._memory_dir / "findings" / "outcomes.jsonl"
-        entries = _safe_jsonl(path)
-        if not entries:
-            return [], []
-        seen: dict[str, dict] = {}
-        for entry in entries:
-            sid = entry.get("suggestion_id", "")
-            if sid:
-                seen[sid] = entry
-            else:
-                seen[id(entry)] = entry  # type: ignore[assignment]
-
-        min_rank = self._QUALITY_RANK.get(min_quality.lower(), 2)
-        reliable: list[dict] = []
-        low_quality: list[dict] = []
-        for entry in seen.values():
-            entry.setdefault("outcome_source", "early_warning")
-            quality = (entry.get("measurement_quality") or "").lower()
-            if not quality:
-                # No quality field — include for backward compat
-                reliable.append(entry)
-            elif self._QUALITY_RANK.get(quality, 2) >= min_rank:
-                reliable.append(entry)
-            else:
-                low_quality.append(entry)
-        registry = self._get_strategy_registry()
-        reliable = _filter_inactive_strategies(reliable, registry)
-        low_quality = _filter_inactive_strategies(low_quality, registry)
-        return _apply_temporal_window(reliable), _apply_temporal_window(low_quality)
-
-    def load_monthly_outcomes(
-        self, bot_id: str = "", days: int = 365, max_entries: int = 30,
-    ) -> list[dict]:
-        """Load authoritative monthly/follow-up outcome verdicts."""
-        path = self._memory_dir / "findings" / "monthly_outcomes.jsonl"
-        entries = _safe_jsonl(path)
-        if bot_id:
-            entries = [entry for entry in entries if entry.get("bot_id") == bot_id]
-        entries = _apply_temporal_window(entries, max_age_days=days, max_entries=max_entries)
-        return entries
-
-    def load_outcome_priors(
-        self, bot_id: str = "", max_entries: int = 30,
-    ) -> list[dict]:
-        """Load operational priors that steer monthly search/allocation."""
-        path = self._memory_dir / "findings" / "outcome_priors.jsonl"
-        entries = _safe_jsonl(path)
-        if bot_id:
-            entries = [
-                entry for entry in entries
-                if entry.get("bot_id") == bot_id
-            ]
-        entries.sort(key=lambda entry: entry.get("updated_at", ""), reverse=True)
-        return entries[:max_entries]
-
-    def load_allocation_history(self) -> list[dict]:
-        """Load allocation history from findings/allocation_history.jsonl.
-
-        Applies temporal decay: sorted by recency, capped at 90 days / 50 entries.
-        """
-        path = self._memory_dir / "findings" / "allocation_history.jsonl"
-        return _apply_temporal_window(_safe_jsonl(path))
 
     def list_policy_files(self) -> list[str]:
         """List paths to included policy files (for context_files tracking)."""
-        files: list[str] = []
-        policy_dir = self._memory_dir / "policies" / "v1"
-        for name in _POLICY_FILES:
-            path = policy_dir / name
-            if path.exists():
-                files.append(str(path))
-        return files
+        return self._evidence_memory().policies.context_files()
 
     def runtime_metadata(self, bot_configs: dict | None = None) -> dict:
         """Return runtime metadata for the prompt package.
@@ -398,1360 +192,67 @@ class ContextBuilder:
             "available_dates": bot_dates,
         }
 
-    def load_session_history(self, session_store, agent_type: str, days: int = 7) -> str:
-        """Load recent session summaries as formatted text.
-
-        Args:
-            session_store: SessionStore instance.
-            agent_type: Type of agent to load history for.
-            days: Number of days to look back.
-
-        Returns:
-            Formatted string summarizing recent sessions, or empty string.
-        """
-        try:
-            sessions = session_store.get_recent_sessions(agent_type, days=days)
-            if not isinstance(sessions, list):
-                return ""
-        except Exception:
-            return ""
-        if not sessions:
-            return ""
-
-        formatted_lines = [f"Recent {agent_type} sessions (last {days} days):"]
-        for s in sessions[:20]:  # cap to avoid context bloat
-            details: list[str] = []
-            provider = s.get("provider")
-            effective_model = s.get("effective_model")
-            if provider and effective_model:
-                details.append(f"{provider}/{effective_model}")
-            elif provider:
-                details.append(str(provider))
-
-            duration = s.get("duration_ms", 0)
-            details.append(f"{duration}ms")
-
-            first_output_ms = s.get("first_output_ms")
-            if isinstance(first_output_ms, int) and first_output_ms > 0:
-                details.append(f"first {first_output_ms}ms")
-
-            tool_call_count = s.get("tool_call_count")
-            if isinstance(tool_call_count, int) and tool_call_count > 0:
-                details.append(f"tools {tool_call_count}")
-
-            stream_event_count = s.get("stream_event_count")
-            if isinstance(stream_event_count, int) and stream_event_count > 0:
-                details.append(f"stream {stream_event_count}")
-
-            auth_mode = s.get("auth_mode")
-            if auth_mode:
-                details.append(str(auth_mode))
-
-            summary = s.get("response_summary", "")[:100]
-            formatted_lines.append(
-                f"- {s.get('date', '?')}: {', '.join(details)} -- {summary}"
-            )
-        return "\n".join(formatted_lines)
-
-    def load_similar_runs(
-        self,
-        agent_type: str = "",
-        bot_id: str = "",
-        limit: int = 5,
-        days: int = 60,
-        retrieval_profile: dict | None = None,
-    ) -> list[dict]:
-        """Load recent similar runs from RunIndex for prompt context.
-
-        Returns compact dicts with run_id, date, agent_type, provider, and
-        a truncated response snippet. Gracefully returns [] when RunIndex
-        is not available.
-        """
-        if self._run_index is None:
-            return []
-        try:
-            profile = retrieval_profile or self.build_retrieval_profile(
-                agent_type=agent_type,
-                bot_id=bot_id,
-            )
-            query = self._run_search_query(profile)
-            runs = []
-            if query and hasattr(self._run_index, "search"):
-                min_date = (datetime.now(timezone.utc) - timedelta(days=days)).strftime("%Y-%m-%d")
-                runs = self._run_index.search(
-                    query=query,
-                    limit=limit,
-                    agent_type=agent_type,
-                    bot_id=bot_id,
-                    min_date=min_date,
-                )
-            if not runs:
-                runs = self._run_index.get_recent_runs(
-                    agent_type=agent_type, bot_id=bot_id, limit=limit, days=days,
-                )
-            return self._format_similar_runs(runs)
-        except Exception:
-            logger.debug("Similar runs loading failed; skipping")
-            return []
-
-    def load_focused_recall(
-        self,
-        agent_type: str = "",
-        bot_id: str = "",
-        strategy_id: str = "",
-        tags: list[str] | None = None,
-        limit: int = 5,
-        days: int = 90,
-    ) -> list[dict]:
-        """Load provenance-rich recall cards for prompt context."""
-        if not agent_type:
-            return []
-        try:
-            from trading_assistant.skills.run_recall_summarizer import RunRecallSummarizer
-
-            cards = RunRecallSummarizer(
-                self._memory_dir,
-                run_index=self._run_index,
-            ).summarize(
-                workflow=agent_type,
-                bot_id=bot_id,
-                strategy_id=strategy_id,
-                tags=tags or [],
-                limit=limit,
-                days=days,
-            )
-            return [card.to_prompt_dict() for card in cards]
-        except Exception:
-            logger.debug("Focused recall loading failed; skipping")
-            return []
-
-    def build_retrieval_profile(self, agent_type: str = "", bot_id: str = "") -> dict:
-        """Build structured retrieval tags and query terms from current context."""
-        tags: list[str] = []
-        query_terms: list[str] = []
-
-        def _add_tag(prefix: str, value: str) -> None:
-            normalized = self._retrieval_tag(prefix, value)
-            if normalized and normalized not in tags:
-                tags.append(normalized)
-
-        def _add_query(value: str) -> None:
-            normalized = str(value or "").strip()
-            if normalized and normalized not in query_terms:
-                query_terms.append(normalized)
-
-        if agent_type:
-            _add_tag("workflow", agent_type)
-            _add_query(agent_type.replace("_", " "))
-        if bot_id:
-            _add_tag("bot", bot_id)
-            _add_query(bot_id)
-
-        macro_regime = self.load_macro_regime_context().get("macro_regime", "")
-        if macro_regime:
-            _add_tag("regime", macro_regime)
-            _add_query(macro_regime)
-
-        validation_patterns = self.load_validation_patterns(bot_id=bot_id)
-        top_blocked = sorted(
-            validation_patterns.items(),
-            key=lambda item: item[1].get("blocked_count", 0),
-            reverse=True,
-        )[:3]
-        for category, info in top_blocked:
-            _add_tag("category", category)
-            _add_query(category)
-            for reason in (info.get("common_reasons") or [])[:2]:
-                _add_tag("reason", reason)
-                _add_query(reason)
-
-        weakest = [
-            score for score in self.load_category_scorecard().get("scores", [])
-            if score.get("sample_size", 0) >= 3
-            and (not bot_id or score.get("bot_id") in ("", bot_id))
-        ]
-        weakest.sort(key=lambda score: (score.get("win_rate", 1.0), -score.get("sample_size", 0)))
-        for score in weakest[:3]:
-            category = score.get("category", "")
-            _add_tag("category", category)
-            _add_query(category)
-
-        return {
-            "tags": tags,
-            "query_terms": query_terms,
-            "macro_regime": macro_regime,
-            "agent_type": agent_type,
-            "bot_id": bot_id,
-        }
-
-    @staticmethod
-    def _retrieval_tag(prefix: str, value: str) -> str:
-        text = str(value or "").strip().lower()
-        if not text:
-            return ""
-        chars: list[str] = []
-        prev_sep = False
-        for char in text:
-            if char.isalnum():
-                chars.append(char)
-                prev_sep = False
-            elif not prev_sep:
-                chars.append("_")
-                prev_sep = True
-        slug = "".join(chars).strip("_")
-        return f"{prefix}:{slug}" if slug else ""
-
-    @staticmethod
-    def _run_search_query(profile: dict) -> str:
-        terms: list[str] = []
-        for term in profile.get("query_terms", []):
-            cleaned = "".join(char if char.isalnum() or char.isspace() else " " for char in str(term))
-            cleaned = " ".join(cleaned.split())
-            if not cleaned:
-                continue
-            if " " in cleaned:
-                terms.append(f"\"{cleaned}\"")
-            else:
-                terms.append(cleaned)
-        return " OR ".join(terms[:8])
-
-    @staticmethod
-    def _format_similar_runs(runs: list[dict]) -> list[dict]:
-        return [
-            {
-                "run_id": r.get("run_id", ""),
-                "date": r.get("date", ""),
-                "agent_type": r.get("agent_type", ""),
-                "provider": r.get("provider", ""),
-                "snippet": (r.get("snippet") or r.get("response_preview", "") or "")[:200],
-            }
-            for r in runs
-        ]
-
-    def load_generated_playbooks(self, workflow: str, tags: list[str], limit: int = 3) -> list[dict]:
-        """Load top matching generated playbooks for prompt context."""
-        path = self._memory_dir / "playbooks" / "generated" / "playbooks.jsonl"
-        if not path.exists():
-            return []
-        try:
-            from trading_assistant.schemas.generated_playbook import GeneratedPlaybook
-            from trading_assistant.skills.generated_playbook_guard import GeneratedPlaybookGuard
-
-            guard = GeneratedPlaybookGuard(self._memory_dir)
-            matches: list[tuple[float, GeneratedPlaybook]] = []
-            for line in path.read_text(encoding="utf-8").splitlines():
-                if not line.strip():
-                    continue
-                try:
-                    playbook = GeneratedPlaybook.model_validate_json(line)
-                except Exception:
-                    continue
-                if not guard.is_safe(playbook):
-                    continue
-                score = playbook.match_score(workflow, tags)
-                if score > 0:
-                    matches.append((score, playbook))
-            matches.sort(key=lambda item: item[0], reverse=True)
-            return [
-                {
-                    "playbook_id": playbook.playbook_id,
-                    "title": playbook.title,
-                    "text": playbook.to_prompt_text(),
-                }
-                for _, playbook in matches[:limit]
-            ]
-        except Exception:
-            logger.debug("Generated playbook loading failed; skipping")
-            return []
-
-    def load_pattern_library(self, bot_id: str = "") -> list[dict]:
-        """Load cross-bot pattern library entries.
-
-        If bot_id is provided, only returns patterns relevant to that bot.
-        """
-        try:
-            from trading_assistant.skills.pattern_library import PatternLibrary
-
-            lib = PatternLibrary(self._memory_dir / "findings")
-            if bot_id:
-                entries = lib.load_for_bot(bot_id)
-            else:
-                entries = lib.load_active()
-            return [e.model_dump(mode="json") for e in entries]
-        except Exception:
-            return []
-
-    def load_contradictions(
-        self, date: str, bots: list[str], curated_dir: Path,
-    ) -> list[dict]:
-        """Load temporal contradictions across recent daily reports.
-
-        Returns list of ContradictionItem dicts for prompt injection.
-        """
-        try:
-            from trading_assistant.skills.contradiction_detector import ContradictionDetector
-
-            detector = ContradictionDetector(
-                date=date, bots=bots, curated_dir=curated_dir,
-            )
-            report = detector.detect()
-            return [item.model_dump(mode="json") for item in report.items]
-        except Exception:
-            return []
-
-    def load_signal_factor_history(
-        self, bot_id: str, date: str, findings_dir: Path,
-    ) -> dict:
-        """Load rolling signal factor analysis for a bot.
-
-        Returns SignalFactorRollingReport as dict, or empty dict if insufficient data.
-        """
-        try:
-            from trading_assistant.skills.signal_factor_tracker import SignalFactorTracker
-
-            tracker = SignalFactorTracker(findings_dir)
-            report = tracker.compute_rolling(bot_id, date)
-            if not report.factors:
-                return {}
-            return report.model_dump(mode="json")
-        except Exception:
-            return {}
-
-    def load_correction_patterns(self) -> list[dict]:
-        """Load extracted correction patterns from findings/correction_patterns.jsonl."""
-        path = self._memory_dir / "findings" / "correction_patterns.jsonl"
-        if not path.exists():
-            return []
-        patterns: list[dict] = []
-        for line in path.read_text(encoding="utf-8").strip().splitlines():
-            if line.strip():
-                try:
-                    patterns.append(json.loads(line))
-                except json.JSONDecodeError:
-                    pass
-        return _apply_temporal_window(patterns)
-
-    def load_forecast_meta(self) -> dict:
-        """Load forecast meta-analysis from findings/forecast_history.jsonl.
-
-        When prediction verdicts are available, includes empirical calibration
-        buckets, ECE, and Brier score. Also includes directional bias analysis.
-        """
-        try:
-            from trading_assistant.skills.forecast_tracker import ForecastTracker
-
-            tracker = ForecastTracker(self._memory_dir / "findings")
-            records = tracker.load_all()
-            if not records:
-                return {}
-
-            # Load prediction verdicts for empirical calibration
-            verdicts = self._load_prediction_verdicts()
-
-            # Compute directional bias from prediction tracker
-            dir_bias: dict[str, dict] = {}
-            try:
-                from trading_assistant.skills.prediction_tracker import PredictionTracker as _PT
-                if self._curated_dir:
-                    pt = _PT(self._memory_dir / "findings")
-                    dir_bias = pt.compute_directional_bias(self._curated_dir)
-            except Exception:
-                pass
-
-            meta = tracker.compute_meta_analysis(
-                prediction_verdicts=verdicts if verdicts else None,
-                directional_bias=dir_bias if dir_bias else None,
-            )
-            return meta.model_dump(mode="json")
-        except Exception:
-            return {}
-
-    def _load_prediction_verdicts(self) -> list:
-        """Load prediction verdicts from the prediction tracker."""
-        try:
-            from trading_assistant.skills.prediction_tracker import PredictionTracker
-
-            tracker = PredictionTracker(self._memory_dir / "findings")
-            path = self._memory_dir / "findings" / "predictions.jsonl"
-            if not path.exists():
-                return []
-            predictions = tracker.load_predictions()
-            if not predictions or not self._curated_dir:
-                return []
-            evaluation = tracker.evaluate_predictions(predictions, self._curated_dir)
-            return evaluation.verdicts if evaluation else []
-        except Exception:
-            return []
-
-    def load_active_suggestions(self) -> list[dict]:
-        """Load non-rejected suggestions from findings/suggestions.jsonl.
-
-        Returns suggestions with unresolved status, applying temporal window
-        (90d, 30-entry cap) and dropping entries pinned to retired strategies.
-        """
-        active_statuses = {"proposed", "accepted", "merged", "deployed"}
-        active = [
-            rec for rec in _safe_jsonl(self._memory_dir / "findings" / "suggestions.jsonl")
-            if rec.get("status", "") in active_statuses
-        ]
-        active = _filter_inactive_strategies(active, self._get_strategy_registry())
-        return _apply_temporal_window(active, max_entries=30)
-
-    def load_recent_proposal_outcomes(
-        self, bot_id: str = "", days: int = 30, max_entries: int = 30,
-    ) -> list[dict]:
-        """Load recent ProposalLedger outcomes (lightweight summary view).
-
-        Returns one dict per proposal with measured outcome inside ``days`` window.
-        Filters by ``bot_id`` when provided. Empty list if the ledger file is
-        missing or malformed.
-        """
-        try:
-            from trading_assistant.skills.proposal_ledger import ProposalLedger
-
-            ledger = ProposalLedger(self._memory_dir / "findings")
-            recs = ledger.list_all()
-        except Exception:
-            return []
-
-        cutoff = datetime.now(timezone.utc) - timedelta(days=days)
-        out: list[dict] = []
-        for rec in recs:
-            if bot_id and rec.candidate.bot_id != bot_id:
-                continue
-            if not rec.outcomes:
-                continue
-            latest = max(
-                rec.outcomes,
-                key=lambda o: (
-                    o.measured_at.replace(tzinfo=timezone.utc)
-                    if o.measured_at.tzinfo is None
-                    else o.measured_at
-                ),
-            )
-            measured_at = latest.measured_at
-            if measured_at.tzinfo is None:
-                measured_at = measured_at.replace(tzinfo=timezone.utc)
-            if measured_at < cutoff:
-                continue
-            out.append({
-                "proposal_id": rec.candidate.proposal_id,
-                "bot_id": rec.candidate.bot_id,
-                "source": rec.candidate.source.value,
-                "kind": rec.candidate.kind.value,
-                "title": rec.candidate.title,
-                "verdict": latest.verdict,
-                "objective_delta": latest.objective_delta,
-                "measured_at": measured_at.isoformat(),
-            })
-        out.sort(key=lambda r: r["measured_at"], reverse=True)
-        return out[:max_entries]
-
-    def load_strategy_change_ledger(
-        self, bot_id: str = "", days: int = 180, max_entries: int = 30,
-    ) -> list[dict]:
-        """Load recent strategy-level monthly/change decisions."""
-        try:
-            from trading_assistant.skills.strategy_change_ledger import StrategyChangeLedger
-
-            ledger = StrategyChangeLedger(self._memory_dir / "findings")
-            records = ledger.get_recent(days=days)
-        except Exception:
-            return []
-        out: list[dict] = []
-        for record in records:
-            if bot_id and record.bot_id != bot_id:
-                continue
-            out.append({
-                "record_id": record.record_id,
-                "bot_id": record.bot_id,
-                "strategy_id": record.strategy_id,
-                "record_type": record.record_type.value,
-                "run_month": record.run_month,
-                "monthly_status": record.monthly_status,
-                "decision_reason": record.decision_reason,
-                "evidence_paths": record.evidence_paths[:10],
-                "objective_deltas": record.objective_deltas,
-                "updated_at": record.updated_at.isoformat(),
-            })
-        return out[:max_entries]
-
-    def load_category_scorecard(self) -> dict:
-        """Load category-level suggestion success rates."""
-        try:
-            from trading_assistant.skills.suggestion_scorer import SuggestionScorer
-
-            scorer = SuggestionScorer(self._memory_dir / "findings")
-            scorecard = scorer.compute_scorecard()
-            if scorecard.scores:
-                return scorecard.model_dump(mode="json")
-        except Exception:
-            pass
-        return {}
-
-    def load_optimization_allocation(self) -> dict:
-        """Load per-category value analysis for optimization direction guidance."""
-        try:
-            from trading_assistant.skills.suggestion_scorer import SuggestionScorer
-
-            scorer = SuggestionScorer(self._memory_dir / "findings")
-            value_map = scorer.compute_category_value_map()
-            if value_map and len(value_map) > 1:  # more than just _recommendations
-                return value_map
-        except Exception:
-            pass
-        return {}
-
-    def load_regime_stratified_scores(self) -> dict | None:
-        """Load category win rates stratified by macro regime."""
-        try:
-            from trading_assistant.skills.suggestion_scorer import SuggestionScorer
-            scorer = SuggestionScorer(self._memory_dir / "findings")
-            scores = scorer.compute_regime_stratified_scores()
-            return scores if scores else None
-        except Exception:
-            return None
-
-    def load_search_signal_summary(self) -> dict:
-        """Load historical search signal approve/discard summary."""
-        path = self._memory_dir / "findings" / "search_signals.jsonl"
-        if not path.exists():
-            return {}
-        from collections import defaultdict
-        counts: dict[tuple[str, str], dict[str, int]] = defaultdict(
-            lambda: {"approve": 0, "discard": 0}
-        )
-        try:
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if not line.strip():
-                    continue
-                rec = json.loads(line)
-                bot_id = rec.get("bot_id", "")
-                category = rec.get("category", "")
-                key = (bot_id, category)
-                if rec.get("positive"):
-                    counts[key]["approve"] += 1
-                else:
-                    counts[key]["discard"] += 1
-        except (OSError, json.JSONDecodeError):
-            return {}
-
-        if not counts:
-            return {}
-
-        summary: dict[str, dict] = {}
-        for (bot_id, category), c in counts.items():
-            total = c["approve"] + c["discard"]
-            summary[f"{bot_id}:{category}"] = {
-                "approve_count": c["approve"],
-                "discard_count": c["discard"],
-                "approve_rate": round(c["approve"] / total, 3) if total > 0 else 0.0,
-            }
-        return summary
-
-    def load_prediction_accuracy(self) -> dict:
-        """Load per-metric prediction accuracy from the prediction tracker.
-
-        When curated_dir is available, computes real accuracy by evaluating predictions
-        against actual curated data. Otherwise returns prediction count metadata.
-        """
-        try:
-            from trading_assistant.skills.prediction_tracker import PredictionTracker
-
-            tracker = PredictionTracker(self._memory_dir / "findings")
-            if not (self._memory_dir / "findings" / "predictions.jsonl").exists():
-                return {}
-            predictions = tracker.load_predictions()
-            if not predictions:
-                return {}
-
-            # When curated_dir available, compute real per-metric accuracy
-            if self._curated_dir and self._curated_dir.exists():
-                accuracy_by_metric = tracker.get_accuracy_by_metric(self._curated_dir)
-                if accuracy_by_metric:
-                    return {
-                        "has_predictions": True,
-                        "count": len(predictions),
-                        "accuracy_by_metric": accuracy_by_metric,
-                    }
-
-            return {"has_predictions": True, "count": len(predictions)}
-        except Exception:
-            return {}
-
-    def load_hypothesis_track_record(self) -> dict:
-        """Load hypothesis effectiveness scores for prompt injection."""
-        try:
-            from trading_assistant.skills.hypothesis_library import HypothesisLibrary
-
-            lib = HypothesisLibrary(self._memory_dir / "findings")
-            track = lib.get_track_record()
-            if track:
-                return track
-        except Exception:
-            pass
-        return {}
-
-    def load_transfer_track_record(self) -> dict:
-        """Load transfer outcome success rates for prompt injection."""
-        try:
-            from trading_assistant.skills.transfer_proposal_builder import TransferProposalBuilder
-
-            return TransferProposalBuilder.load_track_record_from_file(
-                self._memory_dir / "findings",
-            )
-        except Exception:
-            return {}
-
-    def load_experiment_track_record(self) -> dict:
-        """Load structural experiment pass/fail track record."""
-        try:
-            from trading_assistant.skills.structural_experiment_tracker import StructuralExperimentTracker
-
-            tracker = StructuralExperimentTracker(self._memory_dir / "findings")
-            record = tracker.compute_track_record()
-            if record.get("total", 0) > 0:
-                return record
-        except Exception:
-            pass
-        return {}
-
-    def load_recalibrations(self) -> list[dict]:
-        """Load causal recalibrations from findings/recalibrations.jsonl.
-
-        Returns recalibrations with bot_id, category, revised_confidence,
-        and lessons_learned, filtered by temporal window (90d, 30-entry cap).
-        """
-        path = self._memory_dir / "findings" / "recalibrations.jsonl"
-        if not path.exists():
-            return []
-        entries: list[dict] = []
-        for line in path.read_text(encoding="utf-8").strip().splitlines():
-            if line.strip():
-                try:
-                    entries.append(json.loads(line))
-                except json.JSONDecodeError:
-                    pass
-        return _apply_temporal_window(entries, max_entries=30)
-
-    def load_outcome_reasonings(self) -> list[dict]:
-        """Load causal outcome reasonings from findings/outcome_reasonings.jsonl.
-
-        Returns recent reasonings with lessons learned, mechanisms, and
-        transferability assessments for injection into prompts. Drops entries
-        pinned to retired strategies.
-        """
-        path = self._memory_dir / "findings" / "outcome_reasonings.jsonl"
-        if not path.exists():
-            return []
-        reasonings: list[dict] = []
-        for line in path.read_text(encoding="utf-8").strip().splitlines():
-            if line.strip():
-                try:
-                    reasonings.append(json.loads(line))
-                except json.JSONDecodeError:
-                    pass
-        reasonings = _filter_inactive_strategies(reasonings, self._get_strategy_registry())
-        return _apply_temporal_window(reasonings, max_entries=20)
-
-    def load_discoveries(self) -> list[dict]:
-        """Load discoveries from findings/discoveries.jsonl. Drops entries
-        pinned to retired strategies.
-        """
-        path = self._memory_dir / "findings" / "discoveries.jsonl"
-        if not path.exists():
-            return []
-        discoveries: list[dict] = []
-        for line in path.read_text(encoding="utf-8").strip().splitlines():
-            if line.strip():
-                try:
-                    discoveries.append(json.loads(line))
-                except json.JSONDecodeError:
-                    pass
-        discoveries = _filter_inactive_strategies(discoveries, self._get_strategy_registry())
-        return _apply_temporal_window(discoveries, max_entries=20)
-
-    def load_active_experiments(self) -> list[dict]:
-        """Load active structural experiments for prompt injection."""
-        try:
-            from trading_assistant.skills.structural_experiment_tracker import StructuralExperimentTracker
-
-            tracker = StructuralExperimentTracker(self._memory_dir / "findings")
-            active = tracker.get_active_experiments()
-            return [e.model_dump(mode="json") for e in active]
-        except Exception:
-            return []
-
-    def load_reliability_summary(self) -> dict:
-        """Load reliability tracking summary from findings."""
-        try:
-            from trading_assistant.skills.reliability_tracker import ReliabilityTracker
-
-            tracker = ReliabilityTracker(self._memory_dir / "findings")
-            summary = tracker.compute_summary()
-            if summary.scorecards_by_class:
-                return summary.model_dump(mode="json")
-        except Exception:
-            pass
-        return {}
-
-    def load_validation_patterns(self, bot_id: str = "") -> dict:
-        """Load aggregated validation patterns from findings/validation_log.jsonl.
-
-        Groups blocked suggestions by category over the last 30 days.
-        Returns summary dict: {"category": {"blocked_count": N, "common_reasons": [...]}}
-        """
-        path = self._memory_dir / "findings" / "validation_log.jsonl"
-        if not path.exists():
-            return {}
-        try:
-            from collections import defaultdict
-
-            rows = []
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if line.strip():
-                    try:
-                        parsed = json.loads(line)
-                    except json.JSONDecodeError:
-                        continue
-                    if isinstance(parsed, dict):
-                        rows.append(parsed)
-
-            def _collect(days: int) -> dict[str, list[str]]:
-                cutoff = datetime.now(timezone.utc) - timedelta(days=days)
-                category_blocks: dict[str, list[str]] = defaultdict(list)
-                for entry in rows:
-                    ts = entry.get("timestamp", "")
-                    if ts:
-                        try:
-                            entry_time = datetime.fromisoformat(ts.replace("Z", "+00:00"))
-                            if entry_time.tzinfo is None:
-                                entry_time = entry_time.replace(tzinfo=timezone.utc)
-                            if entry_time < cutoff:
-                                continue
-                        except (ValueError, TypeError):
-                            pass
-                    for detail in entry.get("blocked_details", []):
-                        detail_bot_id = detail.get("bot_id", "")
-                        if bot_id and detail_bot_id and detail_bot_id != bot_id:
-                            continue
-                        reason = detail.get("reason", "")
-                        category = detail.get("category", "")
-                        if category:
-                            category_blocks[category].append(reason)
-                            continue
-                        # Infer category from reason or title
-                        title = detail.get("title", "").lower()
-                        for keyword, cat in [
-                            ("exit", "exit_timing"), ("filter", "filter_threshold"),
-                            ("stop", "stop_loss"), ("signal", "signal"),
-                            ("regime", "regime_gate"), ("sizing", "position_sizing"),
-                        ]:
-                            if keyword in title:
-                                category_blocks[cat].append(reason)
-                                break
-                        else:
-                            category_blocks["other"].append(reason)
-                return category_blocks
-
-            category_blocks = _collect(30)
-            stale_window_days = 0
-            if not category_blocks:
-                category_blocks = _collect(90)
-                stale_window_days = 90
-            if not category_blocks:
-                return {}
-
-            result: dict = {}
-            for cat, reasons in category_blocks.items():
-                # Deduplicate and count
-                unique_reasons = list(set(reasons))[:5]
-                result[cat] = {
-                    "blocked_count": len(reasons),
-                    "common_reasons": unique_reasons,
-                }
-                if stale_window_days:
-                    result[cat]["stale_window_days"] = stale_window_days
-            return result
-        except Exception:
-            return {}
-
-    def load_threshold_profile(self) -> dict:
-        """Load learned threshold profiles from findings/learned_thresholds.jsonl.
-
-        Returns a dict with per-bot threshold data when available.
-        """
-        path = self._memory_dir / "findings" / "learned_thresholds.jsonl"
-        if not path.exists():
-            return {}
-        try:
-            profiles: list[dict] = []
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if line.strip():
-                    profiles.append(json.loads(line))
-            if profiles:
-                return {"profiles": profiles, "count": len(profiles)}
-        except Exception:
-            pass
-        return {}
-
-    def load_ground_truth_trend(self) -> dict:
-        """Load ground truth composite score trend from learning_ledger.jsonl.
-
-        Returns last 12 weeks of composite scores per bot, recent lessons,
-        and curated analysis notes (deduplicated, relevance-decayed, outcome-boosted).
-        """
-        try:
-            from trading_assistant.skills.learning_ledger import LearningLedger
-
-            ledger = LearningLedger(self._memory_dir / "findings")
-            trend = ledger.get_trend(weeks=12)
-            lessons = ledger.get_lessons(weeks=4)
-            curated_notes = ledger.get_curated_notes(max_notes=30)
-            if not trend and not lessons and not curated_notes:
-                return {}
-            result: dict = {}
-            if trend:
-                result["composite_trend"] = trend
-            if lessons:
-                result["recent_lessons"] = lessons
-            if curated_notes:
-                result["curated_analysis_notes"] = curated_notes
-            try:
-                latest = ledger.get_latest()
-                if latest:
-                    result["net_improvement"] = latest.net_improvement
-                    result["composite_delta"] = latest.composite_delta
-            except Exception:
-                # Graceful: latest may fail if ledger entries have incomplete GT data
-                # Still return trend + lessons
-                pass
-            return result
-        except Exception:
-            return {}
-
-    def load_cycle_effectiveness(self) -> list[dict]:
-        """Load last 8 cycle effectiveness entries from learning_ledger.jsonl."""
-        path = self._memory_dir / "findings" / "learning_ledger.jsonl"
-        if not path.exists():
-            return []
-        entries: list[dict] = []
-        try:
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if line.strip():
-                    entries.append(json.loads(line))
-        except Exception:
-            return []
-        entries.sort(key=lambda e: e.get("week_start", ""))
-        recent = entries[-8:]
-        result = []
-        for e in recent:
-            ce = e.get("cycle_effectiveness", 0.0)
-            if ce > 0 or e.get("suggestions_proposed", 0) > 0:
-                result.append({
-                    "week": e.get("week_start", ""),
-                    "effectiveness": ce,
-                    "net_improvement": e.get("net_improvement", False),
-                    "suggestions_proposed": e.get("suggestions_proposed", 0),
-                    "suggestions_implemented": e.get("suggestions_implemented", 0),
-                })
-        return result
-
-    def load_suggestion_quality_trend(self, value_map: dict | None = None) -> dict:
-        """Load suggestion quality trend from SuggestionScorer."""
-        try:
-            from trading_assistant.skills.suggestion_scorer import SuggestionScorer
-            scorer = SuggestionScorer(self._memory_dir / "findings")
-            return scorer.compute_suggestion_quality_trend(value_map=value_map)
-        except Exception:
-            return {}
-
-    def load_convergence_report(self) -> dict:
-        """Load convergence report synthesising learning loop health."""
-        try:
-            from trading_assistant.skills.convergence_tracker import ConvergenceTracker
-
-            tracker = ConvergenceTracker(self._memory_dir / "findings")
-            report = tracker.compute_report(weeks=12)
-            # Only include if we have real data (not all insufficient_data)
-            if report.overall_status.value == "insufficient_data":
-                return {}
-            return report.model_dump(mode="json")
-        except Exception:
-            return {}
-
-    def load_instrumentation_readiness(self, bots: list[str]) -> dict:
-        """Load per-bot instrumentation readiness scorecards."""
-        if not self._curated_dir or not bots:
-            return {}
-        try:
-            from trading_assistant.skills.instrumentation_scorer import InstrumentationScorer
-
-            scorer = InstrumentationScorer(self._curated_dir, lookback_days=30)
-            reports = scorer.score_all_bots(bots)
-            return {
-                bot_id: report.model_dump(mode="json")
-                for bot_id, report in reports.items()
-                if report.days_with_data > 0
-            }
-        except Exception:
-            return {}
-
-    def load_retrospective_synthesis(self) -> dict:
-        """Load most recent retrospective synthesis from findings."""
-        path = self._memory_dir / "findings" / "retrospective_synthesis.jsonl"
-        if not path.exists():
-            return {}
-        try:
-            entries: list[dict] = []
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if line.strip():
-                    entries.append(json.loads(line))
-            if entries:
-                return entries[-1]  # most recent
-        except Exception:
-            pass
-        return {}
-
-    def load_spurious_outcomes(self) -> list[dict]:
-        """Load outcomes determined to be spurious (not genuinely caused by the suggestion)."""
-        path = self._memory_dir / "findings" / "spurious_outcomes.jsonl"
-        if not path.exists():
-            return []
-        try:
-            entries: list[dict] = []
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if line.strip():
-                    entries.append(json.loads(line))
-            return _apply_temporal_window(entries)
-        except Exception:
-            return []
-
-    def load_strategy_ideas(self) -> list[dict]:
-        """Load strategy ideas from findings/strategy_ideas.jsonl.
-
-        Returns active (non-retired) strategy ideas with temporal window.
-        """
-        path = self._memory_dir / "findings" / "strategy_ideas.jsonl"
-        if not path.exists():
-            return []
-        try:
-            ideas: list[dict] = []
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if line.strip():
-                    entry = json.loads(line)
-                    if entry.get("status", "proposed") != "retired":
-                        ideas.append(entry)
-            return _apply_temporal_window(ideas, max_entries=10)
-        except Exception:
-            return []
-
-    def load_portfolio_outcomes(self) -> list[dict]:
-        """Load portfolio-level suggestion outcomes from findings/portfolio_outcomes.jsonl.
-
-        Returns recent portfolio change outcomes with verdicts and composite deltas.
-        """
-        path = self._memory_dir / "findings" / "portfolio_outcomes.jsonl"
-        if not path.exists():
-            return []
-        try:
-            entries: list[dict] = []
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if line.strip():
-                    entries.append(json.loads(line))
-            return _apply_temporal_window(entries, max_entries=20)
-        except Exception:
-            return []
-
-    def load_portfolio_metrics(self) -> dict:
-        """Load latest portfolio rolling metrics from curated data.
-
-        Returns the most recent portfolio_rolling_metrics.json if available.
-        """
-        if not self._curated_dir:
-            return {}
-        try:
-            # Find most recent date directory with portfolio metrics
-            portfolio_dirs = sorted(
-                self._curated_dir.glob("*/portfolio/portfolio_rolling_metrics.json"),
-                reverse=True,
-            )
-            if portfolio_dirs:
-                return json.loads(portfolio_dirs[0].read_text(encoding="utf-8"))
-        except Exception:
-            pass
-        return {}
-
-    def load_consolidated_patterns(self) -> str:
-        """Load patterns_consolidated.md if it exists."""
-        path = self._memory_dir / "findings" / "patterns_consolidated.md"
-        if not path.exists():
-            return ""
-        try:
-            return path.read_text(encoding="utf-8")
-        except OSError:
-            return ""
-
-    def load_search_reports(self, bot_id: str = "", lookback_n: int = 5) -> list[dict]:
-        """Historical parameter-search reports used as read-only context."""
-        path = self._memory_dir / "findings" / "search_reports.jsonl"
-        if not path.exists():
-            return []
-        try:
-            reports: list[dict] = []
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if not line.strip():
-                    continue
-                entry = json.loads(line)
-                if bot_id and entry.get("bot_id") != bot_id:
-                    continue
-                # Strip large candidate arrays, keep summary fields
-                reports.append({
-                    "suggestion_id": entry.get("suggestion_id"),
-                    "bot_id": entry.get("bot_id"),
-                    "param_name": entry.get("param_name"),
-                    "routing": entry.get("routing"),
-                    "best_value": entry.get("best_value"),
-                    "discard_reason": entry.get("discard_reason", ""),
-                    "exploration_summary": entry.get("exploration_summary", ""),
-                    "searched_at": entry.get("searched_at", ""),
-                    "context_role": "historical_read_only",
-                })
-            return reports[-lookback_n:]
-        except Exception:
-            return []
-
-    def load_regime_parameter_analysis(self, bot_id: str = "") -> list[dict]:
-        """Extract regime-conditional parameter analyses from search reports.
-
-        Reads the same search_reports.jsonl as load_search_reports() but
-        extracts the regime_analysis field where regime_sensitivity > 0.3.
-        """
-        path = self._memory_dir / "findings" / "search_reports.jsonl"
-        if not path.exists():
-            return []
-        try:
-            results: list[dict] = []
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if not line.strip():
-                    continue
-                entry = json.loads(line)
-                if bot_id and entry.get("bot_id") != bot_id:
-                    continue
-                regime = entry.get("regime_analysis")
-                if not regime or regime.get("regime_sensitivity", 0) <= 0.3:
-                    continue
-                results.append(regime)
-            return results[-10:]  # Last 10 significant analyses
-        except Exception:
-            return []
-
-    def load_backtest_reliability(self, bot_id: str = "") -> dict[str, float]:
-        """Historical per-category backtest reliability ratios."""
-        path = self._memory_dir / "findings" / "backtest_calibration.jsonl"
-        if not path.exists():
-            return {}
-        try:
-            from collections import defaultdict
-            correct: dict[str, int] = defaultdict(int)
-            total: dict[str, int] = defaultdict(int)
-            for line in path.read_text(encoding="utf-8").strip().splitlines():
-                if not line.strip():
-                    continue
-                entry = json.loads(line)
-                if bot_id and entry.get("bot_id") != bot_id:
-                    continue
-                cat = entry.get("param_category", "")
-                if entry.get("prediction_correct") is not None:
-                    total[cat] += 1
-                    if entry.get("prediction_correct"):
-                        correct[cat] += 1
-            return {
-                cat: round(correct[cat] / total[cat], 2)
-                for cat in total
-                if total[cat] >= 3
-            }
-        except Exception:
-            return {}
-
-    def build_self_assessment(
-        self,
-        forecast_meta: dict | None = None,
-        category_scorecard: dict | None = None,
-        correction_patterns: list[dict] | None = None,
-        recalibrations: list[dict] | None = None,
-    ) -> str:
-        """Synthesize a plain-text self-assessment from multiple learning signals.
-
-        Combines directional biases, calibration state, category strengths/weaknesses,
-        recurring corrections, and causal lessons into a narrative summary.
-        Returns empty string if fewer than 2 signals are available.
-
-        When called from base_package(), pre-loaded data is passed to avoid
-        duplicate I/O. When called standalone, loads data on demand.
-        """
-        if forecast_meta is None:
-            forecast_meta = self.load_forecast_meta()
-        if category_scorecard is None:
-            category_scorecard = self.load_category_scorecard()
-        if correction_patterns is None:
-            correction_patterns = self.load_correction_patterns()
-        if recalibrations is None:
-            recalibrations = self.load_recalibrations()
-
-        signals: list[str] = []
-
-        # 1. Directional biases from forecast meta
-        dir_bias = forecast_meta.get("directional_bias", {})
-        if dir_bias:
-            bias_lines = []
-            for metric, info in dir_bias.items():
-                bias = info.get("bias", "balanced")
-                if bias != "balanced":
-                    mag = info.get("bias_magnitude", 0)
-                    bias_lines.append(
-                        f"  - {metric}: {bias} (magnitude {mag:.2f})"
-                    )
-            if bias_lines:
-                signals.append(
-                    "Directional biases:\n" + "\n".join(bias_lines)
-                )
-
-        # 2. Calibration state
-        ece = forecast_meta.get("expected_calibration_error")
-        if ece is not None:
-            cal_adj = forecast_meta.get("calibration_adjustment", 0)
-            if cal_adj < -0.1:
-                direction = "overconfident"
-            elif cal_adj > 0.1:
-                direction = "underconfident"
-            else:
-                direction = "reasonably calibrated"
-            signals.append(f"Calibration: ECE={ece:.3f}, {direction}")
-
-        # 3. Category strengths/weaknesses from scorecard
-        # Per-strategy rows (strategy_id non-null) carry tighter signal than the
-        # bot-wide aggregate — surface them in their own labels so Claude can
-        # cite specific strategy track records, not just bot averages.
-        scores = category_scorecard.get("scores", [])
-        if scores:
-            strong = []
-            weak = []
-            strong_per_strat = []
-            weak_per_strat = []
-            for s in scores:
-                wr = s.get("win_rate", 0)
-                n = s.get("sample_size", 0)
-                if n < 3:
-                    continue
-                strat_id = s.get("strategy_id")
-                if strat_id:
-                    label = f"{s.get('bot_id', '?')}/{strat_id}/{s.get('category', '?')} ({wr:.0%}, n={n})"
-                    if wr >= 0.6:
-                        strong_per_strat.append(label)
-                    elif wr < 0.4:
-                        weak_per_strat.append(label)
-                else:
-                    label = f"{s.get('bot_id', '?')}/{s.get('category', '?')} ({wr:.0%}, n={n})"
-                    if wr >= 0.6:
-                        strong.append(label)
-                    elif wr < 0.4:
-                        weak.append(label)
-            if strong:
-                signals.append("Strong categories (bot-wide): " + ", ".join(strong[:5]))
-            if weak:
-                signals.append("Weak categories (avoid or justify): " + ", ".join(weak[:5]))
-            if strong_per_strat:
-                signals.append("Strong per-strategy: " + ", ".join(strong_per_strat[:5]))
-            if weak_per_strat:
-                signals.append("Weak per-strategy (avoid or justify): " + ", ".join(weak_per_strat[:5]))
-
-        # 4. Recurring corrections (top 3 by count)
-        if correction_patterns:
-            sorted_patterns = sorted(correction_patterns, key=lambda p: p.get("count", 0), reverse=True)
-            top = sorted_patterns[:3]
-            lines = [
-                f"  - {p.get('description', '?')} (count={p.get('count', 0)})"
-                for p in top
-            ]
-            signals.append("Recurring corrections:\n" + "\n".join(lines))
-
-        # 5. Causal lessons from recalibrations
-        if recalibrations:
-            all_lessons: list[str] = []
-            seen: set[str] = set()
-            for r in recalibrations:
-                raw_lessons = r.get("lessons_learned", [])
-                if isinstance(raw_lessons, str):
-                    items = [raw_lessons] if raw_lessons.strip() else []
-                else:
-                    items = [
-                        lesson_text
-                        for lesson_text in (raw_lessons or [])
-                        if isinstance(lesson_text, str) and lesson_text.strip()
-                    ]
-                for lesson in items:
-                    if lesson not in seen:
-                        seen.add(lesson)
-                        all_lessons.append(lesson)
-            if all_lessons:
-                signals.append(
-                    "Causal lessons learned:\n"
-                    + "\n".join(f"  - {lesson}" for lesson in all_lessons[:5])
-                )
-
-        if len(signals) < 2:
-            return ""
-
-        return "SELF-ASSESSMENT (auto-synthesized from learning data):\n\n" + "\n\n".join(signals)
-
-    def load_engine_decomposition(self, bot_id: str = "") -> dict:
-        """Load engine-level metrics decomposition from curated data.
-
-        Finds the most recent engine_decomposition.json for the given bot_id.
-        """
-        if not self._curated_dir:
-            return {}
-        try:
-            curated = Path(self._curated_dir)
-            date_dirs = sorted(
-                [d for d in curated.iterdir() if d.is_dir() and not d.name.startswith(".")],
-                reverse=True,
-            )
-            for date_dir in date_dirs[:7]:
-                if bot_id:
-                    candidate = date_dir / bot_id / "engine_decomposition.json"
-                    if candidate.exists():
-                        return json.loads(candidate.read_text(encoding="utf-8"))
-                else:
-                    for bot_dir in date_dir.iterdir():
-                        if bot_dir.is_dir():
-                            candidate = bot_dir / "engine_decomposition.json"
-                            if candidate.exists():
-                                return json.loads(candidate.read_text(encoding="utf-8"))
-        except Exception:
-            pass
-        return {}
-
-    def load_ablation_analysis(self, bot_id: str = "") -> dict:
-        """Load ablation flag analysis from curated data.
-
-        Finds the most recent ablation_analysis.json for the given bot_id.
-        """
-        if not self._curated_dir:
-            return {}
-        try:
-            curated = Path(self._curated_dir)
-            date_dirs = sorted(
-                [d for d in curated.iterdir() if d.is_dir() and not d.name.startswith(".")],
-                reverse=True,
-            )
-            for date_dir in date_dirs[:7]:
-                if bot_id:
-                    candidate = date_dir / bot_id / "ablation_analysis.json"
-                    if candidate.exists():
-                        return json.loads(candidate.read_text(encoding="utf-8"))
-                else:
-                    for bot_dir in date_dir.iterdir():
-                        if bot_dir.is_dir():
-                            candidate = bot_dir / "ablation_analysis.json"
-                            if candidate.exists():
-                                return json.loads(candidate.read_text(encoding="utf-8"))
-        except Exception:
-            pass
-        return {}
-
-    def load_exit_tier_analysis(self, bot_id: str = "") -> dict:
-        """Load exit tier hit-rate analysis from curated data.
-
-        Finds the most recent exit_tier_analysis.json for the given bot_id.
-        """
-        if not self._curated_dir:
-            return {}
-        try:
-            curated = Path(self._curated_dir)
-            date_dirs = sorted(
-                [d for d in curated.iterdir() if d.is_dir() and not d.name.startswith(".")],
-                reverse=True,
-            )
-            for date_dir in date_dirs[:7]:
-                if bot_id:
-                    candidate = date_dir / bot_id / "exit_tier_analysis.json"
-                    if candidate.exists():
-                        return json.loads(candidate.read_text(encoding="utf-8"))
-                else:
-                    for bot_dir in date_dir.iterdir():
-                        if bot_dir.is_dir():
-                            candidate = bot_dir / "exit_tier_analysis.json"
-                            if candidate.exists():
-                                return json.loads(candidate.read_text(encoding="utf-8"))
-        except Exception:
-            pass
-        return {}
-
-    def load_macro_regime_context(self) -> dict:
-        """Load latest macro regime state from curated portfolio data.
-
-        Looks for macro_regime_analysis.json in the most recent curated portfolio dir.
-        """
-        if not self._curated_dir:
-            return {}
-        try:
-            # Find most recent date dir with portfolio data
-            curated = Path(self._curated_dir)
-            if not curated.exists():
-                return {}
-            date_dirs = sorted(
-                [d for d in curated.iterdir() if d.is_dir() and not d.name.startswith(".")],
-                reverse=True,
-            )
-            for date_dir in date_dirs[:7]:  # check last 7 days
-                regime_file = date_dir / "portfolio" / "macro_regime_analysis.json"
-                if regime_file.exists():
-                    data = json.loads(regime_file.read_text(encoding="utf-8"))
-                    if data:
-                        return data
-        except Exception:
-            pass
-        return {}
-
-    def load_regime_config_history(self) -> list[dict]:
-        """Load rolling regime config from recent curated bot dirs.
-
-        Collects applied_regime_config.json from the last 30 days of curated data.
-        """
-        if not self._curated_dir:
-            return []
-        try:
-            curated = Path(self._curated_dir)
-            if not curated.exists():
-                return []
-            date_dirs = sorted(
-                [d for d in curated.iterdir() if d.is_dir() and not d.name.startswith(".")],
-                reverse=True,
-            )
-            history: list[dict] = []
-            for date_dir in date_dirs[:30]:
-                for bot_dir in date_dir.iterdir():
-                    if not bot_dir.is_dir() or bot_dir.name == "portfolio":
-                        continue
-                    config_file = bot_dir / "applied_regime_config.json"
-                    if config_file.exists():
-                        data = json.loads(config_file.read_text(encoding="utf-8"))
-                        if data:
-                            history.append({
-                                "date": date_dir.name,
-                                "bot_id": bot_dir.name,
-                                **data,
-                            })
-            return history
-        except Exception:
-            return []
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # Priority order for context items (highest value first).
     # Items not in this list get lowest priority.
     _CONTEXT_PRIORITY: list[str] = [
         # Core context — always include when available
+        "loop_contract",
+        "recent_work_log",
         "ground_truth_trend",
         "portfolio_outcomes",
         "portfolio_rolling_metrics",
@@ -1778,6 +279,7 @@ class ContextBuilder:
         "recent_proposal_outcomes",
         "monthly_outcomes",
         "outcome_priors",
+        "performance_learning",
         "strategy_change_history",
         "focused_run_recall",
         "category_scorecard",
@@ -1820,6 +322,8 @@ class ContextBuilder:
     _WORKFLOW_PRIORITIES: dict[str, list[str]] = {
         "weekly_analysis": [
             # Trend and meta-analysis dominate weekly review
+            "loop_contract",
+            "recent_work_log",
             "ground_truth_trend",
             "convergence_report",
             "self_assessment",
@@ -1827,6 +331,7 @@ class ContextBuilder:
             "outcome_measurements",
             "monthly_outcomes",
             "outcome_priors",
+            "performance_learning",
             "recent_proposal_outcomes",
             "strategy_change_history",
             "focused_run_recall",
@@ -1880,6 +385,8 @@ class ContextBuilder:
         ],
         "discovery_analysis": [
             # Discovery focuses on novel patterns and gaps in coverage
+            "loop_contract",
+            "recent_work_log",
             "discoveries",
             "strategy_ideas",
             "pattern_library",
@@ -1896,9 +403,12 @@ class ContextBuilder:
         ],
         "outcome_reasoning": [
             # Reasoning about why suggestions worked/failed
+            "loop_contract",
+            "recent_work_log",
             "outcome_measurements",
             "monthly_outcomes",
             "outcome_priors",
+            "performance_learning",
             "recent_proposal_outcomes",
             "strategy_change_history",
             "focused_run_recall",
@@ -1917,6 +427,8 @@ class ContextBuilder:
         ],
         "triage": [
             # Bug triage needs minimal learning context
+            "loop_contract",
+            "recent_work_log",
             "ground_truth_trend",
             "convergence_report",
             "self_assessment",
@@ -1952,12 +464,22 @@ class ContextBuilder:
             self.build_retrieval_profile(agent_type=agent_type, bot_id=bot_id),
             retrieval_profile_override or {},
         )
+        loop_contract = self.load_loop_contract_context(agent_type=agent_type)
+        recent_work_log = self.load_recent_work_log_entries(
+            agent_type=agent_type,
+            bot_id=bot_id,
+            limit=10,
+        )
         failure_log = self.load_failure_log()
         rejected_suggestions = self.load_rejected_suggestions()
         outcome_measurements, low_quality_outcomes = self.load_outcome_measurements()
         allocation_history = self.load_allocation_history()
         consolidated_patterns = self.load_consolidated_patterns()
         data: dict = {}
+        if loop_contract:
+            data["loop_contract"] = loop_contract
+        if recent_work_log:
+            data["recent_work_log"] = recent_work_log
         if failure_log:
             data["failure_log"] = failure_log
         if rejected_suggestions:
@@ -1970,6 +492,12 @@ class ContextBuilder:
         outcome_priors = self.load_outcome_priors(bot_id=bot_id)
         if outcome_priors:
             data["outcome_priors"] = outcome_priors
+        performance_learning = self.load_recent_performance_learning_entries(
+            bot_id=bot_id,
+            limit=10,
+        )
+        if performance_learning:
+            data["performance_learning"] = performance_learning
         if allocation_history:
             data["allocation_history"] = allocation_history
         if consolidated_patterns:

@@ -1,6 +1,5 @@
 # tests/test_leakage_detector.py
 """Tests for temporal leakage detection."""
-from trading_assistant.schemas.validation_results import LeakageAuditEntry
 from trading_assistant.skills.leakage_detector import LeakageDetector, FeatureRecord, LabelRecord
 
 

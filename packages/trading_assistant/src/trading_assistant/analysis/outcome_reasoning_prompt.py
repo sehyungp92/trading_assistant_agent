@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from trading_assistant.analysis.context_builder import ContextBuilder
+from trading_assistant.analysis.evidence_memory import EvidenceMemory
 from trading_assistant.schemas.prompt_package import PromptPackage
 
 logger = logging.getLogger(__name__)
@@ -73,7 +74,12 @@ class OutcomeReasoningAssembler:
         self.memory_dir = memory_dir
         self.curated_dir = curated_dir
         self.bot_configs = bot_configs
-        self._ctx = ContextBuilder(memory_dir, curated_dir=curated_dir)
+        self._evidence = EvidenceMemory(memory_dir)
+        self._ctx = ContextBuilder(
+            memory_dir,
+            curated_dir=curated_dir,
+            evidence_memory=self._evidence,
+        )
 
     def assemble(self, outcomes: list[dict], session_store=None) -> PromptPackage:
         """Build prompt package for reasoning about measured outcomes.

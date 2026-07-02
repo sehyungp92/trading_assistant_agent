@@ -10,7 +10,6 @@ import pytest
 
 from trading_assistant.schemas.deployment_monitoring import (
     DeploymentMetricsSnapshot,
-    DeploymentRecord,
     DeploymentStatus,
 )
 from trading_assistant.schemas.repo_changes import PRResult

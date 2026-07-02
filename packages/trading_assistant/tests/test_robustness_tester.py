@@ -5,8 +5,7 @@ from datetime import datetime
 from trading_assistant.schemas.cost_model import CostModelConfig
 from trading_assistant.schemas.events import TradeEvent
 from trading_assistant.schemas.parameter_space import ParameterDef, ParameterSpace, RobustnessConfig
-from trading_assistant.schemas.simulation_metrics import SimulationMetrics
-from trading_assistant.schemas.validation_results import RobustnessResult, SafetyFlag
+from trading_assistant.schemas.validation_results import RobustnessResult
 from trading_assistant.skills.backtest_simulator import BacktestSimulator
 from trading_assistant.skills.cost_model import CostModel
 from trading_assistant.skills.robustness_tester import RobustnessTester

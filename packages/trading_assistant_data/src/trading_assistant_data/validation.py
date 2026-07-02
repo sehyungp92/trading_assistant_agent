@@ -122,7 +122,7 @@ def detect_missing_ranges(
     expected_delta = pd.Timedelta(minutes=minutes * tolerance)
     diffs = ts.to_series().diff().dropna()
     missing: list[MissingRange] = []
-    for current, delta in diffs[diffs > expected_delta].items():
+    for current, _delta in diffs[diffs > expected_delta].items():
         previous = ts[ts.get_loc(current) - 1]
         missing.append(
             MissingRange(

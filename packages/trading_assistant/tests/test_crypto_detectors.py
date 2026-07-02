@@ -1,11 +1,10 @@
 """Tests for the 4 crypto perpetual detectors in StrategyEngine."""
 from __future__ import annotations
 
-import pytest
 
 from trading_assistant.analysis.strategy_engine import StrategyEngine
 from trading_assistant.schemas.strategy_profile import StrategyArchetype, StrategyProfile, StrategyRegistry
-from trading_assistant.schemas.strategy_suggestions import RefinementReport, StrategySuggestion, SuggestionTier
+from trading_assistant.schemas.strategy_suggestions import RefinementReport, SuggestionTier
 from trading_assistant.schemas.weekly_metrics import BotWeeklySummary
 
 

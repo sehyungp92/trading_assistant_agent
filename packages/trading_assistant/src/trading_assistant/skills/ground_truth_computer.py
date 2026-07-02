@@ -1,16 +1,20 @@
 # skills/ground_truth_computer.py
 """Ground truth computer — deterministic evaluation function.
 
-Computes a composite performance score from daily curated summaries using a
-6-component z-score-normalized formula aligned with soul.md priorities:
+Computes a legacy helper composite score from daily curated summaries using the
+objective_weights_v1 6-component z-score-normalized formula:
   expected_total_r (30%), calmar (20%), profit_factor (15%),
   expectancy (15%), inverse_drawdown (10%), process_quality (10%).
+
+Replay-backed monthly/phased-auto candidate ranking is governed by immutable
+score profiles, not this helper composite. soul.md uses broader prompt bands
+that are only directionally aligned with this historical helper formula.
 """
 from __future__ import annotations
 
 import json
 import math
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from trading_assistant.schemas.learning_ledger import GroundTruthSnapshot
@@ -25,10 +29,10 @@ from trading_assistant.schemas.objective_weights import (
 
 
 class GroundTruthComputer:
-    """Computes immutable ground truth performance snapshots."""
+    """Computes legacy helper ground truth performance snapshots."""
 
-    # Composite formula weights — imported from shared objective_weights module.
-    # See schemas/objective_weights.py for rationale and soul.md alignment.
+    # Helper composite weights imported from schemas.objective_weights.
+    # Monthly replay candidate ranking uses immutable_score_profiles_v1 instead.
     _W_EXPECTED_R = W_EXPECTED_R
     _W_CALMAR = W_CALMAR
     _W_PROFIT_FACTOR = W_PROFIT_FACTOR
@@ -258,13 +262,14 @@ class GroundTruthComputer:
         avg_pq: float,
         history: list[dict],
     ) -> float:
-        """Absolute composite score via z-score normalization, output [0, 1].
+        """Absolute helper composite score via z-score normalization, output [0, 1].
 
         Formula: 0.30*z_expected_r + 0.20*z_calmar + 0.15*z_pf + 0.15*z_expectancy
                  + 0.10*z_inv_dd + 0.10*z_process_quality
         Z-scores normalized against bot's own 90-day history, clipped to [-3, 3].
         See schemas/objective_weights.py for weight rationale and the intentional
-        divergence between this z-score scale and ParameterSearcher's ratio scale.
+        divergence between this z-score scale, ParameterSearcher's ratio scale,
+        and the monthly immutable score profiles.
         """
         # Compute historical baselines for z-scoring
         hist_expected_rs = self._rolling_expected_rs(history)

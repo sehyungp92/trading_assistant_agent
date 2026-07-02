@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 from pydantic import BaseModel
@@ -54,7 +52,7 @@ class TestAtomicRewriteJsonl:
                 raise RuntimeError("serialize error")
 
         # Patch json.dumps to raise on the bad object
-        with pytest.raises(Exception):
+        with pytest.raises(RuntimeError):
             atomic_rewrite_jsonl(path, [BadObj()])
 
         # Original file should be untouched

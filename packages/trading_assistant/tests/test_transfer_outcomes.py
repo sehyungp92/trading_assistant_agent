@@ -3,18 +3,16 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import MagicMock
 
-import pytest
 
 from trading_assistant.schemas.strategy_profile import (
-    StrategyArchetype,
     StrategyProfile,
     StrategyRegistry,
 )
-from trading_assistant.schemas.transfer_proposals import TransferOutcome, TransferProposal
+from trading_assistant.schemas.transfer_proposals import TransferOutcome
 from trading_assistant.skills.transfer_proposal_builder import TransferProposalBuilder
 
 
@@ -334,7 +332,6 @@ class TestArchetypeCompatibility:
         )
         # Write regime data for both bots
         for bot_id in ["swing_multi_01", "momentum_nq_01"]:
-            from datetime import datetime, timezone
             date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
             regime_dir = tmp_path / date_str / bot_id
             regime_dir.mkdir(parents=True, exist_ok=True)

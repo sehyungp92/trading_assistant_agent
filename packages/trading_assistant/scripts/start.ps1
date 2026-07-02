@@ -44,9 +44,13 @@ try {
         return
     }
 
+    $UvicornHost = "127.0.0.1"
+    $env:BIND_HOST = $UvicornHost
+    $env:UVICORN_HOST = $UvicornHost
+
     $Arguments = @(
         "-m", "uvicorn", "trading_assistant.orchestrator.app:app",
-        "--host", "127.0.0.1",
+        "--host", $UvicornHost,
         "--port", "8000"
     )
 

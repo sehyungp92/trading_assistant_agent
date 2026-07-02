@@ -1,34 +1,34 @@
 # Trading Assistant Agent
 
-An evidence-ranked improvement engine for algorithmic trading strategies. The system is a read-only local orchestrator: it does not place orders, cancel orders, change live positions, or directly command bots. Material strategy changes are approval-gated and must be supported by full-fidelity replay evidence.
+A learning system for improving the trading performance of the external trading repos over time. It turns live bot outcomes into durable evidence, uses that evidence to propose and test better strategy behavior, and feeds measured results back into future search, gates, priors, and rollback decisions.
+
+The system is a read-only local orchestrator: it does not place orders, cancel orders, change live positions, or directly command bots. Material strategy changes are approval-gated and must be supported by full-fidelity replay evidence.
 
 ## Why this repo exists
 
-The end goal is a repeatable evidence loop that:
+The end goal is not "generate reports" or "make suggestions"; it is to make the trading repos better through a repeatable evidence loop:
 
 1. Identifies strategy weaknesses from real bot telemetry and market data.
 2. Proposes high-value, evidence-grounded changes.
 3. Validates them with realistic full-fidelity replay.
 4. Routes them through human approval.
-5. Measures deployed outcomes against the same objective used for selection.
+5. Measures deployed outcomes against the same governed scoring profile used for selection.
 6. Feeds those outcomes back into future candidate generation, gates, priors,
    and rollback decisions.
 
-Reporting and weekly suggestion lists are not the goal &mdash; durable strategy improvement under explicit gates is.
+Every useful subsystem serves that loop: preserve what happened, explain why it happened, test what should change, approve only evidence-backed changes, and use the next live outcomes to make the next cycle smarter.
 
 ## What the system does
 
 ### Senses bot health and triages errors
 
-- Ingests every trade, missed opportunity, daily snapshot, and error event from each bot in real time via a relay service.
-- Classifies error severity deterministically (CRITICAL/HIGH/MEDIUM/LOW) and routes by complexity &mdash; obvious fixes get a model-generated diagnosis and draft PR; complex issues are flagged for human investigation.
-- Tracks error rates per bot with sliding-window spike detection (&gt;3/hour auto-promotes severity).
-- Monitors bot heartbeats and alerts on gaps (&gt;2h warning, &gt;4h critical).
-- Runs morning and evening proactive scans for unusual losses (&gt;2&sigma; from 30-day mean) and repeated error patterns.
+The first job is to make sure the learning loop is fed by trustworthy live signals. The orchestrator ingests trades, missed opportunities, snapshots, heartbeats, and errors from the bots, then separates "the strategy is weak" from "the bot or data path is broken." That protects future optimization from being trained on corrupted or incomplete outcomes.
+
+It classifies error severity deterministically, tracks error spikes, monitors heartbeat gaps, and runs proactive loss/error scans. Obvious operational fixes can become draft PRs; ambiguous failures stay flagged for human investigation.
 
 ### Curates evidence across multiple dimensions
 
-Each day, raw bot events are transformed into a curated analysis package per bot covering:
+Raw bot events are too noisy to improve strategies directly. Each day, the repo turns them into comparable evidence about where performance is coming from, why it is deteriorating, and which failure modes deserve monthly replay attention:
 
 - **Trade quality** &mdash; winners, losers, process failures (quality score &lt; 60), and notable missed opportunities.
 - **Regime analysis** &mdash; PnL, win rate, and trade count broken down by market regime.
@@ -42,19 +42,19 @@ Each day, raw bot events are transformed into a curated analysis package per bot
 
 ### Runs monthly full-fidelity validation
 
-The monthly learning loop is the authoritative path for material strategy/config changes. It assembles a frozen evidence package with:
+Monthly validation is where learning becomes an adoption candidate. Weekly and daily evidence can shape hypotheses, but material strategy/config changes must survive a frozen, replay-backed monthly loop that tests whether the change should improve future trading rather than merely explain the past. It assembles:
 
 - Market-data coverage manifests and telemetry lineage.
 - Live-vs-backtest decision-level parity checks.
-- Objective deltas, counterfactuals, and regime slices.
+- Score deltas, counterfactuals, and regime slices.
 - Leakage and cost-realism signals from the monthly replay artifacts.
 - Structured candidate proposals with calibrated predictions and rollback plans.
 
-Approval-gated monthly candidates produce Telegram approval cards and GitHub PRs through shared approval infrastructure. After merge, deployment monitoring tracks the bot for regressions and can create rollback PRs if performance degrades.
+Approval-gated monthly candidates produce Telegram approval cards and GitHub PRs through shared approval infrastructure. After merge, deployment monitoring tracks whether the live outcome matches the predicted improvement; regressions can create rollback PRs and become negative evidence for future cycles.
 
 ### Proposes structural and portfolio-level improvements
 
-Beyond parameter tuning, the strategy engine runs **19 deterministic detectors** across five categories:
+The repo is meant to improve strategy behavior, not just tune knobs. Beyond parameter search, the strategy engine uses **19 deterministic detectors** to turn recurring outcome patterns into hypotheses about signal quality, execution, regime fit, portfolio structure, and failure patterns:
 
 - **Signal quality** (4) &mdash; alpha decay, signal decay, component signal decay, factor correlation decay.
 - **Execution quality** (4) &mdash; exit timing, microstructure (fill quality, adverse selection), stress entry patterns, position-sizing mismatches.
@@ -62,21 +62,19 @@ Beyond parameter tuning, the strategy engine runs **19 deterministic detectors**
 - **Portfolio structure** (5) &mdash; family imbalance, correlation concentration, drawdown-tier miscalibration, coordination gaps, heat-cap utilisation.
 - **Pattern detection** (3) &mdash; drawdown patterns, filter interaction effects, correlation breakdown.
 
-Detector findings feed weekly synthesis, which can surface structural ideas (e.g. "add a regime-aware exit rule", "split this strategy into two variants"). Weekly structural suggestions remain report-only until promoted into monthly candidate validation; production adoption requires isolated candidate testing, decision-level parity evidence, and human approval.
+Detector findings feed weekly synthesis, which can surface structural ideas (for example, "add a regime-aware exit rule" or "split this strategy into two variants"). Weekly structural suggestions remain report-only until promoted into monthly candidate validation; production adoption requires isolated candidate testing, decision-level parity evidence, measured score improvement, and human approval.
 
-Portfolio-level proposals are validated through a what-if analysis that rescales historical family PnL under proposed weights to estimate portfolio Calmar, Sharpe, and max drawdown before any change is recorded. Each strategy carries an archetype profile that sets archetype-specific detection thresholds, so the engine respects each strategy's inherent characteristics rather than applying uniform rules.
+Portfolio-level proposals are treated as performance hypotheses too: the system asks whether different family weights, risk caps, or coordination rules would have improved the portfolio without hiding drawdown or regime fragility. Each strategy carries an archetype profile so the learning system compares it against the right kind of behavior instead of applying one generic threshold set to every bot.
 
 ## Monorepo layout
 
-The supported checkout shape is a `packages/` monorepo with three workspaces that communicate only through frozen manifests and artifacts &mdash; direct runtime imports across workspaces are not allowed.
+The package split exists to keep the learning loop honest. The control plane decides what evidence is needed, the data package proves the inputs, and the backtest package proves candidate behavior under replay. They communicate through frozen manifests and artifacts so a candidate cannot quietly change the data, scorer, replay assumptions, or live strategy boundary it is being judged against.
 
 ```
 trading_assistant_agent/
-  docs/                          # ADRs, plans, audits, target-state docs
+  docs/                          # ADRs, target-state docs
   artifacts/                     # Run outputs, reports, ledger snapshots
   tools/                         # Repo-wide tooling
-  _references/                   # Read-only reference code (e.g. trading repo patterns)
-  trading-assistant-workflow-explainer.html
   packages/
     trading_assistant/           # Control plane: orchestrator, ledgers, approval routing
     trading_assistant_data/      # Canonical data product: market data, bundles, manifests
@@ -85,48 +83,59 @@ trading_assistant_agent/
 
 | Package | Role | Owns |
 |---|---|---|
-| `trading_assistant` | Control plane | Run manifests, freeze windows, objective version, `round_N` configs, ledgers, approval state |
+| `trading_assistant` | Control plane | Run manifests, freeze windows, score-profile version, `round_N` configs, ledgers, approval state |
 | `trading_assistant_data` | Data product | Canonical market data, calendars, checksums, bundle manifests, coverage reports |
 | `trading_assistant_backtest` | Experiment lab | Diagnostics, phased-auto search, OOS repair, scoring, replay adapters, artifact emission |
 
-The actual trading repo (separate) remains production truth for strategy
-behavior. Structural candidates must prove decision-level parity against it
-before they can be scored or approved.
+### Architecture Ownership Map
+
+| Interface | Owner | Compatibility Surface |
+|---|---|---|
+| Runtime assembly | `trading_assistant.orchestrator.runtime` | `orchestrator.app` binds HTTP routes and lifespan hooks |
+| Loop orchestration | `trading_assistant.orchestrator.loops` and `orchestrator.action_handlers` | `orchestrator.handlers` delegates legacy entry points |
+| Prompt evidence | `trading_assistant.analysis.context_sources` via `EvidenceMemory` | `ContextBuilder` assembles `PromptPackage` and inherits source-owned loader methods |
+| Strategy detectors | `trading_assistant.analysis.detectors` | `StrategyEngine` keeps public detector methods as delegating adapters |
+| Monthly artifacts and gates | `trading_assistant.skills.monthly_artifact_contract` plus `artifact_authority_registry` | Candidate/model-review runners consume contract-built views |
+| Slice data product | `trading_assistant_data.slices` | `normalization.py` remains the CLI/source normalization command owner |
+| Monthly replay execution | `trading_assistant_backtest.monthly_execution` | `monthly.py` is the command adapter |
+| Architecture enforcement | `tools/check_workspace_structure.py` and `tools/run_workspace_checks.py architecture-health` | Deployment gate runs the same guard |
+
+The external live-bot repos remain production truth for strategy behavior: `_references/trading`, `_references/k_stock_trader`, and `_references/crypto_trader`. Structural candidates must prove decision-level parity against the relevant pinned live repo and bridge contract before they can be scored for adoption or approved.
 
 ## Event-flow architecture
 
-```
-VPS Bots → Sidecar → Relay VPS → POST /events → EventQueue (SQLite)
-                                                       ↓
-                                              OrchestratorBrain
-                                            (classify → create task)
-                                                       ↓
-                                                    Worker
-                                              (pick task → run agent)
-                                                       ↓
-                                                  AgentRunner
-                                          (assemble context → provider profile → CLI runtime)
-                                                       ↓
-                                                runs/<id>/outputs/
-                                                       ↓
-                                          Telegram / Discord / Email
-```
-
-Inside the `trading_assistant` control-plane package:
+The event path turns live trading outcomes into durable learning material. It is one-way by design: bots emit facts, the assistant stores and analyzes them, and approved changes flow back only through human-reviewed PRs.
 
 ```
-orchestrator/   FastAPI app, brain, worker, scheduler, event queue, handlers
-analysis/       prompt assemblers, strategy engine, context builders, response validation
-skills/         data pipelines, metrics builders, simulation runners, trackers
-comms/          Telegram, Discord, Email adapters + dispatcher + renderers
-schemas/        Pydantic v2 models for all data contracts
-memory/         policies/ (human-edited) + findings/ (system-written)
-tests/          pytest, asyncio_mode=auto
+VPS bots
+  -> sidecar
+  -> relay VPS
+  -> POST /events
+  -> EventQueue (SQLite)
+  -> OrchestratorBrain (classify, create task)
+  -> Worker (pick task, run agent)
+  -> AgentRunner (assemble context, provider profile, CLI runtime)
+  -> runs/<id>/outputs/
+  -> Telegram / Discord / Email
+```
+
+Inside the `trading_assistant` control-plane package, each component supports that evidence-to-learning path:
+
+```
+orchestrator/   receive facts, classify work, schedule learning cycles
+analysis/       convert evidence into hypotheses, prompts, and validated outputs
+skills/         build metrics, ledgers, search briefs, simulations, and trackers
+comms/          surface approvals, alerts, and evidence summaries to humans
+schemas/        make every event, candidate, and approval packet auditable
+memory/         keep human policy separate from system-written findings
+tests/          preserve the contracts that make the loop trustworthy
 ```
 
 `trading_assistant_data` and `trading_assistant_backtest` are reached only through frozen manifests, CLI/API contracts, and emitted artifacts.
 
 ## Cadence
+
+The cadence is a learning hierarchy. Daily work protects data quality and finds fresh symptoms; weekly work turns symptoms into bounded hypotheses; monthly work is the only path that can convert a hypothesis into an approval candidate.
 
 | Cadence | Role | Authority |
 |---|---|---|
@@ -134,76 +143,73 @@ tests/          pytest, asyncio_mode=auto
 | Weekly | Synthesis: scorecards, hypotheses, rotation across active strategy / portfolio scopes, build `monthly_search_brief.json` | Bounded search priors only &mdash; cannot trigger OOS repair, satisfy gates, or approve candidates |
 | Monthly | Authoritative full-fidelity validation, optimization, and outcome measurement | Sole authority for material strategy/config changes (still human-approved) |
 
-Weekly scope rotates across `k_stock_trader` + trading stock, trading momentum,
-trading swing, and `crypto_trader`, then repeats.
+Weekly scope rotates across `k_stock_trader` + trading stock, trading momentum, trading swing, and `crypto_trader`, then repeats.
 
 ### Scheduled tasks
 
-| Task | Schedule | What it does |
+These jobs are not independent automations; they keep the improvement loop fed, measured, and honest between monthly validation runs.
+
+| Task | Schedule | Learning contribution |
 |---|---|---|
-| Daily Analysis | 06:00 UTC (configurable per bot timezone) | Per-bot daily report with quality gate |
-| Weekly Summary | Sunday | Cross-bot review, suggestions, structural proposals, search-brief assembly |
-| Monthly Validation | Monthly | Authoritative `round_N` diagnostics, phased-auto, OOS repair, approval-gated proposals |
-| Proactive Scanner | Morning + evening | Anomaly detection, heartbeat monitoring |
-| Learning Cycle | Weekly | Ground-truth snapshots, suggestion routing, ledger deltas |
-| Outcome Measurement | Sunday 10:00 UTC | Early-warning 7/14/30-day pre/post against deployed suggestions (non-authoritative) |
-| Memory Consolidation | Sunday 09:00 UTC | Aggregates findings, generates hypothesis candidates |
-| Transfer Outcome Tracking | Sunday 10:30 UTC | Measures cross-bot pattern transfer results |
-| Threshold Learning | Periodic | Adapts detector firing thresholds from outcome history |
-| Experiment Check | Periodic | Auto-concludes experiments that reach statistical significance |
-| Discovery Analysis | Periodic | Raw JSONL pattern discovery outside detector coverage |
-| Reliability Verification | Periodic | Verifies system health and data pipeline integrity |
+| Daily Analysis | 06:00 UTC | Finds fresh performance symptoms and data-quality issues before they distort learning |
+| Weekly Summary | Sunday | Turns recent evidence into bounded hypotheses and monthly search-brief priors |
+| Monthly Validation | Monthly | Converts hypotheses into replay-tested, approval-gated candidates |
+| Proactive Scanner | Morning + evening | Catches unusual losses, repeated errors, and heartbeat gaps early |
+| Learning Cycle | Weekly | Updates helper outcome snapshots, ledgers, and pending-item routing |
+| Outcome Measurement | Sunday 10:00 UTC | Provides early-warning 7/14/30-day context after deployment |
+| Memory Consolidation | Sunday 09:00 UTC | Distills repeated findings into reusable learning material |
+| Transfer Outcome Tracking | Sunday 10:30 UTC | Tests whether patterns learned on one bot actually transfer |
+| Threshold Learning | Periodic | Tunes detector sensitivity from measured outcomes |
+| Experiment Check | Periodic | Closes statistically resolved experiments and records hypothesis outcomes |
+| Discovery Analysis | Periodic | Looks for raw JSONL patterns outside the detector catalogue |
+| Reliability Verification | Periodic | Keeps the evidence pipeline fit for decision-making |
 
 Bug triage runs on demand when HIGH+ severity errors arrive. The configured agent runtime is invoked per task (not always-running), keeping subscription-backed profiles at zero extra cost while idle.
 
 ## The monthly authoritative loop
 
-Each month, after data sync and freeze (in-sample = all reliable data before
-the latest completed month; selection-OOS = the latest completed month):
+The monthly loop is where the repo asks the hard question: "Given what we have learned from live outcomes so far, what change is most likely to improve future trading after costs, drawdown, data quality, and out-of-sample pressure?" Each month, after data sync and freeze (in-sample = all reliable data before the latest completed month; selection-OOS = the latest completed month):
 
 1. **`round_N` diagnostics** &mdash; full end-of-round diagnostics on the current optimized strategy and portfolio configs.
 2. **Search brief** &mdash; consume the weekly `monthly_search_brief.json` as advisory priors only.
 3. **LLM experiment plan** &mdash; diagnostics &rarr; structured phased-auto plan (signals, discrimination, entries, mechanisms, exits, structural candidates, overfit risks).
-4. **Two-fold phased-auto on in-sample** &mdash; purged folds with embargo; `max_workers=2`; immutable score &le; 7 components; config-only and structural candidates compete under one objective.
+4. **Two-fold phased-auto on in-sample** &mdash; purged folds with embargo; `max_workers=2`; config-only and structural candidates compete under the resolved `immutable_score_profiles_v1` profile with at most seven active components.
 5. **Conditional OOS repair** &mdash; triggered only when selection-OOS materially trails in-sample/fold expectation. Ablates all cumulative accepted mutations, perturbs locally, considers rollback and targeted additions.
-6. **Repair-centered confirmatory follow-up** &mdash; the OOS-repair recommendation competes against incumbent, phased-auto winner, rollback candidates, and targeted additions under the same immutable objective.
-7. **Adopt `round_N+1`** &mdash; update the rounds manifest, save end-of-round diagnostics, verify live/backtest parity, then route to model review and human approval.
+6. **Repair-centered confirmatory follow-up** &mdash; the OOS-repair recommendation competes against incumbent, phased-auto winner, rollback candidates, and targeted additions under the same resolved immutable score profile.
+7. **Adopt `round_N+1`** &mdash; update the rounds manifest, save end-of-round diagnostics, verify live/backtest parity, then route to model review and human approval once the relevant bridge is eligible for adoption.
 
 Deployed verdicts come from the **next** completed monthly full-fidelity validation (the selection-OOS month is no longer clean once it influenced selection). Persistence is confirmed by a three-month or minimum-trade-count follow-up.
 
-## Canonical objective
+## Canonical scoring
 
-Selection and measurement both use `objective_weights_v1` (canonical policy in `memory/policies/v1/soul.md`, code-level source in `schemas/objective_weights.py`):
+The scoring contract exists to keep the improvement loop honest: a candidate only matters if it improves the strategy under replay evidence, survives out-of-sample pressure, and does not buy performance by taking unacceptable risk. Monthly and phased-auto ranking therefore uses the governed `immutable_score_profiles_v1` profiles, with profiles scaled to the relevant strategy, family, or portfolio instead of forcing every bot through one static formula.
 
-- 30% &mdash; expected return / net profit
-- 20% &mdash; Calmar
-- 15% &mdash; profit factor
-- 15% &mdash; expectancy
-- 10% &mdash; inverse max drawdown
-- 10% &mdash; process quality (renormalized away when replay cannot simulate it)
-
-Hard gates: no material in-sample deterioration, latest-month OOS improvement, positive support across purged folds, sufficient trade count, realistic costs, no large drawdown increase, no dependence on one or two outlier wins, no constraint breakage. Trade frequency is an under-trading gate, not a target.
+`immutable_score_profiles_v1` combines risk-adjusted return, drawdown control, trade support, cost realism, out-of-sample persistence, and family-specific behavior checks, then applies hard rejects before ranking candidates. That aligns scoring with the app's goal: improve future live trading performance through durable, replay-backed edge rather than short-term backtest gains or riskier parameter fits.
 
 ## Safety boundary
 
+The safety boundary is part of the performance system. A learning loop that can command bots, weaken policy, or approve its own changes can overfit to its own incentives. This repo keeps evidence generation, candidate scoring, approval, and live trading authority separated.
+
 - The assistant never places, cancels, or modifies live orders or positions.
 - Models synthesize evidence and propose structural changes &mdash; they cannot route events, bypass gates, edit policy memory, or approve trading changes.
-- Every material change requires human approval with replay evidence, objective deltas, failure attribution, and a rollback plan attached.
+- Every material change requires human approval with replay evidence, score deltas, failure attribution, and a rollback plan attached.
 - `AutoOutcomeMeasurer` (7/14/30-day daily-summary windows) is retained for operational alerts and prompt context only &mdash; it is no longer authoritative for deployed outcomes.
 
 ## Human-in-the-loop
 
-The system is read-only with respect to bots &mdash; it never sends commands to them. All changes flow through GitHub PRs that require human action to merge:
+Human approval is not just a safety valve; it is the point where evidence, business judgment, and deployment risk meet. The system is read-only with respect to bots, and all changes flow through GitHub PRs that require human action to merge:
 
 - **Parameter changes** &mdash; validated by monthly phased-auto and replay parity; require explicit Telegram approval before a PR is created.
 - **Structural candidates** &mdash; may be implemented and scored inside the monthly phased-auto/backtest lane, but production PRs require decision-level parity, evidence gates, and human approval. Weekly structural suggestions remain report-only until promoted.
 - **Bug fix PRs** &mdash; generated for obvious fixes; always require human review.
-- **Rollback PRs** &mdash; created automatically on regression detection; still require human merge.
+- **Rollback PRs** &mdash; can be created when deployment monitoring detects regression; still require human merge.
 - **Portfolio allocation** &mdash; recommendations only; reallocating capital is a manual action.
 
-Three-tier permission gates (`auto` / `requires_approval` / `requires_double_approval`, defined in `memory/policies/v1/permission_gates.md`) enforce this at the file-path level during PR review. Trading-logic and policy-document changes always require approval; the canonical objective and ground-truth function sit behind double approval so neither the system nor a single human action can change how performance is measured.
+Three-tier permission gates (`auto` / `requires_approval` / `requires_double_approval`, defined in `memory/policies/v1/permission_gates.md`) enforce this at the file-path level during PR review. Trading-logic, policy-document, immutable score-profile, helper objective, and ground-truth-function changes are human-owned governance changes; the system cannot change how performance is measured through an ordinary agent run.
 
 ## Ledgers
+
+The ledgers are how the repo avoids repeating itself. They preserve which ideas were proposed, why they were accepted or rejected, what changed in production, and whether the change actually improved trading later.
 
 | Ledger | Scope |
 |---|---|
@@ -211,11 +217,11 @@ Three-tier permission gates (`auto` / `requires_approval` / `requires_double_app
 | `SuggestionTracker` | Actionable suggestion lifecycle and approval-facing status |
 | `StrategyChangeLedger` | Canonical strategy-level changelog: what changed, why, when, on which strategy under which config, and whether it worked (one-month + multi-month verdicts) |
 
-Broad candidate noise stays in `ProposalLedger`. Only selected changes, deployed changes, rollbacks, and explicit no-change decisions enter `StrategyChangeLedger`.
+Broad candidate noise stays in `ProposalLedger`. Only selected changes, deployed changes, rollbacks, and explicit no-change decisions enter `StrategyChangeLedger`, so future planning can distinguish "explored and weak" from "approved and performance-relevant."
 
 ## Memory layers
 
-The system maintains a five-layer memory model so harness improvements never become trading authority:
+Memory exists to make the next cycle better than the last one without letting generated advice become trading authority. The layers separate durable human policy, replay evidence, advisory lessons, recall, and harness evaluation:
 
 1. **Policy memory** &mdash; human-edited rules, objectives, gates, governance.
 2. **Evidence memory** &mdash; monthly artifacts, ledgers, outcomes, priors, replay reports, rejected candidates.
@@ -223,54 +229,39 @@ The system maintains a five-layer memory model so harness improvements never bec
 4. **Raw recall** &mdash; indexed run artifacts, session summaries, validator notes, model-review traces.
 5. **Evaluation corpus** &mdash; executable harness benchmarks derived from failures, blocked proposals, calibration misses, and high-value successes.
 
-Harness changes (prompts, retrieval, validators, parsers, generated playbooks, provider routing) must pass executable benchmarks before they are kept. Hard failures &mdash; approval bypass, direct live commands, hallucinated evidence, autonomous policy edits &mdash; override any score gains.
+Harness changes (prompts, retrieval, validators, parsers, generated playbooks, provider routing) must pass executable benchmarks before they are kept. Hard failures &mdash; approval bypass, direct live commands, hallucinated evidence, autonomous policy edits &mdash; override any score gains because they would make future trading decisions less trustworthy.
 
 ## Learning loop
 
-Every suggestion is tracked from generation to deployed outcome and back into the next prompt:
+Past outcomes improve future trading only when they are linked back to the ideas that caused them. Every suggestion is tracked from generation to deployed outcome and then back into the next prompt, search brief, detector calibration, and approval context:
 
 ```
-                       Strategy engine (19 detectors)
-                                  ↓
-                  suggestion with ID → SuggestionTracker
-                       ↓                          ↓
-                config candidate            structural proposal
-                       ↓                          ↓
-              monthly validation             validation gates
-              (phased-auto, OOS              (track record, category
-               repair, replay parity)         win rate, calibration)
-                       ↓                          ↓
-              ProposalLedger &              report for human review
-              StrategyChangeLedger
-                       ↓
-              Telegram approval card → GitHub PR
-                       ↓
-            Approve / reject via Telegram → lifecycle update
-                       ↓
-  ┌──── Learning cycle (weekly, advisory only) ──────────────────┐
-  │ ground-truth snapshot → ledger delta → route pending items   │
-  │ config candidates → monthly val.   structural → tracker      │
-  │ weekly evidence → monthly_search_brief.json (advisory)       │
-  └──────────────────────────────────────────────────────────────┘
-                       ↓
-       AutoOutcomeMeasurer (7/14/30-day pre/post, early warning only)
-                       ↓
-       Next monthly full-fidelity validation = primary deployed verdict
-                       ↓
-       3-month or min-trade follow-up = persistence verdict
-                       ↓
-  ┌──── Fed back into every subsequent prompt ───────────────────┐
-  │ ground-truth trends · monthly outcomes · category scorecards │
-  │ prediction accuracy · convergence · loop health · bias data  │
-  └──────────────────────────────────────────────────────────────┘
+Strategy engine (19 detectors)
+  -> suggestion ID in SuggestionTracker
+  -> config candidate -> monthly validation
+       (phased-auto, OOS repair, replay parity)
+  -> structural proposal -> validation gates
+       (hypothesis track record, category win rate, calibration)
+  -> ProposalLedger and StrategyChangeLedger
+  -> Telegram approval card / GitHub PR, only after approval gates
+  -> approve or reject via Telegram
+  -> lifecycle update
+
+Weekly learning cycle (advisory only)
+  -> helper ground-truth snapshot, ledger delta, pending-item routing
+  -> weekly evidence and monthly_search_brief.json
+  -> AutoOutcomeMeasurer early-warning context
+  -> next monthly full-fidelity validation as primary deployed verdict
+  -> 3-month or min-trade follow-up as persistence verdict
+  -> feedback into prompts, priors, category scorecards, confidence, and loop health
 ```
 
-The system will not re-suggest rejected ideas. Categories with low success rates have their suggestions stripped before delivery. Confidence is capped based on historical prediction accuracy. Hypotheses that accumulate rejections and negative outcomes are auto-retired. Measured outcomes and persistent correction patterns are synthesised into learning ledger entries without manual curation.
+The system should get harder to fool over time. It will not re-suggest rejected ideas, categories with low success rates are stripped before delivery, confidence is capped by historical prediction accuracy, and hypotheses that accumulate rejections or negative outcomes are retired. Positive and negative outcomes both become learning material for the next cycle.
 
-The loop is self-correcting &mdash; the harness monitors whether its own optimisation process is working and adapts without touching trading authority:
+The harness also monitors whether its own improvement process is working, without touching trading authority:
 
-- **Convergence tracking** synthesises composite score trends, prediction accuracy, outcome ratios, and scorecard evolution into an overall signal (improving / degrading / oscillating / stable). When oscillation is detected, the LLM is instructed to hold steady rather than reversing last week's suggestions.
-- **Loop health metrics** quantify proposal-to-measurement latency, oscillation severity, transfer success rate, recalibration effectiveness, suggestions per cycle, and measurement coverage. These are injected into every prompt so the agent can see where the learning pipeline itself is underperforming.
+- **Convergence tracking** asks whether recent changes are actually improving future results, degrading them, or causing oscillation. When oscillation is detected, the LLM is instructed to hold steady rather than reverse last week's suggestions.
+- **Loop health metrics** expose whether the learning system itself is slow, noisy, poorly measured, or overproducing suggestions.
 - **Temporal decay** applies a 5%/week exponential decay to scorecard outcome weights, matching the learning ledger's decay rate. Categories recover from early failures as old negatives fade.
 - **Directional bias correction** detects systematic optimism or pessimism per metric in the LLM's prediction track record and reduces confidence on predictions matching the bias (capped at 20%).
 - **Per-detector confidence calibration** gives each of the 19 detectors an empirical confidence multiplier derived from its outcome history &mdash; distinct from threshold learning, which adapts *when* a detector fires.
@@ -280,23 +271,23 @@ The loop is self-correcting &mdash; the harness monitors whether its own optimis
 
 ## Design philosophy
 
-The system combines four reference architectures to serve a single goal: continuously improve trading bot performance while keeping a human in control of what matters. The four patterns share one objective function, one suggestion lifecycle, and the same approval gates &mdash; they are integrated, not stacked.
+The system borrows four architectural patterns only where they help the core goal: use accumulated evidence to improve future trading performance while keeping a human in control of live risk. They share governed scoring vocabulary, one suggestion lifecycle, and the same approval gates &mdash; they are integrated, not stacked.
 
 ### From OpenClaw &mdash; disposable agents, permanent knowledge
 
-The agent is disposable; the knowledge is permanent. The CLI runtime is a stateless executor that reads context, runs a skill, writes results, and exits. Everything that compounds value over time &mdash; outcome measurements, suggestion histories, calibration, correction logs, prompt patterns &mdash; lives in local files and SQLite: owned, queryable, backed up, inspectable.
+The agent is disposable; the learning history is permanent. Models, providers, and CLI runtimes can change, but outcome measurements, suggestion histories, calibration, correction logs, and prompt patterns stay local, queryable, and auditable.
 
-This buys three concrete properties:
+That matters for trading improvement because:
 
-- **The brain is swappable.** When a better model arrives, swap the executor and everything continues. Four runtime providers (Claude Max, Codex Pro, Z.AI Coding Plan, OpenRouter) are already supported, with automatic fallback chains.
-- **Every interaction is auditable.** The agent reads explicit context (memory files, skill prompts, event payloads) and writes explicit outputs (run-folder artifacts, JSONL records, parsed analyses), so any recommendation can be traced back to exactly what the agent saw.
-- **Proactive intelligence without infrastructure.** APScheduler fires cron jobs for daily analysis, weekly synthesis, monthly validation, heartbeat monitoring, and proactive scanning &mdash; just scheduled subprocesses on the local machine.
+- **The brain is swappable.** Better models can be adopted without losing the trading history the system has learned from.
+- **Every recommendation is auditable.** A change can be traced back to the evidence, memories, prompts, and artifacts the agent saw.
+- **Proactive learning stays local.** Scheduled daily, weekly, and monthly jobs can keep the evidence loop moving without giving the agent live trading authority.
 
 Disposability depends on clear, enforceable boundaries: three-tier permission gates classify every action the system can take (auto, requires approval, requires double approval) and enforce them at the file-path level during PR review; separated memory tiers keep `memory/policies/` (versioned, human-edited only) distinct from `memory/findings/` (additive, time-stamped, system-written); deterministic routing keeps the orchestrator brain LLM-free for event classification and task creation.
 
 ### From Hermes &mdash; advisory memory and harness meta-learning
 
-Hermes adds the advisory memory and harness layer that decides what the next agent run should see, and whether prompt, retrieval, validator, parser, playbook, or provider changes actually improve decision quality.
+Hermes-style memory decides what past outcomes the next agent run should see and whether changes to prompts, retrieval, validators, parsers, playbooks, or providers improve decision quality.
 
 - **Prompt delivery closes the last-mile gap.** `InvocationBuilder.build_full_prompt()` merges instructions, corrections, skill methodology, ranked learning cards, and focused recall into the prompt itself, so upstream learning influences analysis instead of sitting in sidecar files the runtime may never read.
 - **Learning cards turn past lessons into ranked retrieval.** Corrections, measured outcomes, discoveries, causal reasonings, recalibrations, spurious-outcome flags, hypothesis results, validator blocks, transfer outcomes, retrospectives, and validation logs are ingested as `LearningCard` objects scored by recency, impact, confidence, and context match, then injected most-relevant-first.
@@ -304,49 +295,36 @@ Hermes adds the advisory memory and harness layer that decides what the next age
 - **Bounded search briefs are the bridge into monthly optimization.** Weekly synthesis, learning cards, hypotheses, and prior outcomes are summarized into `monthly_search_brief.json` for planner and runner ordering only &mdash; the brief cannot choose the monthly sequence, trigger OOS repair, satisfy gates, approve changes, weaken policy memory, or command bots.
 - **Generated memory remains advisory.** Policy memory and monthly evidence outrank learning cards, generated playbooks, raw recall, and harness benchmark results. Advisory artifacts require provenance, outcome attribution, supersession, quarantine, and keep/discard evidence before they re-enter prompts.
 
-### From Autoresearch &mdash; an immutable objective and a separable evidence loop
+### From Autoresearch &mdash; immutable scoring and a separable evidence loop
 
-A self-improving system needs an evaluation function it cannot modify and an optimization loop whose scoring, gates, repair triggers, and adoption decisions do not depend on model persuasion. The LLM can design experiments and review candidates after evidence is assembled; deterministic replay, objective scoring, parity gates, and approval policy remain decisive.
+A self-improving trading system needs governed evaluation rules it cannot modify. The LLM can design experiments and review candidates after evidence is assembled; deterministic replay, immutable scoring, parity gates, and approval policy remain decisive.
 
-- **The ground-truth computer** (`skills/ground_truth_computer.py`) computes a single composite score from z-score-normalized metrics with fixed weights centralized in `schemas/objective_weights.py`. When replay cannot simulate process quality, the remaining weights renormalize. The objective lives behind the double-approval permission gate, so neither the system nor a single human action can change how performance is measured.
+- **Immutable monthly scoring** lives in `trading_assistant_backtest.scoring.immutable`. Monthly/phased-auto candidate ranking resolves a profile for the strategy, family, or portfolio, applies hard rejects first, then persists the exact profile metadata and compact score payload with each replay artifact. `skills/ground_truth_computer.py` and `schemas/objective_weights.py` remain stable helper composites for daily/weekly learning snapshots and local triage, not the binding monthly scorer.
 - **The monthly evidence loop** is the material strategy-learning path that replaces legacy WFO. The control plane owns frozen manifests, telemetry and market-data coverage checks, replay-parity evidence, monthly search-brief attachment, model review, candidate gates, approval packets, ledgers, and outcome measurement; full-fidelity replay is delegated to `trading_assistant_backtest`.
 - **The weekly learning cycle** remains a sensor, early-warning, and context provider. Its influence on monthly optimization is intentionally bounded to `monthly_search_brief.json` &mdash; it may steer planner emphasis, phase order, seed neighborhoods, negative priors, and conditional repair-ablation priority, but it cannot create approval-ready candidates, change the monthly sequence, trigger OOS repair, or satisfy adoption gates.
 
 ### From Symphony &mdash; isolated candidate orchestration
 
-Symphony contributes the runner boundary for expensive monthly optimisation work, not the trading brain. The Symphony-style layer owns deterministic per-candidate workspaces, path containment with enforced subprocess `cwd`, repo-owned optimizer workflow contracts, candidate-attempt state, retry/backoff, stall detection, drift reconciliation, and structured attempt logs.
+Symphony-style orchestration keeps expensive candidate testing isolated from both the control plane and the live trading repos. That lets the system explore possible improvements aggressively while preserving deterministic workspaces, path containment, retry/backoff, stall detection, drift reconciliation, and structured attempt logs.
 
-It explicitly does not own strategy logic, replay scoring, live/backtest parity gates, approval or deployment decisions, ticket workflow, or live trading commands. `trading_assistant` remains the control plane and ledger; `trading_assistant_backtest` is the experiment lab; the actual trading repo remains production source of truth.
+It explicitly does not own strategy logic, replay scoring, live/backtest parity gates, approval or deployment decisions, ticket workflow, or live trading commands. `trading_assistant` remains the control plane and ledger; `trading_assistant_backtest` is the experiment lab; the external live-bot repos remain production source of truth.
 
 ### How they integrate
 
-- **Shared objective function.** Daily ground truth, monthly replay evidence, and approval-gated candidate scoring draw from the same vocabulary in `schemas/objective_weights.py`. Replay layers renormalize only when process quality is unavailable; trade frequency stays a viability gate. When the weights are updated behind double approval, evaluation, candidate scoring, and outcome measurement move together.
+- **Governed scoring vocabulary.** Monthly replay evidence and approval-gated candidate scoring use `immutable_score_profiles_v1`, including profile metadata, capped components, and hard rejects. Daily/weekly ground-truth snapshots and local helper composites draw from `objective_weights_v1` for continuity, but they cannot override monthly ranking. Score-profile and helper-weight changes are human-owned governance changes.
 - **Unified suggestion lifecycle.** Suggestions and monthly candidates flow with deterministic IDs through `SuggestionTracker`, `ProposalLedger`, and `StrategyChangeLedger`, then through approval, implementation, deployment monitoring, rollback/watch decisions, and outcome measurement. The next completed one-month full-fidelity validation is the primary deployed verdict; early-warning windows are prompt context only.
 - **Experiment-to-hypothesis traceability.** On statistical resolution, the auto-conclusion chain updates the linked suggestion (accept / reject) and records the outcome against the hypothesis that motivated it (positive / negative). The next analysis prompt reflects not just "this change was tested" but "the hypothesis behind it was strengthened or weakened."
 - **Bidirectional context flow.** Weekly results flow back through context assembly, monthly outcome priors, learning cards, focused recall, and `monthly_search_brief.json`. The LLM sees what was tried, what worked, which candidate families have poor track records, whether the system is converging or oscillating, where its directional biases lie, which bots have sufficient instrumentation, and which weak weekly signals should stay low-confidence.
-- **Governance prevents gaming.** Because `soul.md` and the ground-truth formula sit behind human-only policy controls, the system cannot shift to something easier to optimize. Structural and config candidates must pass data coverage, replay parity, objective, no-regression, model-review, approval-payload, and human approval gates before adoption. The system learns from its own history through an evaluation function it cannot change.
+- **Governance prevents gaming.** Because policy memory, immutable score profiles, helper weights, and ground-truth functions sit behind human-owned controls, the system cannot shift to something easier to optimize. Structural and config candidates must pass data coverage, replay parity, immutable scoring, no-regression, model-review, approval-payload, and human approval gates before adoption. The system learns from its own history through governed scoring rules it cannot change.
 
 ### Matching the change type to the right tool
 
-- **Parameter changes** &mdash; adjusting a stop-loss percentage, a signal threshold, a filter sensitivity. Numerical optimization problems with a clear objective function, owned by the monthly evidence and replay validation loop. Phased-auto compares config candidates against frozen artifacts, replay parity, objective thresholds, OOS degradation checks, and rollback requirements before approval.
-- **Structural changes** &mdash; adding a regime-aware exit rule, splitting a strategy into variants, redesigning a filter interaction. First-class phased-auto candidates inside the monthly loop, not a separate advisory-only lane. The LLM designs candidate patches; the runner applies them in isolated workspaces across the live strategy repo and backtest adapter; unit, decision, and decision-level parity tests run before fold scoring; config neighborhoods are tuned around passing structural candidates.
+- **Parameter changes** &mdash; adjusting a stop-loss percentage, a signal threshold, a filter sensitivity. Numerical optimization problems with a resolved immutable score profile, owned by the monthly evidence and replay validation loop. Phased-auto compares config candidates against frozen artifacts, replay parity, profile thresholds, OOS degradation checks, and rollback requirements before approval.
+- **Structural changes** &mdash; adding a regime-aware exit rule, splitting a strategy into variants, redesigning a filter interaction. First-class phased-auto candidates inside the monthly loop, not a separate advisory-only lane. The LLM designs candidate patches; the runner applies them in isolated workspaces across the relevant live-bot repo and backtest adapter; unit, decision, and decision-level parity tests run before fold scoring; config neighborhoods are tuned around passing structural candidates.
 - **Portfolio-level changes** &mdash; rebalancing family allocation weights, adjusting risk caps, modifying coordination rules, changing drawdown-tier multipliers. Validated through a what-if analysis (`skills/portfolio_what_if.py`) that rescales historical family PnL under the proposed weights to estimate portfolio Calmar, Sharpe, and max drawdown. Where per-family trade-level data exists, the what-if uses individual trades for intra-day max drawdown, Sortino, profit factor, and regime breakdowns that daily aggregation would mask. Outcomes are measured over a 30-day observation window (vs 7 days for strategy-level); regime shifts during the window yield INCONCLUSIVE verdicts rather than false signals.
 
 ## Running the system
 
-Operational setup, env vars, CLI commands, and the secure-binding rules for the control-plane FastAPI app live in [`packages/trading_assistant/README.md`](packages/trading_assistant/README.md). Canonical data-sync jobs are documented in [`packages/trading_assistant_data/README.md`](packages/trading_assistant_data/README.md); the monthly optimizer runner contract lives in [`packages/trading_assistant_backtest/MONTHLY_OPTIMIZER_WORKFLOW.md`](packages/trading_assistant_backtest/MONTHLY_OPTIMIZER_WORKFLOW.md).
+This top-level README explains why the learning loop exists and how the pieces fit together. Operational setup lives closer to the packages that own each part of the loop: control-plane runtime and secure binding in [`packages/trading_assistant/README.md`](packages/trading_assistant/README.md), canonical data-sync jobs in [`packages/trading_assistant_data/README.md`](packages/trading_assistant_data/README.md), and the monthly optimizer runner contract in [`packages/trading_assistant_backtest/MONTHLY_OPTIMIZER_WORKFLOW.md`](packages/trading_assistant_backtest/MONTHLY_OPTIMIZER_WORKFLOW.md).
 
-The agent runtime is swappable per workflow between Claude Max (default), Codex Pro, Z.AI Coding Plan, and OpenRouter-backed Claude-compatible models &mdash; selection is persisted in `data/agent_preferences.json` and surfaced via `GET/PUT /agent/preferences` and the Telegram `/settings` panel. Daily and weekly Claude workflows use read-only tool allowlists (`Read`, `Grep`, `Glob`); monthly model review runs without tools; triage keeps `Bash` enabled alongside the read-only tools. The runner clears Anthropic/OpenAI API/base-url env vars before subscription-backed launches so Max/Pro runs cannot silently fall back to API billing.
-
-## Where to look next
-
-| File | Purpose |
-|---|---|
-| [`trading-assistant-workflow-explainer.html`](trading-assistant-workflow-explainer.html) | Narrated system map, cadence timeline, gap and roadmap status |
-| [`docs/workflow-learning-loop-target-state.md`](docs/workflow-learning-loop-target-state.md) | Authoritative target-state spec and 12-phase implementation plan |
-| [`docs/2026-06-04-final-monorepo-package-structure-implementation-plan.md`](docs/2026-06-04-final-monorepo-package-structure-implementation-plan.md) | Final monorepo structure plan |
-| [`docs/2026-06-02-approval-grade-monthly-learning-loop-implementation-plan.md`](docs/2026-06-02-approval-grade-monthly-learning-loop-implementation-plan.md) | Approval-grade monthly loop implementation plan |
-| `packages/trading_assistant/README.md` | Control-plane package details |
-| `packages/trading_assistant_data/README.md` | Canonical data-product package details |
-| `packages/trading_assistant_backtest/README.md` | Replay & optimizer package details |
-| `packages/trading_assistant_backtest/MONTHLY_OPTIMIZER_WORKFLOW.md` | Repo-owned workflow contract for monthly optimizer runs |
+The agent runtime is swappable per workflow between Claude Max, Codex Pro, Z.AI Coding Plan, and OpenRouter-backed Claude-compatible models. Selection is persisted in `data/agent_preferences.json`, can be seeded from provider env vars when no preferences file exists, and is surfaced via `GET/PUT /agent/preferences` plus the Telegram `/settings` panel. Daily and weekly Claude-compatible workflows use read-only tool allowlists (`Read`, `Grep`, `Glob`); monthly model review runs without tools; triage keeps `Bash` enabled alongside the read-only tools. The runner clears Anthropic/OpenAI API/base-url env vars before subscription-backed launches so subscription-backed runs cannot silently fall back to API billing.

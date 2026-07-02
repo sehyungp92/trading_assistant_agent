@@ -304,7 +304,7 @@ class ProviderRouteScorer:
         total_weight = sum(weights)
         if total_weight <= 0:
             return None
-        return sum(value * weight for value, weight in zip(values, weights)) / total_weight
+        return sum(value * weight for value, weight in zip(values, weights, strict=False)) / total_weight
 
     @staticmethod
     def _mean(values: list[float]) -> float | None:

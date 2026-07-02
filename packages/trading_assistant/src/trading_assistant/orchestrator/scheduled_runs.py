@@ -2,11 +2,16 @@
 
 from __future__ import annotations
 
+import inspect
+import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Callable
 
 import aiosqlite
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -23,9 +28,15 @@ class ScheduledRunRecord:
 class ScheduledRunStore:
     """SQLite-backed store for tracked scheduled job runs."""
 
-    def __init__(self, db_path: str) -> None:
+    def __init__(
+        self,
+        db_path: str,
+        *,
+        final_status_observer: Callable[[ScheduledRunRecord], object] | None = None,
+    ) -> None:
         self._db_path = str(db_path)
         self._db: aiosqlite.Connection | None = None
+        self._final_status_observer = final_status_observer
 
     @property
     def db(self) -> aiosqlite.Connection:
@@ -114,6 +125,30 @@ class ScheduledRunStore:
             ORDER BY scheduled_for ASC
             """,
             params,
+        )
+        rows = await cursor.fetchall()
+        return [
+            ScheduledRunRecord(
+                job_key=row["job_key"],
+                scope_key=row["scope_key"],
+                scheduled_for=_from_iso(row["scheduled_for"]),
+                status=row["status"],
+                started_at=row["started_at"],
+                finished_at=row["finished_at"],
+                error=row["error"],
+            )
+            for row in rows
+        ]
+
+    async def list_recent_records(self, *, limit: int = 100) -> list[ScheduledRunRecord]:
+        cursor = await self.db.execute(
+            """
+            SELECT job_key, scope_key, scheduled_for, status, started_at, finished_at, error
+            FROM scheduled_runs
+            ORDER BY scheduled_for DESC
+            LIMIT ?
+            """,
+            (max(1, int(limit)),),
         )
         rows = await cursor.fetchall()
         return [
@@ -249,6 +284,7 @@ class ScheduledRunStore:
             (job_key, scope_key, _to_iso(scheduled_for), started, finished),
         )
         await self.db.commit()
+        await self._notify_final_status(job_key, scope_key, scheduled_for)
 
     async def mark_failed(
         self,
@@ -278,6 +314,7 @@ class ScheduledRunStore:
             (job_key, scope_key, _to_iso(scheduled_for), started, finished, error),
         )
         await self.db.commit()
+        await self._notify_final_status(job_key, scope_key, scheduled_for)
 
     async def seed_completion(
         self,
@@ -326,6 +363,35 @@ class ScheduledRunStore:
             (_to_iso(value),),
         )
         await self.db.commit()
+
+    async def _notify_final_status(
+        self,
+        job_key: str,
+        scope_key: str,
+        scheduled_for: datetime,
+    ) -> None:
+        if self._final_status_observer is None:
+            return
+        records = await self.get_records(
+            job_key,
+            scope_key,
+            since=scheduled_for,
+            until=scheduled_for,
+        )
+        if not records:
+            return
+        try:
+            result = self._final_status_observer(records[-1])
+            if inspect.isawaitable(result):
+                await result
+        except Exception:
+            logger.warning(
+                "Scheduled-run projection observer failed for %s/%s @ %s",
+                job_key,
+                scope_key,
+                scheduled_for.isoformat(),
+                exc_info=True,
+            )
 
 
 def _to_iso(value: datetime) -> str:

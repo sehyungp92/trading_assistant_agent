@@ -17,6 +17,10 @@ from typing import Any
 import httpx
 
 from trading_assistant.orchestrator.db.queue import EventQueue
+from trading_assistant.orchestrator.event_validation import (
+    QueueEventValidationError,
+    normalize_queue_event,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +35,7 @@ class VPSReceiver:
         *,
         api_key: str = "",
         latency_tracker=None,
+        allowed_bot_ids: set[str] | None = None,
         _client_factory: Callable[[], Any] | None = None,
     ) -> None:
         self._relay_url = relay_url
@@ -41,6 +46,15 @@ class VPSReceiver:
         self._client_factory = _client_factory
         self._latency_tracker = latency_tracker
         self._consecutive_failures: int = 0
+        self._allowed_bot_ids = set(allowed_bot_ids) if allowed_bot_ids is not None else None
+
+    @property
+    def consecutive_failures(self) -> int:
+        return self._consecutive_failures
+
+    @property
+    def is_healthy(self) -> bool:
+        return self._consecutive_failures == 0
 
     def _make_client(self) -> httpx.AsyncClient:
         if self._client_factory:
@@ -66,15 +80,42 @@ class VPSReceiver:
             if not events:
                 return 0
 
-            # Add received_at timestamp and normalize relay payloads for the
-            # local SQLite queue. Some relays return decoded JSON objects while
-            # EventQueue stores payload as text.
             now = datetime.now(timezone.utc).isoformat()
-            normalized_events = [
-                self._normalize_relay_event(event, received_at=now)
-                for event in events
-            ]
-            for event in normalized_events:
+            normalized_events: list[dict] = []
+            normalized_raw_events: list[object] = []
+            normalized_raw_event_ids: list[str] = []
+            quarantined = 0
+            last_event_id = ""
+
+            for raw_event in events:
+                raw_event_id = raw_event.get("event_id", "") if isinstance(raw_event, dict) else ""
+                if isinstance(raw_event_id, str) and raw_event_id:
+                    last_event_id = raw_event_id
+                try:
+                    event = self._normalize_relay_event(raw_event, received_at=now)
+                except QueueEventValidationError as exc:
+                    quarantined += 1
+                    await self._queue.quarantine_relay_event(
+                        source=self._watermark_key,
+                        raw_event_id=raw_event_id if isinstance(raw_event_id, str) else "",
+                        reason=exc.detail,
+                        payload=raw_event,
+                    )
+                    await self._queue.record_relay_ingest_classification(
+                        source=self._watermark_key,
+                        raw_event_id=raw_event_id if isinstance(raw_event_id, str) else "",
+                        event_id=raw_event_id if isinstance(raw_event_id, str) else "",
+                        classification="quarantined",
+                        reason=exc.detail,
+                        payload=raw_event,
+                    )
+                    logger.warning(
+                        "Quarantined relay event %r: %s",
+                        raw_event_id,
+                        exc.detail,
+                    )
+                    continue
+
                 # Record latency if tracker available
                 if self._latency_tracker:
                     ex_ts = event.get("exchange_timestamp", "")
@@ -83,21 +124,41 @@ class VPSReceiver:
                         self._latency_tracker.record(
                             event.get("bot_id", "unknown"), ex_ts, rx_ts,
                         )
+                normalized_events.append(event)
+                normalized_raw_events.append(raw_event)
+                normalized_raw_event_ids.append(raw_event_id if isinstance(raw_event_id, str) else "")
 
-            result = await self._queue.enqueue_batch(normalized_events)
+            classifications = await self._queue.enqueue_batch_classified(normalized_events)
+            for raw_event_id, raw_event, classification in zip(
+                normalized_raw_event_ids,
+                normalized_raw_events,
+                classifications,
+                strict=True,
+            ):
+                await self._queue.record_relay_ingest_classification(
+                    source=self._watermark_key,
+                    raw_event_id=raw_event_id,
+                    event_id=classification.event_id,
+                    classification=classification.classification,
+                    payload=raw_event,
+                )
+            inserted = sum(1 for item in classifications if item.classification == "enqueued")
+            duplicates = sum(1 for item in classifications if item.classification == "duplicate")
             logger.info(
-                "Pulled %d events (%d new, %d dup)",
-                len(events), result.inserted, result.duplicates,
+                "Pulled %d relay events (%d new, %d dup, %d quarantined)",
+                len(events), inserted, duplicates, quarantined,
             )
 
-            # Ack the last event on relay
-            last_event_id = normalized_events[-1]["event_id"]
-            await client.post("/ack", json={"watermark": last_event_id})
-            await self._queue.update_watermark(self._watermark_key, last_event_id)
+            if last_event_id:
+                await client.post("/ack", json={"watermark": last_event_id})
+                await self._queue.update_watermark(self._watermark_key, last_event_id)
 
-            return result.inserted
+            return inserted
 
     def _normalize_relay_event(self, event: dict, *, received_at: str) -> dict:
+        if not isinstance(event, dict):
+            raise QueueEventValidationError("relay event must be a JSON object")
+
         normalized = dict(event)
         normalized.setdefault("received_at", received_at)
 
@@ -108,16 +169,15 @@ class VPSReceiver:
                 payload_obj = json.loads(payload)
             except json.JSONDecodeError:
                 payload_obj = payload
-        elif isinstance(payload, (dict, list)):
-            normalized["payload"] = json.dumps(payload, default=str)
-        else:
-            normalized["payload"] = json.dumps(payload, default=str)
 
         normalized.setdefault(
             "exchange_timestamp",
             self._extract_exchange_timestamp(payload_obj) or received_at,
         )
-        return normalized
+        return normalize_queue_event(
+            normalized,
+            allowed_bot_ids=self._allowed_bot_ids,
+        )
 
     @staticmethod
     def _extract_exchange_timestamp(payload: object) -> str:
@@ -154,7 +214,17 @@ class VPSReceiver:
         """Pull all pending events from relay. For startup catch-up."""
         total = 0
         for _ in range(max_batches):
-            pulled = await self.pull_and_store(limit=batch_size)
+            try:
+                pulled = await self.pull_and_store(limit=batch_size)
+                self._consecutive_failures = 0
+            except Exception as exc:
+                self._consecutive_failures += 1
+                logger.warning(
+                    "Relay drain failed (attempt %d): %s",
+                    self._consecutive_failures,
+                    exc,
+                )
+                break
             total += pulled
             if pulled < batch_size:
                 break

@@ -1,5 +1,4 @@
 """Tests for trace_id propagation through event pipeline."""
-import uuid
 
 from trading_assistant.schemas.events import EventMetadata
 

@@ -1,18 +1,29 @@
 # schemas/objective_weights.py
-"""Shared objective weights for ground truth composite scoring.
+"""Legacy helper objective weights for ground truth composite scoring.
 
-Single source of truth for the 6-component performance weighting used by
+Single source of truth for the 6-component helper weighting used by
 GroundTruthComputer (absolute z-score composite) and ParameterSearcher
-(relative improvement composite). Both systems MUST derive their weights
+(relative improvement composite). Both systems MUST derive their helper weights
 from these constants.
 
-Weights aligned with soul.md priorities:
+This module is not the binding monthly/phased-auto scorer. Replay-backed
+monthly candidate ranking uses the strategy-family immutable profiles recorded
+as immutable_score_profiles_v1 in backtest artifacts. Keep OBJECTIVE_WEIGHTS_VERSION
+stable for legacy/control-plane compatibility, and use these weights only for
+daily/weekly learning snapshots and local parameter-search triage. The prompt
+policy in soul.md uses broader human-utility bands so it stays directionally
+aligned with immutable profiles without changing this historical helper formula.
+
+Legacy v1 helper formula:
   expected_total_r (30%): annualized net PnL, the primary optimization target
   calmar (20%): preferred risk-adjusted metric; net profit / max drawdown
   profit_factor (15%): gross_wins / gross_losses quality ratio
   expectancy (15%): win-rate and average win/loss quality
   inverse_drawdown (10%): hard constraint emphasis
   process_quality (10%): process over outcomes; anti-gaming safeguard
+
+Do not adjust these constants to mirror prompt bands unless creating a new
+objective_weights_v2 with explicit migration/rebaseline handling.
 
 Scoring contexts intentionally differ:
   - GroundTruthComputer: absolute evaluation via z-scores against the bot's
@@ -30,6 +41,8 @@ import math
 
 
 OBJECTIVE_WEIGHTS_VERSION: str = "objective_weights_v1"
+OBJECTIVE_WEIGHTS_SCOPE: str = "legacy_helper_composite"
+IMMUTABLE_MONTHLY_OBJECTIVE_VERSION: str = "immutable_score_profiles_v1"
 
 # Full 6-component weights (sum = 1.0)
 W_EXPECTED_R: float = 0.30

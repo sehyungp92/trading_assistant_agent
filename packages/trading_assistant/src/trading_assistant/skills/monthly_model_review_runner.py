@@ -11,6 +11,7 @@ from trading_assistant.schemas.backtest_artifacts import BacktestArtifactIndex
 from trading_assistant.schemas.monthly_candidates import MonthlyImprovementCandidate
 from trading_assistant.schemas.monthly_validation import MonthlyValidationResult
 from trading_assistant.schemas.prompt_package import PromptPackage
+from trading_assistant.skills.monthly_artifact_contract import MonthlyArtifactContract
 
 MONTHLY_MODEL_REVIEW_PROMPT_VERSION = "monthly_model_review_v1"
 
@@ -21,6 +22,7 @@ class MonthlyModelReviewInvocationResult:
     provider: str = ""
     model: str = ""
     runtime: str = ""
+    cost_usd: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -34,6 +36,7 @@ class MonthlyModelReviewRunResult:
     provider: str = ""
     model: str = ""
     runtime: str = ""
+    cost_usd: float = 0.0
 
 
 MonthlyModelReviewInvoker = Callable[[PromptPackage, str], str | MonthlyModelReviewInvocationResult]
@@ -71,16 +74,24 @@ class MonthlyModelReviewRunner:
                 provider=str(attribution.get("provider") or ""),
                 model=str(attribution.get("model") or ""),
                 runtime=str(attribution.get("runtime") or ""),
+                cost_usd=float(attribution.get("cost_usd") or 0.0),
             )
 
-        selected = _load_selected_candidates(artifact_index)
-        rejected = _load_rejected_candidates(artifact_index)
+        artifact_contract = MonthlyArtifactContract.from_index(artifact_index)
+        selected = [
+            artifact_contract.normalize_candidate_paths(candidate)
+            for candidate in artifact_contract.load_selected_candidates(
+                bot_id=monthly_result.bot_id,
+                strategy_id=monthly_result.strategy_id,
+            )
+        ]
+        rejected = artifact_contract.load_rejected_candidates()
         if not selected:
             return MonthlyModelReviewRunResult(skipped_reason="no selected candidates")
 
         request = self._build_request(
             monthly_result=monthly_result,
-            artifact_index=artifact_index,
+            artifact_contract=artifact_contract,
             selected=selected,
             rejected=rejected,
         )
@@ -128,11 +139,13 @@ class MonthlyModelReviewRunner:
             provider = invocation.provider
             model = invocation.model
             runtime = invocation.runtime
+            cost_usd = invocation.cost_usd
         else:
             response = str(invocation)
             provider = ""
             model = ""
             runtime = ""
+            cost_usd = 0.0
         existing_review_path.write_text(response, encoding="utf-8")
         _write_invocation_metadata(
             existing_review_path,
@@ -140,6 +153,7 @@ class MonthlyModelReviewRunner:
             provider=provider,
             model=model,
             runtime=runtime,
+            cost_usd=cost_usd,
         )
         return MonthlyModelReviewRunResult(
             request_path=str(request_path),
@@ -149,13 +163,14 @@ class MonthlyModelReviewRunner:
             provider=provider,
             model=model,
             runtime=runtime,
+            cost_usd=cost_usd,
         )
 
     @staticmethod
     def _build_request(
         *,
         monthly_result: MonthlyValidationResult,
-        artifact_index: BacktestArtifactIndex,
+        artifact_contract: MonthlyArtifactContract,
         selected: list[MonthlyImprovementCandidate],
         rejected: list[dict[str, Any]],
     ) -> dict[str, Any]:
@@ -182,7 +197,10 @@ class MonthlyModelReviewRunner:
             "monthly_status": monthly_result.status.value,
             "gap_attribution": monthly_result.gap_attribution.model_dump(mode="json"),
             "allowed_evidence_paths": allowed_evidence_paths,
-            "artifact_index_path": str(Path(artifact_index.artifact_root) / "artifact_index.json"),
+            "artifact_index_path": artifact_contract.path_str(
+                "artifact_index.json",
+                require_exists=False,
+            ),
             "selected_candidates": [
                 candidate.model_dump(mode="json")
                 for candidate in selected
@@ -238,46 +256,6 @@ acceptance_criteria, rollback_plan, routing, risk_classification, and confidence
 """
 
 
-def _load_selected_candidates(artifact_index: BacktestArtifactIndex) -> list[MonthlyImprovementCandidate]:
-    raw = _load_json_artifact(artifact_index, "selected_candidates.json")
-    items: list[dict[str, Any]]
-    if isinstance(raw, list):
-        items = [item for item in raw if isinstance(item, dict)]
-    elif isinstance(raw, dict):
-        value = raw.get("candidates") or raw.get("selected_candidates") or []
-        items = [item for item in value if isinstance(item, dict)] if isinstance(value, list) else []
-    else:
-        items = []
-    return [MonthlyImprovementCandidate.from_raw(item) for item in items]
-
-
-def _load_rejected_candidates(artifact_index: BacktestArtifactIndex) -> list[dict[str, Any]]:
-    path = artifact_index.artifact_path("rejected_candidates.jsonl")
-    if not path:
-        return []
-    result: list[dict[str, Any]] = []
-    for line in Path(path).read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        try:
-            parsed = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        if isinstance(parsed, dict):
-            result.append(parsed)
-    return result
-
-
-def _load_json_artifact(artifact_index: BacktestArtifactIndex, name: str) -> Any:
-    path = artifact_index.artifact_path(name)
-    if not path:
-        return None
-    try:
-        return json.loads(Path(path).read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return None
-
-
 def _dedupe(values: list[str]) -> list[str]:
     seen: set[str] = set()
     result: list[str] = []
@@ -316,6 +294,7 @@ def _write_invocation_metadata(
     provider: str,
     model: str,
     runtime: str,
+    cost_usd: float = 0.0,
 ) -> None:
     path = _invocation_metadata_path(model_review_path)
     path.write_text(
@@ -328,6 +307,7 @@ def _write_invocation_metadata(
                 "provider": provider,
                 "model": model,
                 "runtime": runtime,
+                "cost_usd": cost_usd,
                 "model_review_path": str(model_review_path),
                 "recorded_at": _now(),
             },

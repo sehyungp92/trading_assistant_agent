@@ -17,7 +17,6 @@ repos, not in the ``trading`` monorepo.
 """
 from __future__ import annotations
 
-from pathlib import Path
 
 import pytest
 import yaml

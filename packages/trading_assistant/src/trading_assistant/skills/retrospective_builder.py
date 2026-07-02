@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from pydantic import BaseModel
+from trading_assistant.schemas.learning_ledger import RetrospectiveSynthesis
 
 logger = logging.getLogger(__name__)
 
@@ -142,7 +143,7 @@ class RetrospectiveBuilder:
             summary=self._build_summary(correct, partial, incorrect, unverifiable, total),
         )
 
-    def build_synthesis(self, week_start: str, week_end: str) -> "RetrospectiveSynthesis":
+    def build_synthesis(self, week_start: str, week_end: str) -> RetrospectiveSynthesis:
         """Build a keep/discard synthesis from outcomes and ground truth.
 
         1. Load outcomes.jsonl for the week period

@@ -32,8 +32,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
@@ -50,11 +49,9 @@ from trading_assistant.schemas.agent_response import (
     ParsedAnalysis,
     StructuralProposal,
 )
-from trading_assistant.schemas.corrections import CorrectionType
-from trading_assistant.schemas.suggestion_scoring import CategoryScore, CategoryScorecard
+from trading_assistant.schemas.suggestion_scoring import CategoryScorecard
 from trading_assistant.schemas.suggestion_tracking import SuggestionOutcome, SuggestionRecord, SuggestionStatus
-from trading_assistant.skills.forecast_tracker import ForecastTracker
-from trading_assistant.skills.hypothesis_library import HypothesisLibrary, get_relevant
+from trading_assistant.skills.hypothesis_library import HypothesisLibrary
 from trading_assistant.skills.prediction_tracker import PredictionTracker
 from trading_assistant.skills.suggestion_scorer import SuggestionScorer
 from trading_assistant.skills.suggestion_tracker import SuggestionTracker
@@ -628,22 +625,26 @@ class TestGap5RemoveMagicMock:
 
 
 class TestGap7FindingsDirWiring:
-    """Gap 7: TransferProposalBuilder gets findings_dir in weekly handler."""
+    """Gap 7: TransferProposalBuilder gets findings_dir in weekly loop."""
 
     def test_transfer_builder_gets_findings_dir(self):
-        """Verify the weekly handler code passes findings_dir to TransferProposalBuilder."""
+        """Verify the weekly loop code passes findings_dir to TransferProposalBuilder."""
         import inspect
-        source = inspect.getsource(Handlers.handle_weekly_analysis)
-        assert "findings_dir=self._memory_dir" in source
+        from trading_assistant.orchestrator.loops.weekly_analysis import WeeklyAnalysisLoop
+
+        source = inspect.getsource(WeeklyAnalysisLoop.handle)
+        assert 'findings_dir=deps.memory_dir / "findings"' in source
 
 
 class TestGap6JsonlHypothesisLibrary:
-    """Gap 6: Weekly handler uses JSONL-backed HypothesisLibrary."""
+    """Gap 6: Weekly loop uses JSONL-backed HypothesisLibrary."""
 
     def test_weekly_handler_uses_hypothesis_library_class(self):
-        """Verify the weekly handler imports HypothesisLibrary class, not just get_relevant."""
+        """Verify the weekly loop imports HypothesisLibrary class, not just get_relevant."""
         import inspect
-        source = inspect.getsource(Handlers.handle_weekly_analysis)
+        from trading_assistant.orchestrator.loops.weekly_analysis import WeeklyAnalysisLoop
+
+        source = inspect.getsource(WeeklyAnalysisLoop.handle)
         assert "HypothesisLibrary" in source
         assert "get_active()" in source
 
@@ -685,10 +686,10 @@ class TestGap3HypothesisOutcomeLinking:
     def test_measure_outcomes_links_hypothesis(self, tmp_path):
         """Verify _measure_outcomes code calls hypothesis_library.record_outcome."""
         import inspect
-        from trading_assistant.orchestrator.app import create_app
-        source = inspect.getsource(create_app)
+        from trading_assistant.orchestrator import runtime_scheduled_callbacks
+        source = inspect.getsource(runtime_scheduled_callbacks)
         assert "hypothesis_library.record_outcome" in source
-        assert "hyp_id" in source
+        assert "outcome_hypothesis_id" in source
 
 
 class TestGap2PredictionEvaluation:
@@ -769,8 +770,8 @@ class TestGap2PredictionEvaluation:
     def test_prediction_evaluation_in_measure_outcomes(self):
         """Verify _measure_outcomes evaluates predictions."""
         import inspect
-        from trading_assistant.orchestrator.app import create_app
-        source = inspect.getsource(create_app)
+        from trading_assistant.orchestrator import runtime_scheduled_callbacks
+        source = inspect.getsource(runtime_scheduled_callbacks)
         assert "evaluate_predictions" in source
         assert "get_accuracy_by_metric" not in source or "evaluate_predictions" in source
 
@@ -1374,7 +1375,7 @@ class TestSharedTierMapping:
         mock_validation = MagicMock()
         mock_validation.approved_suggestions = [mock_suggestion]
 
-        id_map = h._record_agent_suggestions(mock_validation, "run-test")
+        h._record_agent_suggestions(mock_validation, "run-test")
 
         # Should be recorded with tier = "hypothesis" (from CATEGORY_TO_TIER)
         all_recs = tracker.load_all()

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import asyncio
 
-import pytest
 
 from trading_assistant.orchestrator.event_stream import EventStream
 

@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
-from unittest.mock import patch
 
-import pytest
 
 from trading_assistant.orchestrator.provider_cooldown import ProviderCooldownTracker
 from trading_assistant.schemas.agent_preferences import AgentProvider

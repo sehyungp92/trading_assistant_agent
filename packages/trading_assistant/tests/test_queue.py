@@ -68,6 +68,87 @@ class TestEventQueue:
         assert result.inserted == 1
         assert result.duplicates == 2
 
+    async def test_batch_enqueue_classified_preserves_per_event_outcome(self, queue: EventQueue):
+        await queue.enqueue(_make_event(event_id="existing"))
+        events = [
+            _make_event(event_id="new"),
+            _make_event(event_id="existing"),
+            _make_event(event_id="new"),
+        ]
+
+        result = await queue.enqueue_batch_classified(events)
+
+        assert [(item.event_id, item.classification) for item in result] == [
+            ("new", "enqueued"),
+            ("existing", "duplicate"),
+            ("new", "duplicate"),
+        ]
+
+    async def test_schema_has_pending_order_index(self, queue: EventQueue):
+        cursor = await queue.db.execute("PRAGMA index_list(events)")
+        rows = await cursor.fetchall()
+        index_names = {row["name"] for row in rows}
+        assert "idx_events_status_created_at" in index_names
+
+    async def test_pending_order_queries_use_composite_index(self, queue: EventQueue):
+        for i in range(40):
+            await queue.enqueue(_make_event(event_id=f"pending-{i:03d}"))
+        for i in range(40):
+            event_id = f"acked-{i:03d}"
+            await queue.enqueue(_make_event(event_id=event_id))
+            await queue.ack(event_id)
+
+        cursor = await queue.db.execute(
+            """EXPLAIN QUERY PLAN
+               SELECT event_id FROM events
+               WHERE status = 'pending'
+               ORDER BY created_at ASC
+               LIMIT 10"""
+        )
+        claim_plan = " ".join(row["detail"] for row in await cursor.fetchall())
+        cursor = await queue.db.execute(
+            """EXPLAIN QUERY PLAN
+               SELECT * FROM events
+               WHERE status = 'pending'
+               ORDER BY created_at ASC
+               LIMIT 10"""
+        )
+        peek_plan = " ".join(row["detail"] for row in await cursor.fetchall())
+
+        assert "idx_events_status_created_at" in claim_plan
+        assert "idx_events_status_created_at" in peek_plan
+
+    async def test_relay_quarantine_roundtrip(self, queue: EventQueue):
+        await queue.quarantine_relay_event(
+            source="relay",
+            raw_event_id="bad1",
+            reason="missing payload",
+            payload={"event_id": "bad1"},
+        )
+
+        rows = await queue.get_relay_quarantine()
+        assert len(rows) == 1
+        assert rows[0]["source"] == "relay"
+        assert rows[0]["raw_event_id"] == "bad1"
+        assert rows[0]["reason"] == "missing payload"
+
+    async def test_relay_ingest_classification_roundtrip(self, queue: EventQueue):
+        await queue.record_relay_ingest_classification(
+            source="relay",
+            raw_event_id="raw-1",
+            event_id="event-1",
+            classification="duplicate",
+            reason="already present",
+            payload={"event_id": "event-1"},
+        )
+
+        rows = await queue.get_relay_ingest_classifications()
+        assert len(rows) == 1
+        assert rows[0]["source"] == "relay"
+        assert rows[0]["raw_event_id"] == "raw-1"
+        assert rows[0]["event_id"] == "event-1"
+        assert rows[0]["classification"] == "duplicate"
+
     async def test_peek_respects_limit(self, queue: EventQueue):
         for i in range(10):
             await queue.enqueue(_make_event(event_id=f"limit{i}"))

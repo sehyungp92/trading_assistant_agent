@@ -2,10 +2,7 @@
 """Tests for measured forecast calibration (Section A)."""
 from __future__ import annotations
 
-import json
-from pathlib import Path
 
-import pytest
 
 from trading_assistant.schemas.forecast_tracking import CalibrationBucket, ForecastMetaAnalysis
 from trading_assistant.schemas.prediction_tracking import PredictionRecord, PredictionVerdict

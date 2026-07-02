@@ -11,7 +11,6 @@ import pytest
 
 from trading_assistant.schemas.deployment_monitoring import (
     DeploymentMetricsSnapshot,
-    DeploymentRecord,
     DeploymentStatus,
 )
 from trading_assistant.schemas.notifications import NotificationPriority

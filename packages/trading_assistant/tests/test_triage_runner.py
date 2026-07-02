@@ -5,7 +5,6 @@ from pathlib import Path
 from trading_assistant.schemas.bug_triage import (
     BugSeverity,
     BugComplexity,
-    ErrorCategory,
     ErrorEvent,
     TriageOutcome,
     TriageResult,

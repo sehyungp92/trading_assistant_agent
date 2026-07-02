@@ -9,9 +9,7 @@ import yaml
 from trading_assistant.orchestrator.strategy_registry_loader import load_strategy_registry
 from trading_assistant.paths import package_root
 from trading_assistant.schemas.strategy_profile import (
-    ArchetypeExpectation,
     StrategyArchetype,
-    StrategyProfile,
     StrategyRegistry,
 )
 

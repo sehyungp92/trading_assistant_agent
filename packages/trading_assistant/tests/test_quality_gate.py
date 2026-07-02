@@ -3,9 +3,7 @@
 import json
 from pathlib import Path
 
-import pytest
 
-from trading_assistant.schemas.report_checklist import ReportChecklist
 from trading_assistant.analysis.quality_gate import QualityGate
 
 

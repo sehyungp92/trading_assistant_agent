@@ -18,7 +18,8 @@ routing.
 
 Harness experiments must not change live trading execution, send bot commands, edit
 `memory/policies`, weaken approval gates, bypass double approval, deploy strategy/config
-changes directly, or change objective weights without human approval.
+changes directly, change objective weights, or change immutable score profiles without
+human approval.
 
 ## Primary Metrics
 
@@ -56,6 +57,6 @@ experiment offline until broader evidence supports it.
 
 - Monthly validation remains the authority for material strategy/config changes.
 - Generated learning is advisory context, never hidden policy.
-- Benchmark objective weights are human-owned.
+- Benchmark objective weights and immutable score profiles are human-owned.
 - Policy memory is read-only to autonomous learning.
 - Direct live trading commands remain out of scope.

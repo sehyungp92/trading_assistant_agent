@@ -146,6 +146,61 @@ class TestOrchestratorBrain:
         assert actions[0].details["exchange_timestamp"] == "2026-03-01T14:00:00+00:00"
         assert json.loads(actions[0].details["payload"])["order_id"] == "o1"
 
+    def test_fill_queued_for_daily(self, brain: OrchestratorBrain):
+        event = {
+            "event_id": "fill001",
+            "bot_id": "crypto_trader",
+            "event_type": "fill",
+            "payload": json.dumps({"fill_id": "f1", "price": 65000.0}),
+            "exchange_timestamp": "2026-03-01T14:00:01+00:00",
+        }
+
+        actions = brain.decide(event)
+
+        assert len(actions) == 1
+        assert actions[0].type == ActionType.QUEUE_FOR_DAILY
+        assert actions[0].details["event_type"] == "fill"
+        assert actions[0].details["exchange_timestamp"] == "2026-03-01T14:00:01+00:00"
+        assert json.loads(actions[0].details["payload"])["fill_id"] == "f1"
+
+    def test_inferred_fill_queued_for_daily(self, brain: OrchestratorBrain):
+        event = {
+            "event_id": "ifill001",
+            "bot_id": "stock_trader",
+            "event_type": "inferred_fill",
+            "payload": json.dumps({"fill_id": "if1", "price": 180.25}),
+        }
+
+        actions = brain.decide(event)
+
+        assert len(actions) == 1
+        assert actions[0].type == ActionType.QUEUE_FOR_DAILY
+        assert actions[0].details["event_type"] == "inferred_fill"
+
+    def test_fill_payload_keeps_top_level_canonical_join_keys(self, brain: OrchestratorBrain):
+        event = {
+            "event_id": "fill002",
+            "bot_id": "k_stock_trader",
+            "event_type": "fill",
+            "family_id": "krx_equity",
+            "portfolio_id": "olr_kalcb",
+            "strategy_id": "KALCB",
+            "intent_id": "intent-1",
+            "kis_order_id": "kis-1",
+            "payload": json.dumps({"fill_id": "f2"}),
+        }
+
+        actions = brain.decide(event)
+
+        payload = actions[0].details["payload"]
+        assert isinstance(payload, dict)
+        assert payload["fill_id"] == "f2"
+        assert payload["family_id"] == "krx_equity"
+        assert payload["portfolio_id"] == "olr_kalcb"
+        assert payload["strategy_id"] == "KALCB"
+        assert payload["intent_id"] == "intent-1"
+        assert payload["kis_order_id"] == "kis-1"
+
     def test_process_quality_queued_for_daily(self, brain: OrchestratorBrain):
         event = {
             "event_id": "pq001",
@@ -227,6 +282,33 @@ class TestOrchestratorBrain:
         assert actions[0].type == ActionType.QUEUE_FOR_DAILY
         assert actions[0].details is not None
         assert actions[0].details["event_type"] == "portfolio_rule_check"
+
+    def test_portfolio_rule_alias_queued_for_daily(self, brain: OrchestratorBrain):
+        event = {
+            "event_id": "pr002",
+            "bot_id": "crypto_trader",
+            "event_type": "portfolio_rule",
+            "payload": json.dumps({"rule": "max_exposure", "allowed": False}),
+        }
+        actions = brain.decide(event)
+        assert len(actions) == 1
+        assert actions[0].type == ActionType.QUEUE_FOR_DAILY
+        assert actions[0].details is not None
+        assert actions[0].details["event_type"] == "portfolio_rule_check"
+
+    def test_reference_bridge_telemetry_queued_for_daily(self, brain: OrchestratorBrain):
+        event = {
+            "event_id": "risk001",
+            "bot_id": "crypto_trader",
+            "event_type": "risk_decision",
+            "payload": json.dumps({"risk_decision_id": "risk-1", "approved": False}),
+        }
+
+        actions = brain.decide(event)
+
+        assert len(actions) == 1
+        assert actions[0].type == ActionType.QUEUE_FOR_DAILY
+        assert actions[0].details["event_type"] == "risk_decision"
 
     def test_market_snapshot_queued_for_daily(self, brain: OrchestratorBrain):
         event = {

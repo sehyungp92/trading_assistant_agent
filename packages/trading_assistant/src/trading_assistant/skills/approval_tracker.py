@@ -13,6 +13,11 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 from trading_assistant.schemas.approval import ApprovalRequest, ApprovalStatus, RepoRiskTier
+from trading_assistant.orchestrator.jsonl_store import (
+    jsonl_file_lock,
+    read_json_projection,
+    write_json_projection,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -22,11 +27,11 @@ class ApprovalTracker:
 
     def __init__(self, storage_path: Path) -> None:
         self._path = Path(storage_path)
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
 
     def create_request(self, request: ApprovalRequest) -> ApprovalRequest:
         """Persist a new approval request. Deduplicates by request_id."""
-        with self._lock:
+        with jsonl_file_lock(self._path), self._lock:
             existing = self._load_all()
             existing_ids = {r.request_id for r in existing}
             if request.request_id in existing_ids:
@@ -34,11 +39,17 @@ class ApprovalTracker:
             self._path.parent.mkdir(parents=True, exist_ok=True)
             with open(self._path, "a", encoding="utf-8") as f:
                 f.write(json.dumps(request.model_dump(mode="json"), default=str) + "\n")
+            existing.append(request)
+            write_json_projection(
+                self._path,
+                key_field="request_id",
+                records=[record.model_dump(mode="json") for record in existing],
+            )
             return request
 
     def approve(self, request_id: str, resolved_by: str = "telegram") -> ApprovalRequest:
         """Transition a PENDING request to APPROVED."""
-        with self._lock:
+        with jsonl_file_lock(self._path), self._lock:
             requests = self._load_all()
             target = None
             for r in requests:
@@ -65,7 +76,7 @@ class ApprovalTracker:
 
     def reject(self, request_id: str, reason: str = "", resolved_by: str = "telegram") -> ApprovalRequest:
         """Transition a PENDING request to REJECTED."""
-        with self._lock:
+        with jsonl_file_lock(self._path), self._lock:
             requests = self._load_all()
             target = None
             for r in requests:
@@ -85,7 +96,7 @@ class ApprovalTracker:
 
     def expire_old(self, max_age_days: int = 7) -> list[str]:
         """Expire PENDING requests older than max_age_days. Returns expired IDs."""
-        with self._lock:
+        with jsonl_file_lock(self._path), self._lock:
             requests = self._load_all()
             cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
             expired_ids: list[str] = []
@@ -99,7 +110,8 @@ class ApprovalTracker:
             return expired_ids
 
     def get_pending(self) -> list[ApprovalRequest]:
-        return [r for r in self._load_all() if r.status == ApprovalStatus.PENDING]
+        with jsonl_file_lock(self._path):
+            return [r for r in self._load_all() if r.status == ApprovalStatus.PENDING]
 
     def find_pending_for_suggestion(self, suggestion_id: str) -> ApprovalRequest | None:
         for request in self.get_pending():
@@ -108,29 +120,32 @@ class ApprovalTracker:
         return None
 
     def find_latest_for_suggestion(self, suggestion_id: str) -> ApprovalRequest | None:
-        matches = [
-            request for request in self._load_all()
-            if request.suggestion_id == suggestion_id
-        ]
+        with jsonl_file_lock(self._path):
+            matches = [
+                request for request in self._load_all()
+                if request.suggestion_id == suggestion_id
+            ]
         if not matches:
             return None
         return max(matches, key=lambda request: request.created_at)
 
     def get_approved_with_prs(self) -> list[ApprovalRequest]:
         """Return APPROVED requests that have a non-empty pr_url (for review monitoring)."""
-        return [
-            r for r in self._load_all()
-            if r.status == ApprovalStatus.APPROVED and r.pr_url
-        ]
+        with jsonl_file_lock(self._path):
+            return [
+                r for r in self._load_all()
+                if r.status == ApprovalStatus.APPROVED and r.pr_url
+            ]
 
     def get_by_id(self, request_id: str) -> ApprovalRequest | None:
-        for r in self._load_all():
-            if r.request_id == request_id:
-                return r
+        with jsonl_file_lock(self._path):
+            for r in self._load_all():
+                if r.request_id == request_id:
+                    return r
         return None
 
     def set_pr_url(self, request_id: str, pr_url: str) -> None:
-        with self._lock:
+        with jsonl_file_lock(self._path), self._lock:
             requests = self._load_all()
             for r in requests:
                 if r.request_id == request_id:
@@ -144,7 +159,7 @@ class ApprovalTracker:
         pr_url: str,
         diff_summary: list[str] | None = None,
     ) -> None:
-        with self._lock:
+        with jsonl_file_lock(self._path), self._lock:
             requests = self._load_all()
             for request in requests:
                 if request.request_id == request_id:
@@ -155,7 +170,7 @@ class ApprovalTracker:
             self._save_all(requests)
 
     def set_issue_url(self, request_id: str, issue_url: str) -> None:
-        with self._lock:
+        with jsonl_file_lock(self._path), self._lock:
             requests = self._load_all()
             for request in requests:
                 if request.request_id == request_id:
@@ -165,7 +180,7 @@ class ApprovalTracker:
 
     def set_message_id(self, request_id: str, message_id: int) -> None:
         """Store the Telegram message_id for later editing."""
-        with self._lock:
+        with jsonl_file_lock(self._path), self._lock:
             requests = self._load_all()
             for r in requests:
                 if r.request_id == request_id:
@@ -175,7 +190,7 @@ class ApprovalTracker:
 
     def revert_to_pending(self, request_id: str) -> None:
         """Revert an APPROVED request back to PENDING (rollback on PR failure)."""
-        with self._lock:
+        with jsonl_file_lock(self._path), self._lock:
             requests = self._load_all()
             for r in requests:
                 if r.request_id == request_id:
@@ -188,6 +203,14 @@ class ApprovalTracker:
     def _load_all(self) -> list[ApprovalRequest]:
         if not self._path.exists():
             return []
+        projection = read_json_projection(self._path)
+        projection_path = Path(str(self._path) + ".index.json")
+        if (
+            projection
+            and projection_path.exists()
+            and projection_path.stat().st_mtime >= self._path.stat().st_mtime
+        ):
+            return [ApprovalRequest(**record) for record in projection.values()]
         requests: list[ApprovalRequest] = []
         for line in self._path.read_text(encoding="utf-8").splitlines():
             line = line.strip()
@@ -196,8 +219,18 @@ class ApprovalTracker:
                     requests.append(ApprovalRequest(**json.loads(line)))
                 except Exception:
                     logger.warning("Skipping malformed approval record")
+        write_json_projection(
+            self._path,
+            key_field="request_id",
+            records=[request.model_dump(mode="json") for request in requests],
+        )
         return requests
 
     def _save_all(self, requests: list[ApprovalRequest]) -> None:
         from trading_assistant.skills._atomic_write import atomic_rewrite_jsonl
         atomic_rewrite_jsonl(self._path, requests)
+        write_json_projection(
+            self._path,
+            key_field="request_id",
+            records=[request.model_dump(mode="json") for request in requests],
+        )

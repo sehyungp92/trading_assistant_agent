@@ -4,15 +4,13 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
-import pytest
 
-from trading_assistant.schemas.strategy_profile import StrategyArchetype, StrategyProfile, StrategyRegistry
-from trading_assistant.schemas.strategy_suggestions import SuggestionTier, StrategySuggestion, RefinementReport
+from trading_assistant.schemas.strategy_profile import StrategyProfile, StrategyRegistry
+from trading_assistant.schemas.strategy_suggestions import SuggestionTier, RefinementReport
 from trading_assistant.schemas.weekly_metrics import (
     BotWeeklySummary,
     CorrelationSummary,
     FilterWeeklySummary,
-    ProcessQualityTrend,
     RegimePerformanceTrend,
 )
 from trading_assistant.schemas.hourly_performance import HourlyBucket
@@ -700,7 +698,7 @@ class TestDefaultThresholds:
         engine = StrategyEngine(week_start="2026-01-01", week_end="2026-01-07")
 
         # Alpha decay — uses default
-        alpha_result = engine.detect_alpha_decay(
+        engine.detect_alpha_decay(
             "bot_a",
             rolling_sharpe_30d=0.8,
             rolling_sharpe_60d=0.9,

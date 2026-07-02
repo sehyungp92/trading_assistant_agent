@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import AsyncMock
 
-from trading_assistant.comms.dispatcher import NotificationDispatcher, ChannelAdapter, DeliveryResult
+from trading_assistant.comms.dispatcher import NotificationDispatcher, ChannelAdapter
 from trading_assistant.schemas.notifications import (
     NotificationChannel,
     NotificationPriority,

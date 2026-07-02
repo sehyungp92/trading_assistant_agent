@@ -4,9 +4,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
 
-from trading_assistant.comms.hooks import HookPipeline, MessageHook
+from trading_assistant.comms.hooks import HookPipeline
 from trading_assistant.comms.hooks.risk_injection import RiskInjectionHook
 from trading_assistant.comms.hooks.audit_logger import AuditLoggerHook
 from trading_assistant.schemas.notifications import NotificationPayload, NotificationPriority

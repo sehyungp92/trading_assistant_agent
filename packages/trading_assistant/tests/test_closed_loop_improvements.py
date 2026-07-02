@@ -12,12 +12,10 @@ Covers:
 from __future__ import annotations
 
 import json
-import math
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
-import pytest
 
 # ── 1. Discovery detector alignment ──
 
@@ -522,10 +520,6 @@ class TestSharedObjectiveWeights:
 
     def test_parameter_searcher_uses_shared_weights(self):
         """ParameterSearcher composite should use shared weights."""
-        from trading_assistant.schemas.objective_weights import (
-            W_EXPECTED_R_NO_PROCESS,
-            W_CALMAR_NO_PROCESS,
-        )
 
         # Verify the imports exist in the module
         import trading_assistant.skills.parameter_searcher as ps_module

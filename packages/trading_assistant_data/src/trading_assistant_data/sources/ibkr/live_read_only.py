@@ -870,7 +870,7 @@ def _contract_window_buffer(timeframe: str) -> timedelta:
 
 def _roll_pairs_for_specs(specs: list[dict[str, Any]]) -> list[tuple[date, str, str]]:
     rolls: list[tuple[date, str, str]] = []
-    for old, new in zip(specs, specs[1:]):
+    for old, new in zip(specs, specs[1:], strict=False):
         rolls.append((old["roll_date"], old["yyyymm"], new["yyyymm"]))
     return rolls
 

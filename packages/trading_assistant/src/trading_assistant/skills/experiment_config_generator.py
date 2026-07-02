@@ -7,13 +7,11 @@ from __future__ import annotations
 
 import hashlib
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
 from trading_assistant.schemas.repo_changes import FileChange, PRRequest
 from trading_assistant.schemas.experiments import (
     ExperimentConfig,
-    ExperimentStatus,
     ExperimentType,
     ExperimentVariant,
 )

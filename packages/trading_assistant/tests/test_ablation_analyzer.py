@@ -1,8 +1,6 @@
 """Tests for AblationAnalyzer — statistical analysis of boolean ablation flags."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -11,6 +9,7 @@ from trading_assistant.schemas.ablation_analysis import (
     AblationFlagStats,
     AblationRegimeStats,
 )
+from trading_assistant.schemas.events import TradeEvent
 from trading_assistant.schemas.experiments import ExperimentType
 from trading_assistant.skills.ablation_analyzer import AblationAnalyzer
 from tests.factories import make_trade

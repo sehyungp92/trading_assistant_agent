@@ -67,6 +67,7 @@ class MonthlyValidationResult(BaseModel):
     candidate_summary_path: str = ""
     candidate_gate_report_path: str = ""
     approval_packet_paths: list[str] = Field(default_factory=list)
+    proposal_ids: list[str] = Field(default_factory=list)
     approval_request_ids: list[str] = Field(default_factory=list)
     selected_candidate_count: int = 0
     rejected_candidate_count: int = 0
@@ -74,11 +75,13 @@ class MonthlyValidationResult(BaseModel):
     approval_ready_candidate_count: int = 0
     model_review_path: str = ""
     model_review_validation_path: str = ""
+    monthly_evidence_verification_paths: list[str] = Field(default_factory=list)
     model_review_valid: bool | None = None
     model_review_issues: list[str] = Field(default_factory=list)
     model_review_provider: str = ""
     model_review_model: str = ""
     model_review_runtime: str = ""
+    model_review_cost_usd: float = 0.0
     optimizer_sequence_result_path: str = ""
     optimizer_sequence_status: str = ""
     adopted_candidate_id: str = ""

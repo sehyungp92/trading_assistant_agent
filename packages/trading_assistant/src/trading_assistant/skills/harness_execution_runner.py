@@ -28,6 +28,14 @@ _GOVERNANCE_TERMS: tuple[tuple[str, str], ...] = (
     ("disable approval", "approval bypass"),
     ("skip approval", "approval bypass"),
     ("without approval", "approval bypass"),
+    ("change objective weights", "objective contract change"),
+    ("modify objective weights", "objective contract change"),
+    ("change score profile", "objective contract change"),
+    ("modify score profile", "objective contract change"),
+    ("change immutable score", "objective contract change"),
+    ("modify immutable score", "objective contract change"),
+    ("change immutable profile", "objective contract change"),
+    ("modify immutable profile", "objective contract change"),
     ("auto-deploy", "direct deployment"),
     ("autodeploy", "direct deployment"),
     ("deploy without review", "direct deployment"),
@@ -37,6 +45,9 @@ _GOVERNANCE_TERMS: tuple[tuple[str, str], ...] = (
     ("place order", "direct live trading command"),
     ("edit memory/policies", "autonomous policy edit"),
     ("write memory/policies", "autonomous policy edit"),
+    ("edit scoring/immutable.py", "objective contract change"),
+    ("write scoring/immutable.py", "objective contract change"),
+    ("modify scoring/immutable.py", "objective contract change"),
 )
 
 

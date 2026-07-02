@@ -114,7 +114,7 @@ class SignalHealthAnalyzer:
         mean_y = statistics.mean(y)
         dx = [xi - mean_x for xi in x]
         dy = [yi - mean_y for yi in y]
-        num = sum(a * b for a, b in zip(dx, dy))
+        num = sum(a * b for a, b in zip(dx, dy, strict=False))
         den_x = math.sqrt(sum(a * a for a in dx))
         den_y = math.sqrt(sum(b * b for b in dy))
         if den_x == 0 or den_y == 0:

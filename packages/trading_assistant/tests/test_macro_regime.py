@@ -26,7 +26,7 @@ from trading_assistant.schemas.regime_conditional import (
     MacroRegimeConditionalReport,
     RegimeStrategyMetrics,
 )
-from trading_assistant.schemas.strategy_profile import StrategyProfile, StrategyRegistry
+from trading_assistant.schemas.strategy_profile import StrategyProfile
 from trading_assistant.schemas.weekly_metrics import BotWeeklySummary
 from trading_assistant.skills.build_daily_metrics import build_macro_regime_analysis
 from trading_assistant.skills.suggestion_scorer import SuggestionScorer

@@ -3,15 +3,10 @@
 import json
 from pathlib import Path
 
-import pytest
 
-from trading_assistant.schemas.daily_metrics import BotDailySummary, PerStrategySummary, RegimeAnalysis, FilterAnalysis, RootCauseSummary
+from trading_assistant.schemas.daily_metrics import BotDailySummary, PerStrategySummary, FilterAnalysis
 from trading_assistant.schemas.weekly_metrics import (
-    BotWeeklySummary,
     WeeklySummary,
-    WeekOverWeekComparison,
-    ProcessQualityTrend,
-    FilterWeeklySummary,
 )
 from trading_assistant.skills.build_weekly_metrics import WeeklyMetricsBuilder
 

@@ -7,8 +7,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
@@ -296,7 +295,7 @@ class TestExperimentPersistenceInPipeline:
         param.current_value = 0.3
         param.file_path = "config.yaml"
 
-        result = pipeline._route_to_experiment(
+        pipeline._route_to_experiment(
             suggestion_id="s1",
             suggestion=suggestion,
             report=report,

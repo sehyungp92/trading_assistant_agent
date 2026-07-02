@@ -11,7 +11,7 @@ from trading_assistant.orchestrator.handlers import Handlers
 from trading_assistant.orchestrator.orchestrator_brain import Action, ActionType
 from trading_assistant.orchestrator.agent_runner import AgentResult
 from trading_assistant.schemas.notifications import NotificationPreferences
-from trading_assistant.schemas.corrections import HumanCorrection, CorrectionType
+from trading_assistant.schemas.corrections import CorrectionType
 from trading_assistant.analysis.feedback_handler import FeedbackHandler
 
 

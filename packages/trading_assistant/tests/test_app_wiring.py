@@ -17,6 +17,9 @@ from trading_assistant.orchestrator.app import (
     create_app,
 )
 from trading_assistant.orchestrator.config import AppConfig
+from trading_assistant.orchestrator import runtime_experiments, runtime_scheduled_callbacks
+from trading_assistant.analysis.context_builder import ContextBuilder
+from trading_assistant.paths import memory_root
 from trading_assistant.schemas.agent_preferences import (
     AgentPreferences,
     AgentProvider,
@@ -258,6 +261,7 @@ class TestCreateAppWithConfig:
                 monthly_workflow_contract_path="MONTHLY_OPTIMIZER_WORKFLOW.md",
                 monthly_workflow_contract_version="monthly_optimizer_workflow_contract_v1",
                 monthly_strategy_plugin_contract_path="strategy_plugin_contract.json",
+                backtest_max_parallel_strategies=3,
             ),
         )
         enabled_job_keys = {spec.job_key for spec in enabled_app.state.scheduled_job_specs}
@@ -275,12 +279,26 @@ class TestCreateAppWithConfig:
             enabled_app.state.handlers._monthly_strategy_plugin_contract_path
             == "strategy_plugin_contract.json"
         )
+        assert enabled_app.state.handlers._backtest_max_parallel_strategies == 3
 
     def test_uses_normalized_curated_data_dir(self, tmp_path):
         (tmp_path / "curated").mkdir()
         app = create_app(db_dir=str(tmp_path), config=_local_config())
         assert app.state.handlers._curated_dir == tmp_path / "curated"
         assert app.state.handlers._raw_data_dir == tmp_path / "raw"
+
+    def test_default_startup_uses_checked_package_memory(self, tmp_path):
+        app = create_app(config=_local_config(data_dir=str(tmp_path / "runtime-data")))
+
+        assert app.state.memory_dir == memory_root()
+        assert app.state.handlers._memory_dir == memory_root()
+        ctx = ContextBuilder(app.state.memory_dir)
+        assert ctx.load_loop_contract_context(agent_type="monthly_model_review")
+        assert ctx.load_recent_work_log_entries(
+            agent_type="monthly_model_review",
+            limit=5,
+        )
+        assert ctx.load_recent_performance_learning_entries(bot_id="bot1", limit=5)
 
     def test_uses_legacy_curated_dir_when_only_legacy_exists(self, tmp_path):
         legacy = tmp_path / "data" / "curated"
@@ -391,16 +409,17 @@ class TestCreateAppWithConfig:
         assert app.state.approval_handler._repo_task_runner is app.state.repo_task_runner
 
     def test_outcome_wiring_records_selected_feedback_and_portfolio_proposal_outcomes(self):
-        source = inspect.getsource(create_app)
+        source = inspect.getsource(runtime_scheduled_callbacks)
+        experiment_source = inspect.getsource(runtime_experiments)
 
         assert "measure_progressive(" in source
         assert "record_measurement_feedback(result)" in source
-        assert "po_proposal_id = s.get(\"proposal_id\")" in source
+        assert "outcome_proposal_id = suggestion.get(\"proposal_id\")" in source
         assert "proposal_ledger.record_outcome" in source
-        assert "experiment_results.jsonl" in source
-        assert "structural_experiments.jsonl" in source
-        assert "_experiment_result_delta(result, exp)" in source
-        assert "_structural_objective_delta(" in source
+        assert "experiment_results.jsonl" in experiment_source
+        assert "structural_experiments.jsonl" in experiment_source
+        assert "experiment_result_delta(result, experiment)" in experiment_source
+        assert "structural_objective_delta(" in experiment_source
 
     @pytest.mark.asyncio
     async def test_lifespan_drains_relay_and_runs_startup_catchup(self, tmp_path):
@@ -417,8 +436,8 @@ class TestCreateAppWithConfig:
         config = _local_config(bot_ids=["bot1"], relay_url="https://relay.example")
 
         with (
-            patch("trading_assistant.orchestrator.app.VPSReceiver") as MockReceiver,
-            patch("trading_assistant.orchestrator.app._create_scheduler", return_value=None),
+            patch("trading_assistant.orchestrator.runtime.VPSReceiver") as MockReceiver,
+            patch("trading_assistant.orchestrator.runtime_lifespan.create_scheduler", return_value=None),
         ):
             receiver = MockReceiver.return_value
             receiver.drain = AsyncMock()

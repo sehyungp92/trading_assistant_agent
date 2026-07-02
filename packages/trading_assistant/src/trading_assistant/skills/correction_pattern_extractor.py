@@ -7,7 +7,6 @@ to surface "you keep getting X wrong" meta-patterns.
 from __future__ import annotations
 
 import hashlib
-import re
 import string
 from collections import defaultdict
 from datetime import datetime, timezone

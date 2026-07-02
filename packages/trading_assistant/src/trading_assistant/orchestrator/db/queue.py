@@ -8,6 +8,7 @@ Failed events are retried up to max_retries times before being moved to dead_let
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 
 import aiosqlite
@@ -19,6 +20,12 @@ from trading_assistant.orchestrator.db.connection import create_connection, init
 class BatchResult:
     inserted: int
     duplicates: int
+
+
+@dataclass(frozen=True)
+class EventInsertClassification:
+    event_id: str
+    classification: str
 
 
 class EventQueue:
@@ -98,6 +105,68 @@ class EventQueue:
         inserted = min(inserted, len(events))
         del before_row  # cursor cleanup
         return BatchResult(inserted=inserted, duplicates=len(events) - inserted)
+
+    async def enqueue_batch_classified(
+        self,
+        events: list[dict],
+    ) -> list[EventInsertClassification]:
+        """Insert events and return a per-event enqueue/duplicate outcome."""
+        if not events:
+            return []
+
+        first_events: list[dict] = []
+        seen_first_ids: set[str] = set()
+        for event in events:
+            if event["event_id"] in seen_first_ids:
+                continue
+            seen_first_ids.add(event["event_id"])
+            first_events.append(event)
+
+        inserted_ids: set[str] = set()
+        chunk_size = 100
+        for offset in range(0, len(first_events), chunk_size):
+            chunk = first_events[offset:offset + chunk_size]
+            placeholders = ", ".join(["(?, ?, ?, ?, ?, ?)"] * len(chunk))
+            params: list[object] = []
+            for event in chunk:
+                params.extend(
+                    (
+                        event["event_id"],
+                        event["bot_id"],
+                        event["event_type"],
+                        event["payload"],
+                        event["exchange_timestamp"],
+                        event["received_at"],
+                    )
+                )
+            cursor = await self.db.execute(
+                f"""INSERT OR IGNORE INTO events
+                    (event_id, bot_id, event_type, payload, exchange_timestamp, received_at)
+                    VALUES {placeholders}
+                    RETURNING event_id""",
+                params,
+            )
+            rows = await cursor.fetchall()
+            inserted_ids.update(str(row["event_id"]) for row in rows)
+        await self.db.commit()
+
+        outcomes: list[EventInsertClassification] = []
+        seen_in_batch: set[str] = set()
+        for event in events:
+            event_id = event["event_id"]
+            classification = (
+                "enqueued"
+                if event_id in inserted_ids and event_id not in seen_in_batch
+                else "duplicate"
+            )
+            outcomes.append(
+                EventInsertClassification(
+                    event_id=event_id,
+                    classification=classification,
+                )
+            )
+            seen_in_batch.add(event_id)
+        return outcomes
 
     async def _total_changes(self) -> int:
         cursor = await self.db.execute("SELECT total_changes()")
@@ -209,6 +278,80 @@ class EventQueue:
         """Get events that have exhausted retries."""
         cursor = await self.db.execute(
             "SELECT * FROM events WHERE status = 'dead_letter' ORDER BY created_at DESC LIMIT ?",
+            (limit,),
+        )
+        rows = await cursor.fetchall()
+        return [dict(row) for row in rows]
+
+    async def get(self, event_id: str) -> dict | None:
+        cursor = await self.db.execute(
+            "SELECT * FROM events WHERE event_id = ?",
+            (event_id,),
+        )
+        row = await cursor.fetchone()
+        return dict(row) if row else None
+
+    async def quarantine_relay_event(
+        self,
+        *,
+        source: str,
+        raw_event_id: str,
+        reason: str,
+        payload: object,
+    ) -> None:
+        """Persist a malformed relay event so it does not block later events."""
+        await self.db.execute(
+            """INSERT INTO relay_quarantine (source, raw_event_id, reason, payload)
+               VALUES (?, ?, ?, ?)""",
+            (
+                source,
+                raw_event_id,
+                reason,
+                json.dumps(payload, default=str),
+            ),
+        )
+        await self.db.commit()
+
+    async def record_relay_ingest_classification(
+        self,
+        *,
+        source: str,
+        raw_event_id: str,
+        event_id: str,
+        classification: str,
+        payload: object,
+        reason: str = "",
+    ) -> None:
+        await self.db.execute(
+            """INSERT INTO relay_ingest_classifications
+               (source, raw_event_id, event_id, classification, reason, payload)
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            (
+                source,
+                raw_event_id,
+                event_id,
+                classification,
+                reason,
+                json.dumps(payload, default=str),
+            ),
+        )
+        await self.db.commit()
+
+    async def get_relay_ingest_classifications(self, limit: int = 50) -> list[dict]:
+        cursor = await self.db.execute(
+            """SELECT * FROM relay_ingest_classifications
+               ORDER BY created_at DESC, id DESC
+               LIMIT ?""",
+            (limit,),
+        )
+        rows = await cursor.fetchall()
+        return [dict(row) for row in rows]
+
+    async def get_relay_quarantine(self, limit: int = 50) -> list[dict]:
+        cursor = await self.db.execute(
+            """SELECT * FROM relay_quarantine
+               ORDER BY created_at DESC, id DESC
+               LIMIT ?""",
             (limit,),
         )
         rows = await cursor.fetchall()

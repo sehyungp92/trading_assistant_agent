@@ -1,17 +1,13 @@
 """Comprehensive tests for ExperimentManager (Task 3)."""
 from __future__ import annotations
 
-import json
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
 
 import pytest
 
 from trading_assistant.schemas.experiments import (
     ExperimentConfig,
-    ExperimentResult,
     ExperimentStatus,
-    ExperimentType,
     ExperimentVariant,
 )
 from trading_assistant.skills.experiment_manager import ExperimentManager

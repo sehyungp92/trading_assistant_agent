@@ -47,15 +47,15 @@ class TestResolveSelection:
     def test_default_provider_when_no_workflow(self):
         mgr = AgentPreferencesManager()
         sel, req_model = mgr.resolve_selection(workflow=None)
-        assert sel.provider == AgentProvider.CLAUDE_MAX
-        assert sel.model == DEFAULT_PROVIDER_MODELS[AgentProvider.CLAUDE_MAX]
+        assert sel.provider == AgentProvider.CODEX_PRO
+        assert sel.model == DEFAULT_PROVIDER_MODELS[AgentProvider.CODEX_PRO]
         assert req_model is None
 
     def test_default_provider_when_workflow_has_no_override(self):
         mgr = AgentPreferencesManager()
         sel, req_model = mgr.resolve_selection(AgentWorkflow.DAILY_ANALYSIS)
-        assert sel.provider == AgentProvider.CLAUDE_MAX
-        assert sel.model == DEFAULT_PROVIDER_MODELS[AgentProvider.CLAUDE_MAX]
+        assert sel.provider == AgentProvider.CODEX_PRO
+        assert sel.model == DEFAULT_PROVIDER_MODELS[AgentProvider.CODEX_PRO]
 
     def test_override_provider_for_workflow(self):
         prefs = AgentPreferences(
@@ -95,7 +95,7 @@ class TestResolveSelection:
         sel, req_model = mgr.resolve_selection(
             AgentWorkflow.DAILY_ANALYSIS, model_override="   ",
         )
-        assert sel.model == DEFAULT_PROVIDER_MODELS[AgentProvider.CLAUDE_MAX]
+        assert sel.model == DEFAULT_PROVIDER_MODELS[AgentProvider.CODEX_PRO]
         assert req_model is None
 
     def test_none_model_override_ignored(self):
@@ -131,7 +131,7 @@ class TestBuildView:
         assert AgentWorkflow.MONTHLY_VALIDATION in view.effective
         assert AgentWorkflow.MONTHLY_MODEL_REVIEW in view.effective
         for workflow in WORKFLOW_ORDER:
-            assert view.effective[workflow].provider == AgentProvider.CLAUDE_MAX
+            assert view.effective[workflow].provider == AgentProvider.CODEX_PRO
 
     def test_view_reflects_overrides(self):
         prefs = AgentPreferences(
@@ -299,7 +299,12 @@ class TestLearnedRoutingOverride:
                 "sample_count": 7,
             },
         ])
-        mgr = AgentPreferencesManager(findings_dir=findings)
+        mgr = AgentPreferencesManager(
+            preferences=AgentPreferences(
+                default=AgentSelection(provider=AgentProvider.CLAUDE_MAX)
+            ),
+            findings_dir=findings,
+        )
 
         selection, _ = mgr.resolve_selection(AgentWorkflow.DAILY_ANALYSIS)
 
@@ -359,7 +364,12 @@ class TestLearnedRoutingOverride:
                 "sample_count": 7,
             },
         ])
-        mgr = AgentPreferencesManager(findings_dir=findings)
+        mgr = AgentPreferencesManager(
+            preferences=AgentPreferences(
+                default=AgentSelection(provider=AgentProvider.CLAUDE_MAX)
+            ),
+            findings_dir=findings,
+        )
 
         view = mgr.build_view()
 
@@ -384,7 +394,12 @@ class TestLearnedRoutingOverride:
                 "sample_count": 7,
             },
         ])
-        mgr = AgentPreferencesManager(findings_dir=findings)
+        mgr = AgentPreferencesManager(
+            preferences=AgentPreferences(
+                default=AgentSelection(provider=AgentProvider.CLAUDE_MAX)
+            ),
+            findings_dir=findings,
+        )
         selection, _ = mgr.resolve_selection(AgentWorkflow.DAILY_ANALYSIS)
         mgr.record_committed_route_change(
             workflow=AgentWorkflow.DAILY_ANALYSIS,
@@ -436,7 +451,12 @@ class TestLearnedRoutingOverride:
             "composite_score": 0.72,
             "sample_count": 7,
         }])
-        mgr = AgentPreferencesManager(findings_dir=findings)
+        mgr = AgentPreferencesManager(
+            preferences=AgentPreferences(
+                default=AgentSelection(provider=AgentProvider.CLAUDE_MAX)
+            ),
+            findings_dir=findings,
+        )
 
         selection, _ = mgr.resolve_selection(AgentWorkflow.DAILY_ANALYSIS)
 
@@ -491,7 +511,12 @@ class TestLearnedRoutingOverride:
         ])
         cooldown = ProviderCooldownTracker()
         cooldown.record_failure(AgentProvider.CODEX_PRO)
-        mgr = AgentPreferencesManager(findings_dir=findings)
+        mgr = AgentPreferencesManager(
+            preferences=AgentPreferences(
+                default=AgentSelection(provider=AgentProvider.CLAUDE_MAX)
+            ),
+            findings_dir=findings,
+        )
 
         candidates = mgr.resolve_with_fallbacks(
             AgentWorkflow.DAILY_ANALYSIS,
@@ -519,7 +544,12 @@ class TestLearnedRoutingOverride:
                 "sample_count": 7,
             },
         ])
-        mgr = AgentPreferencesManager(findings_dir=findings)
+        mgr = AgentPreferencesManager(
+            preferences=AgentPreferences(
+                default=AgentSelection(provider=AgentProvider.CLAUDE_MAX)
+            ),
+            findings_dir=findings,
+        )
 
         candidates = mgr.resolve_with_fallbacks(AgentWorkflow.DAILY_ANALYSIS)
 
@@ -585,10 +615,10 @@ class TestSelectionFromEnv:
 
 
 class TestSeedAgentPreferences:
-    def test_defaults_to_claude_max(self):
+    def test_defaults_to_codex_pro(self):
         config = AppConfig()
         prefs = _seed_agent_preferences(config)
-        assert prefs.default.provider == AgentProvider.CLAUDE_MAX
+        assert prefs.default.provider == AgentProvider.CODEX_PRO
         assert len(prefs.overrides) == 0
 
     def test_custom_default_provider(self):
@@ -619,10 +649,10 @@ class TestSeedAgentPreferences:
         prefs = _seed_agent_preferences(config)
         assert len(prefs.overrides) == 0
 
-    def test_invalid_default_falls_back_to_claude_max(self):
+    def test_invalid_default_falls_back_to_codex_pro(self):
         config = AppConfig(agent_default_provider="nonsense")
         prefs = _seed_agent_preferences(config)
-        assert prefs.default.provider == AgentProvider.CLAUDE_MAX
+        assert prefs.default.provider == AgentProvider.CODEX_PRO
 
 
 class TestLoadSavePreferences:
@@ -642,13 +672,13 @@ class TestLoadSavePreferences:
     def test_load_falls_back_to_seed_on_missing(self, tmp_path: Path):
         prefs_path = tmp_path / "missing.json"
         loaded = _load_agent_preferences(prefs_path, AppConfig())
-        assert loaded.default.provider == AgentProvider.CLAUDE_MAX
+        assert loaded.default.provider == AgentProvider.CODEX_PRO
 
     def test_load_falls_back_on_corrupt_file(self, tmp_path: Path):
         prefs_path = tmp_path / "corrupt.json"
         prefs_path.write_text("{bad json", encoding="utf-8")
         loaded = _load_agent_preferences(prefs_path, AppConfig())
-        assert loaded.default.provider == AgentProvider.CLAUDE_MAX
+        assert loaded.default.provider == AgentProvider.CODEX_PRO
 
     def test_save_creates_file(self, tmp_path: Path):
         prefs_path = tmp_path / "data" / "agent_preferences.json"
@@ -773,7 +803,7 @@ class TestAgentPreferencesApi:
 
         assert resp.status_code == 200
         data = resp.json()
-        assert data["default"]["provider"] == "claude_max"
+        assert data["default"]["provider"] == "codex_pro"
         assert "daily_analysis" in data["effective"]
         assert "providers" in data
         readiness = {item["provider"]: item for item in data["providers"]}

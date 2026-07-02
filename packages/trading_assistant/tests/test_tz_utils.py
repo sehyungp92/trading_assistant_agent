@@ -1,9 +1,8 @@
 """Tests for timezone utility functions."""
 from __future__ import annotations
 
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 
-import pytest
 
 from trading_assistant.orchestrator.tz_utils import (
     bot_trading_date,

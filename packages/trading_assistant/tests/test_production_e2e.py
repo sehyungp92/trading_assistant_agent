@@ -23,17 +23,14 @@ Steps:
 """
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
-import pytest
 
 from trading_assistant.analysis.context_builder import ContextBuilder
 from trading_assistant.analysis.prompt_assembler import DailyPromptAssembler
 from trading_assistant.analysis.quality_gate import QualityGate
 from trading_assistant.analysis.response_parser import parse_response
 from trading_assistant.analysis.response_validator import ResponseValidator
-from trading_assistant.schemas.agent_response import AgentPrediction, AgentSuggestion
 from trading_assistant.schemas.events import TradeEvent, MissedOpportunityEvent
 from trading_assistant.schemas.forecast_tracking import ForecastRecord
 from trading_assistant.schemas.suggestion_tracking import (

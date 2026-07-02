@@ -1,21 +1,28 @@
 """Tests for JSONL locking (Task 8).
 
-These trackers use threading.Lock to protect concurrent JSONL writes.
+These trackers expose lock-like guards for in-process coordination. The
+JSONL-backed lifecycle stores also use file locks so separate tracker
+instances cannot corrupt shared files.
 """
 from __future__ import annotations
 
 import threading
-from pathlib import Path
 
-import pytest
 
 from trading_assistant.skills.approval_tracker import ApprovalTracker
 from trading_assistant.skills.deployment_monitor import DeploymentMonitor
 from trading_assistant.skills.experiment_manager import ExperimentManager
 
 
+def _assert_lock_like(lock) -> None:
+    assert hasattr(lock, "acquire")
+    assert hasattr(lock, "release")
+    with lock:
+        assert True
+
+
 class TestLockExists:
-    """All three components have threading.Lock instances."""
+    """Components expose usable lock-like guards."""
 
     def test_deployment_monitor_has_lock(self, tmp_path):
         monitor = DeploymentMonitor(
@@ -28,7 +35,7 @@ class TestLockExists:
     def test_approval_tracker_has_lock(self, tmp_path):
         tracker = ApprovalTracker(storage_path=tmp_path / "approvals.jsonl")
         assert hasattr(tracker, "_lock")
-        assert isinstance(tracker._lock, type(threading.Lock()))
+        _assert_lock_like(tracker._lock)
 
     def test_experiment_manager_has_lock(self, tmp_path):
         findings = tmp_path / "findings"
@@ -84,7 +91,7 @@ class TestLockUsable:
         from trading_assistant.skills.suggestion_tracker import SuggestionTracker
         tracker = SuggestionTracker(store_dir=tmp_path / "findings")
         assert hasattr(tracker, "_lock")
-        assert isinstance(tracker._lock, type(threading.Lock()))
+        _assert_lock_like(tracker._lock)
 
     def test_concurrent_writes_dont_corrupt(self, tmp_path):
         """Multiple threads writing simultaneously should not corrupt data."""
@@ -110,3 +117,59 @@ class TestLockUsable:
 
         assert not errors
         assert len(tracker.get_pending()) == 10
+
+    def test_approval_tracker_cross_instance_writes_do_not_corrupt(self, tmp_path):
+        from trading_assistant.schemas.approval import ApprovalRequest
+
+        path = tmp_path / "approvals.jsonl"
+        errors = []
+
+        def create_request(i: int) -> None:
+            try:
+                tracker = ApprovalTracker(storage_path=path)
+                tracker.create_request(ApprovalRequest(
+                    request_id=f"r{i}",
+                    suggestion_id=f"s{i}",
+                    bot_id="bot1",
+                    param_changes=[],
+                ))
+            except Exception as exc:
+                errors.append(exc)
+
+        threads = [threading.Thread(target=create_request, args=(i,)) for i in range(10)]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+
+        assert not errors
+        assert len(ApprovalTracker(storage_path=path).get_pending()) == 10
+
+    def test_suggestion_tracker_cross_instance_writes_do_not_corrupt(self, tmp_path):
+        from trading_assistant.schemas.suggestion_tracking import SuggestionRecord
+        from trading_assistant.skills.suggestion_tracker import SuggestionTracker
+
+        store = tmp_path / "findings"
+        errors = []
+
+        def record_suggestion(i: int) -> None:
+            try:
+                tracker = SuggestionTracker(store_dir=store)
+                tracker.record(SuggestionRecord(
+                    suggestion_id=f"s{i}",
+                    bot_id="bot1",
+                    title=f"Suggestion {i}",
+                    tier="parameter",
+                    source_report_id="daily-2026-06-22",
+                ))
+            except Exception as exc:
+                errors.append(exc)
+
+        threads = [threading.Thread(target=record_suggestion, args=(i,)) for i in range(10)]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+
+        assert not errors
+        assert len(SuggestionTracker(store_dir=store).load_all()) == 10

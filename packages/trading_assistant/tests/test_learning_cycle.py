@@ -549,7 +549,6 @@ class TestTimestampFallbackFixes:
 
     def _make_cycle(self, tmp_path):
         from trading_assistant.skills.learning_cycle import LearningCycle
-        from unittest.mock import MagicMock
 
         memory_dir = tmp_path / "memory"
         (memory_dir / "findings").mkdir(parents=True)
@@ -563,7 +562,6 @@ class TestTimestampFallbackFixes:
 
     def test_count_suggestions_with_proposed_at_only(self, tmp_path):
         """Suggestions with only proposed_at (current schema) are counted."""
-        from trading_assistant.skills.learning_cycle import LearningCycle
         from unittest.mock import MagicMock
 
         cycle, memory_dir = self._make_cycle(tmp_path)
@@ -582,7 +580,6 @@ class TestTimestampFallbackFixes:
 
     def test_count_suggestions_with_legacy_timestamp(self, tmp_path):
         """Suggestions with legacy timestamp field still work."""
-        from trading_assistant.skills.learning_cycle import LearningCycle
         from unittest.mock import MagicMock
 
         cycle, memory_dir = self._make_cycle(tmp_path)
@@ -597,7 +594,6 @@ class TestTimestampFallbackFixes:
 
     def test_classify_loop_sources_with_proposed_at(self, tmp_path):
         """_classify_loop_sources uses proposed_at for current-schema suggestions."""
-        from trading_assistant.skills.learning_cycle import LearningCycle
         from unittest.mock import MagicMock
 
         cycle, memory_dir = self._make_cycle(tmp_path)
@@ -623,7 +619,6 @@ class TestTimestampFallbackFixes:
 
     def test_count_experiments_with_resolved_at(self, tmp_path):
         """Experiments with resolved_at (current schema) are counted."""
-        from trading_assistant.skills.learning_cycle import LearningCycle
         from unittest.mock import MagicMock
 
         cycle, memory_dir = self._make_cycle(tmp_path)
@@ -642,7 +637,6 @@ class TestTimestampFallbackFixes:
 
     def test_count_experiments_with_legacy_concluded_at(self, tmp_path):
         """Experiments with only concluded_at (legacy) are still counted."""
-        from trading_assistant.skills.learning_cycle import LearningCycle
         from unittest.mock import MagicMock
 
         cycle, memory_dir = self._make_cycle(tmp_path)

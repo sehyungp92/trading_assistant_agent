@@ -12,6 +12,11 @@ from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
 
+from trading_assistant.schemas.canonical_envelope import (
+    has_canonical_envelope_context,
+    merge_envelope_fields_into_payload,
+)
+
 
 class ActionType(str, Enum):
     QUEUE_FOR_DAILY = "queue_for_daily"
@@ -127,35 +132,17 @@ class OrchestratorBrain:
 
     @staticmethod
     def _extract_persistable_payload(event: dict) -> object:
-        lineage_keys = {
-            "strategy_id",
-            "strategy_version",
-            "config_version",
-            "deployment_id",
-            "parameter_set_id",
-            "experiment_id",
-            "variant_id",
-            "signal_generation_version",
-            "code_sha",
-        }
         payload = event.get("payload")
         if payload not in (None, ""):
             if isinstance(payload, dict):
-                normalized = dict(payload)
-                for key in lineage_keys:
-                    if key in event and key not in normalized:
-                        normalized[key] = event[key]
-                return normalized
-            if isinstance(payload, str) and any(key in event for key in lineage_keys):
+                return merge_envelope_fields_into_payload(event, payload)
+            if isinstance(payload, str) and has_canonical_envelope_context(event):
                 try:
                     parsed = json.loads(payload)
                 except json.JSONDecodeError:
                     return payload
                 if isinstance(parsed, dict):
-                    for key in lineage_keys:
-                        if key in event and key not in parsed:
-                            parsed[key] = event[key]
-                    return parsed
+                    return merge_envelope_fields_into_payload(event, parsed)
             return payload
 
         return {
@@ -286,6 +273,14 @@ class OrchestratorBrain:
     def _handle_order(self, event_id: str, bot_id: str, event: dict) -> list[Action]:
         return self._queue_for_daily_event(event_id, bot_id, event, "order")
 
+    def _handle_fill(self, event_id: str, bot_id: str, event: dict) -> list[Action]:
+        return self._queue_for_daily_event(
+            event_id, bot_id, event, str(event.get("event_type") or "fill"),
+        )
+
+    def _handle_daily_telemetry(self, event_id: str, bot_id: str, event: dict) -> list[Action]:
+        return self._queue_for_daily_event(event_id, bot_id, event)
+
     def _handle_process_quality(self, event_id: str, bot_id: str, event: dict) -> list[Action]:
         return self._queue_for_daily_event(event_id, bot_id, event, "process_quality")
 
@@ -377,10 +372,26 @@ class OrchestratorBrain:
         "health_report": _handle_health_report,
         "health_reports": _handle_health_report,
         "order": _handle_order,
+        "fill": _handle_fill,
+        "fills": _handle_fill,
+        "inferred_fill": _handle_fill,
         "process_quality": _handle_process_quality,
         "bot_error": _handle_bot_error,
         "post_exit": _handle_post_exit,
+        "portfolio_rule": _handle_portfolio_rule,
         "portfolio_rule_check": _handle_portfolio_rule,
+        "risk_decision": _handle_daily_telemetry,
+        "allocation_snapshot": _handle_daily_telemetry,
+        "portfolio_snapshot": _handle_daily_telemetry,
+        "position_snapshot": _handle_daily_telemetry,
+        "config_snapshot": _handle_daily_telemetry,
+        "deployment": _handle_daily_telemetry,
+        "resource_plan": _handle_daily_telemetry,
+        "decision_event": _handle_daily_telemetry,
+        "strategy_action": _handle_daily_telemetry,
+        "oms_intent": _handle_daily_telemetry,
+        "session_closeout": _handle_daily_telemetry,
+        "family_daily_snapshot": _handle_daily_telemetry,
         "market_snapshot": _handle_market_snapshot,
         "exit_movement": _handle_exit_movement,
         "stop_adjustment": _handle_stop_adjustment,

@@ -3,7 +3,7 @@
 from datetime import datetime
 
 from trading_assistant.schemas.events import TradeEvent
-from trading_assistant.schemas.process_quality import ProcessQualityResult, RootCause, ScoringDeduction
+from trading_assistant.schemas.process_quality import RootCause
 from trading_assistant.skills.process_quality_scorer import ProcessQualityScorer, ScorerConfig
 
 

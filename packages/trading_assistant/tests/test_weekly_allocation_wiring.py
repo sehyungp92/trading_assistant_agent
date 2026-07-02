@@ -2,11 +2,9 @@
 """Tests for weekly handler allocation wiring and prompt assembler integration."""
 import json
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock
 
-import pytest
 
-from trading_assistant.schemas.daily_metrics import BotDailySummary, PerStrategySummary
 from trading_assistant.schemas.weekly_metrics import BotWeeklySummary, StrategyWeeklySummary, WeeklySummary
 
 

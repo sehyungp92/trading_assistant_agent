@@ -226,6 +226,38 @@ def test_candidate_with_approval_bypass_is_discarded(tmp_path: Path):
     assert "unsafe_patch" in discarded
 
 
+def test_candidate_with_immutable_score_profile_change_is_discarded(tmp_path: Path):
+    findings = tmp_path / "memory" / "findings"
+    findings.mkdir(parents=True)
+    (findings / "harness_variants.json").write_text(
+        json.dumps([
+            {"name": "baseline"},
+            {
+                "name": "objective_patch",
+                "prompt_patch": "modify immutable score profiles for phased-auto ranking",
+                "retrieval_mode": "query_aware",
+                "validator_profile": "guarded",
+            },
+        ]),
+        encoding="utf-8",
+    )
+    suite = BenchmarkSuite(cases=[
+        BenchmarkCase(
+            case_id="objective-a",
+            source=BenchmarkSource.VALIDATION_BLOCK,
+            source_id="validation:objective-a",
+            severity=BenchmarkSeverity.CRITICAL,
+            case_tags=["category:objective"],
+        ),
+    ])
+
+    results = HarnessEvalRunner(findings).evaluate_and_save(suite)
+
+    candidate = next(result for result in results if result.variant_name == "objective_patch")
+    assert candidate.kept is False
+    assert "objective contract change" in candidate.governance_failures
+
+
 def test_candidate_with_weakened_validator_profile_is_discarded(tmp_path: Path):
     findings = tmp_path / "memory" / "findings"
     findings.mkdir(parents=True)

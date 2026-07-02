@@ -296,3 +296,14 @@ class PortfolioOutcomeMeasurer:
         self._findings_dir.mkdir(parents=True, exist_ok=True)
         with open(self._outcomes_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(outcome, default=str) + "\n")
+        try:
+            from trading_assistant.skills.performance_learning_ledger import (
+                PerformanceLearningRefreshMarkerError,
+                refresh_performance_learning_projection,
+            )
+
+            refresh_performance_learning_projection(self._findings_dir)
+        except PerformanceLearningRefreshMarkerError:
+            raise
+        except Exception:
+            logger.warning("Failed to refresh performance-learning projection", exc_info=True)

@@ -1,9 +1,8 @@
 """Tests for AgentRunner.invoke() and invoke_with_selection() flow."""
 from __future__ import annotations
 
-import json
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
 
@@ -12,10 +11,8 @@ from trading_assistant.schemas.agent_capabilities import AgentCapability, AgentT
 from trading_assistant.orchestrator.event_stream import EventStream
 from trading_assistant.orchestrator.session_store import SessionStore
 from trading_assistant.schemas.agent_preferences import (
-    AgentPreferences,
     AgentProvider,
     AgentSelection,
-    AgentWorkflow,
     ProviderReadiness,
 )
 from trading_assistant.schemas.prompt_package import PromptPackage
@@ -71,7 +68,7 @@ class TestInvokeWorkflowResolution:
         with patch.object(
             runner, "invoke_with_selection", new_callable=AsyncMock, return_value=stream_result,
         ) as mock_invoke:
-            result = await runner.invoke(
+            await runner.invoke(
                 agent_type="daily_analysis",
                 prompt_package=sample_package,
                 run_id="run-001",

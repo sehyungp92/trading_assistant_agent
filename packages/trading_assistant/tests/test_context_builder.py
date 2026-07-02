@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -179,6 +180,56 @@ class TestContextBuilder:
         assert len(pkg.corrections) == 2
         assert len(pkg.context_files) == 3
         assert pkg.metadata["timezone"] == "UTC"
+
+    def test_base_package_large_history_latency(self, memory_dir: Path):
+        findings_dir = memory_dir / "findings"
+        now = datetime.now(timezone.utc)
+        old_records = [
+            json.dumps({
+                "timestamp": (now - timedelta(days=120)).isoformat(),
+                "bot_id": "bot1",
+                "correction": f"old correction {i}",
+            })
+            for i in range(12_000)
+        ]
+        recent_records = [
+            json.dumps({
+                "timestamp": (now - timedelta(minutes=i)).isoformat(),
+                "bot_id": "bot1",
+                "correction": f"recent correction {i}",
+            })
+            for i in range(1_200)
+        ]
+        (findings_dir / "corrections.jsonl").write_text(
+            "\n".join(old_records + recent_records),
+            encoding="utf-8",
+        )
+        failure_records = [
+            json.dumps({
+                "timestamp": (now - timedelta(minutes=i)).isoformat(),
+                "bot_id": "bot1",
+                "error_type": "synthetic",
+            })
+            for i in range(3_000)
+        ]
+        (findings_dir / "failure-log.jsonl").write_text(
+            "\n".join(failure_records),
+            encoding="utf-8",
+        )
+
+        started = time.perf_counter()
+        pkg = ContextBuilder(memory_dir).base_package(
+            agent_type="daily_analysis",
+            bot_id="bot1",
+            record_retrieval=False,
+        )
+        elapsed = time.perf_counter() - started
+
+        assert isinstance(pkg, PromptPackage)
+        assert elapsed < 5.0
+        assert pkg.corrections
+        assert all("recent correction" in item["correction"] for item in pkg.corrections)
+        assert len(pkg.data.get("failure_log", [])) <= 50
 
     def test_assemblers_use_context_builder(self, memory_dir: Path, tmp_path: Path):
         """Integration test: DailyPromptAssembler uses ContextBuilder."""

@@ -7,10 +7,8 @@ Flow: curated daily data → WeeklyMetricsBuilder → PortfolioAllocator
 import json
 from pathlib import Path
 
-import pytest
 
 from trading_assistant.schemas.daily_metrics import BotDailySummary, PerStrategySummary
-from trading_assistant.schemas.weekly_metrics import BotWeeklySummary, StrategyWeeklySummary, WeeklySummary
 from trading_assistant.skills.build_weekly_metrics import WeeklyMetricsBuilder
 from trading_assistant.skills.portfolio_allocator import PortfolioAllocator
 from trading_assistant.skills.synergy_analyzer import SynergyAnalyzer
@@ -120,7 +118,7 @@ class TestAllocationIntegration:
         for bot_id in _BOTS:
             bot = portfolio.bot_summaries[bot_id]
             assert len(bot.per_strategy_summary) > 0
-            for sid, strat in bot.per_strategy_summary.items():
+            for _sid, strat in bot.per_strategy_summary.items():
                 assert strat.total_trades > 0
                 assert len(strat.daily_pnl) == 7
 

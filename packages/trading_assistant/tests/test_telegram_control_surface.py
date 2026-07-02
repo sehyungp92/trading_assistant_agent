@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock
 from trading_assistant.comms.telegram_control_surface import ControlSurface
 from trading_assistant.comms.telegram_renderer import TelegramRenderer
 from trading_assistant.comms.telegram_bot import TelegramBotAdapter, TelegramBotConfig
-from trading_assistant.schemas.notifications import ControlPanelState, BotStatusLine
+from trading_assistant.schemas.notifications import ControlPanelState
 
 
 @pytest.fixture

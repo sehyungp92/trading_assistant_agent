@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -134,6 +135,36 @@ def test_strategy_change_ledger_and_context_loader(tmp_path: Path) -> None:
     ctx = ContextBuilder(tmp_path / "memory")
     history = ctx.load_strategy_change_ledger(bot_id="bot1")
     assert history[0]["record_id"] == record.record_id
+
+
+def test_strategy_change_ledger_projection_and_compaction(tmp_path: Path) -> None:
+    findings = tmp_path / "memory" / "findings"
+    ledger = StrategyChangeLedger(findings)
+    record = StrategyChangeRecord(
+        bot_id="bot1",
+        strategy_id="strat1",
+        record_type=StrategyChangeRecordType.PROPOSED_CHANGE,
+        run_month="2026-04",
+        monthly_status="watch",
+        evidence_paths=["before.json"],
+        decision_reason="initial",
+    )
+
+    assert ledger.record(record) is True
+    assert ledger.update(
+        record.record_id,
+        monthly_status="deployed",
+        evidence_paths=["after.json"],
+    )
+
+    projection_path = Path(str(ledger.path) + ".index.json")
+    projection = json.loads(projection_path.read_text(encoding="utf-8"))
+    assert projection[record.record_id]["monthly_status"] == "deployed"
+
+    assert ledger.compact() == 1
+    lines = ledger.path.read_text(encoding="utf-8").splitlines()
+    assert len(lines) == 1
+    assert ledger.get_by_id(record.record_id).evidence_paths == ["after.json"]
 
 
 def test_strategy_change_monthly_review_ids_are_month_specific() -> None:

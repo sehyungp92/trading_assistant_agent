@@ -3,14 +3,77 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import signal
 import subprocess
 import sys
 import tempfile
+from collections import Counter
 from collections.abc import Sequence
+from dataclasses import dataclass
 from pathlib import Path
+from time import monotonic
 
 
 ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_DEPLOYMENT_MAX_BYTES = 300 * 1024 * 1024
+RUFF_FB_BASELINE = ROOT / "tools" / "ruff_fb_baseline.json"
+RUFF_FB_TARGETS = (
+    "packages/trading_assistant/src",
+    "packages/trading_assistant/tests",
+    "packages/trading_assistant_data/src",
+    "packages/trading_assistant_data/tests",
+    "packages/trading_assistant_backtest/src",
+    "packages/trading_assistant_backtest/backtests",
+    "packages/trading_assistant_backtest/tests",
+    "tools",
+)
+_DEPLOYMENT_EXCLUDE_PREFIXES = (
+    ".git/",
+    ".agents/",
+    ".claude/",
+    ".mypy_cache/",
+    ".pytest_cache/",
+    ".ruff_cache/",
+    ".tox/",
+    ".venv/",
+    "_references/",
+    "artifacts/",
+    "build/",
+    "dist/",
+    "htmlcov/",
+    "packages/trading_assistant/.assistant/",
+    "packages/trading_assistant/.claude/",
+    "packages/trading_assistant/backtest_artifacts/",
+    "packages/trading_assistant/data/",
+    "packages/trading_assistant/runs/",
+    "packages/trading_assistant_data/data/",
+    "packages/trading_assistant_backtest/artifacts/",
+    "venv/",
+)
+_DEPLOYMENT_EXCLUDE_SUFFIXES = (
+    ".db",
+    ".log",
+    ".parquet",
+    ".pyc",
+    ".pyo",
+    ".sqlite",
+    ".sqlite3",
+)
+
+
+@dataclass(frozen=True)
+class CheckCommand:
+    args: Sequence[str]
+    cwd: Path
+    timeout_seconds: int
+    env: dict[str, str] | None = None
+
+
+@dataclass(frozen=True)
+class CheckTier:
+    name: str
+    commands: Sequence[CheckCommand]
+    optional_env_var: str = ""
 
 
 def _workspace(name: str) -> Path:
@@ -45,6 +108,137 @@ def _run_json_summary(args: Sequence[str], *, cwd: Path, summary) -> int:
     return completed.returncode
 
 
+def _normalise_ruff_filename(filename: str) -> str:
+    path = Path(filename)
+    try:
+        if path.is_absolute():
+            return path.resolve().relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        return _normalise_relative_path(filename)
+    return _normalise_relative_path(filename)
+
+
+def _normalise_ruff_issue(issue: dict) -> dict:
+    location = issue.get("location") or {}
+    return {
+        "filename": _normalise_ruff_filename(str(issue.get("filename", ""))),
+        "code": str(issue.get("code", "")),
+        "message": str(issue.get("message", "")),
+        "row": int(location.get("row") or 0),
+        "column": int(location.get("column") or 0),
+    }
+
+
+def _ruff_issue_key(issue: dict) -> tuple[str, str, str]:
+    return (
+        str(issue.get("filename", "")),
+        str(issue.get("code", "")),
+        str(issue.get("message", "")),
+    )
+
+
+def _load_ruff_fb_baseline() -> list[dict]:
+    if not RUFF_FB_BASELINE.exists():
+        return []
+    try:
+        payload = json.loads(RUFF_FB_BASELINE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    issues = payload.get("issues", []) if isinstance(payload, dict) else []
+    return [issue for issue in issues if isinstance(issue, dict)]
+
+
+def _collect_ruff_fb_issues() -> tuple[int, list[dict]]:
+    args = [
+        sys.executable,
+        "-m",
+        "ruff",
+        "check",
+        "--select",
+        "F,B",
+        "--output-format",
+        "json",
+        *RUFF_FB_TARGETS,
+    ]
+    print(f"+ ({_cwd_label(ROOT)}) {_command_text(args)}")
+    completed = subprocess.run(
+        args,
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if completed.stderr.strip():
+        print(completed.stderr.rstrip(), file=sys.stderr)
+    try:
+        raw_issues = json.loads(completed.stdout or "[]")
+    except json.JSONDecodeError:
+        if completed.stdout.strip():
+            print(completed.stdout.rstrip())
+        return completed.returncode or 2, []
+    if completed.returncode not in (0, 1):
+        return completed.returncode, []
+    issues = [_normalise_ruff_issue(issue) for issue in raw_issues if isinstance(issue, dict)]
+    issues.sort(key=lambda item: (item["filename"], item["code"], item["message"], item["row"], item["column"]))
+    return 0, issues
+
+
+def ruff_fb(*, update_baseline: bool = False) -> int:
+    code, issues = _collect_ruff_fb_issues()
+    if code != 0:
+        return code
+    if update_baseline:
+        payload = {
+            "description": (
+                "Approved legacy Ruff F/B baseline. The deployment gate fails "
+                "when current findings exceed these filename/code/message counts."
+            ),
+            "command": "python tools/run_workspace_checks.py ruff-fb",
+            "select": ["F", "B"],
+            "targets": list(RUFF_FB_TARGETS),
+            "issues": issues,
+        }
+        RUFF_FB_BASELINE.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        print(f"ruff_fb_baseline_updated={RUFF_FB_BASELINE.relative_to(ROOT).as_posix()}")
+        print(f"ruff_fb_approved_issues={len(issues)}")
+        return 0
+    if not issues:
+        print("ruff_fb_ok=true")
+        print("ruff_fb_issues=0")
+        return 0
+
+    baseline = _load_ruff_fb_baseline()
+    if not baseline:
+        print(
+            "ruff F/B findings exist and no approved baseline is present; "
+            "run with --update-baseline only after review",
+            file=sys.stderr,
+        )
+        return 1
+    current_counts = Counter(_ruff_issue_key(issue) for issue in issues)
+    baseline_counts = Counter(_ruff_issue_key(issue) for issue in baseline)
+    regressions = current_counts - baseline_counts
+    if regressions:
+        print("ruff F/B regressions beyond approved baseline:", file=sys.stderr)
+        shown = 0
+        for filename, code_name, message in sorted(regressions):
+            print(f"{filename}: {code_name} {message}", file=sys.stderr)
+            shown += 1
+            if shown >= 20:
+                remaining = len(regressions) - shown
+                if remaining > 0:
+                    print(f"... {remaining} more regression keys", file=sys.stderr)
+                break
+        return 1
+
+    resolved = sum((baseline_counts - current_counts).values())
+    print("ruff_fb_ok=true")
+    print(f"ruff_fb_current_issues={len(issues)}")
+    print(f"ruff_fb_baseline_issues={len(baseline)}")
+    print(f"ruff_fb_resolved_since_baseline={resolved}")
+    return 0
+
+
 def _pytest_env() -> dict[str, str]:
     env = os.environ.copy()
     env.setdefault("PYTHONUNBUFFERED", "1")
@@ -59,11 +253,186 @@ def _run_many(commands: Sequence[tuple[Sequence[str], Path, dict[str, str] | Non
     return 0
 
 
+def _command_text(args: Sequence[str]) -> str:
+    return " ".join(str(arg) for arg in args)
+
+
+def _cwd_label(cwd: Path) -> str:
+    try:
+        return cwd.relative_to(ROOT).as_posix()
+    except ValueError:
+        return str(cwd)
+
+
+def _popen_kwargs() -> dict[str, object]:
+    if os.name == "nt":
+        return {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP}
+    return {"start_new_session": True}
+
+
+def _kill_process_tree(process: subprocess.Popen) -> None:
+    if process.poll() is not None:
+        return
+    if os.name == "nt":
+        subprocess.run(
+            ["taskkill", "/PID", str(process.pid), "/T", "/F"],
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        return
+    try:
+        os.killpg(process.pid, signal.SIGTERM)
+        process.wait(timeout=5)
+    except Exception:
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except Exception:
+            process.kill()
+
+
+def _run_timed(command: CheckCommand, *, tier_name: str) -> int:
+    print(
+        f"[{tier_name}] + ({_cwd_label(command.cwd)}) {_command_text(command.args)}",
+        flush=True,
+    )
+    started = monotonic()
+    process = subprocess.Popen(
+        list(command.args),
+        cwd=command.cwd,
+        env=command.env,
+        **_popen_kwargs(),
+    )
+    timed_out = False
+    try:
+        code = process.wait(timeout=command.timeout_seconds)
+    except subprocess.TimeoutExpired:
+        timed_out = True
+        _kill_process_tree(process)
+        try:
+            process.wait(timeout=5)
+        except Exception:
+            pass
+        code = 124
+    duration = monotonic() - started
+    status = f"timeout after {command.timeout_seconds}s" if timed_out else f"exit={code}"
+    print(
+        f"[{tier_name}] {status}; duration={duration:.1f}s; command={_command_text(command.args)}",
+        flush=True,
+    )
+    return code
+
+
+def _run_tiers(tiers: Sequence[CheckTier]) -> int:
+    for tier in tiers:
+        if tier.optional_env_var and os.environ.get(tier.optional_env_var, "").lower() not in {"1", "true", "yes"}:
+            print(f"[{tier.name}] skipped; set {tier.optional_env_var}=1 to run")
+            continue
+        tier_started = monotonic()
+        print(f"[{tier.name}] starting")
+        for command in tier.commands:
+            code = _run_timed(command, tier_name=tier.name)
+            if code != 0:
+                print(
+                    f"[{tier.name}] failed after {monotonic() - tier_started:.1f}s",
+                    flush=True,
+                )
+                return code
+        print(f"[{tier.name}] passed in {monotonic() - tier_started:.1f}s", flush=True)
+    return 0
+
+
+def _normalise_relative_path(path: str | Path) -> str:
+    return str(path).replace("\\", "/").lstrip("./")
+
+
+def _is_deployment_package_excluded(path: str | Path, *, include_data: bool = False) -> bool:
+    rel_path = _normalise_relative_path(path)
+    prefixes = _DEPLOYMENT_EXCLUDE_PREFIXES
+    if include_data:
+        prefixes = tuple(
+            prefix for prefix in prefixes
+            if prefix != "packages/trading_assistant_data/data/"
+        )
+    return rel_path.startswith(prefixes) or rel_path.endswith(_DEPLOYMENT_EXCLUDE_SUFFIXES)
+
+
+def _git_package_file_list() -> list[str]:
+    completed = subprocess.run(
+        ["git", "ls-files", "-co", "--exclude-standard"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if completed.returncode != 0:
+        raise RuntimeError(completed.stderr.strip() or "git ls-files failed")
+    return [
+        _normalise_relative_path(line)
+        for line in completed.stdout.splitlines()
+        if line.strip()
+    ]
+
+
+def deployment_package(
+    *,
+    max_bytes: int = DEFAULT_DEPLOYMENT_MAX_BYTES,
+    include_data: bool = False,
+    json_output: bool = False,
+) -> int:
+    """Dry-run the deployment file set and enforce a byte-size budget."""
+    try:
+        candidates = _git_package_file_list()
+    except RuntimeError as exc:
+        print(f"deployment package check failed: {exc}", file=sys.stderr)
+        return 2
+
+    included: list[str] = []
+    excluded: list[str] = []
+    total_bytes = 0
+    for rel_path in candidates:
+        path = ROOT / rel_path
+        if not path.is_file():
+            continue
+        if _is_deployment_package_excluded(rel_path, include_data=include_data):
+            excluded.append(rel_path)
+            continue
+        included.append(rel_path)
+        total_bytes += path.stat().st_size
+
+    summary = {
+        "ok": total_bytes <= max_bytes,
+        "file_count": len(included),
+        "byte_size": total_bytes,
+        "max_bytes": max_bytes,
+        "excluded_file_count": len(excluded),
+        "include_data": include_data,
+    }
+    if json_output:
+        print(json.dumps(summary, indent=2))
+    else:
+        print(f"deployment_package_ok={summary['ok']}")
+        print(f"deployment_package_files={summary['file_count']}")
+        print(f"deployment_package_bytes={summary['byte_size']}")
+        print(f"deployment_package_max_bytes={summary['max_bytes']}")
+        print(f"deployment_package_excluded_files={summary['excluded_file_count']}")
+        if not summary["ok"]:
+            print(
+                "deployment package exceeds byte budget; raise --max-bytes "
+                "intentionally or reduce shipped files"
+            )
+    return 0 if summary["ok"] else 1
+
+
 def structure(layout: str) -> int:
     return _run(
         [sys.executable, "tools/check_workspace_structure.py", "--layout", layout],
         cwd=ROOT,
     )
+
+
+def architecture_health() -> int:
+    return structure("either")
 
 
 def monthly_focused() -> int:
@@ -72,6 +441,8 @@ def monthly_focused() -> int:
             sys.executable,
             "-m",
             "pytest",
+            "tests/test_architecture_phase_surfaces.py",
+            "tests/test_context_sources.py",
             "tests/test_monthly_optimizer_runner.py",
             "tests/test_monthly_runner_contract_conformance.py",
             "-q",
@@ -93,7 +464,14 @@ def data_contracts() -> int:
 
 def backtest_monthly() -> int:
     return _run(
-        [sys.executable, "-m", "pytest", "tests/unit/test_monthly_runner.py", "-q"],
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "tests/unit/test_monthly_runner.py",
+            "tests/unit/test_monthly_execution.py",
+            "-q",
+        ],
         cwd=_workspace("trading_assistant_backtest"),
         env=_pytest_env(),
     )
@@ -103,6 +481,59 @@ def backtest_approval() -> int:
     return _run(
         [sys.executable, "-m", "pytest", "tests/unit/test_approval_grade_audit.py", "-q"],
         cwd=_workspace("trading_assistant_backtest"),
+        env=_pytest_env(),
+    )
+
+
+def loop_contracts() -> int:
+    return _run(
+        [sys.executable, "tools/check_loop_contracts.py"],
+        cwd=ROOT,
+    )
+
+
+def loop_ledger() -> int:
+    return _run(
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "tests/test_loop_run_ledger.py",
+            "tests/test_scheduled_runs.py",
+            "-q",
+        ],
+        cwd=_workspace("trading_assistant"),
+        env=_pytest_env(),
+    )
+
+
+def performance_learning_ledger() -> int:
+    return _run(
+        [sys.executable, "tools/check_performance_learning_ledger.py"],
+        cwd=ROOT,
+    )
+
+
+def monthly_verifier() -> int:
+    return _run(
+        [sys.executable, "-m", "pytest", "tests/test_monthly_evidence_verifier.py", "-q"],
+        cwd=_workspace("trading_assistant"),
+        env=_pytest_env(),
+    )
+
+
+def monthly_shadow_smoke() -> int:
+    return _run(
+        [sys.executable, "-m", "pytest", "tests/test_monthly_loop_shadow_smoke.py", "-q"],
+        cwd=_workspace("trading_assistant"),
+        env=_pytest_env(),
+    )
+
+
+def approval_packet_smoke() -> int:
+    return _run(
+        [sys.executable, "-m", "pytest", "tests/test_approval_packet_smoke.py", "-q"],
+        cwd=_workspace("trading_assistant"),
         env=_pytest_env(),
     )
 
@@ -201,6 +632,104 @@ def all_tests() -> int:
     )
 
 
+def deployment_gate() -> int:
+    env = _pytest_env()
+    orchestrator_core_tests = (
+        "packages/trading_assistant/tests/test_config.py",
+        "packages/trading_assistant/tests/test_app_auth.py",
+        "packages/trading_assistant/tests/test_preflight.py",
+        "packages/trading_assistant/tests/test_integration.py",
+        "packages/trading_assistant/tests/test_queue.py",
+        "packages/trading_assistant/tests/test_task_registry.py",
+        "packages/trading_assistant/tests/test_subagent_manager.py",
+        "packages/trading_assistant/tests/test_vps_receiver.py",
+        "packages/trading_assistant/tests/test_worker.py",
+        "packages/trading_assistant/tests/test_startup_scripts.py",
+    )
+    tiers = (
+        CheckTier(
+            name="import-cli-package",
+            commands=(
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "imports"], ROOT, 60),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "asgi-import-smoke"], ROOT, 180),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "cli-smoke"], ROOT, 60),
+                CheckCommand(
+                    [sys.executable, "tools/run_workspace_checks.py", "structure", "--layout", "either"],
+                    ROOT,
+                    120,
+                ),
+                CheckCommand(
+                    [
+                        sys.executable,
+                        "tools/run_workspace_checks.py",
+                        "architecture-health",
+                    ],
+                    ROOT,
+                    120,
+                ),
+                CheckCommand(
+                    [
+                        sys.executable,
+                        "tools/run_workspace_checks.py",
+                        "deployment-package",
+                        "--max-bytes",
+                        str(DEFAULT_DEPLOYMENT_MAX_BYTES),
+                    ],
+                    ROOT,
+                    60,
+                ),
+            ),
+        ),
+        CheckTier(
+            name="release-lint",
+            commands=(
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "ruff-fb"], ROOT, 180),
+            ),
+        ),
+        CheckTier(
+            name="orchestrator-core",
+            commands=(
+                CheckCommand(
+                    [
+                        sys.executable,
+                        "-m",
+                        "pytest",
+                        *orchestrator_core_tests,
+                        "-q",
+                        "-o",
+                        "addopts=",
+                    ],
+                    ROOT,
+                    300,
+                    env,
+                ),
+            ),
+        ),
+        CheckTier(
+            name="monthly-data-backtest",
+            commands=(
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "monthly-focused"], ROOT, 360),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "backtest-monthly"], ROOT, 360),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "data-contracts"], ROOT, 240),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "loop-ledger"], ROOT, 180),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "performance-learning-ledger"], ROOT, 120),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "monthly-verifier"], ROOT, 180),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "approval-packet-smoke"], ROOT, 120),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "manifest-validate"], ROOT, 120),
+            ),
+        ),
+        CheckTier(
+            name="slow-local-only",
+            optional_env_var="TA_RUN_SLOW_LOCAL_CHECKS",
+            commands=(
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "data-reproduction-smoke"], ROOT, 600),
+                CheckCommand([sys.executable, "tools/run_workspace_checks.py", "validation-matrix"], ROOT, 900),
+            ),
+        ),
+    )
+    return _run_tiers(tiers)
+
+
 def cli_smoke() -> int:
     return _run_many(
         (
@@ -236,6 +765,105 @@ def imports() -> int:
         [sys.executable, "-c", "import trading_assistant_backtest.monthly"],
     )
     return _run_many(tuple((command, ROOT, None) for command in commands))
+
+
+def _app_import_env(**overrides: str) -> dict[str, str]:
+    env = os.environ.copy()
+    for key in (
+        "ALLOW_UNAUTHENTICATED_LOCAL",
+        "APP_ENV",
+        "BIND_HOST",
+        "BOT_IDS",
+        "DATA_DIR",
+        "DEPLOYMENT_ENV",
+        "DIRECT_INGEST_ONLY",
+        "ENVIRONMENT",
+        "ORCHESTRATOR_API_KEY",
+        "RELAY_API_KEY",
+        "RELAY_URL",
+        "UVICORN_HOST",
+    ):
+        env.pop(key, None)
+    env.update(overrides)
+    return env
+
+
+def _run_expected_failure(args: Sequence[str], *, cwd: Path, env: dict[str, str]) -> int:
+    print(f"+ expect-fail ({_cwd_label(cwd)}) {_command_text(args)}")
+    completed = subprocess.run(
+        list(args),
+        cwd=cwd,
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if completed.returncode == 0:
+        print("expected command to fail, but it succeeded", file=sys.stderr)
+        return 1
+    if completed.stderr.strip():
+        print(completed.stderr.rstrip())
+    return 0
+
+
+def asgi_import_smoke() -> int:
+    import_code = "import trading_assistant.orchestrator.app as target; assert target.app"
+    with tempfile.TemporaryDirectory(prefix="ta_asgi_import_") as data_dir:
+        commands = (
+            (
+                [sys.executable, "-c", import_code],
+                _app_import_env(
+                    ALLOW_UNAUTHENTICATED_LOCAL="true",
+                    BIND_HOST="127.0.0.1",
+                    UVICORN_HOST="127.0.0.1",
+                    ENVIRONMENT="development",
+                    DATA_DIR=data_dir,
+                ),
+                False,
+            ),
+            (
+                [sys.executable, "-c", import_code],
+                _app_import_env(
+                    ORCHESTRATOR_API_KEY="deployment-gate-key",
+                    BIND_HOST="127.0.0.1",
+                    UVICORN_HOST="127.0.0.1",
+                    ENVIRONMENT="production",
+                    BOT_IDS="bot1",
+                    DIRECT_INGEST_ONLY="true",
+                    DATA_DIR=data_dir,
+                ),
+                False,
+            ),
+            (
+                [sys.executable, "-c", import_code],
+                _app_import_env(
+                    BIND_HOST="127.0.0.1",
+                    UVICORN_HOST="127.0.0.1",
+                    ENVIRONMENT="development",
+                    DATA_DIR=data_dir,
+                ),
+                True,
+            ),
+            (
+                [sys.executable, "-c", import_code],
+                _app_import_env(
+                    ALLOW_UNAUTHENTICATED_LOCAL="true",
+                    BIND_HOST="127.0.0.1",
+                    UVICORN_HOST="0.0.0.0",
+                    ENVIRONMENT="development",
+                    DATA_DIR=data_dir,
+                ),
+                True,
+            ),
+        )
+        for args, env, expect_failure in commands:
+            if expect_failure:
+                code = _run_expected_failure(args, cwd=ROOT, env=env)
+            else:
+                code = _run(args, cwd=ROOT, env=env)
+            if code != 0:
+                return code
+    return 0
 
 
 def _write_manifest_validation_fixture(root: Path) -> Path:
@@ -329,40 +957,49 @@ def main(argv: Sequence[str] | None = None) -> int:
         choices=("current", "final", "either"),
         default="final",
     )
-    subparsers.add_parser("monthly-focused")
-    subparsers.add_parser("data-contracts")
-    subparsers.add_parser("backtest-monthly")
-    subparsers.add_parser("backtest-approval")
-    subparsers.add_parser("manifest-validate")
-    subparsers.add_parser("data-reproduction-smoke")
-    subparsers.add_parser("validation-matrix")
-    subparsers.add_parser("all-tests")
-    subparsers.add_parser("cli-smoke")
-    subparsers.add_parser("imports")
+    command_handlers = {
+        "structure": lambda parsed: structure(parsed.layout),
+        "architecture-health": lambda _parsed: architecture_health(),
+        "monthly-focused": lambda _parsed: monthly_focused(),
+        "data-contracts": lambda _parsed: data_contracts(),
+        "backtest-monthly": lambda _parsed: backtest_monthly(),
+        "backtest-approval": lambda _parsed: backtest_approval(),
+        "loop-contracts": lambda _parsed: loop_contracts(),
+        "loop-ledger": lambda _parsed: loop_ledger(),
+        "performance-learning-ledger": lambda _parsed: performance_learning_ledger(),
+        "monthly-verifier": lambda _parsed: monthly_verifier(),
+        "monthly-shadow-smoke": lambda _parsed: monthly_shadow_smoke(),
+        "approval-packet-smoke": lambda _parsed: approval_packet_smoke(),
+        "manifest-validate": lambda _parsed: manifest_validate(),
+        "data-reproduction-smoke": lambda _parsed: data_reproduction_smoke(),
+        "validation-matrix": lambda _parsed: validation_matrix(),
+        "all-tests": lambda _parsed: all_tests(),
+        "deployment-gate": lambda _parsed: deployment_gate(),
+        "asgi-import-smoke": lambda _parsed: asgi_import_smoke(),
+        "cli-smoke": lambda _parsed: cli_smoke(),
+        "imports": lambda _parsed: imports(),
+    }
+    for command in command_handlers:
+        if command != "structure":
+            subparsers.add_parser(command)
+    ruff_parser = subparsers.add_parser("ruff-fb")
+    ruff_parser.add_argument("--update-baseline", action="store_true")
+    package_parser = subparsers.add_parser("deployment-package")
+    package_parser.add_argument("--max-bytes", type=int, default=DEFAULT_DEPLOYMENT_MAX_BYTES)
+    package_parser.add_argument("--include-data", action="store_true")
+    package_parser.add_argument("--json", action="store_true")
 
     args = parser.parse_args(argv)
-    if args.command == "structure":
-        return structure(args.layout)
-    if args.command == "monthly-focused":
-        return monthly_focused()
-    if args.command == "data-contracts":
-        return data_contracts()
-    if args.command == "backtest-monthly":
-        return backtest_monthly()
-    if args.command == "backtest-approval":
-        return backtest_approval()
-    if args.command == "manifest-validate":
-        return manifest_validate()
-    if args.command == "data-reproduction-smoke":
-        return data_reproduction_smoke()
-    if args.command == "validation-matrix":
-        return validation_matrix()
-    if args.command == "all-tests":
-        return all_tests()
-    if args.command == "cli-smoke":
-        return cli_smoke()
-    if args.command == "imports":
-        return imports()
+    if args.command == "ruff-fb":
+        return ruff_fb(update_baseline=args.update_baseline)
+    if args.command == "deployment-package":
+        return deployment_package(
+            max_bytes=args.max_bytes,
+            include_data=args.include_data,
+            json_output=args.json,
+        )
+    if args.command in command_handlers:
+        return command_handlers[args.command](args)
     raise AssertionError(f"unhandled command: {args.command}")
 
 

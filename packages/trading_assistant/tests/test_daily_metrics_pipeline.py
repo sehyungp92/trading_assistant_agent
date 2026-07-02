@@ -5,16 +5,6 @@ from pathlib import Path
 import pytest
 
 from trading_assistant.schemas.events import TradeEvent, MissedOpportunityEvent
-from trading_assistant.schemas.daily_metrics import (
-    BotDailySummary,
-    WinnerLoserRecord,
-    ProcessFailureRecord,
-    NotableMissedRecord,
-    RegimeAnalysis,
-    FilterAnalysis,
-    AnomalyRecord,
-    RootCauseSummary,
-)
 from trading_assistant.skills.build_daily_metrics import DailyMetricsBuilder
 from tests.factories import make_trade as _factory_trade, make_missed as _factory_missed
 
@@ -1214,6 +1204,34 @@ class TestExecutionEvidenceArtifacts:
         assert result["partial_fills"][0]["fill_price"] == 100.5
         assert result["partial_fills"][0]["timestamp"] == "2026-03-01T09:31:00+00:00"
 
+    @pytest.mark.parametrize("event_type", ["fill", "inferred_fill"])
+    def test_fill_events_without_status_count_as_filled(self, event_type):
+        builder = DailyMetricsBuilder("2026-06-04", "k_stock_trader")
+        events = [
+            {
+                "payload": {
+                    "event_type": event_type,
+                    "fill_id": "fill-1",
+                    "kis_order_id": "kis-1",
+                    "symbol": "005930",
+                    "side": "BUY",
+                    "qty": 10,
+                    "price": 70000.0,
+                    "assistant_strategy_id": "KALCB",
+                    "exchange_timestamp": "2026-06-04T09:45:00+09:00",
+                },
+            },
+        ]
+
+        result = builder.build_order_lifecycle_summary(events)
+
+        assert result["total_events"] == 1
+        assert result["distinct_orders"] == 1
+        assert result["status_counts"] == {"FILLED": 1}
+        assert result["fill_count"] == 1
+        assert result["by_strategy"]["KALCB"]["fill_count"] == 1
+        assert result["by_strategy"]["KALCB"]["event_count"] == 1
+
     def test_builds_process_quality_summary(self):
         builder = DailyMetricsBuilder("2026-03-01", "bot1")
         events = [
@@ -1275,3 +1293,50 @@ class TestExecutionEvidenceArtifacts:
     def test_prompt_assembler_includes_process_quality(self):
         from trading_assistant.analysis.prompt_assembler import _CURATED_FILES
         assert "process_quality.json" in _CURATED_FILES
+
+
+def test_portfolio_rule_alias_with_allowed_false_counts_as_block() -> None:
+    from trading_assistant.skills.build_daily_metrics import build_portfolio_rules_summary
+
+    result = build_portfolio_rules_summary([
+        {
+            "event_type": "portfolio_rule",
+            "payload": {
+                "rule_name": "max_exposure",
+                "allowed": False,
+                "details": {
+                    "reason": "exposure_cap",
+                    "blocked_symbol": "BTC",
+                },
+            },
+        },
+    ])
+
+    assert result["total_evaluations"] == 1
+    assert result["total_blocks"] == 1
+    assert result["by_rule"]["max_exposure"]["blocks"] == 1
+    assert result["blocked_symbols"] == ["BTC"]
+
+
+def test_portfolio_rule_summary_unwraps_crypto_canonical_payload() -> None:
+    from trading_assistant.skills.build_daily_metrics import build_portfolio_rules_summary
+
+    result = build_portfolio_rules_summary([
+        {
+            "payload": json.dumps({
+                "event_type": "portfolio_rule",
+                "approved": False,
+                "action": "block",
+                "blocking_rule": "max_total_positions",
+                "denial_reason": "max_total_positions reached",
+                "symbol": "ETH",
+            }),
+        },
+    ])
+
+    assert result["total_evaluations"] == 1
+    assert result["total_blocks"] == 1
+    assert result["by_rule"]["max_total_positions"]["block_reasons"] == [
+        "max_total_positions reached",
+    ]
+    assert result["blocked_symbols"] == ["ETH"]

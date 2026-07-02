@@ -85,7 +85,8 @@ class ProposalLedger:
                 return False
             self._append({"type": "candidate", "payload": candidate.model_dump(mode="json")})
             ids.add(candidate.proposal_id)
-            return True
+        self._refresh_performance_learning_projection()
+        return True
 
     def record_evaluation(
         self, proposal_id: str, evaluation: ProposalEvaluation,
@@ -97,7 +98,8 @@ class ProposalLedger:
             payload = evaluation.model_dump(mode="json")
             payload["proposal_id"] = proposal_id  # ensure consistency
             self._append({"type": "evaluation", "payload": payload})
-            return True
+        self._refresh_performance_learning_projection()
+        return True
 
     def record_outcome(self, proposal_id: str, outcome: ProposalOutcome) -> bool:
         """Append an outcome event for an existing candidate."""
@@ -107,7 +109,8 @@ class ProposalLedger:
             payload = outcome.model_dump(mode="json")
             payload["proposal_id"] = proposal_id
             self._append({"type": "outcome", "payload": payload})
-            return True
+        self._refresh_performance_learning_projection()
+        return True
 
     def get_by_id(self, proposal_id: str) -> Optional[ProposalRecord]:
         for rec in self._iter_records():
@@ -150,6 +153,19 @@ class ProposalLedger:
         self._store_dir.mkdir(parents=True, exist_ok=True)
         with open(self._path, "a", encoding="utf-8") as f:
             f.write(json.dumps(event, default=str) + "\n")
+
+    def _refresh_performance_learning_projection(self) -> None:
+        try:
+            from trading_assistant.skills.performance_learning_ledger import (
+                PerformanceLearningRefreshMarkerError,
+                refresh_performance_learning_projection,
+            )
+
+            refresh_performance_learning_projection(self._store_dir)
+        except PerformanceLearningRefreshMarkerError:
+            raise
+        except Exception:
+            logger.warning("Failed to refresh performance-learning projection", exc_info=True)
 
     def _existing_candidate_ids(self) -> set[str]:
         ids: set[str] = set()

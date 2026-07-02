@@ -11,7 +11,6 @@ import pytest
 from trading_assistant.schemas.allocation_history import (
     AllocationRecord,
     AllocationSnapshot,
-    AllocationSource,
     BotAllocationSnapshot,
 )
 from trading_assistant.schemas.portfolio_allocation import (
@@ -187,7 +186,7 @@ class TestHandlerDriftWiring:
         mock_regime.return_value = regime_report
 
         summary = self._make_portfolio_summary()
-        results = handlers_setup._run_allocation_analyses(summary, "2026-03-01", "2026-03-07")
+        handlers_setup._run_allocation_analyses(summary, "2026-03-01", "2026-03-07")
 
         # Verify allocator was called with latest actuals (70/30), not equal-weight
         call_args = mock_alloc.call_args
@@ -234,7 +233,7 @@ class TestHandlerDriftWiring:
         mock_regime.return_value = regime_report
 
         summary = self._make_portfolio_summary()
-        results = handlers_setup._run_allocation_analyses(summary, "2026-03-01", "2026-03-07")
+        handlers_setup._run_allocation_analyses(summary, "2026-03-01", "2026-03-07")
 
         call_args = mock_alloc.call_args
         current_arg = call_args[0][1]

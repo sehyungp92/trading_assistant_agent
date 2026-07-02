@@ -26,6 +26,7 @@ from trading_assistant.schemas.telemetry_manifest import TelemetryEligibility, T
 from trading_assistant.skills.backtest_runner_client import BacktestRunnerClient
 from trading_assistant.skills.monthly_candidate_pipeline import MonthlyCandidatePipeline
 from trading_assistant.skills.monthly_gap_attribution import MonthlyGapAttributor
+from trading_assistant.skills.monthly_artifact_contract import MonthlyArtifactContract
 from trading_assistant.skills.monthly_model_review_runner import MonthlyModelReviewInvoker, MonthlyModelReviewRunner
 from trading_assistant.skills.monthly_optimizer_runner import MonthlyOptimizerRunner
 from trading_assistant.skills.monthly_outcome_measurer import MonthlyOutcomeMeasurer
@@ -463,6 +464,8 @@ class MonthlyValidationOrchestrator:
                 encoding="utf-8",
             )
 
+        artifact_contract = MonthlyArtifactContract.from_index(artifact_index) if artifact_index is not None else None
+
         gap = self.attributor.attribute(
             coverage_blocking_reasons=data_blocking_reasons,
             telemetry_known_gaps=telemetry.known_gaps if telemetry.authoritative_eligibility != TelemetryEligibility.AUTHORITATIVE else [],
@@ -505,8 +508,8 @@ class MonthlyValidationOrchestrator:
             run_manifest_path=str(manifest_path),
             artifact_index_path=str(artifact_root / "artifact_index.json"),
             replay_parity_path=(
-                str(artifact_index.artifact_path("replay_parity_report.json") or "")
-                if artifact_index else ""
+                artifact_contract.path_str("replay_parity_report.json", require_exists=False)
+                if artifact_contract is not None else ""
             ),
             gap_attribution=gap,
             blocking_reasons=blocking_reasons,
@@ -561,6 +564,7 @@ class MonthlyValidationOrchestrator:
             result.model_review_provider = model_review_result.provider
             result.model_review_model = model_review_result.model
             result.model_review_runtime = model_review_result.runtime
+            result.model_review_cost_usd = model_review_result.cost_usd
             if model_review_result.error or (
                 model_review_result.skipped_reason == "no monthly model-review invoker configured"
             ):
@@ -609,6 +613,7 @@ class MonthlyValidationOrchestrator:
                 result.candidate_summary_path = candidate_result.candidate_summary_path
                 result.candidate_gate_report_path = candidate_result.gate_report_path
                 result.approval_packet_paths = candidate_result.approval_packet_paths
+                result.proposal_ids = candidate_result.proposal_ids
                 result.approval_request_ids = candidate_result.approval_request_ids
                 result.selected_candidate_count = len(candidate_result.selected_candidates)
                 result.rejected_candidate_count = len(candidate_result.rejected_candidates)
@@ -621,6 +626,7 @@ class MonthlyValidationOrchestrator:
                     and not candidate_result.approval_request_ids
                 )
                 result.model_review_validation_path = candidate_result.model_review_validation_path
+                result.monthly_evidence_verification_paths = candidate_result.evidence_verification_paths
                 result.model_review_valid = candidate_result.model_review_valid
                 result.model_review_issues = candidate_result.model_review_issues
                 self._record_model_review_validation_evidence(
@@ -639,6 +645,7 @@ class MonthlyValidationOrchestrator:
                     candidate_result.candidate_summary_path,
                     candidate_result.gate_report_path,
                     candidate_result.model_review_validation_path,
+                    *candidate_result.evidence_verification_paths,
                     *candidate_result.approval_packet_paths,
                 ])
 
@@ -991,12 +998,12 @@ class MonthlyValidationOrchestrator:
 
     @staticmethod
     def _load_parity_report(index: BacktestArtifactIndex) -> ReplayParityReport | None:
-        path = index.artifact_path("replay_parity_report.json")
+        contract = MonthlyArtifactContract.from_index(index)
+        path = contract.path("replay_parity_report.json")
         if path is None:
             return None
-        try:
-            report = ReplayParityReport.model_validate(json.loads(path.read_text(encoding="utf-8")))
-        except Exception:
+        report = contract.load_model("replay_parity_report.json", ReplayParityReport)
+        if report is None:
             return None
         computed_status = ReplayParityChecker().classify(report)
         if report.status == ReplayParityStatus.INSUFFICIENT_DATA and (
@@ -1012,14 +1019,8 @@ class MonthlyValidationOrchestrator:
 
     @staticmethod
     def _status_from_mode_decision(index: BacktestArtifactIndex) -> MonthlyValidationStatus | None:
-        path = index.artifact_path("mode_decision.json")
-        if path is None or not path.exists():
-            return None
-        try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-        except Exception:
-            return None
-        if not isinstance(data, dict):
+        data = MonthlyArtifactContract.from_index(index).load_json_object("mode_decision.json")
+        if not data:
             return None
         raw = (
             data.get("monthly_status")
@@ -1107,9 +1108,10 @@ def _mutation_family_and_category(mutation_diff: dict) -> tuple[str, str]:
 def _extract_objective_deltas(index: BacktestArtifactIndex | None) -> dict[str, float]:
     if index is None:
         return {}
+    contract = MonthlyArtifactContract.from_index(index)
     payloads = [
-        _load_json_artifact(index, "objective_breakdown.json"),
-        _load_json_artifact(index, "incumbent_validation.json"),
+        contract.load_json_object("objective_breakdown.json"),
+        contract.load_json_object("incumbent_validation.json"),
     ]
     aliases = {
         "live_vs_expected": (
@@ -1148,9 +1150,10 @@ def _extract_objective_deltas(index: BacktestArtifactIndex | None) -> dict[str, 
 def _minimum_trade_count_met(index: BacktestArtifactIndex | None) -> bool:
     if index is None:
         return False
+    contract = MonthlyArtifactContract.from_index(index)
     for payload in (
-        _load_json_artifact(index, "objective_breakdown.json"),
-        _load_json_artifact(index, "incumbent_validation.json"),
+        contract.load_json_object("objective_breakdown.json"),
+        contract.load_json_object("incumbent_validation.json"),
     ):
         value = _find_value(payload, (
             "minimum_trade_count_met",
@@ -1181,16 +1184,6 @@ def _add_months(run_month: str, months: int) -> str:
     return f"{year:04d}-{month:02d}"
 
 
-def _load_json_artifact(index: BacktestArtifactIndex, name: str) -> Any:
-    path = index.artifact_path(name)
-    if path is None or not path.exists():
-        return {}
-    try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
-        return {}
-
-
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         return []
@@ -1217,19 +1210,7 @@ def _status_expects_candidates(status: MonthlyValidationStatus) -> bool:
 
 
 def _selected_candidates_empty(index: BacktestArtifactIndex) -> bool:
-    payload = _load_json_artifact(index, "selected_candidates.json")
-    if isinstance(payload, list):
-        return not any(isinstance(item, dict) for item in payload)
-    if isinstance(payload, dict):
-        items = (
-            payload.get("candidates")
-            or payload.get("selected_candidates")
-            or payload.get("selected")
-            or payload.get("shortlist")
-            or []
-        )
-        return not (isinstance(items, list) and any(isinstance(item, dict) for item in items))
-    return True
+    return not MonthlyArtifactContract.from_index(index).load_candidate_rows("selected_candidates.json")
 
 
 def _monthly_review_decision_reason(result: MonthlyValidationResult) -> str:

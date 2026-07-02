@@ -1,10 +1,9 @@
 """Tests for soul.md quantification reinforcement in prompts (C1)."""
 from __future__ import annotations
 
-from pathlib import Path
 
-from trading_assistant.analysis.prompt_assembler import DailyPromptAssembler, _INSTRUCTIONS
-from trading_assistant.analysis.weekly_prompt_assembler import WeeklyPromptAssembler, _WEEKLY_INSTRUCTIONS
+from trading_assistant.analysis.prompt_assembler import _INSTRUCTIONS
+from trading_assistant.analysis.weekly_prompt_assembler import _WEEKLY_INSTRUCTIONS
 
 
 def test_daily_prompt_includes_quantification_instruction():

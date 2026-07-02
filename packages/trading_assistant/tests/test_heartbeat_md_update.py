@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import pytest
 from datetime import datetime, timezone, timedelta
-from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock
 
 from trading_assistant.orchestrator.monitoring import MonitoringCheck

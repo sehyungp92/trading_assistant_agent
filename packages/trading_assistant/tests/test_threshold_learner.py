@@ -7,7 +7,6 @@ from pathlib import Path
 
 import pytest
 
-from trading_assistant.schemas.detection_context import DetectionContext, ThresholdProfile, ThresholdRecord
 from trading_assistant.skills.threshold_learner import ThresholdLearner
 
 

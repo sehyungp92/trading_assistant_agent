@@ -1,6 +1,5 @@
 # tests/test_daily_metrics.py
 """Tests for daily metrics schemas."""
-from datetime import date
 
 from trading_assistant.schemas.daily_metrics import (
     BotDailySummary,

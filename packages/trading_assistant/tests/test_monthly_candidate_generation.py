@@ -11,6 +11,12 @@ from trading_assistant.schemas.monthly_candidates import MonthlyImprovementCandi
 from trading_assistant.schemas.monthly_validation import MonthlyValidationStatus
 from trading_assistant.schemas.strategy_change_ledger import StrategyChangeRecordType
 from trading_assistant.schemas.events import TradeEvent
+from trading_assistant.schemas.monthly_evidence_verification import (
+    MonthlyEvidenceFinding,
+    MonthlyEvidenceRecommendedAction,
+    MonthlyEvidenceVerdict,
+    MonthlyEvidenceVerification,
+)
 from trading_assistant.skills.approval_tracker import ApprovalTracker
 from trading_assistant.skills.monthly_validation_orchestrator import MonthlyValidationOrchestrator, MonthlyValidationRequest
 from trading_assistant.skills.strategy_change_ledger import StrategyChangeLedger
@@ -145,6 +151,20 @@ candidate = {{
     "objective_score": 1.18,
     "baseline_score": 1.0,
     "objective_delta": 0.18,
+    "objective_version": "objective_weights_v1",
+    "effective_objective_version": "immutable_score_profiles_v1",
+    "immutable_objective_version": "immutable_score_profiles_v1",
+    "objective_profile_id": "trading.momentum.nqdtc",
+    "objective_profile_family": "trading_momentum",
+    "objective_profile_scope": "strategy",
+    "score_component_cap": 5,
+    "immutable_score": {{
+        "profile_id": "trading.momentum.nqdtc",
+        "profile_version": "immutable_score_profiles_v1",
+        "objective_score": 1.18,
+        "score_component_cap": 5,
+        "renormalized_components": []
+    }},
     "objective_deltas": {{"latest_month_oos": 0.18, "calibration": 0.05}},
     "latest_month_oos_delta": 0.18,
     "calibration_objective_delta": 0.05,
@@ -172,7 +192,13 @@ candidate = {{
 (root / "incumbent_validation.json").write_text(json.dumps({{"objective_delta": -0.14}}))
 (root / "gap_attribution.json").write_text(json.dumps({{"primary_category": "filter_overreach"}}))
 (root / "mode_decision.json").write_text(json.dumps({{"status": "repair", "mode": "smoke_repair"}}))
-(root / "objective_breakdown.json").write_text(json.dumps({{"objective_version": "objective_weights_v1"}}))
+(root / "objective_breakdown.json").write_text(json.dumps({{
+    "objective_version": "objective_weights_v1",
+    "effective_objective_version": "immutable_score_profiles_v1",
+    "immutable_objective_version": "immutable_score_profiles_v1",
+    "objective_profile_id": "trading.momentum.nqdtc",
+    "score_component_cap": 5
+}}))
 (root / "candidate_results.jsonl").write_text(json.dumps(candidate) + "\\n")
 (root / "selected_candidates.json").write_text(json.dumps([candidate]))
 (root / "rejected_candidates.jsonl").write_text(json.dumps({{"candidate_id": "weak-1", "reason": "failed drawdown gate"}}) + "\\n")
@@ -207,7 +233,7 @@ required = [
 ]
 (root / "artifact_index.json").write_text(json.dumps({{
     "run_id": manifest["run_id"],
-    "manifest_id": "",
+    "manifest_id": manifest_id,
     "artifact_root": str(root),
     "artifacts": {{name: str(root / name) for name in required}},
 }}))
@@ -245,6 +271,14 @@ def test_approval_gated_monthly_failure_creates_evidence_backed_approval(tmp_pat
     assert len(result.approval_request_ids) == 1
     assert Path(result.candidate_gate_report_path).exists()
     assert Path(result.approval_packet_paths[0]).exists()
+    assert result.monthly_evidence_verification_paths
+    packet = json.loads(Path(result.approval_packet_paths[0]).read_text(encoding="utf-8"))
+    assert result.proposal_ids == [packet["proposal_id"]]
+    assert result.monthly_evidence_verification_paths[0] in packet["artifact_paths"]
+    assert (
+        result.monthly_evidence_verification_paths[0]
+        in packet["machine_readable_payload"]["approval_gate_evidence"]
+    )
 
     request = approval_tracker.get_by_id(result.approval_request_ids[0])
     assert request is not None
@@ -270,6 +304,13 @@ def test_approval_gated_monthly_failure_creates_evidence_backed_approval(tmp_pat
     assert result.model_review_validation_path in monthly_reviews[0].evidence_paths
     assert result.monthly_report_path in monthly_reviews[0].evidence_paths
     assert str(Path(result.monthly_report_path).parent / "monthly_validation_result.json") in monthly_reviews[0].evidence_paths
+    packet = json.loads(Path(result.approval_packet_paths[0]).read_text(encoding="utf-8"))
+    assert packet["effective_objective_version"] == "immutable_score_profiles_v1"
+    assert packet["objective_profile_id"] == "trading.momentum.nqdtc"
+    assert (
+        packet["machine_readable_payload"]["objective"]["immutable_score"]["profile_id"]
+        == "trading.momentum.nqdtc"
+    )
     for evidence_path in monthly_reviews[0].evidence_paths:
         assert Path(evidence_path).exists(), evidence_path
     ledger_events = [
@@ -369,6 +410,123 @@ def test_candidate_evidence_outside_artifact_root_fails_closed(tmp_path: Path) -
     gates = json.loads(Path(result.candidate_gate_report_path).read_text(encoding="utf-8"))
     failed = [check["name"] for check in gates[0]["checks"] if not check["passed"]]
     assert "candidate_artifact_containment" in failed
+
+
+def test_verifier_suppression_does_not_record_proposal_approve(tmp_path: Path) -> None:
+    curated, findings, market_root, repo = _write_inputs(tmp_path)
+    _write_fixture_runner(repo, valid_candidate=True)
+    approval_tracker = ApprovalTracker(findings / "approvals.jsonl")
+
+    class FailingVerifier:
+        saw_persisted_packet = False
+        saw_persisted_gate_report = False
+
+        def verify(self, **kwargs):
+            packet = kwargs["approval_packet"]
+            self.saw_persisted_packet = Path(packet.approval_packet_path).exists()
+            gate_paths = packet.machine_readable_payload.get("approval_gate_evidence", [])
+            self.saw_persisted_gate_report = any(
+                Path(path).name == "candidate_gate_report.json" and Path(path).exists()
+                for path in gate_paths
+            )
+            return MonthlyEvidenceVerification(
+                run_id=kwargs["monthly_result"].run_id,
+                candidate_id=packet.candidate_id,
+                verdict=MonthlyEvidenceVerdict.FAIL,
+                recommended_action=MonthlyEvidenceRecommendedAction.SUPPRESS_APPROVAL,
+                blocking_findings=[
+                    MonthlyEvidenceFinding(
+                        code="forced_verifier_failure",
+                        message="fixture verifier failure",
+                    )
+                ],
+            )
+
+        def write(self, verification, artifact_root: Path, *, candidate_id: str) -> Path:
+            path = artifact_root / f"monthly_evidence_verification_{candidate_id}.json"
+            verification.verifier_artifact_path = str(path)
+            path.write_text(verification.model_dump_json(indent=2), encoding="utf-8")
+            return path
+
+    verifier = FailingVerifier()
+    orchestrator = MonthlyValidationOrchestrator(
+        curated_dir=curated,
+        findings_dir=findings,
+        market_data_root=market_root,
+        backtest_repo_path=repo,
+        backtest_artifact_root=tmp_path / "artifacts",
+        approval_tracker=approval_tracker,
+    )
+    orchestrator.candidate_pipeline.evidence_verifier = verifier
+    result = orchestrator.run(MonthlyValidationRequest(
+        bot_id="bot1",
+        strategy_id="strat1",
+        run_month="2026-04",
+        shadow=False,
+        backtest_command=["python", "fixture_runner.py", "{manifest}"],
+        optimizer_sequence_enabled=False,
+    ))
+
+    assert verifier.saw_persisted_packet is True
+    assert verifier.saw_persisted_gate_report is True
+    assert result.approval_ready_candidate_count == 0
+    assert approval_tracker.get_pending() == []
+    packet = json.loads(Path(result.approval_packet_paths[0]).read_text(encoding="utf-8"))
+    assert "monthly evidence verifier verdict is fail" in packet["approval_suppressed_reasons"]
+    proposals = orchestrator.proposal_ledger.list_all()
+    assert proposals
+    assert proposals[-1].evaluations[-1].decision == "reject"
+    assert proposals[-1].evaluations[-1].decision != "approve"
+    assert proposals[-1].evaluations[-1].method == "monthly_candidate_gates_and_verifier"
+
+
+def test_final_packet_registry_validation_blocks_approval_after_verifier_pass(tmp_path: Path) -> None:
+    curated, findings, market_root, repo = _write_inputs(tmp_path)
+    _write_fixture_runner(repo, valid_candidate=True)
+    approval_tracker = ApprovalTracker(findings / "approvals.jsonl")
+
+    class PassingVerifierWithWrongArtifactName:
+        def verify(self, **kwargs):
+            packet = kwargs["approval_packet"]
+            return MonthlyEvidenceVerification(
+                run_id=kwargs["monthly_result"].run_id,
+                candidate_id=packet.candidate_id,
+                verdict=MonthlyEvidenceVerdict.PASS,
+                recommended_action=MonthlyEvidenceRecommendedAction.ROUTE_APPROVAL,
+            )
+
+        def write(self, verification, artifact_root: Path, *, candidate_id: str) -> Path:
+            path = artifact_root / f"verifier_output_{candidate_id}.json"
+            verification.verifier_artifact_path = str(path)
+            path.write_text(verification.model_dump_json(indent=2), encoding="utf-8")
+            return path
+
+    orchestrator = MonthlyValidationOrchestrator(
+        curated_dir=curated,
+        findings_dir=findings,
+        market_data_root=market_root,
+        backtest_repo_path=repo,
+        backtest_artifact_root=tmp_path / "artifacts",
+        approval_tracker=approval_tracker,
+    )
+    orchestrator.candidate_pipeline.evidence_verifier = PassingVerifierWithWrongArtifactName()
+    result = orchestrator.run(MonthlyValidationRequest(
+        bot_id="bot1",
+        strategy_id="strat1",
+        run_month="2026-04",
+        shadow=False,
+        backtest_command=["python", "fixture_runner.py", "{manifest}"],
+        optimizer_sequence_enabled=False,
+    ))
+
+    assert result.approval_ready_candidate_count == 0
+    assert approval_tracker.get_pending() == []
+    packet = json.loads(Path(result.approval_packet_paths[0]).read_text(encoding="utf-8"))
+    assert packet["evidence_verification_verdict"] == "pass"
+    assert any(
+        "monthly_evidence_verification" in reason
+        for reason in packet["approval_suppressed_reasons"]
+    )
 
 
 def test_candidate_source_can_be_inferred_from_mode_decision(tmp_path: Path) -> None:
@@ -557,6 +715,43 @@ def test_monthly_model_review_requires_evidence_for_actionable_output() -> None:
     assert any(issue.message == "evidence_paths are required" for issue in validation.issues)
     assert validation.approval_tiers["cand1"] == "requires_double_approval"
     assert "Split filter by regime" in validation.hypothesis_only_ids
+
+
+def test_monthly_model_review_rejects_existing_evidence_outside_allowlist(tmp_path: Path) -> None:
+    unallowed = tmp_path / "approval_packet_cand1.json"
+    allowed = tmp_path / "candidate_gate_report.json"
+    unallowed.write_text("{}", encoding="utf-8")
+    allowed.write_text("{}", encoding="utf-8")
+    review = parse_monthly_model_review(f"""
+<!-- MONTHLY_MODEL_REVIEW
+{{
+  "run_id": "monthly-bot1-strat1-2026-04",
+  "bot_id": "bot1",
+  "strategy_id": "strat1",
+  "candidate_reviews": [
+    {{
+      "candidate_id": "cand1",
+      "recommendation": "looks good",
+      "routing": "experiment",
+      "risk_classification": "medium",
+      "evidence_paths": [{json.dumps(str(unallowed))}],
+      "expected_objective_impact": {{"latest_month_oos": 0.1}},
+      "replay_or_experiment_plan": "paper deploy",
+      "acceptance_criteria": ["passes replay"],
+      "rollback_plan": "restore incumbent"
+    }}
+  ]
+}}
+-->
+""")
+
+    validation = MonthlyModelResponseValidator().validate(
+        review,
+        allowed_evidence_paths=[str(allowed)],
+    )
+
+    assert validation.valid is False
+    assert any("not in deterministic evidence set" in issue.message for issue in validation.issues)
 
 
 def test_monthly_model_review_parser_drops_non_object_items() -> None:

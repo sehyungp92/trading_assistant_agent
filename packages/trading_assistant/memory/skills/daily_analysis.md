@@ -4,7 +4,7 @@
 Analyze daily trading bot performance across all bots. Synthesize 12 curated data files per bot into a concise, actionable report.
 
 ## Trigger
-Scheduled daily at 22:30 UTC via APScheduler cron job.
+Scheduled daily at 06:00 UTC via APScheduler cron job.
 
 ## Pipeline
 1. **Quality Gate** — verify curated data exists for all bots. Degrade gracefully if partial.

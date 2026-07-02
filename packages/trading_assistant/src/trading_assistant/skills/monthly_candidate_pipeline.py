@@ -12,6 +12,7 @@ from trading_assistant.schemas.approval import ApprovalRequest, RepoRiskTier
 from trading_assistant.schemas.backtest_artifacts import BacktestArtifactIndex
 from trading_assistant.schemas.decision_parity import DecisionParityReport
 from trading_assistant.schemas.market_data_manifest import MarketDataManifest
+from trading_assistant.schemas.monthly_artifact_contract import MonthlyVerifierInput
 from trading_assistant.schemas.monthly_candidates import (
     MonthlyApprovalEvidencePacket,
     MonthlyCandidateGateReport,
@@ -36,7 +37,9 @@ from trading_assistant.schemas.replay_parity import ReplayParityReport
 from trading_assistant.schemas.strategy_plugin_contract import StrategyPluginContract
 from trading_assistant.schemas.strategy_change_ledger import StrategyChangeRecord, StrategyChangeRecordType
 from trading_assistant.schemas.telemetry_manifest import TelemetryEligibility, TelemetryManifest
+from trading_assistant.skills.monthly_artifact_contract import MonthlyArtifactContract
 from trading_assistant.skills.monthly_deployment_metadata import deployment_metadata_errors
+from trading_assistant.skills.monthly_evidence_verifier import MonthlyEvidenceVerifier
 from trading_assistant.skills.outcome_prior_store import OutcomePriorStore
 from trading_assistant.skills.proposal_ledger import make_proposal_id
 from trading_assistant.skills.search_allocation_policy import SearchAllocationPolicy
@@ -59,6 +62,8 @@ class MonthlyCandidatePipeline:
         proposal_ledger: object | None = None,
         strategy_change_ledger: object | None = None,
         outcome_prior_store: OutcomePriorStore | None = None,
+        evidence_verifier: MonthlyEvidenceVerifier | None = None,
+        require_evidence_verifier: bool = True,
         min_trade_count: int = 10,
         max_outlier_win_concentration: float = 0.40,
     ) -> None:
@@ -70,6 +75,8 @@ class MonthlyCandidatePipeline:
             SearchAllocationPolicy(outcome_prior_store)
             if outcome_prior_store is not None else None
         )
+        self.evidence_verifier = evidence_verifier or MonthlyEvidenceVerifier()
+        self.require_evidence_verifier = require_evidence_verifier
         self.min_trade_count = min_trade_count
         self.max_outlier_win_concentration = max_outlier_win_concentration
 
@@ -109,17 +116,22 @@ class MonthlyCandidatePipeline:
             )
             summary_path.write_text(result.model_dump_json(indent=2), encoding="utf-8")
             return result
-        selected = self._load_selected_candidates(
+        run_manifest = _load_run_manifest(monthly_result.run_manifest_path)
+        artifact_contract = MonthlyArtifactContract.from_index(
             artifact_index,
+            manifest=run_manifest,
+        )
+        selected = artifact_contract.load_selected_candidates(
             bot_id=monthly_result.bot_id,
             strategy_id=monthly_result.strategy_id,
         )
         for candidate in selected:
-            self._normalize_candidate_paths(candidate, artifact_index)
+            artifact_contract.normalize_candidate_paths(candidate)
         if self.search_allocation_policy is not None:
             selected = self.search_allocation_policy.order_candidates(selected)
-        rejected = self._load_rejected_candidates(artifact_index)
+        rejected = artifact_contract.load_rejected_candidates()
         model_validation_path = ""
+        model_review: MonthlyModelReview | None = None
         model_validation: MonthlyModelValidationResult | None = None
         if model_review_path:
             allowed_evidence = _dedupe([
@@ -130,7 +142,7 @@ class MonthlyCandidatePipeline:
                     for path in [*candidate.evidence_paths, *candidate.artifact_paths]
                 ],
             ])
-            _, model_validation, model_validation_path = self._load_and_validate_model_review(
+            model_review, model_validation, model_validation_path = self._load_and_validate_model_review(
                 model_review_path=model_review_path,
                 monthly_result=monthly_result,
                 allowed_evidence_paths=allowed_evidence,
@@ -139,12 +151,22 @@ class MonthlyCandidatePipeline:
         packets: list[MonthlyApprovalEvidencePacket] = []
         request_ids: list[str] = []
         packet_paths: list[str] = []
+        proposal_ids: list[str] = []
+        evidence_verification_paths: list[str] = []
+        evidence_verification_verdicts: dict[str, str] = {}
+        gate_report_path = artifact_root / "candidate_gate_report.json"
+        candidate_summary_path = artifact_root / "candidate_generation_summary.json"
+        deployment_metadata_blockers = deployment_metadata_errors(
+            run_manifest,
+            missing_reason="deployment metadata missing for approval evidence",
+        )
 
         for candidate in selected:
             gate_report = self.evaluate_candidate(
                 candidate=candidate,
                 monthly_result=monthly_result,
                 artifact_index=artifact_index,
+                artifact_contract=artifact_contract,
                 coverage=coverage,
                 telemetry=telemetry,
                 parity_report=parity_report,
@@ -161,14 +183,69 @@ class MonthlyCandidatePipeline:
                 monthly_result_path=monthly_result_path,
                 model_review_path=model_review_path,
                 model_validation=model_validation,
+                model_review_validation_path=model_validation_path,
+                candidate_gate_report_path=str(gate_report_path),
+                artifact_contract=artifact_contract,
             )
             packet_path = artifact_root / f"approval_packet_{_safe_id(candidate.candidate_id)}.json"
             packet.approval_packet_path = str(packet_path)
-            proposal_id = self._record_proposal(candidate, packet, gate_report, monthly_result)
+            proposal_id = self._proposal_id(candidate, monthly_result)
             packet.proposal_id = proposal_id
             packet.suggestion_id = proposal_id
+            proposal_ids = _dedupe([*proposal_ids, proposal_id])
+            gate_report_path.write_text(
+                json.dumps([report.model_dump(mode="json") for report in gate_reports], indent=2),
+                encoding="utf-8",
+            )
+            packet_path.write_text(packet.model_dump_json(indent=2), encoding="utf-8")
+            verifier_input = artifact_contract.verifier_input(
+                candidate.candidate_id,
+                monthly_result=monthly_result,
+                selected_candidates=selected,
+                gate_reports=[*gate_reports],
+                approval_packet=packet,
+                run_manifest=run_manifest,
+                model_review=model_review,
+                model_validation=model_validation,
+                model_review_validation_path=model_validation_path,
+                deployment_metadata_blockers=deployment_metadata_blockers,
+            )
+            verification = self._verify_evidence(verifier_input)
+            verification_path = self.evidence_verifier.write(
+                verification,
+                artifact_root,
+                candidate_id=candidate.candidate_id,
+            )
+            packet.evidence_verification_path = str(verification_path)
+            packet.evidence_verification_id = verification.verification_id
+            packet.evidence_verification_verdict = verification.verdict.value
+            packet.artifact_paths = _dedupe([*packet.artifact_paths, str(verification_path)])
+            gate_evidence = packet.machine_readable_payload.get("approval_gate_evidence", [])
+            if not isinstance(gate_evidence, list):
+                gate_evidence = [str(gate_evidence)] if gate_evidence else []
+            packet.machine_readable_payload["approval_gate_evidence"] = _dedupe([
+                *[str(path) for path in gate_evidence],
+                str(verification_path),
+            ])
+            packet.machine_readable_payload["monthly_evidence_verification"] = verification.model_dump(mode="json")
+            evidence_verification_paths.append(str(verification_path))
+            evidence_verification_verdicts[candidate.candidate_id] = verification.verdict.value
+            verifier_passed = verification.verdict.value == "pass"
+            verifier_review_required = verification.verdict.value == "needs_human_review"
+            verifier_allows_approval = verifier_passed or not self.require_evidence_verifier
+            final_packet_issues = artifact_contract.registry.validate_approval_packet(packet)
+            final_packet_issue_reasons = [
+                f"{issue.artifact}: {issue.message}"
+                for issue in final_packet_issues
+            ]
 
-            if gate_report.passed and not shadow and self.approval_tracker is not None:
+            if (
+                gate_report.passed
+                and verifier_allows_approval
+                and not final_packet_issues
+                and not shadow
+                and self.approval_tracker is not None
+            ):
                 request = self._build_approval_request(packet, candidate)
                 strategy_record_id = self._record_strategy_change(candidate, packet, request)
                 packet.request_id = request.request_id
@@ -183,18 +260,26 @@ class MonthlyCandidatePipeline:
                     gate_report,
                     shadow=shadow,
                     approval_tracker_present=self.approval_tracker is not None,
+                    verifier_verdict=verification.verdict.value if self.require_evidence_verifier else "",
+                    verifier_review_required=verifier_review_required,
+                    final_packet_issues=final_packet_issue_reasons,
                 )
 
+            self._record_proposal(
+                candidate,
+                packet,
+                gate_report,
+                monthly_result,
+                verification=verification,
+            )
             packet_path.write_text(packet.model_dump_json(indent=2), encoding="utf-8")
             packet_paths.append(str(packet_path))
             packets.append(packet)
 
-        gate_report_path = artifact_root / "candidate_gate_report.json"
         gate_report_path.write_text(
             json.dumps([report.model_dump(mode="json") for report in gate_reports], indent=2),
             encoding="utf-8",
         )
-        summary_path = artifact_root / "candidate_generation_summary.json"
         result = MonthlyCandidateProcessingResult(
             run_id=monthly_result.run_id,
             run_month=monthly_result.run_month,
@@ -207,19 +292,28 @@ class MonthlyCandidatePipeline:
             approval_request_ids=request_ids,
             gate_passed_candidate_count=sum(1 for report in gate_reports if report.passed),
             approval_ready_candidate_count=len(request_ids),
-            candidate_summary_path=str(summary_path),
+            candidate_summary_path=str(candidate_summary_path),
             gate_report_path=str(gate_report_path),
             approval_packet_paths=packet_paths,
+            proposal_ids=proposal_ids,
             model_review_path=model_review_path,
             model_review_validation_path=model_validation_path,
+            evidence_verification_paths=evidence_verification_paths,
+            evidence_verification_verdicts=evidence_verification_verdicts,
             model_review_valid=model_validation.valid if model_validation is not None else None,
             model_review_issues=(
                 [issue.message for issue in model_validation.issues]
                 if model_validation is not None else []
             ),
         )
-        summary_path.write_text(result.model_dump_json(indent=2), encoding="utf-8")
+        candidate_summary_path.write_text(result.model_dump_json(indent=2), encoding="utf-8")
         return result
+
+    def _verify_evidence(self, verifier_input: MonthlyVerifierInput) -> Any:
+        verify_input = getattr(self.evidence_verifier, "verify_input", None)
+        if callable(verify_input):
+            return verify_input(verifier_input)
+        return self.evidence_verifier.verify(**verifier_input.to_verify_kwargs())
 
     def evaluate_candidate(
         self,
@@ -227,11 +321,19 @@ class MonthlyCandidatePipeline:
         candidate: MonthlyImprovementCandidate,
         monthly_result: MonthlyValidationResult,
         artifact_index: BacktestArtifactIndex | None = None,
+        artifact_contract: MonthlyArtifactContract | None = None,
         coverage: MarketDataManifest | None = None,
         telemetry: TelemetryManifest,
         parity_report: ReplayParityReport | None,
         model_validation: MonthlyModelValidationResult | None = None,
     ) -> MonthlyCandidateGateReport:
+        contract = artifact_contract or (
+            MonthlyArtifactContract.from_index(artifact_index)
+            if artifact_index is not None else None
+        )
+        candidate_paths = [*candidate.evidence_paths, *candidate.artifact_paths]
+        path_contract = contract or MonthlyArtifactContract(artifact_root=Path.cwd())
+        existing_candidate_paths = path_contract.existing_paths(candidate_paths)
         checks = [
             MonthlyGateCheck(
                 name="monthly_status_allows_candidate",
@@ -274,15 +376,15 @@ class MonthlyCandidatePipeline:
             self._candidate_workspace_gate(candidate),
             MonthlyGateCheck(
                 name="candidate_evidence_paths",
-                passed=bool(_existing_paths([*candidate.evidence_paths, *candidate.artifact_paths])),
+                passed=bool(existing_candidate_paths),
                 reason=(
                     ""
-                    if _existing_paths([*candidate.evidence_paths, *candidate.artifact_paths])
+                    if existing_candidate_paths
                     else "candidate lacks existing replay evidence paths"
                 ),
-                evidence_paths=[*candidate.evidence_paths, *candidate.artifact_paths],
+                evidence_paths=candidate_paths,
             ),
-            self._candidate_artifact_containment_gate(candidate),
+            self._candidate_artifact_containment_gate(candidate, artifact_contract=contract),
             MonthlyGateCheck(
                 name="market_data_coverage",
                 passed=coverage is not None and coverage.usable_for_authoritative_validation,
@@ -341,7 +443,7 @@ class MonthlyCandidatePipeline:
                 missing_reason="portfolio/risk-constraint evidence is missing",
             ),
             self._phase_support_gate(candidate),
-            self._decision_parity_gate(candidate, monthly_result),
+            self._decision_parity_gate(candidate, monthly_result, artifact_contract=contract),
             self._strategy_plugin_contract_gate(candidate, monthly_result),
             self._outcome_prior_gate(candidate),
             self._model_review_gate(candidate, model_validation),
@@ -350,6 +452,9 @@ class MonthlyCandidatePipeline:
             candidate_id=candidate.candidate_id,
             source=candidate.source,
             checks=checks,
+            objective_version=candidate.objective_version,
+            effective_objective_version=candidate.effective_objective_version,
+            objective_profile_id=candidate.objective_profile_id,
         )
 
     def build_packet(
@@ -364,18 +469,59 @@ class MonthlyCandidatePipeline:
         monthly_result_path: Path,
         model_review_path: str = "",
         model_validation: MonthlyModelValidationResult | None = None,
+        model_review_validation_path: str = "",
+        candidate_gate_report_path: str = "",
+        artifact_contract: MonthlyArtifactContract | None = None,
     ) -> MonthlyApprovalEvidencePacket:
-        artifact_paths = _dedupe([
-            *monthly_result.evidence_paths,
-            str(monthly_result_path),
-            *candidate.evidence_paths,
-            *candidate.artifact_paths,
-        ])
+        artifact_paths = (
+            artifact_contract.approval_packet_artifact_paths(
+                monthly_result=monthly_result,
+                candidate=candidate,
+                monthly_result_path=monthly_result_path,
+                candidate_gate_report_path=candidate_gate_report_path,
+                model_review_path=model_review_path,
+                model_review_validation_path=model_review_validation_path,
+            )
+            if artifact_contract is not None else _dedupe([
+                *monthly_result.evidence_paths,
+                str(monthly_result_path),
+                monthly_result.artifact_index_path,
+                monthly_result.replay_parity_path,
+                candidate_gate_report_path,
+                model_review_path,
+                model_review_validation_path,
+                *candidate.evidence_paths,
+                *candidate.artifact_paths,
+            ])
+        )
+        approval_evidence = (
+            artifact_contract.approval_gate_evidence(
+                candidate.candidate_id,
+                candidate=candidate,
+                monthly_result_path=monthly_result_path,
+                replay_parity_path=monthly_result.replay_parity_path,
+                candidate_gate_report_path=candidate_gate_report_path,
+                model_review_validation_path=model_review_validation_path,
+            ).approval_gate_evidence
+            if artifact_contract is not None else _dedupe([
+                str(monthly_result_path),
+                monthly_result.replay_parity_path,
+                candidate_gate_report_path,
+                model_review_validation_path,
+                *candidate.evidence_paths,
+            ])
+        )
         latest_delta = _candidate_float(candidate, "latest_month_oos_delta", "latest_month_objective_delta")
         calibration_delta = _candidate_float(candidate, "calibration_objective_delta", "calibration_delta")
+        objective_ref = candidate.effective_objective_version or candidate.objective_version
+        profile_ref = (
+            f", profile={candidate.objective_profile_id}"
+            if candidate.objective_profile_id else ""
+        )
         human_summary = (
             f"{candidate.source.value} candidate {candidate.candidate_id} for "
             f"{monthly_result.bot_id}/{monthly_result.strategy_id}: "
+            f"objective={objective_ref}{profile_ref}, "
             f"objective_delta={candidate.objective_delta:+.4f}, "
             f"gates={'pass' if gate_report.passed else 'fail'}."
         )
@@ -394,6 +540,10 @@ class MonthlyCandidatePipeline:
                 **candidate.objective_deltas,
                 "candidate_objective_delta": candidate.objective_delta,
             },
+            objective_version=candidate.objective_version,
+            effective_objective_version=candidate.effective_objective_version,
+            objective_profile_id=candidate.objective_profile_id,
+            score_component_cap=candidate.score_component_cap,
             latest_month_behavior=(
                 f"latest OOS delta {latest_delta:+.4f}"
                 if latest_delta is not None else "latest OOS improvement evidence supplied by gate inputs"
@@ -411,93 +561,35 @@ class MonthlyCandidatePipeline:
             rollback_plan=candidate.rollback_plan,
             artifact_paths=artifact_paths,
             model_review_path=model_review_path,
+            model_review_validation_path=model_review_validation_path,
             human_summary=human_summary,
             machine_readable_payload={
+                "objective": {
+                    "objective_version": candidate.objective_version,
+                    "effective_objective_version": candidate.effective_objective_version,
+                    "immutable_objective_version": candidate.immutable_objective_version,
+                    "objective_profile_id": candidate.objective_profile_id,
+                    "objective_profile_family": candidate.objective_profile_family,
+                    "objective_profile_scope": candidate.objective_profile_scope,
+                    "score_component_cap": candidate.score_component_cap,
+                    "immutable_score": candidate.immutable_score,
+                },
                 "candidate": candidate.model_dump(mode="json"),
                 "gate_report": gate_report.model_dump(mode="json"),
                 "monthly_validation": monthly_result.model_dump(mode="json"),
-                "telemetry_eligibility": telemetry.authoritative_eligibility.value,
+                "telemetry_eligibility": (
+                    telemetry.authoritative_eligibility.value
+                    if telemetry is not None else "unavailable"
+                ),
                 "model_review_validation": (
                     model_validation.model_dump(mode="json")
                     if model_validation is not None else None
                 ),
+                "model_review_validation_path": model_review_validation_path,
+                "approval_gate_evidence": approval_evidence,
             },
             approval_ready=False,
         )
-
-    def _load_selected_candidates(
-        self,
-        artifact_index: BacktestArtifactIndex,
-        *,
-        bot_id: str,
-        strategy_id: str,
-    ) -> list[MonthlyImprovementCandidate]:
-        raw = _load_json_artifact(artifact_index, "selected_candidates.json")
-        default_source = _source_from_mode_decision(artifact_index)
-        rows: list[dict[str, Any]]
-        if isinstance(raw, list):
-            rows = [item for item in raw if isinstance(item, dict)]
-        elif isinstance(raw, dict):
-            candidates = (
-                raw.get("candidates")
-                or raw.get("selected_candidates")
-                or raw.get("selected")
-                or raw.get("shortlist")
-                or []
-            )
-            rows = [item for item in candidates if isinstance(item, dict)]
-        else:
-            rows = []
-        return [
-            MonthlyImprovementCandidate.from_raw(
-                row,
-                bot_id=bot_id,
-                strategy_id=strategy_id,
-                default_source=default_source,
-            )
-            for row in rows
-        ]
-
-    @staticmethod
-    def _normalize_candidate_paths(
-        candidate: MonthlyImprovementCandidate,
-        artifact_index: BacktestArtifactIndex,
-    ) -> None:
-        root = Path(artifact_index.artifact_root)
-        candidate.evidence_paths = _dedupe([
-            _resolve_artifact_path(path, root)
-            for path in candidate.evidence_paths
-        ])
-        candidate.artifact_paths = _dedupe([
-            _resolve_artifact_path(path, root)
-            for path in candidate.artifact_paths
-        ])
-        candidate.candidate_workspace_path = _resolve_artifact_path(
-            candidate.candidate_workspace_path,
-            root,
-        )
-        for attr in (
-            "workflow_contract_path",
-            "live_repo_patch_path",
-            "backtest_adapter_patch_path",
-            "config_patch_path",
-            "decision_parity_report_path",
-            "fold_manifest_path",
-            "rounds_manifest_path",
-            "end_of_round_diagnostics_path",
-            "confirmatory_rerank_path",
-            "checkpoint_path",
-        ):
-            resolved = _resolve_artifact_path(getattr(candidate, attr), root)
-            setattr(candidate, attr, resolved)
-            if resolved:
-                candidate.artifact_paths.append(resolved)
-        candidate.artifact_paths = _dedupe(candidate.artifact_paths)
-        candidate.deterministic_gate_inputs.setdefault("artifact_root", str(root))
-
-    def _load_rejected_candidates(self, artifact_index: BacktestArtifactIndex) -> list[dict[str, Any]]:
-        rows = _load_jsonl_artifact(artifact_index, "rejected_candidates.jsonl")
-        return rows
 
     def _load_and_validate_model_review(
         self,
@@ -531,15 +623,10 @@ class MonthlyCandidatePipeline:
         packet: MonthlyApprovalEvidencePacket,
         gate_report: MonthlyCandidateGateReport,
         monthly_result: MonthlyValidationResult,
+        *,
+        verification: object | None = None,
     ) -> str:
-        proposal_id = make_proposal_id(
-            _proposal_source(candidate.source),
-            monthly_result.bot_id,
-            _proposal_kind(candidate.change_kind),
-            candidate.title,
-            strategy_id=monthly_result.strategy_id,
-            link_key=f"{monthly_result.run_id}:{candidate.candidate_id}",
-        )
+        proposal_id = packet.proposal_id or self._proposal_id(candidate, monthly_result)
         if self.proposal_ledger is None:
             return proposal_id
 
@@ -575,20 +662,40 @@ class MonthlyCandidatePipeline:
             suggestion_id=proposal_id,
         )
         self.proposal_ledger.record_candidate(candidate_record)
+        verifier_verdict = str(getattr(getattr(verification, "verdict", ""), "value", "") or "")
+        decision, decision_reason, confidence = _proposal_decision(
+            gate_report=gate_report,
+            packet=packet,
+            verifier_verdict=verifier_verdict,
+        )
         self.proposal_ledger.record_evaluation(
             proposal_id,
             ProposalEvaluation(
                 proposal_id=proposal_id,
-                method="monthly_candidate_gates",
+                method="monthly_candidate_gates_and_verifier",
                 summary=packet.human_summary,
                 objective_score=candidate.objective_score or candidate.objective_delta,
-                confidence=1.0 if gate_report.passed else 0.0,
-                decision="approve" if gate_report.passed else "reject",
-                decision_reason="; ".join(gate_report.blocking_reasons),
+                confidence=confidence,
+                decision=decision,
+                decision_reason=decision_reason,
                 evidence_paths=packet.artifact_paths,
             ),
         )
         return proposal_id
+
+    @staticmethod
+    def _proposal_id(
+        candidate: MonthlyImprovementCandidate,
+        monthly_result: MonthlyValidationResult,
+    ) -> str:
+        return make_proposal_id(
+            _proposal_source(candidate.source),
+            monthly_result.bot_id,
+            _proposal_kind(candidate.change_kind),
+            candidate.title,
+            strategy_id=monthly_result.strategy_id,
+            link_key=f"{monthly_result.run_id}:{candidate.candidate_id}",
+        )
 
     def _record_strategy_change(
         self,
@@ -675,12 +782,21 @@ class MonthlyCandidatePipeline:
         *,
         shadow: bool,
         approval_tracker_present: bool,
+        verifier_verdict: str = "",
+        verifier_review_required: bool = False,
+        final_packet_issues: list[str] | None = None,
     ) -> list[str]:
         reasons = list(gate_report.blocking_reasons)
+        reasons.extend(final_packet_issues or [])
         if shadow:
             reasons.append("monthly validation is running in shadow mode")
         if gate_report.passed and not approval_tracker_present:
             reasons.append("approval tracker is unavailable")
+        if verifier_verdict and verifier_verdict != "pass":
+            if verifier_review_required:
+                reasons.append("monthly evidence verifier requires human review")
+            else:
+                reasons.append(f"monthly evidence verifier verdict is {verifier_verdict}")
         return _dedupe(reasons)
 
     def _bool_gate(
@@ -750,6 +866,8 @@ class MonthlyCandidatePipeline:
     def _decision_parity_gate(
         candidate: MonthlyImprovementCandidate,
         monthly_result: MonthlyValidationResult,
+        *,
+        artifact_contract: MonthlyArtifactContract | None = None,
     ) -> MonthlyGateCheck:
         if not _is_structural_candidate(candidate):
             return MonthlyGateCheck(
@@ -803,7 +921,10 @@ class MonthlyCandidatePipeline:
             Path(monthly_result.artifact_index_path).parent
             if monthly_result.artifact_index_path else None
         )
-        outside_evidence = _paths_outside_root(evidence_paths, root) if root is not None else []
+        scope_contract = artifact_contract or (
+            MonthlyArtifactContract(artifact_root=root) if root is not None else None
+        )
+        outside_evidence = scope_contract.paths_outside_root(evidence_paths) if scope_contract else []
         if outside_evidence:
             reasons.append(
                 "decision parity evidence paths outside artifact_root: "
@@ -976,7 +1097,11 @@ class MonthlyCandidatePipeline:
         )
 
     @staticmethod
-    def _candidate_artifact_containment_gate(candidate: MonthlyImprovementCandidate) -> MonthlyGateCheck:
+    def _candidate_artifact_containment_gate(
+        candidate: MonthlyImprovementCandidate,
+        *,
+        artifact_contract: MonthlyArtifactContract | None = None,
+    ) -> MonthlyGateCheck:
         paths = _dedupe([*candidate.evidence_paths, *candidate.artifact_paths])
         if not paths:
             return MonthlyGateCheck(
@@ -987,7 +1112,8 @@ class MonthlyCandidatePipeline:
                 evidence_paths=[],
             )
         root = Path(str(candidate.deterministic_gate_inputs.get("artifact_root") or ""))
-        outside = _paths_outside_root(paths, root) if root else paths
+        scope_contract = artifact_contract or MonthlyArtifactContract(artifact_root=root)
+        outside = scope_contract.paths_outside_root(paths)
         return MonthlyGateCheck(
             name="candidate_artifact_containment",
             passed=not outside,
@@ -1134,33 +1260,6 @@ class MonthlyCandidatePipeline:
         )
 
 
-def _load_json_artifact(index: BacktestArtifactIndex, name: str) -> Any:
-    path = index.artifact_path(name)
-    if path is None or not path.exists():
-        return None
-    try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
-        return None
-
-
-def _load_jsonl_artifact(index: BacktestArtifactIndex, name: str) -> list[dict[str, Any]]:
-    path = index.artifact_path(name)
-    if path is None or not path.exists():
-        return []
-    rows: list[dict[str, Any]] = []
-    try:
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if not line.strip():
-                continue
-            value = json.loads(line)
-            if isinstance(value, dict):
-                rows.append(value)
-    except Exception:
-        return rows
-    return rows
-
-
 def _load_run_manifest(path: str) -> MonthlyRunManifest | None:
     if not path:
         return None
@@ -1210,57 +1309,6 @@ def _runner_contract_version(source: MonthlyCandidateSource) -> str:
     if source == MonthlyCandidateSource.PHASED_AUTO:
         return "phased_auto_runner_contract_v1"
     return ""
-
-
-def _source_from_mode_decision(index: BacktestArtifactIndex) -> MonthlyCandidateSource:
-    data = _load_json_artifact(index, "mode_decision.json")
-    if not isinstance(data, dict):
-        return MonthlyCandidateSource.UNKNOWN
-    raw = (
-        data.get("candidate_source")
-        or data.get("mode")
-        or data.get("routing")
-        or data.get("decision")
-        or data.get("status")
-    )
-    if not raw:
-        return MonthlyCandidateSource.UNKNOWN
-    normalized = str(raw).strip().lower().replace("-", "_")
-    if normalized in {"smoke", "smoke_repair", "repair", "rollback"}:
-        return MonthlyCandidateSource.SMOKE_REPAIR
-    if normalized in {"phased", "phased_auto", "auto", "experiment"}:
-        return MonthlyCandidateSource.PHASED_AUTO
-    return MonthlyCandidateSource.UNKNOWN
-
-
-def _resolve_artifact_path(path: str, root: Path) -> str:
-    raw = str(path or "").strip()
-    if not raw:
-        return ""
-    candidate = Path(raw)
-    if not candidate.is_absolute():
-        candidate = root / candidate
-    return str(candidate)
-
-
-def _existing_paths(paths: list[str]) -> list[str]:
-    return [path for path in paths if path and Path(path).exists()]
-
-
-def _paths_outside_root(paths: list[str], root: Path) -> list[str]:
-    try:
-        resolved_root = root.resolve()
-    except OSError:
-        return [path for path in paths if path]
-    outside: list[str] = []
-    for path in paths:
-        if not path:
-            continue
-        try:
-            Path(path).resolve().relative_to(resolved_root)
-        except (OSError, ValueError):
-            outside.append(path)
-    return outside
 
 
 def _candidate_value(candidate: MonthlyImprovementCandidate, *keys: str) -> Any:
@@ -1316,6 +1364,23 @@ def _proposal_kind(change_kind: str) -> ProposalKind:
         if change_kind == "rollback":
             return ProposalKind.ROLLBACK
         return ProposalKind.STRUCTURAL_CHANGE
+
+
+def _proposal_decision(
+    *,
+    gate_report: MonthlyCandidateGateReport,
+    packet: MonthlyApprovalEvidencePacket,
+    verifier_verdict: str,
+) -> tuple[str, str, float]:
+    if not gate_report.passed:
+        return "reject", "; ".join(gate_report.blocking_reasons), 0.0
+    if verifier_verdict == "fail":
+        return "reject", "monthly evidence verifier verdict is fail", 0.0
+    if verifier_verdict == "needs_human_review":
+        return "defer", "monthly evidence verifier requires human review", 0.5
+    if not packet.approval_ready:
+        return "defer", "; ".join(packet.approval_suppressed_reasons), 0.5
+    return "approve", "candidate gates and monthly evidence verifier passed", 1.0
 
 
 def _change_kind(change_kind: str, *, has_file_changes: bool) -> ChangeKind:

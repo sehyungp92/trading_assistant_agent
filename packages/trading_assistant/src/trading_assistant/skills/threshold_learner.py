@@ -8,7 +8,6 @@ from __future__ import annotations
 import json
 import logging
 from collections import defaultdict
-from datetime import datetime, timezone
 from pathlib import Path
 
 from trading_assistant.schemas.detection_context import DetectionContext, ThresholdProfile, ThresholdRecord

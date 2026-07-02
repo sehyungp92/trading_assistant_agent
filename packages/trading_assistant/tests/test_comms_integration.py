@@ -5,7 +5,6 @@ from unittest.mock import AsyncMock
 
 from trading_assistant.orchestrator.orchestrator_brain import OrchestratorBrain, ActionType
 from trading_assistant.orchestrator.worker import Worker
-from trading_assistant.orchestrator.monitoring import Alert, AlertSeverity
 from trading_assistant.skills.proactive_scanner import ProactiveScanner
 from trading_assistant.comms.dispatcher import NotificationDispatcher, ChannelAdapter
 from trading_assistant.comms.renderer import PlainTextRenderer

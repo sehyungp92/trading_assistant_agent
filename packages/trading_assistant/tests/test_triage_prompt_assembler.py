@@ -2,7 +2,7 @@
 """Tests for triage prompt assembler — packages context for Claude."""
 from pathlib import Path
 
-from trading_assistant.schemas.bug_triage import BugSeverity, BugComplexity, ErrorCategory, ErrorEvent, TriageOutcome
+from trading_assistant.schemas.bug_triage import BugSeverity, BugComplexity
 from trading_assistant.skills.triage_context_builder import TriageContext
 from trading_assistant.analysis.triage_prompt_assembler import TriagePromptAssembler
 

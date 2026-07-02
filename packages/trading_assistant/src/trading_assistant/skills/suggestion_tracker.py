@@ -12,6 +12,11 @@ import threading
 from datetime import datetime, timezone
 from pathlib import Path
 
+from trading_assistant.orchestrator.jsonl_store import (
+    jsonl_file_lock,
+    read_json_projection,
+    write_json_projection,
+)
 from trading_assistant.schemas.suggestion_tracking import (
     SuggestionOutcome,
     SuggestionRecord,
@@ -24,18 +29,20 @@ class SuggestionTracker:
         self._store_dir = store_dir
         self._suggestions_path = store_dir / "suggestions.jsonl"
         self._outcomes_path = store_dir / "outcomes.jsonl"
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
 
     def record(self, suggestion: SuggestionRecord) -> bool:
         """Record a suggestion. Returns False if suggestion_id already exists (dedup)."""
-        with self._lock:
-            existing = self.load_all()
+        with jsonl_file_lock(self._suggestions_path), self._lock:
+            existing = self._load_suggestions()
             existing_ids = {s.get("suggestion_id") for s in existing}
             if suggestion.suggestion_id in existing_ids:
                 return False
             self._store_dir.mkdir(parents=True, exist_ok=True)
             with open(self._suggestions_path, "a", encoding="utf-8") as f:
                 f.write(json.dumps(suggestion.model_dump(mode="json"), default=str) + "\n")
+            existing.append(suggestion.model_dump(mode="json"))
+            self._write_suggestion_projection(existing)
             return True
 
     def reject(self, suggestion_id: str, reason: str = "") -> None:
@@ -124,16 +131,18 @@ class SuggestionTracker:
         self._update_status(suggestion_id, SuggestionStatus.IMPLEMENTED)
 
     def record_outcome(self, outcome: SuggestionOutcome) -> None:
-        with self._lock:
+        with jsonl_file_lock(self._outcomes_path), self._lock:
             self._store_dir.mkdir(parents=True, exist_ok=True)
             with open(self._outcomes_path, "a", encoding="utf-8") as f:
                 f.write(json.dumps(outcome.model_dump(mode="json"), default=str) + "\n")
 
     def load_all(self) -> list[dict]:
-        return self._read_jsonl(self._suggestions_path)
+        with jsonl_file_lock(self._suggestions_path):
+            return self._load_suggestions()
 
     def load_outcomes(self) -> list[dict]:
-        return self._read_jsonl(self._outcomes_path)
+        with jsonl_file_lock(self._outcomes_path):
+            return self._read_jsonl(self._outcomes_path)
 
     def get_rejected(self, bot_id: str | None = None) -> list[dict]:
         suggestions = self.load_all()
@@ -230,10 +239,8 @@ class SuggestionTracker:
         outcome_id: str = "",
         strategy_change_record_id: str = "",
     ) -> None:
-        from trading_assistant.skills._atomic_write import atomic_rewrite_jsonl
-
-        with self._lock:
-            records = self.load_all()
+        with jsonl_file_lock(self._suggestions_path), self._lock:
+            records = self._load_suggestions()
             now = datetime.now(timezone.utc).isoformat()
             for rec in records:
                 if rec["suggestion_id"] == suggestion_id:
@@ -267,7 +274,7 @@ class SuggestionTracker:
                         SuggestionStatus.MEASURED,
                     }:
                         rec["resolved_at"] = now
-            atomic_rewrite_jsonl(self._suggestions_path, records)
+            self._save_suggestions(records)
 
     def _update_measurement_source(
         self,
@@ -277,10 +284,8 @@ class SuggestionTracker:
         outcome_id: str = "",
         strategy_change_record_id: str = "",
     ) -> None:
-        from trading_assistant.skills._atomic_write import atomic_rewrite_jsonl
-
-        with self._lock:
-            records = self.load_all()
+        with jsonl_file_lock(self._suggestions_path), self._lock:
+            records = self._load_suggestions()
             now = datetime.now(timezone.utc).isoformat()
             for rec in records:
                 if rec["suggestion_id"] == suggestion_id:
@@ -292,7 +297,35 @@ class SuggestionTracker:
                         measured_at=now,
                     )
                     break
-            atomic_rewrite_jsonl(self._suggestions_path, records)
+            self._save_suggestions(records)
+
+    def _load_suggestions(self) -> list[dict]:
+        if not self._suggestions_path.exists():
+            return []
+        projection = read_json_projection(self._suggestions_path)
+        projection_path = Path(str(self._suggestions_path) + ".index.json")
+        if (
+            projection
+            and projection_path.exists()
+            and projection_path.stat().st_mtime >= self._suggestions_path.stat().st_mtime
+        ):
+            return list(projection.values())
+        records = self._read_jsonl(self._suggestions_path)
+        self._write_suggestion_projection(records)
+        return records
+
+    def _save_suggestions(self, records: list[dict]) -> None:
+        from trading_assistant.skills._atomic_write import atomic_rewrite_jsonl
+
+        atomic_rewrite_jsonl(self._suggestions_path, records)
+        self._write_suggestion_projection(records)
+
+    def _write_suggestion_projection(self, records: list[dict]) -> None:
+        write_json_projection(
+            self._suggestions_path,
+            key_field="suggestion_id",
+            records=records,
+        )
 
     @staticmethod
     def _stamp_outcome_source(

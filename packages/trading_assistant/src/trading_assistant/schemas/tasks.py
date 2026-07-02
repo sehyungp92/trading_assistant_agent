@@ -27,6 +27,9 @@ class TaskRecord(BaseModel):
     max_retries: int = 3
     result_summary: str = ""
     error: str = ""
+    source_event_id: str = ""
+    source_action_type: str = ""
+    subagent_id: str = ""
     notify_on_complete: bool = True
     notify_channels: list[str] = Field(default_factory=lambda: ["telegram"])
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

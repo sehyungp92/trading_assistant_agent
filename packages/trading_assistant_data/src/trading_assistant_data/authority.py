@@ -8,7 +8,8 @@ from pathlib import Path
 from .bundle_builder import _canonical_paths_for_manifests, _rel, _select_slice_manifests
 from .checksums import parquet_content_checksum
 from .manifests import MarketDataManifest, write_model
-from .normalization import _update_slice_index, SliceWrite
+from .slices import SliceWrite
+from .slices.writer import update_slice_index
 from .repo import git_commit_exists, git_commit_sha, git_dirty_paths
 from .validation import market_manifest_errors
 
@@ -80,7 +81,7 @@ def finalize_slice_manifests(
         updated.append(_rel(manifest_path, repo_root))
         slice_writes.append(SliceWrite(manifest_path, canonical_paths, finalized))
     if not dry_run:
-        _update_slice_index(repo_root, slice_writes)
+        update_slice_index(repo_root, slice_writes)
     return FinalizeSlicesResult(data_commit, updated, skipped, dry_run)
 
 

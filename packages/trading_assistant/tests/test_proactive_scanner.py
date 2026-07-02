@@ -2,8 +2,8 @@
 """Tests for the proactive notification scanner."""
 import pytest
 
-from trading_assistant.skills.proactive_scanner import ProactiveScanner, ScanResult
-from trading_assistant.schemas.notifications import NotificationPayload, NotificationPriority
+from trading_assistant.skills.proactive_scanner import ProactiveScanner
+from trading_assistant.schemas.notifications import NotificationPriority
 
 
 class TestMorningScan:

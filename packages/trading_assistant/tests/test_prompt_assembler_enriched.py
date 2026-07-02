@@ -1,7 +1,5 @@
 # tests/test_prompt_assembler_enriched.py
 """Tests for enriched prompt assemblers — failure log + rejected suggestions in context."""
-import json
-from pathlib import Path
 
 from trading_assistant.analysis.prompt_assembler import DailyPromptAssembler
 from trading_assistant.analysis.weekly_prompt_assembler import WeeklyPromptAssembler

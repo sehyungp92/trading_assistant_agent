@@ -21,7 +21,11 @@ def build_deterministic_plan(
     return OptimizerExperimentPlan(
         run_id=manifest.run_id,
         objective_version=manifest.objective_version,
-        score_components=capped_components(manifest.score_component_cap),
+        score_components=capped_components(
+            manifest.score_component_cap,
+            plugin_id=manifest.strategy_plugin_id,
+            strategy_id=manifest.strategy_id,
+        ),
         phase_order=["diagnostics", "signal_quality", "trade_management"],
         candidate_families=families,
         gate_expectations=[

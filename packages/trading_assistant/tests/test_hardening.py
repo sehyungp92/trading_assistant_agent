@@ -12,7 +12,6 @@ from trading_assistant.orchestrator.invocation_builder import InvocationBuilder
 from trading_assistant.orchestrator.provider_auth import ProviderAuthChecker
 from trading_assistant.orchestrator.session_store import SessionStore
 from trading_assistant.schemas.agent_preferences import (
-    AgentPreferences,
     AgentProvider,
     AgentSelection,
 )

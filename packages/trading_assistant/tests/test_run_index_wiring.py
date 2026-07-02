@@ -3,9 +3,8 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
-import pytest
 
 from trading_assistant.orchestrator.run_index import RunIndex
 from trading_assistant.schemas.prompt_package import PromptPackage
@@ -27,8 +26,6 @@ class TestIndexRunWithPromptPackage:
     def test_passes_bot_ids_and_date_from_prompt_package(self, tmp_path: Path):
         """_index_run should extract bot_ids and date from prompt_package.metadata."""
         from trading_assistant.orchestrator.agent_runner import AgentRunner, AgentResult
-        from trading_assistant.orchestrator.invocation_builder import InvocationSpec
-        from trading_assistant.schemas.agent_preferences import AgentProvider
 
         mock_run_index = MagicMock()
         runner = AgentRunner(

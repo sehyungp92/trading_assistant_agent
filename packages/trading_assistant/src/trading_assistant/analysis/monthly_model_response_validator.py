@@ -36,7 +36,7 @@ class MonthlyModelResponseValidator:
         approval_tiers: dict[str, str] = {}
         actionable: list[str] = []
         hypothesis_only: list[str] = []
-        allowed = {str(Path(path)) for path in allowed_evidence_paths or [] if str(path)}
+        allowed = {_evidence_key(path) for path in allowed_evidence_paths or [] if str(path)}
 
         if not review.parse_success:
             issues.append(MonthlyModelValidationIssue(
@@ -149,7 +149,7 @@ def _require_known_evidence(
         return
     unknown = [
         path for path in paths
-        if str(Path(path)) not in allowed and not Path(path).exists()
+        if _evidence_key(path) not in allowed
     ]
     if unknown:
         issues.append(MonthlyModelValidationIssue(
@@ -157,6 +157,10 @@ def _require_known_evidence(
             item_id=item_id,
             message=f"evidence_paths are not in deterministic evidence set: {', '.join(unknown)}",
         ))
+
+
+def _evidence_key(path: str) -> str:
+    return str(Path(path)).replace("\\", "/")
 
 
 def _risk(value: str) -> MonthlyRiskClassification:

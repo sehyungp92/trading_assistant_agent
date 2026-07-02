@@ -8,6 +8,7 @@ from typing import Any
 from trading_assistant_backtest.auto.types import Candidate, CandidateEvaluation
 from trading_assistant_backtest.contract_models import FoldManifest, FoldSpec
 from trading_assistant_backtest.replay.types import ReplayResult, WindowSpec
+from trading_assistant_backtest.scoring.immutable import compact_score_payload
 
 
 def score_candidate_on_folds(
@@ -279,6 +280,8 @@ def _replay_summary(result: ReplayResult) -> dict[str, Any]:
         "max_drawdown": result.max_drawdown,
         "profit_factor": result.profit_factor,
         "objective_score": result.objective_score,
+        "objective_profile_id": result.diagnostics.get("objective_profile_id", ""),
+        "immutable_score": compact_score_payload(result.diagnostics.get("immutable_score")),
         "trade_hash": result.diagnostics.get("trade_hash", ""),
         "order_hash": result.diagnostics.get("order_hash", ""),
         "coverage": result.diagnostics.get("coverage", []),

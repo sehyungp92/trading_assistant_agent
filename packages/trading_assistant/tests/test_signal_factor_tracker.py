@@ -4,7 +4,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
 
 from trading_assistant.schemas.signal_factor_history import (
     DailyFactorSnapshot,

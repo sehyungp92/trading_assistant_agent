@@ -1,21 +1,14 @@
 """Tests for deployment monitor state machine fixes (Task 2)."""
 from __future__ import annotations
 
-import json
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from trading_assistant.orchestrator.event_stream import EventStream
-from trading_assistant.orchestrator.handlers import Handlers
 from trading_assistant.schemas.deployment_monitoring import (
     DeploymentMetricsSnapshot,
-    DeploymentRecord,
     DeploymentStatus,
 )
-from trading_assistant.schemas.notifications import NotificationPreferences
 from trading_assistant.skills.deployment_monitor import DeploymentMonitor
 
 

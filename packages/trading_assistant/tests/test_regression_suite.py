@@ -1,12 +1,12 @@
 # tests/test_regression_suite.py
 """Tests for the regression suite — golden day loader + regression checks."""
 import json
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 
 import pytest
 
-from tests.golden_days.loader import GoldenDay, load_golden_days
+from tests.golden_days.loader import load_golden_days
 from trading_assistant.schemas.events import TradeEvent, MissedOpportunityEvent
 from trading_assistant.skills.build_daily_metrics import DailyMetricsBuilder
 
@@ -196,7 +196,7 @@ class TestMetricStability:
                 continue
 
             trades = [_dict_to_trade_event(t) for t in day.trades]
-            missed = [_dict_to_missed_event(m) for m in day.missed]
+            [_dict_to_missed_event(m) for m in day.missed]
 
             for bot_id in day.bots:
                 bot_trades = [t for t in trades if t.bot_id == bot_id]

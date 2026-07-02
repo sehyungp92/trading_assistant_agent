@@ -147,7 +147,7 @@ The trading assistant already had a rich learning substrate: outcome measurement
 
 The core insight from Autoresearch is that a self-improving system needs an evaluation function it cannot modify, and an optimization loop whose scoring, gates, repair triggers, and adoption decisions do not depend on model persuasion. The LLM can design experiments and review candidates after evidence is assembled; deterministic replay, objective scoring, parity gates, and approval policy remain decisive.
 
-**The ground truth computer** (`skills/ground_truth_computer.py`) is the system's equivalent of Autoresearch's `evaluate_bpb()`. It computes a single composite performance score from daily trading data using z-score normalized metrics with fixed weights centralized in `schemas/objective_weights.py`: expected return (30%), Calmar ratio (20%), profit factor (15%), expectancy (15%), inverse drawdown (10%), and process quality (10%). When replay cannot simulate process quality, the remaining objective weights are renormalized; trade frequency is a viability and under-trading gate, not a standalone target that can override expectancy, Calmar, or drawdown. The objective lives behind the double-approval permission gate, meaning neither the system nor a single human action can change how performance is measured.
+**The ground truth computer** (`skills/ground_truth_computer.py`) is the system's equivalent of Autoresearch's `evaluate_bpb()` for daily/weekly learning snapshots. It computes a legacy `objective_weights_v1` helper composite from daily trading data using z-score normalized metrics with fixed weights centralized in `schemas/objective_weights.py`: expected return (30%), Calmar ratio (20%), profit factor (15%), expectancy (15%), inverse drawdown (10%), and process quality (10%). The prompt policy uses broader human-utility bands so model suggestions stay aligned with the immutable profile taxonomy without changing historical helper scoring. Replay-backed monthly/phased-auto candidate ranking is governed by strategy-family immutable score profiles recorded in artifacts as `effective_objective_version=immutable_score_profiles_v1` and `objective_profile_id=<profile>`. When replay cannot simulate process quality, helper weights are renormalized for local triage; trade frequency remains a viability and under-trading gate, not a standalone target that can override expectancy, Calmar, or drawdown. Both helper objective weights and immutable score profiles are human-owned objective contracts behind approval governance.
 
 **The monthly evidence loop** (`skills/monthly_validation_orchestrator.py`) is the material strategy-learning path that replaces legacy WFO. In `trading_assistant`, it owns frozen manifests, telemetry and market-data coverage checks, replay-parity evidence, monthly search-brief attachment, model review, candidate gates, approval packets, ledgers, and monthly outcome measurement. The full target loop delegates full-fidelity replay to `trading_assistant_backtest`: run `round_N` diagnostics, use the bounded search brief as advisory priors, run two-fold phased-auto on the in-sample window, trigger granular OOS repair only when the latest completed month underperforms, run repair-centered confirmatory follow-up, and adopt `round_N+1` only after parity and approval gates.
 
@@ -245,9 +245,12 @@ Copy `.env.example` to `.env` and configure:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `BOT_IDS` | Yes | Comma-separated bot identifiers |
-| `RELAY_URL` | Yes | Relay VPS endpoint URL |
-| `RELAY_HMAC_SECRET` | Yes | HMAC-SHA256 secret for relay auth |
+| `ENVIRONMENT` | Production | Set to `production` for unattended deployments |
+| `BOT_IDS` | Production | Comma-separated bot identifiers |
+| `RELAY_URL` | Production unless direct-ingest only | Relay VPS endpoint URL |
+| `RELAY_API_KEY` | Production when `RELAY_URL` is set | API key for orchestrator-to-relay polling |
+| `DIRECT_INGEST_ONLY` | Production when no relay is used | Explicitly declares that `/ingest` is the only ingest path |
+| `ORCHESTRATOR_API_KEY` | Production/public bind | Required `X-Api-Key` for control-plane endpoints |
 | `CLAUDE_COMMAND` | No | Claude Code CLI command or absolute path |
 | `CLAUDE_COMMAND_ARGS` | No | JSON array of launcher args prepended before Claude runtime args |
 | `CODEX_COMMAND` | No | Codex CLI command or absolute path |
@@ -261,6 +264,59 @@ Copy `.env.example` to `.env` and configure:
 | `SMTP_HOST/PORT/USER/PASS` | No | Email delivery configuration |
 | `DATA_DIR` | No | Base data directory (default: `data`) |
 
+Run `python -m trading_assistant.orchestrator.preflight` before starting a
+deployment. It prints the exact orchestrator `.env` path, validates auth,
+production bot/ingest settings, relay auth, data-dir writability, and scheduler
+dependencies without starting the ASGI app.
+
+Before shipping a deployment copy, run the bounded gate from the workspace root:
+`python tools/run_workspace_checks.py deployment-gate`. It runs named tiers with
+per-command timeouts and skips local-only slow checks unless
+`TA_RUN_SLOW_LOCAL_CHECKS=1` is set. To inspect the file set that would be copied
+without running tests, use
+`python tools/run_workspace_checks.py deployment-package --json`; generated
+runtime data and the large data package tree are excluded by default. Use
+`--include-data` only for an intentional data artifact shipment.
+
+Concrete deployment copy options:
+
+1. Sparse checkout from the monorepo:
+
+   ```powershell
+   git clone --filter=blob:none --no-checkout <repo-url> trading-assistant-deploy
+   cd trading-assistant-deploy
+   git sparse-checkout init --cone
+   git sparse-checkout set `
+     pyproject.toml `
+     tools `
+     packages/trading_assistant `
+     packages/trading_assistant_data/src `
+     packages/trading_assistant_data/pyproject.toml `
+     packages/trading_assistant_backtest/src `
+     packages/trading_assistant_backtest/backtests `
+     packages/trading_assistant_backtest/pyproject.toml
+   git checkout <release-ref>
+   python tools/run_workspace_checks.py deployment-package --json
+   ```
+
+2. Package install from a prepared source copy:
+
+   ```powershell
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   python -m pip install --upgrade pip
+   python -m pip install -e .\packages\trading_assistant
+   python -m pip install -e .\packages\trading_assistant_data
+   python -m pip install -e .\packages\trading_assistant_backtest
+   python -m trading_assistant.orchestrator.preflight
+   ```
+
+The deploy copy should contain source code, migrations, docs, package metadata,
+and static config examples only. Keep generated runtime directories such as
+`data/`, `runs/`, `artifacts/`, `.pytest_cache/`, `.ruff_cache/`, and large
+canonical market-data trees out of the service copy unless the deployment is
+explicitly a data artifact shipment.
+
 See `orchestrator/config.py` for all settings.
 
 ### Agent Provider Switching
@@ -268,6 +324,7 @@ See `orchestrator/config.py` for all settings.
 Agent selection is persisted in `data/agent_preferences.json`.
 
 - Global default applies everywhere unless a workflow override exists.
+- When no persisted preferences or env seed exists, the global default is `codex_pro`.
 - Workflow overrides are available for `daily_analysis`, `weekly_analysis`, `monthly_validation`, `monthly_model_review`, and `triage`.
 - Initial values can be seeded from `AGENT_PROVIDER` and the per-workflow `*_AGENT_PROVIDER` env vars, but only when no persisted preferences file exists yet.
 - `GET /agent/preferences` returns the persisted default, overrides, effective workflow selections, and provider readiness.
@@ -339,6 +396,8 @@ Three-tier permission gates (auto / requires_approval / requires_double_approval
 ```bash
 # Start the orchestrator (default: loopback only)
 export ALLOW_UNAUTHENTICATED_LOCAL=true
+export BIND_HOST=127.0.0.1
+python -m trading_assistant.orchestrator.preflight
 uvicorn trading_assistant.orchestrator.app:app --host 127.0.0.1 --port 8000
 
 # Manual task triggers
@@ -368,22 +427,34 @@ The app **refuses to start** when bound to a non-loopback host with no API
 key configured. Two env vars are involved:
 
 - `ORCHESTRATOR_API_KEY` — required header `X-Api-Key` for all endpoints
-  except `/health`. Pick a long random value.
+  except `/health`, `/live`, and `/ready`. Pick a long random value.
 - `ALLOW_UNAUTHENTICATED_LOCAL` — explicit local-dev escape hatch. Leave this
   `false` outside loopback-only development.
 - `BIND_HOST` — declare the host you intend to pass to `uvicorn --host`.
-  Without an API key, startup is allowed only when this is loopback and
-  `ALLOW_UNAUTHENTICATED_LOCAL=true`.
+  Without an API key, startup is allowed only when this was explicitly set to a
+  loopback host and `ALLOW_UNAUTHENTICATED_LOCAL=true`.
+- `ENVIRONMENT=production` — enables production validation for bot IDs, ingest
+  mode, and relay API-key configuration.
 
 ```bash
 export ORCHESTRATOR_API_KEY="$(openssl rand -hex 32)"
+export ENVIRONMENT="production"
 export BIND_HOST="0.0.0.0"
+export BOT_IDS="bot1,bot2"
+export RELAY_URL="https://relay.example"
+export RELAY_API_KEY="..."
+python -m trading_assistant.orchestrator.preflight
 uvicorn trading_assistant.orchestrator.app:app --host 0.0.0.0 --port 8000
 ```
 
 Prefer running behind a reverse proxy that terminates TLS and adds the
 `X-Api-Key` header from a secret store; do not put the raw orchestrator on
 the public internet even with an API key set.
+
+Use `/live` for process liveness and `/ready` for supervisor/readiness checks.
+`/ready` returns HTTP 503 whenever scheduler or configured communication loops
+are degraded. `/health` keeps the same JSON body for compatibility but always
+returns HTTP 200.
 
 ## Tech Stack
 
@@ -392,4 +463,4 @@ the public internet even with an API key set.
 - **Claude Code CLI** and **Codex CLI**, with Claude-compatible provider overlays for Z.AI and OpenRouter
 - **Pydantic v2** for all data contracts
 - **Telegram Bot API**, discord.py, SMTP for notifications
-- **HMAC-SHA256** for relay authentication
+- **HMAC-SHA256** for bot-to-relay write authentication; `RELAY_API_KEY` for orchestrator relay polling

@@ -143,7 +143,7 @@ def generate_quarterly_contracts(
 
 def roll_schedule(contracts: list[FuturesContractSpec]) -> list[tuple[date, str, str]]:
     ordered = sorted(contracts, key=lambda contract: contract.expiry)
-    return [(old.roll_date, old.yyyymm, new.yyyymm) for old, new in zip(ordered, ordered[1:])]
+    return [(old.roll_date, old.yyyymm, new.yyyymm) for old, new in zip(ordered, ordered[1:], strict=False)]
 
 
 def active_contract(

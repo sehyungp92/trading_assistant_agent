@@ -1,6 +1,5 @@
 # tests/test_suggestion_tracking.py
 """Tests for suggestion tracking schemas."""
-from datetime import datetime, timezone
 
 from trading_assistant.schemas.suggestion_tracking import (
     SuggestionRecord,

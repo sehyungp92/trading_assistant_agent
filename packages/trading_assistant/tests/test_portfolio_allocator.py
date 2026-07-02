@@ -1,10 +1,8 @@
 # tests/test_portfolio_allocator.py
 """Tests for the portfolio allocator skill."""
-import pytest
 
 from trading_assistant.schemas.portfolio_allocation import (
     AllocationConstraints,
-    BotAllocationRecommendation,
     PortfolioAllocationReport,
 )
 from trading_assistant.schemas.weekly_metrics import BotWeeklySummary

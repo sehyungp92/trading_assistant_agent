@@ -10,6 +10,8 @@ from pathlib import Path
 
 import pytest
 
+from tests.paths import MONOREPO_ROOT, package_workspace
+from trading_assistant_backtest.auto.types import Candidate, CandidateEvaluation, PhaseSpec
 from trading_assistant_backtest.contract_loader import validate_manifest_file
 from trading_assistant_backtest.contract_models import (
     DataBundleManifest,
@@ -18,14 +20,15 @@ from trading_assistant_backtest.contract_models import (
     MonthlyRunManifest,
     MonthlyRunMode,
 )
-from trading_assistant_backtest.auto.types import Candidate, CandidateEvaluation, PhaseSpec
 from trading_assistant_backtest.file_hashes import sha256_file
-from trading_assistant_backtest.monthly import (
-    _STRUCTURAL_PARITY_BUILDERS,
-    ArtifactWriter,
-    ReplayEvaluationContext,
+from trading_assistant_backtest.artifact_writer import ArtifactWriter
+from trading_assistant_backtest.monthly_execution.optimizer_sequence import (
     _optimizer_run_manifest_payload,
-    _write_optimizer_artifacts,
+    write_optimizer_artifacts,
+)
+from trading_assistant_backtest.monthly_execution.replay_context import ReplayEvaluationContext
+from trading_assistant_backtest.monthly_execution.structural_registry import (
+    STRUCTURAL_PARITY_BUILDERS,
 )
 from trading_assistant_backtest.replay.types import ReplayResult, WindowSpec
 from trading_assistant_backtest.strategies.bar_replay import BarReplayConfig, _candidate_params
@@ -53,7 +56,6 @@ from trading_assistant_backtest.strategies.trading.stock import (
 from trading_assistant_backtest.strategies.trading.stock import (
     PLUGIN_ID as TRADING_STOCK_PLUGIN_ID,
 )
-from tests.paths import MONOREPO_ROOT, package_workspace
 
 PROJECT_ROOT = package_workspace("trading_assistant_backtest")
 AGENT_ROOT = MONOREPO_ROOT
@@ -189,8 +191,8 @@ def test_native_cli_help() -> None:
 
 
 def test_structural_parity_dispatch_includes_formal_week1_bridges() -> None:
-    assert _STRUCTURAL_PARITY_BUILDERS[K_STOCK_PLUGIN_ID][0] == K_STOCK_DECISION_API_VERSION
-    assert _STRUCTURAL_PARITY_BUILDERS[TRADING_STOCK_PLUGIN_ID][0] == (
+    assert STRUCTURAL_PARITY_BUILDERS[K_STOCK_PLUGIN_ID][0] == K_STOCK_DECISION_API_VERSION
+    assert STRUCTURAL_PARITY_BUILDERS[TRADING_STOCK_PLUGIN_ID][0] == (
         TRADING_STOCK_DECISION_API_VERSION
     )
 
@@ -488,6 +490,14 @@ class _RerankFakePlugin:
             "max_drawdown": 0.04,
             "profit_factor": 1.6,
             "objective_score": score,
+            "objective_profile_id": "test.profile",
+            "immutable_score": {
+                "profile_id": "test.profile",
+                "profile_version": "immutable_score_profiles_v1",
+                "objective_score": score,
+                "score_component_cap": 3,
+                "renormalized_components": [],
+            },
             "trade_hash": f"{candidate.candidate_id}-{window.name}",
             "order_hash": f"orders-{candidate.candidate_id}-{window.name}",
             "coverage": [{"rows": 4}],
@@ -531,7 +541,10 @@ class _RerankFakePlugin:
         candidate_manifest.write_text(json.dumps(candidate.payload), encoding="utf-8")
         config_patch.write_text(json.dumps(patch_payload), encoding="utf-8")
         rollback.write_text(json.dumps({"candidate_id": candidate.candidate_id}), encoding="utf-8")
-        recommendation.write_text(json.dumps({"candidate_id": candidate.candidate_id}), encoding="utf-8")
+        recommendation.write_text(
+            json.dumps({"candidate_id": candidate.candidate_id}),
+            encoding="utf-8",
+        )
         return {
             "next_config_hash": f"next-{candidate.candidate_id}",
             "candidate_manifest_path": str(candidate_manifest),
@@ -576,7 +589,7 @@ def test_repair_triggered_rerank_keeps_phase_winner_and_caches_selection_oos(
         replay_backed=True,
     )
 
-    _write_optimizer_artifacts(
+    write_optimizer_artifacts(
         ArtifactWriter(manifest, manifest_path.parent),
         manifest,
         manifest_path=manifest_path,
@@ -594,6 +607,9 @@ def test_repair_triggered_rerank_keeps_phase_winner_and_caches_selection_oos(
             encoding="utf-8"
         )
     )
+    selected = json.loads(
+        (manifest_path.parent / "selected_candidates.json").read_text(encoding="utf-8")
+    )
 
     assert plugin.selection_incumbent_calls == 1
     assert confirmatory["repair_triggered"] is True
@@ -608,6 +624,9 @@ def test_repair_triggered_rerank_keeps_phase_winner_and_caches_selection_oos(
     assert rounds["records"][0]["source"] == "phased_auto"
     assert recommendation["adopted_candidate_id"] == "phase-phase_good-1"
     assert recommendation["evaluated_patch_fingerprint"]
+    assert selected[0]["effective_objective_version"] == "immutable_score_profiles_v1"
+    assert selected[0]["objective_profile_id"] == "test.profile"
+    assert selected[0]["immutable_score"]["profile_id"] == "test.profile"
 
 
 def test_structural_review_emits_blocked_parity_artifacts(tmp_path: Path) -> None:
@@ -618,7 +637,9 @@ def test_structural_review_emits_blocked_parity_artifacts(tmp_path: Path) -> Non
     assert completed.returncode == 0
     artifact_root = manifest_path.parent
     parity = json.loads((artifact_root / "decision_parity_report.json").read_text(encoding="utf-8"))
-    gate = json.loads((artifact_root / "structural_selection_gate.json").read_text(encoding="utf-8"))
+    gate = json.loads(
+        (artifact_root / "structural_selection_gate.json").read_text(encoding="utf-8")
+    )
     assert parity["status"] == "insufficient_data"
     assert gate["status"] == "blocked"
     assert gate["selection_allowed"] is False

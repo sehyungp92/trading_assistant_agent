@@ -148,6 +148,16 @@
   tbody tr:hover td{background:rgba(122,31,43,.025)}
   td b,td strong{color:var(--ink);font-weight:600}
   td>code:first-child{background:transparent;padding:0;border:0;color:var(--ink);font-size:.94em;font-weight:500}
+  .strategy-rotation .focus-line{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline}
+  .strategy-rotation .strategy-list{display:grid;gap:7px}
+  .strategy-rotation .strategy-row{display:grid;grid-template-columns:132px minmax(0,1fr);gap:10px;align-items:start}
+  .strategy-rotation .strategy-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faded);font-weight:600;padding-top:2px}
+  .strategy-rotation .strategy-chips{display:flex;flex-wrap:wrap;gap:5px 6px}
+  .strategy-rotation .strategy-chips code,
+  .strategy-rotation .focus-line code,
+  .strategy-rotation .code-pair code{background:rgba(14,26,46,.05);border:1px solid var(--rule-soft);padding:0 6px;border-radius:2px;font-size:.86em;color:var(--ink);font-weight:500}
+  .strategy-rotation .code-pair{display:inline-flex;gap:4px;align-items:baseline;white-space:nowrap}
+  @media (max-width:760px){.strategy-rotation .strategy-row{grid-template-columns:1fr}.strategy-rotation .strategy-label{padding-top:0}}
 
   /* &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  BADGES  &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; */
   .badge{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:1px;letter-spacing:.06em;text-transform:uppercase;font-feature-settings:"tnum"}
@@ -248,17 +258,22 @@
 
 <!-- ====================== HERO ====================== -->
 <header class="hero">
-  <div class="hero-eyebrow">Field notes &middot; 2026-05-30 &middot; refreshed 2026-06-04</div>
+  <div class="hero-eyebrow">Field notes &middot; 2026-05-30 &middot; refreshed 2026-06-23</div>
   <h1>Trading Assistant &mdash;<br/><em>workflow &amp; learning loop</em> &middot; a research note.</h1>
   <p class="sub">
     A current-state walkthrough of the <code>trading_assistant_agent</code> workspace: how the orchestrator turns bot
     telemetry into daily, weekly, and monthly evidence; how that evidence becomes proposals, approvals, deployed
     changes, and outcomes; and how the system steers itself toward the monthly full-fidelity validation loop defined
-    in the target-state plan. Compiled <span class="mono">2026-05-30</span>; refreshed <span class="mono">2026-06-04</span>.
+    in the target-state plan. Compiled <span class="mono">2026-05-30</span>; refreshed <span class="mono">2026-06-23</span>.
   </p>
   <div class="chips">
-    <span class="chip">packages/ monorepo target</span>
+    <span class="chip">packages/ monorepo current</span>
     <span class="chip">control / data / backtest</span>
+    <span class="chip ok">loop contracts checked</span>
+    <span class="chip ok">artifact authority registry</span>
+    <span class="chip ok">independent verifier wired</span>
+    <span class="chip ok">generated work log</span>
+    <span class="chip ok">performance-learning projection</span>
     <span class="chip warn">monthly loop shadow-verified (default: disabled)</span>
     <span class="chip warn">approval audit: metadata + maturity blocked</span>
     <span class="chip warn">strategy plugins: formal shadow parity across active bridges</span>
@@ -267,7 +282,8 @@
     <span class="chip ok">portfolio data reproduction passes</span>
     <span class="chip ok">full-family authority passes</span>
     <span class="chip ok">phase / repair artifacts retained</span>
-    <span class="chip">objective: <code>objective_weights_v1</code></span>
+    <span class="chip ok">binding score: <code>immutable_score_profiles_v1</code></span>
+    <span class="chip">helper score: <code>objective_weights_v1</code></span>
   </div>
 </header>
 
@@ -293,8 +309,8 @@
   <h2><span class="pre">&sect; 01</span>Executive snapshot</h2>
 
   <div class="kpi-row">
-    <div class="kpi"><div class="num">112</div><div class="lbl">non-init skill modules</div></div>
-    <div class="kpi"><div class="num">108</div><div class="lbl">non-init schema modules</div></div>
+    <div class="kpi"><div class="num">113</div><div class="lbl">non-init skill modules</div></div>
+    <div class="kpi"><div class="num">110</div><div class="lbl">non-init schema modules</div></div>
     <div class="kpi"><div class="num">3</div><div class="lbl">package workspaces</div></div>
     <div class="kpi"><div class="num">~92<span class="unit">%</span></div><div class="lbl">target-state load-bearing</div></div>
   </div>
@@ -302,26 +318,36 @@
   <p>The workspace has the <strong>right architectural boundary</strong>. Bots emit structured events &rarr; orchestrator curates evidence &rarr; deterministic detectors fire &rarr; agents synthesize &rarr; proposals are tracked, approval-gated, deployed, and outcome-measured. The current supported structure is a <code>packages/</code> monorepo with <code>packages/trading_assistant</code>, <code>packages/trading_assistant_data</code>, and <code>packages/trading_assistant_backtest</code>. Each package owns its own <code>pyproject.toml</code>, <code>src/&lt;import_name&gt;/</code>, and <code>tests/</code>; the data package owns <code>data/</code>, and the backtest package owns <code>contracts/</code> plus <code>artifacts/</code>. The durable contract is control/data/backtest separation through frozen manifests and artifacts, not direct in-process imports.</p>
 
   <div class="callout warn">
-    <strong>Closeness estimate:</strong> roughly <strong>92%</strong> of the target state is load-bearing today. The control-plane contracts, ledgers, gates, and monthly orchestration are substantial; the data package now has authoritative portfolio bundles for k_stock OLR/KALCB, trading stock, trading momentum, trading swing, and the crypto phased optimizer; the backtest runner retains phase candidates, attempt records, repair diagnostics, a clean shadow monthly cycle, formal shadow decision-parity contracts across the active bridge surfaces, replay evidence for every active lane, and approval-evidence artifacts for P6/P7 optimizer checks. On <span class="mono">2026-06-04</span>, the validation matrix reports <code>active_scope_count=5</code>, <code>all_validation_tests_runnable_for_all_scopes=true</code>, <code>runnable_validations_passed=true</code>, and <code>approval_remaining_gaps=6</code>. The <code>trading</code> repo is not a futures-only surface: it contains stock, momentum, and swing portfolio families, with only the momentum family trading futures. The five validation tests pass for k_stock OLR/KALCB, trading stock, trading momentum, trading swing, and the crypto portfolio; the latest data-reproduction run refreshed production-source data and reproduced <code>13</code> frozen bundle reports covering <code>3423</code> slices. Structural approval is still blocked because every active bridge is deliberately <code>shadow_validated</code>, not <code>approval_ready</code>, and the persisted deployment metadata is still local clean-checkout shadow evidence rather than runtime/VPS-emitted live metadata. A runtime metadata emitter and fail-closed installer now exist, and <code>docs/implementation.md</code> describes the exact source-refresh, metadata-install, validation-audit, and <code>approval_gated</code> promotion sequence. The remaining gap is no longer the local validation or optimizer-evidence spine; it is live runtime evidence emitted by the bots, scheduled shadow operation, and explicit bridge promotion before any monthly candidate can be adoption-ready.
+    <strong>Closeness estimate:</strong> roughly <strong>92%</strong> of the target state is load-bearing today. The control-plane contracts, ledgers, gates, and monthly orchestration are substantial; the data package now has authoritative portfolio bundles for k_stock OLR/KALCB, trading stock, trading momentum, trading swing, and the crypto phased optimizer; the backtest runner retains phase candidates, attempt records, repair diagnostics, a clean shadow monthly cycle, formal shadow decision-parity contracts across the active bridge surfaces, replay evidence for every active lane, and approval-evidence artifacts for P6/P7 optimizer checks. The latest checked-in validation matrix, generated <span class="mono">2026-06-03T17:03:39Z</span>, reports <code>active_scope_count=5</code>, <code>all_validation_tests_runnable_for_all_scopes=true</code>, <code>runnable_validations_passed=true</code>, <code>approval_remaining_gaps=5</code>, <code>approval_grade_validation_complete=false</code>, and <code>structural_candidates_approval_ready=false</code>. The <code>trading</code> repo is not a futures-only surface: it contains stock, momentum, and swing portfolio families, with only the momentum family trading futures. The five validation tests pass for k_stock OLR/KALCB, trading stock, trading momentum, trading swing, and the crypto portfolio; the matrix-backed data-reproduction evidence covers <code>7</code> active artifact paths and <code>2185</code> active validation slices. Structural approval is still blocked because every active bridge is deliberately <code>shadow_validated</code>, not <code>approval_ready</code>, and the persisted deployment metadata is still local clean-checkout shadow evidence rather than runtime/VPS-emitted live metadata. A runtime metadata emitter and fail-closed installer now exist, and <code>docs/plans/implementation.md</code> describes the exact source-refresh, metadata-install, validation-audit, and <code>approval_gated</code> promotion sequence. The remaining gap is no longer the local validation or optimizer-evidence spine; it is live runtime evidence emitted by the bots, scheduled shadow operation, and explicit bridge promotion before any monthly candidate can be adoption-ready. The current owner map is recorded in <code>docs/architecture/optimal-ownership-map-2026-07-01.md</code>; it should be read as module architecture complete, not as production adoption readiness.
   </div>
 
   <div class="callout">
     <strong>What is already real (production-grade in the control plane):</strong>
-    daily/weekly evidence builds; <code>StrategyEngine</code> deterministic detectors;
+    daily/weekly evidence builds; deterministic detector catalog exposed through <code>StrategyEngine</code> compatibility methods;
     <code>SuggestionTracker</code> + <code>ProposalLedger</code> + <code>StrategyChangeLedger</code>;
     <code>MonthlyValidationOrchestrator</code> (default <code>MONTHLY_VALIDATION_MODE=disabled</code>; supports <code>shadow</code> / <code>approval_gated</code>);
+    <code>MonthlyArtifactContract</code> for approval-facing artifact reads and verifier inputs;
+    control-plane runtime assembly modules; loop/action-handler modules;
+    <code>DataSliceProduct</code>;
+    and <code>trading_assistant_backtest.monthly_execution</code>;
     <code>BacktestRunnerClient</code> + <code>MonthlyOptimizerRunner</code> validators;
     <code>monthly_search_brief_builder</code>; <code>monthly_repair_planner</code>;
     <code>monthly_outcome_measurer</code>; <code>outcome_prior_store</code>;
     harness benchmark + learning-card curator + post-run learning review;
-    the <em>contract surface</em> (manifest loader, artifact writer, observability, candidate workspace, deterministic-fallback planner) in the backtest repo.
+    the <em>contract surface</em> (manifest loader, artifact writer, observability, candidate workspace, deterministic-fallback planner) in the backtest repo;
+    and the loop-engineering substrate: checked recurring-loop contracts, generated loop-run ledger/work log, source-backed performance-learning projection, artifact authority registry, read-only monthly evidence verifier, and loop-focused workspace checks.
+  </div>
+
+  <div class="callout ok">
+    <strong>What the loop-engineering port adds:</strong>
+    the system now treats each recurring workflow as an explicit loop with a checked contract under <code>memory/loops/</code>. Runtime monthly completions project into <code>memory/findings/loop_run_ledger.jsonl</code> and regenerate <code>memory/work_log.md</code> with task/run/proposal IDs, artifacts, blockers, provider/model metadata, and costs where available. <code>performance_learning_ledger.jsonl</code> is the companion evidence-memory projection: it joins proposal, change, portfolio-outcome, monthly artifact, search-brief, and outcome-prior sources into compact expected-versus-realized strategy and portfolio lessons for bounded prompt context. <code>ArtifactAuthorityRegistry</code> separates binding, approval-gate, advisory, generated, diagnostics-only, and human-owned artifacts, while <code>MonthlyEvidenceVerifier</code> suppresses approval when actionable evidence overclaims authority. These are guardrails and projection layers; they do not create candidates, deploy code, edit policy memory, or mutate live bots.
   </div>
 
   <div class="callout warn">
     <strong>What is now authoritative for portfolio validation:</strong>
     <code>packages/trading_assistant_data/data/bundles/monthly/2026-05/crypto_portfolio/phased_optimizer/data_bundle_manifest.json</code>
     is committed with <code>status=authoritative</code>, a non-empty <code>data_repo_commit_sha</code>, checksum
-    <code>baad97bd7659f4208322ed383656192f40ef5945120dc283ad0c02063d8dc436</code>, fee/slippage/adjustment versions, and 18 required phased-optimizer slices: BTC/ETH/SOL candles at <code>15m</code>, <code>30m</code>, <code>1h</code>, <code>4h</code>, <code>1d</code>, plus hourly funding. The legacy BTC/1m and all-interval crypto bundles remain useful inventory, but <code>1m</code>/<code>5m</code> are not phased-auto gating inputs. Portfolio-level data reproduction now passes for k_stock OLR/KALCB across March/April/May (516 required slices per month; 1548 reproduced validation slices), trading stock (611 declared stock-family slices: 294 live intraday slices for the 98-symbol lane plus 317 daily/reference slices), trading momentum (2 slices), and trading swing (6 slices). The validation matrix reports full-family authority for every active scope. The backtest loader resolves repo-relative slice paths from the bundle/data repo rather than from the subprocess working directory.
+    <code>baad97bd7659f4208322ed383656192f40ef5945120dc283ad0c02063d8dc436</code>, fee/slippage/adjustment versions, and 18 required phased-optimizer slices: BTC/ETH/SOL candles at <code>15m</code>, <code>30m</code>, <code>1h</code>, <code>4h</code>, <code>1d</code>, plus hourly funding. The legacy BTC/1m and all-interval crypto bundles remain useful inventory, but <code>1m</code>/<code>5m</code> are not phased-auto gating inputs. Matrix-backed portfolio-level data reproduction now passes for crypto phased optimizer (18 slices), k_stock OLR/KALCB across March/April/May (516 required slices per month; 1548 reproduced validation slices), trading stock (611 declared stock-family slices: 294 live intraday slices for the 98-symbol lane plus 317 daily/reference slices), trading momentum (2 slices), and trading swing (6 slices). The validation matrix reports full-family authority for every active scope. The backtest loader resolves repo-relative slice paths from the bundle/data repo rather than from the subprocess working directory.
   </div>
 
   <div class="callout ok">
@@ -332,6 +358,11 @@
     <code>repair/*.py</code> now emits deterministic failure analysis, ablation, targeted, rollback, perturbation, and confirmatory artifacts instead of disappearing as empty phases;
     the monthly optimizer evidence path now emits non-empty fold candidate rows, selection-OOS evaluation, repair trigger/checkpoint, confirmatory rerank, and round_N+1 no-adoption/recommendation artifacts for the active validation lanes;
     and the deployment guide now names the concrete runtime metadata emitter, installer, validation matrix, approval audit, and <code>approval_gated</code> promotion gates instead of the older generic deployment-metadata wording.
+  </div>
+
+  <div class="callout ok">
+    <strong>Scoring authority is now explicit:</strong>
+    replay-backed monthly and phased-auto ranking uses strategy-family immutable score profiles, not the old static composite. The backtest artifacts preserve <code>effective_objective_version=immutable_score_profiles_v1</code>, <code>objective_profile_id</code>, <code>score_component_cap</code>, compact <code>immutable_score</code>, and component breakdowns in candidate rows and <code>objective_breakdown.json</code>. The older <code>objective_weights_v1</code> composite remains a legacy/helper score for daily or weekly learning snapshots and local parameter-search triage. Policy memory now frames human utility as flexible prompt bands, not a second binding scorer.
   </div>
 
   <div class="callout crit">
@@ -348,6 +379,126 @@
 <section id="architecture">
   <h2><span class="pre">&sect; 02</span>Three-package architecture</h2>
   <p>The current structure is a <code>packages/</code> monorepo containing three strict Python package workspaces plus the external live trading repos: <code>packages/trading_assistant</code> for the control plane, <code>packages/trading_assistant_data</code> for the canonical data product, and <code>packages/trading_assistant_backtest</code> for replay and optimizer evidence. It is not a single flattened <code>src/</code> package, and it is not direct in-process coupling between data, control, and backtest. <code>trading_assistant_data</code> now carries authoritative portfolio bundles for crypto, k_stock, trading stock, trading momentum, and trading swing, including the k_stock March/April/May replay windows used by the validation matrix.</p>
+
+  <h3>Repository authority map</h3>
+  <div class="figwrap">
+  <svg class="diagram" viewBox="0 0 1240 650" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="34" class="eyebrow-lbl">AUTHORITY BOUNDARIES</text>
+    <text x="40" y="54" class="tt-sub">One map for ownership, allowed direction, and artifact contracts.</text>
+
+    <text x="720" y="34" class="eyebrow-lbl">COLOR KEY</text>
+    <rect x="720" y="44" width="10" height="10" fill="#1e6e3e"/>
+    <text x="738" y="53" class="tt-sub" font-size="10.5">live bots</text>
+    <rect x="812" y="44" width="10" height="10" fill="#5e2750"/>
+    <text x="830" y="53" class="tt-sub" font-size="10.5">control</text>
+    <rect x="890" y="44" width="10" height="10" fill="#2b7a8a"/>
+    <text x="908" y="53" class="tt-sub" font-size="10.5">data</text>
+    <rect x="958" y="44" width="10" height="10" fill="#b8862f"/>
+    <text x="976" y="53" class="tt-sub" font-size="10.5">backtest evidence</text>
+    <rect x="1090" y="44" width="10" height="10" fill="#7a1f2b"/>
+    <text x="1108" y="53" class="tt-sub" font-size="10.5">adoption</text>
+    <rect x="720" y="62" width="10" height="10" fill="#1a3a5c"/>
+    <text x="738" y="71" class="tt-sub" font-size="10.5">shared process / contract surface</text>
+    <text x="958" y="71" class="tt-sub" font-size="10.5">sub boxes inherit parent color unless shared</text>
+
+    <rect x="40" y="82" width="270" height="274" rx="14" class="box-card box-bull" stroke-width="1.5"/>
+    <text x="60" y="112" class="tt-title tt-bull">live trading bots</text>
+    <text x="60" y="132" class="tt-sub" font-style="italic">only layer that trades</text>
+    <rect x="64" y="158" width="222" height="42" rx="9" class="box-card box-bull"/>
+    <text x="82" y="177" class="tt-title tt-bull" font-size="12">trading</text>
+    <text x="82" y="192" class="tt-sub" font-size="10.5">stock, momentum futures, swing</text>
+    <rect x="64" y="214" width="222" height="42" rx="9" class="box-card box-bull"/>
+    <text x="82" y="233" class="tt-title tt-bull" font-size="12">k_stock_trader</text>
+    <text x="82" y="248" class="tt-sub" font-size="10.5">KALCB / OLR Korean equities</text>
+    <rect x="64" y="270" width="222" height="42" rx="9" class="box-card box-bull"/>
+    <text x="82" y="289" class="tt-title tt-bull" font-size="12">crypto_trader</text>
+    <text x="82" y="304" class="tt-sub" font-size="10.5">trend / momentum / breakout</text>
+    <text x="60" y="332" class="tt-sub">owns orders and live configs</text>
+    <text x="60" y="348" class="tt-sub">emits telemetry from deployed code</text>
+
+    <rect x="342" y="82" width="270" height="274" rx="14" class="box-card box-plum" stroke-width="1.5"/>
+    <text x="362" y="112" class="tt-title tt-plum">trading_assistant</text>
+    <text x="362" y="132" class="tt-sub" font-style="italic">control plane and governance</text>
+    <rect x="366" y="158" width="222" height="42" rx="9" class="box-card box-navy"/>
+    <text x="384" y="177" class="tt-title tt-navy" font-size="12">orchestrator + scheduler</text>
+    <text x="384" y="192" class="tt-sub" font-size="10.5">events, cadence, deterministic gates</text>
+    <rect x="366" y="214" width="222" height="42" rx="9" class="box-card box-bull"/>
+    <text x="384" y="233" class="tt-title tt-bull" font-size="12">ledgers + approvals</text>
+    <text x="384" y="248" class="tt-sub" font-size="10.5">Proposal, Suggestion, ChangeLedger</text>
+    <rect x="366" y="270" width="222" height="42" rx="9" class="box-card box-gilt"/>
+    <text x="384" y="289" class="tt-title tt-gilt" font-size="12">MonthlyRunManifest</text>
+    <text x="384" y="304" class="tt-sub" font-size="10.5">freezes SHAs, bundles, score profile</text>
+    <text x="362" y="332" class="tt-sub">trusts and gates candidates</text>
+    <text x="362" y="348" class="tt-sub">no orders, no replay engine</text>
+
+    <rect x="644" y="82" width="270" height="274" rx="14" class="box-card box-teal" stroke-width="1.5"/>
+    <text x="664" y="112" class="tt-title tt-teal">trading_assistant_data</text>
+    <text x="664" y="132" class="tt-sub" font-style="italic">canonical data product</text>
+    <rect x="668" y="158" width="222" height="42" rx="9" class="box-card box-teal"/>
+    <text x="686" y="177" class="tt-title tt-teal" font-size="12">slice manifests</text>
+    <text x="686" y="192" class="tt-sub" font-size="10.5">source, timeframe, checksum</text>
+    <rect x="668" y="214" width="222" height="42" rx="9" class="box-card box-teal"/>
+    <text x="686" y="233" class="tt-title tt-teal" font-size="12">DataBundleManifest</text>
+    <text x="686" y="248" class="tt-sub" font-size="10.5">monthly portfolio bundle authority</text>
+    <rect x="668" y="270" width="222" height="42" rx="9" class="box-card box-teal"/>
+    <text x="686" y="289" class="tt-title tt-teal" font-size="12">calendars / fees / adjustments</text>
+    <text x="686" y="304" class="tt-sub" font-size="10.5">full-family authority reports</text>
+    <text x="664" y="338" class="tt-sub">proves inputs; no strategy decisions, no orders</text>
+
+    <rect x="946" y="82" width="254" height="274" rx="14" class="box-card box-gilt" stroke-width="1.5"/>
+    <text x="966" y="112" class="tt-title tt-gilt">trading_assistant_backtest</text>
+    <text x="966" y="132" class="tt-sub" font-style="italic">replay and optimizer lab</text>
+    <rect x="970" y="158" width="206" height="42" rx="9" class="box-card box-gilt"/>
+    <text x="988" y="177" class="tt-title tt-gilt" font-size="12">strategy contracts</text>
+    <text x="988" y="192" class="tt-sub" font-size="10.5">parity fixtures + maturity</text>
+    <rect x="970" y="214" width="206" height="42" rx="9" class="box-card box-gilt"/>
+    <text x="988" y="233" class="tt-title tt-gilt" font-size="12">phased-auto + repair</text>
+    <text x="988" y="248" class="tt-sub" font-size="10.5">folds, OOS, confirmatory rerank</text>
+    <rect x="970" y="270" width="206" height="42" rx="9" class="box-card box-gilt"/>
+    <text x="988" y="289" class="tt-title tt-gilt" font-size="12">immutable scoring</text>
+    <text x="988" y="304" class="tt-sub" font-size="10.5">artifacts, not approvals</text>
+    <text x="966" y="338" class="tt-sub">discovers candidates; cannot approve adoption</text>
+
+    <rect x="40" y="390" width="1160" height="240" rx="14" class="box-card box-navy" stroke-width="1.5"/>
+    <text x="60" y="418" class="tt-title tt-navy">Contract table</text>
+    <text x="184" y="418" class="tt-sub">the rows carry direction and payload; no connector crosses a box or label</text>
+
+    <rect x="64" y="446" width="1112" height="28" rx="8" class="box-card box-navy"/>
+    <text x="86" y="465" class="tt-title tt-navy" font-size="11">contract</text>
+    <text x="260" y="465" class="tt-title tt-navy" font-size="11">route</text>
+    <text x="502" y="465" class="tt-title tt-navy" font-size="11">payload</text>
+    <text x="930" y="465" class="tt-title tt-navy" font-size="11">authority result</text>
+
+    <rect x="64" y="486" width="1112" height="28" rx="8" class="box-card"/>
+    <rect x="64" y="486" width="8" height="28" rx="4" fill="#1e6e3e"/>
+    <text x="86" y="505" class="tt-title tt-bull" font-size="11.5">01 telemetry</text>
+    <text x="260" y="505" class="tt-sub">from live bots; to trading_assistant</text>
+    <text x="502" y="505" class="tt-sub">signed JSONL events; metrics; runtime metadata</text>
+    <text x="930" y="505" class="tt-bull" font-size="10.5">bot-owned facts</text>
+
+    <rect x="64" y="518" width="1112" height="28" rx="8" class="box-card"/>
+    <rect x="64" y="518" width="8" height="28" rx="4" fill="#2b7a8a"/>
+    <text x="86" y="537" class="tt-title tt-teal" font-size="11.5">02 data authority</text>
+    <text x="260" y="537" class="tt-sub">from reference feeds; to manifests</text>
+    <text x="502" y="537" class="tt-sub">bundle path; checksum; calendars; fees; adjustments</text>
+    <text x="930" y="537" class="tt-teal" font-size="10.5">input truth</text>
+
+    <rect x="64" y="550" width="1112" height="28" rx="8" class="box-card"/>
+    <rect x="64" y="550" width="8" height="28" rx="4" fill="#b8862f"/>
+    <text x="86" y="569" class="tt-title tt-gilt" font-size="11.5">03 monthly evidence</text>
+    <text x="260" y="569" class="tt-sub">from control plane; to backtest artifacts</text>
+    <text x="502" y="569" class="tt-sub">run manifest; candidate rows; objective_breakdown</text>
+    <text x="930" y="569" class="tt-gilt" font-size="10.5">candidate proof</text>
+
+    <rect x="64" y="582" width="1112" height="28" rx="8" class="box-card"/>
+    <rect x="64" y="582" width="8" height="28" rx="4" fill="#7a1f2b"/>
+    <text x="86" y="601" class="tt-title tt-ox" font-size="11.5">04 adoption</text>
+    <text x="260" y="601" class="tt-sub">from control plane; via human approval</text>
+    <text x="502" y="601" class="tt-sub">PR; deployment id; commit SHA; rollback evidence</text>
+    <text x="930" y="601" class="tt-ox" font-size="10.5">governed output</text>
+  </svg>
+  </div>
+
   <pre><code>trading_assistant_agent/
   README.md
   docs/
@@ -370,96 +521,6 @@
       tests/
       contracts/
       artifacts/</code></pre>
-
-  <div class="figwrap">
-  <svg class="diagram" viewBox="0 0 1240 470" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5a6573"/></marker>
-      <marker id="arrOx" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7a1f2b"/></marker>
-    </defs>
-
-    <!-- column eyebrows -->
-    <text x="40" y="34" class="eyebrow-lbl">SOURCE</text>
-    <text x="450" y="34" class="eyebrow-lbl">CONTROL PLANE</text>
-    <text x="940" y="34" class="eyebrow-lbl">EXPERIMENT</text>
-
-    <!-- live trading repos -->
-    <rect x="40" y="50" width="260" height="170" rx="12" class="box-card box-bull"/>
-    <text x="60" y="78" class="tt-title tt-bull">Live trading repos</text>
-    <text x="60" y="96" class="tt-sub" font-style="italic">production strategy truth</text>
-    <text x="60" y="124" class="tt-body">k_stock_trader &mdash; KALCB &middot; OLR</text>
-    <text x="60" y="144" class="tt-body">trading &mdash; stock / momentum / swing</text>
-    <text x="60" y="164" class="tt-body">crypto_trader &mdash; trend bridge</text>
-    <text x="60" y="190" class="tt-sub">only trading momentum is futures</text>
-    <text x="60" y="206" class="tt-sub">decides orders &mdash; never commanded</text>
-
-    <!-- trading_assistant_data -->
-    <rect x="40" y="250" width="260" height="180" rx="12" class="box-card box-teal"/>
-    <text x="60" y="278" class="tt-title tt-teal">trading_assistant_data</text>
-    <text x="60" y="296" class="tt-sub" font-style="italic">canonical market-data product</text>
-    <text x="60" y="324" class="tt-body">raw imports &mdash; canonical parquet</text>
-    <text x="60" y="344" class="tt-body">MarketDataManifest (slice)</text>
-    <text x="60" y="364" class="tt-body">DataBundleManifest (monthly)</text>
-    <text x="60" y="384" class="tt-body">calendars &mdash; fees &mdash; adjustments</text>
-    <text x="60" y="410" class="tt-sub">no strategy &mdash; no orders &mdash; no opinions</text>
-
-    <!-- trading_assistant (control plane) -->
-    <rect x="450" y="50" width="340" height="380" rx="14" class="box-card box-plum" stroke-width="1.5"/>
-    <text x="620" y="80" text-anchor="middle" class="tt-title tt-plum" font-size="15">trading_assistant</text>
-    <text x="620" y="98" text-anchor="middle" class="tt-sub" font-style="italic">evidence ledger &mdash; approval gate</text>
-
-    <rect x="470" y="118" width="300" height="50" rx="10" class="box-card box-navy"/>
-    <text x="486" y="142" class="tt-title tt-navy" font-size="12.5">orchestrator &mdash; scheduler &mdash; brain &mdash; worker</text>
-    <text x="486" y="159" class="tt-sub">deterministic dispatcher and queue</text>
-
-    <rect x="470" y="180" width="300" height="50" rx="10" class="box-card box-navy"/>
-    <text x="486" y="204" class="tt-title tt-navy" font-size="12.5">112 skills &mdash; 108 schemas</text>
-    <text x="486" y="221" class="tt-sub">deterministic gates &mdash; validators</text>
-
-    <rect x="470" y="242" width="300" height="50" rx="10" class="box-card box-bull"/>
-    <text x="486" y="266" class="tt-title tt-bull" font-size="12.5">ProposalLedger &mdash; SuggestionTracker</text>
-    <text x="486" y="283" class="tt-sub">StrategyChangeLedger (provenance)</text>
-
-    <rect x="470" y="304" width="300" height="50" rx="10" class="box-card box-gilt"/>
-    <text x="486" y="328" class="tt-title tt-gilt" font-size="12.5">comms dispatcher</text>
-    <text x="486" y="345" class="tt-sub">telegram &mdash; discord &mdash; email</text>
-
-    <rect x="470" y="366" width="300" height="50" rx="10" class="box-card box-ox"/>
-    <text x="486" y="390" class="tt-title tt-ox" font-size="12.5">MonthlyRunManifest writer</text>
-    <text x="486" y="407" class="tt-sub">freezes window &mdash; data vsn &mdash; SHAs</text>
-
-    <!-- trading_assistant_backtest -->
-    <rect x="940" y="50" width="260" height="380" rx="12" class="box-card box-gilt" stroke-width="1.5"/>
-    <text x="960" y="78" class="tt-title tt-gilt">trading_assistant_backtest</text>
-    <text x="960" y="96" class="tt-sub" font-style="italic">manifest-driven experiment lab</text>
-    <text x="960" y="128" class="tt-body">python -m ...monthly --manifest</text>
-    <text x="960" y="150" class="tt-body">incumbent diagnostics</text>
-    <text x="960" y="172" class="tt-body">LLM experiment plan (validated)</text>
-    <text x="960" y="194" class="tt-body">two-fold phased-auto on IS</text>
-    <text x="960" y="216" class="tt-body">OOS repair &mdash; ablation &mdash; perturb</text>
-    <text x="960" y="238" class="tt-body">confirmatory rerank &mdash; round_N+1</text>
-    <text x="960" y="260" class="tt-body">decision-level parity report</text>
-    <text x="960" y="282" class="tt-body">writes artifact_index.json LAST</text>
-    <text x="960" y="316" class="tt-sub">discovers candidates;</text>
-    <text x="960" y="332" class="tt-sub">only control plane may trust them</text>
-
-    <!-- arrows: live repos &rarr; control -->
-    <g class="flow" marker-end="url(#arr)">
-      <path d="M300 130 C 370 130 380 200 448 220"/>
-      <path d="M300 340 C 370 340 380 280 448 268"/>
-      <path d="M790 200 C 870 200 870 180 938 180"/>
-      <path d="M938 260 C 870 260 870 280 790 280"/>
-      <path d="M450 266 C 408 252 374 218 302 206" class="flow-dashed" stroke="#7a1f2b" marker-end="url(#arrOx)"/>
-    </g>
-    <text x="350" y="174" class="lbl-flow">events</text>
-    <text x="350" y="316" class="tt-teal lbl-flow">coverage / bundle</text>
-    <text x="816" y="172" class="tt-gilt lbl-flow">run_manifest.json</text>
-    <text x="816" y="298" class="tt-bull lbl-flow">artifacts + parity</text>
-    <text x="294" y="238" text-anchor="end" class="tt-ox lbl-flow">approval-gated PR (human)</text>
-
-    <text x="40" y="458" class="tt-sub">Source repos and the data product feed the control plane; the experiment lab returns artifacts but never approves itself.</text>
-  </svg>
-  </div>
 
   <div class="grid cols-4">
     <div class="card"><h4 style="color:#1e6e3e">live trading repos</h4><p style="font-size:13px;color:var(--ink-faded)">Production source of truth. <code>k_stock_trader</code> runs KALCB/OLR; <code>trading</code> has stock, momentum, and swing portfolios; <code>crypto_trader</code> owns crypto. Decides orders, emits telemetry, owns strategy code. <strong>Never receives commands from the assistant.</strong></p></div>
@@ -517,7 +578,7 @@
     <text x="440" y="174" text-anchor="middle" class="tt-sub" font-size="10.5">daily &mdash; weekly &mdash; monthly &mdash; catchup</text>
 
     <rect x="300" y="196" width="280" height="46" rx="10" class="box-card box-navy"/>
-    <text x="440" y="216" text-anchor="middle" class="tt-title tt-navy" font-size="12">handlers</text>
+    <text x="440" y="216" text-anchor="middle" class="tt-title tt-navy" font-size="12">loops + action_handlers</text>
     <text x="440" y="232" text-anchor="middle" class="tt-sub" font-size="10.5">daily / weekly / monthly_validation</text>
 
     <rect x="300" y="254" width="280" height="46" rx="10" class="box-card box-navy"/>
@@ -525,8 +586,8 @@
     <text x="440" y="290" text-anchor="middle" class="tt-sub" font-size="10.5">claude / codex CLI &mdash; API providers</text>
 
     <rect x="300" y="312" width="280" height="46" rx="10" class="box-card box-navy"/>
-    <text x="440" y="332" text-anchor="middle" class="tt-title tt-navy" font-size="12">analysis.StrategyEngine</text>
-    <text x="440" y="348" text-anchor="middle" class="tt-sub" font-size="10.5">deterministic detectors &mdash; scorecards</text>
+    <text x="440" y="332" text-anchor="middle" class="tt-title tt-navy" font-size="12">analysis.detectors catalog</text>
+    <text x="440" y="348" text-anchor="middle" class="tt-sub" font-size="10.5">StrategyEngine runner &mdash; scorecards</text>
 
     <rect x="300" y="370" width="280" height="46" rx="10" class="box-card box-navy"/>
     <text x="440" y="390" text-anchor="middle" class="tt-title tt-navy" font-size="12">ResponseParser / Validator</text>
@@ -661,7 +722,7 @@
     <text x="262" y="142" class="tt-sub">per-symbol diagnostics</text>
 
     <rect x="438" y="62" width="180" height="92" rx="10" class="box-card box-navy"/>
-    <text x="456" y="86" class="tt-title tt-navy" font-size="12.5">3. StrategyEngine</text>
+    <text x="456" y="86" class="tt-title tt-navy" font-size="12.5">3. detector catalog</text>
     <text x="456" y="106" class="tt-body">deterministic detectors</text>
     <text x="456" y="124" class="tt-body">low-confidence scorecard</text>
     <text x="456" y="142" class="tt-sub">no LLM at this step</text>
@@ -766,11 +827,11 @@
     </g>
 
     <rect x="300" y="34" width="320" height="376" rx="14" class="box-card box-bull" stroke-width="1.5"/>
-    <text x="460" y="58" text-anchor="middle" class="tt-title tt-bull" font-size="14">weekly_summary handler</text>
+    <text x="460" y="58" text-anchor="middle" class="tt-title tt-bull" font-size="14">weekly_analysis loop</text>
     <text x="460" y="76" text-anchor="middle" class="tt-sub" font-style="italic">Sunday cron &mdash; retrospective_builder</text>
 
     <rect x="320" y="98" width="280" height="50" rx="10" class="box-card box-navy"/>
-    <text x="336" y="120" class="tt-title tt-navy" font-size="12">StrategyEngine (cross-bot)</text>
+    <text x="336" y="120" class="tt-title tt-navy" font-size="12">detector catalog (cross-bot)</text>
     <text x="336" y="138" class="tt-sub">pattern detection &mdash; regression vs prior wk</text>
 
     <rect x="320" y="158" width="280" height="50" rx="10" class="box-card box-navy"/>
@@ -824,13 +885,59 @@
 
   <h3>Weekly portfolio focus rotation</h3>
   <p>The weekly learning loop should rotate the evidence focus by strategy family, while monthly phased-auto and OOS repair remain the authority for material optimization. Each weekly slice curates telemetry, missed opportunities, regressions, candidate neighborhoods, and negative priors for the next monthly run; it does not approve or deploy changes by itself.</p>
-  <table>
-    <thead><tr><th>week</th><th>focus</th><th>current live surfaces to cover</th><th>monthly handoff</th></tr></thead>
+  <table class="strategy-rotation">
+    <thead><tr><th>week</th><th>focus</th><th>live surfaces and contracts to cover</th><th>monthly handoff</th></tr></thead>
     <tbody>
-      <tr><td>1, 5, ...</td><td><code>k_stock_trader</code> + trading stock</td><td>KALCB, OLR, portfolio_synergy; PCIM is research-only; trading stock family <code>IARIC_v1</code> and <code>ALCB_v1</code></td><td>Prioritize OLR/KALCB formal bridge and trading stock fixtures/adapters.</td></tr>
-      <tr><td>2, 6, ...</td><td>trading momentum</td><td><code>NQDTC_v2.1</code>, <code>NQ_REGIME</code>, <code>VdubusNQ_v4</code>, <code>DownturnDominator_v1</code>; this is the trading repo's futures family</td><td>Feed momentum/futures replay gaps into phased-auto and OOS repair.</td></tr>
-      <tr><td>3, 7, ...</td><td>trading swing</td><td><code>ATRSS</code>, <code>AKC_HELIX</code>, <code>TPC</code>, <code>OVERLAY</code></td><td>Feed swing portfolio/risk overlay candidates into monthly replay.</td></tr>
-      <tr><td>4, 8, ...</td><td><code>crypto_trader</code></td><td><code>crypto_trend_v1</code>, <code>crypto_momentum_v1</code>, and <code>crypto_breakout_v1</code>; authoritative phased optimizer bundle today</td><td>Promote only after live/VPS metadata, broader production fixtures, and approval-ready maturity are present.</td></tr>
+      <tr>
+        <td>1, 5, ...</td>
+        <td><span class="focus-line"><code>k_stock_trader</code><span>+ trading stock</span></span></td>
+        <td>
+          <div class="strategy-list">
+            <div class="strategy-row"><span class="strategy-label">live</span><span class="strategy-chips"><code>KALCB</code><code>OLR</code><code>portfolio_synergy</code></span></div>
+            <div class="strategy-row"><span class="strategy-label">scope</span><span>k_stock OLR/KALCB plus trading stock family</span></div>
+            <div class="strategy-row"><span class="strategy-label">trading stock</span><span class="strategy-chips"><code>IARIC_v1</code><code>ALCB_v1</code></span></div>
+            <div class="strategy-row"><span class="strategy-label">contracts</span><span class="strategy-chips"><code>k_stock_olr_kalcb</code><code>trading_stock_family</code></span></div>
+          </div>
+        </td>
+        <td>Prioritize <span class="code-pair"><code>OLR</code><span>/</span><code>KALCB</code></span> formal bridge and trading stock fixtures/adapters.</td>
+      </tr>
+      <tr>
+        <td>2, 6, ...</td>
+        <td>trading momentum</td>
+        <td>
+          <div class="strategy-list">
+            <div class="strategy-row"><span class="strategy-label">live</span><span class="strategy-chips"><code>NQDTC_v2.1</code><code>NQ_REGIME</code><code>VdubusNQ_v4</code><code>DownturnDominator_v1</code></span></div>
+            <div class="strategy-row"><span class="strategy-label">scope</span><span>trading momentum family; futures-only</span></div>
+            <div class="strategy-row"><span class="strategy-label">contracts</span><span class="strategy-chips"><code>trading_momentum_family</code></span></div>
+          </div>
+        </td>
+        <td>Feed momentum/futures replay gaps into phased-auto and OOS repair.</td>
+      </tr>
+      <tr>
+        <td>3, 7, ...</td>
+        <td>trading swing</td>
+        <td>
+          <div class="strategy-list">
+            <div class="strategy-row"><span class="strategy-label">live</span><span class="strategy-chips"><code>ATRSS</code><code>AKC_HELIX</code><code>TPC</code><code>OVERLAY</code></span></div>
+            <div class="strategy-row"><span class="strategy-label">scope</span><span>trading swing family</span></div>
+            <div class="strategy-row"><span class="strategy-label">contracts</span><span class="strategy-chips"><code>trading_swing_family</code></span></div>
+          </div>
+        </td>
+        <td>Feed swing portfolio/risk overlay candidates into monthly replay.</td>
+      </tr>
+      <tr>
+        <td>4, 8, ...</td>
+        <td><span class="focus-line"><code>crypto_trader</code></span></td>
+        <td>
+          <div class="strategy-list">
+            <div class="strategy-row"><span class="strategy-label">live</span><span class="strategy-chips"><code>trend</code><code>momentum</code><code>breakout</code></span></div>
+            <div class="strategy-row"><span class="strategy-label">scope</span><span>crypto portfolio family</span></div>
+            <div class="strategy-row"><span class="strategy-label">contracts</span><span class="strategy-chips"><code>crypto_trend_v1</code><code>crypto_momentum_v1</code><code>crypto_breakout_v1</code></span></div>
+            <div class="strategy-row"><span class="strategy-label">data</span><span>authoritative phased optimizer bundle today</span></div>
+          </div>
+        </td>
+        <td>Promote only after live/VPS metadata, broader production fixtures, and approval-ready maturity are present.</td>
+      </tr>
     </tbody>
   </table>
 </section>
@@ -838,7 +945,7 @@
 <!-- ====================== 06 MONTHLY ====================== -->
 <section id="monthly">
   <h2><span class="pre">&sect; 06</span>Monthly authoritative loop</h2>
-  <p>This is where material strategy improvement is intended to happen. The orchestrator freezes a <code>MonthlyRunManifest</code> &rarr; invokes the backtest workspace as a subprocess &rarr; validates emitted artifacts &rarr; routes a model review and a human approval. Today this path is a fail-closed shadow-ready spine: it can consume committed authoritative portfolio bundles, validate shadow-mature plugin contracts across the active bridge surfaces, retain phase/repair artifacts, pass the five validation tests, pass P6/P7 optimizer evidence checks, and emit deterministic no-adoption evidence. Weekly focus rotates across k_stock/trading-stock, trading-momentum, trading-swing, and crypto, but phased-auto optimization and OOS repair remain monthly, manifest-frozen, and approval-gated. It still cannot adopt an approval-ready candidate until at least one bridge is promoted to <code>approval_ready</code> with runtime/VPS metadata, broader production fixtures, scheduled shadow evidence, and production strategy parity.</p>
+  <p>This is where material strategy improvement is intended to happen. The orchestrator freezes a <code>MonthlyRunManifest</code> &rarr; invokes the backtest workspace as a subprocess &rarr; validates emitted artifacts &rarr; routes a model review and a human approval. <code>MonthlyArtifactContract</code> is the control-plane owner for artifact paths, scope, containment, approval-gate evidence, and verifier inputs; the backtest side keeps the execution internals under <code>trading_assistant_backtest.monthly_execution</code>; the data side keeps canonical slice writes, coverage views, and authority under <code>trading_assistant_data.slices</code>. Today this path is a fail-closed shadow-ready spine: it can consume committed authoritative portfolio bundles, validate shadow-mature plugin contracts across the active bridge surfaces, retain phase/repair artifacts, pass the five validation tests, pass P6/P7 optimizer evidence checks, and emit deterministic no-adoption evidence. Weekly focus rotates across k_stock/trading-stock, trading-momentum, trading-swing, and crypto, but phased-auto optimization and OOS repair remain monthly, manifest-frozen, and approval-gated. It still cannot adopt an approval-ready candidate until at least one bridge is promoted to <code>approval_ready</code> with runtime/VPS metadata, broader production fixtures, scheduled shadow evidence, and production strategy parity.</p>
 
   <div class="figwrap">
   <svg class="diagram" viewBox="0 0 1240 740" xmlns="http://www.w3.org/2000/svg">
@@ -859,7 +966,7 @@
     <text x="360" y="58" class="tt-title tt-plum">b. freeze MonthlyRunManifest</text>
     <text x="360" y="78" class="tt-sub">IS window &mdash; selection-OOS month</text>
     <text x="360" y="96" class="tt-sub">plugin &mdash; code SHAs</text>
-    <text x="360" y="112" class="tt-sub">objective_weights version</text>
+    <text x="360" y="112" class="tt-sub">effective objective + profile</text>
 
     <rect x="640" y="34" width="240" height="84" rx="12" class="box-card box-gilt"/>
     <text x="660" y="58" class="tt-title tt-gilt">c. attach search brief</text>
@@ -897,7 +1004,7 @@
     <rect x="630" y="200" width="180" height="62" rx="10" class="box-card box-navy"/>
     <text x="648" y="222" class="tt-title tt-navy" font-size="12">4. LLM plan</text>
     <text x="648" y="240" class="tt-sub" font-size="10.5">families &mdash; phase order</text>
-    <text x="648" y="254" class="tt-sub" font-size="10.5">score components</text>
+    <text x="648" y="254" class="tt-sub" font-size="10.5">profile score components</text>
 
     <rect x="820" y="200" width="180" height="62" rx="10" class="box-card box-navy"/>
     <text x="838" y="222" class="tt-title tt-navy" font-size="12">5. two-fold phased-auto</text>
@@ -977,7 +1084,7 @@
     <text x="40" y="614" class="eyebrow-lbl">FEEDBACK</text>
     <rect x="40" y="626" width="1160" height="96" rx="12" class="box-card box-ox"/>
     <text x="60" y="650" class="tt-title tt-ox">i. priors &mdash; next monthly run</text>
-    <text x="60" y="672" class="tt-sub">outcome_prior_store writes per-category priors &mdash; ContextBuilder injects into next planner prompt</text>
+    <text x="60" y="672" class="tt-sub">outcome_prior_store writes per-category priors &mdash; EvidenceMemory/ContextBuilder feed the next planner prompt</text>
     <text x="60" y="690" class="tt-sub">positive: raise family priors, seed neighborhoods &mdash; negative: negative priors, stronger gates, quarantine</text>
     <text x="60" y="708" class="tt-gilt" font-size="11.5" font-style="italic">brief signals are attributed back so the weekly brief itself can be scored</text>
 
@@ -1001,13 +1108,16 @@
   <h4 style="color:#b8862f">Data handoff: what is wired today</h4>
   <p style="font-size:13.5px">The data repo now commits <code>data/bundles/monthly/2026-05/crypto_portfolio/phased_optimizer/data_bundle_manifest.json</code> with <code>status=authoritative</code>. That bundle matches the actual crypto phased-auto feed contract: trend uses <code>15m</code>/<code>1h</code>/<code>1d</code>, momentum uses <code>15m</code>/<code>1h</code>/<code>4h</code>, breakout uses <code>30m</code>/<code>4h</code>, and the backtest applies hourly funding. <code>1m</code>/<code>5m</code> are refreshed inventory and legacy compatibility data, not optimizer-gating bars. <code>MonthlyValidationRequest</code> accepts direct <code>data_bundle_manifest_path</code> and optional <code>data_bundle_checksum</code>, and the handler forwards those fields into the frozen <code>MonthlyRunManifest</code>. When a direct bundle is supplied, the control plane validates that it is authoritative, checksum-aligned, plugin-supported, and dated for the optimizer in-sample window; the old <code>market_data_manifest_path</code> coverage shim remains a backward-compatible fallback.</p>
 
+  <h4 style="color:#b8862f">Scoring contract: what is binding today</h4>
+  <p style="font-size:13.5px">The monthly runner resolves a strategy or portfolio-specific immutable score profile from <code>trading_assistant_backtest.scoring.immutable</code>. Candidate ranking, fold summaries, selection-OOS checks, repair comparisons, and <code>objective_breakdown.json</code> use that profile's normalized components and hard rejects. The emitted score payload carries <code>effective_objective_version=immutable_score_profiles_v1</code>, <code>objective_profile_id</code>, <code>score_component_cap</code>, <code>renormalized_components</code>, <code>reject_reasons</code>, and profile metadata; the control plane lifts those fields into selected candidates, gate reports, and approval packets. <code>objective_weights_v1</code> remains stable only as a legacy helper composite for learning snapshots and local triage.</p>
+
   <h3>Sequencing rules (target state)</h3>
   <ol>
     <li><strong>Run diagnostics on round_N first.</strong> Never search before the incumbent's failure modes are understood.</li>
     <li><strong>Two-fold purged folds on in-sample.</strong> Latest completed month stays outside fold scoring &mdash; it is selection-OOS, not a clean deployed verdict.</li>
     <li><strong>OOS repair is conditional.</strong> Trigger only when selection-OOS materially trails IS/fold expectation. Weekly hints never trigger repair.</li>
     <li><strong>Cumulative ablation.</strong> Repair must examine accepted mutations from <em>all</em> prior rounds, not just round_N.</li>
-    <li><strong>Confirmatory rerank centers on the repair winner</strong> (or phased-auto winner if no repair). All candidates compete under the same <code>objective_weights_v1</code>.</li>
+    <li><strong>Confirmatory rerank centers on the repair winner</strong> (or phased-auto winner if no repair). All candidates compete under the resolved immutable score profile and preserve <code>effective_objective_version</code> plus <code>objective_profile_id</code>.</li>
     <li><strong>Exactly one</strong> backtest candidate becomes round_N+1, or a deterministic no-adoption reason is emitted.</li>
     <li><strong>The next completed month after deployment</strong> is the primary clean verdict. 3-month or min-trade follow-up confirms persistence.</li>
   </ol>
@@ -1091,6 +1201,7 @@
 <section id="learning">
   <h2><span class="pre">&sect; 08</span>Learning loop &amp; feedback</h2>
   <p>The system has two stacked learning layers. The <strong>trading authority layer</strong> uses monthly full-fidelity evidence to change strategy. The <strong>harness meta-learning layer</strong> measures the analysis itself &mdash; prompts, retrieval, validators, parsers, generated memory, provider routing &mdash; against an executable benchmark, and accepts changes only when the benchmark gains hold.</p>
+  <p>The loop-engineering port adds a compact bridge between those layers: <code>performance_learning_ledger.jsonl</code> projects source-backed strategy and portfolio lessons from proposals, change records, monthly verdicts, portfolio outcomes, artifact indexes, search briefs, and priors. It feeds bounded <code>EvidenceMemory</code>/<code>ContextBuilder</code> summaries and future priors/search allocation, while preserving cadence authority so daily/weekly/harness evidence cannot masquerade as monthly approval evidence.</p>
 
   <div class="figwrap">
   <svg class="diagram" viewBox="0 0 1240 600" xmlns="http://www.w3.org/2000/svg">
@@ -1203,6 +1314,7 @@
 <section id="memory">
   <h2><span class="pre">&sect; 09</span>Five-layer memory model</h2>
   <p>Memory is split by authority. Higher layers are stable and edited only by humans; lower layers are generated, scored, and decayed automatically. A change in the lower layers cannot escalate to a higher one without passing the corresponding gate.</p>
+  <p>The loop-engineering port adds compact projections over those layers: <code>loop_run_ledger.jsonl</code> is an operating feed from scheduled-run state, run metadata, proposal links, and monthly artifacts; <code>work_log.md</code> is generated from that projection for humans and future agents; <code>performance_learning_ledger.jsonl</code> is the bounded decision/outcome memory used for strategy and portfolio lessons. None of these files owns lifecycle, approval, or source-ledger truth.</p>
 
   <div class="figwrap">
   <svg class="diagram" viewBox="0 0 1240 400" xmlns="http://www.w3.org/2000/svg">
@@ -1251,8 +1363,8 @@
   <table>
     <thead><tr><th>layer</th><th>contents</th><th>writer</th><th>used by</th><th>code</th></tr></thead>
     <tbody>
-      <tr><td><span class="badge policy">&bull; policy</span></td><td>soul.md &middot; trading_rules &middot; objective_weights_v1 &middot; permission_gates</td><td>human only</td><td>every workflow's system prompt + gate</td><td><code>memory/policies/v1/*</code></td></tr>
-      <tr><td><span class="badge evidence">&bull; evidence</span></td><td>monthly artifacts &middot; ProposalLedger &middot; ChangeLedger &middot; outcomes &middot; approvals &middot; backtest reports</td><td>system; append-only</td><td>monthly planner; ContextBuilder for prompts</td><td><code>memory/findings/</code> + ledger skills</td></tr>
+      <tr><td><span class="badge policy">&bull; policy</span></td><td>soul.md prompt bands &middot; trading_rules &middot; helper objective_weights_v1 &middot; permission_gates</td><td>human only</td><td>every workflow's system prompt + gate</td><td><code>memory/policies/v1/*</code></td></tr>
+      <tr><td><span class="badge evidence">&bull; evidence</span></td><td>monthly artifacts &middot; ProposalLedger &middot; ChangeLedger &middot; LoopRunLedger/work log &middot; PerformanceLearningLedger &middot; outcomes &middot; approvals &middot; backtest reports</td><td>system; append-only/projection</td><td>monthly planner; EvidenceMemory/ContextBuilder for prompts; human review</td><td><code>memory/findings/</code> + ledger/projector skills</td></tr>
       <tr><td><span class="badge advisory">&bull; advisory</span></td><td>learning cards &middot; generated playbooks &middot; correction patterns &middot; category recalibration</td><td>post-run learning review (guarded)</td><td>prompt assembly hints; never gate inputs</td><td><code>learning_card_store</code> &middot; <code>generated_playbook_*</code></td></tr>
       <tr><td><span class="badge recall">&bull; recall</span></td><td>indexed run artifacts &middot; session summaries &middot; validator notes &middot; model-review traces</td><td>scheduled indexers</td><td>focused retrieval into prompts</td><td><code>run_index</code> &middot; <code>run_recall_summarizer</code></td></tr>
       <tr><td><span class="badge eval">&bull; eval</span></td><td>benchmark cases from failures, blocked proposals, neg outcomes, parse failures, wins</td><td>case materializer</td><td>harness benchmark runs; provider scoring</td><td><code>benchmark_compiler</code> &middot; <code>harness_*_runner</code></td></tr>
@@ -1264,6 +1376,7 @@
 <section id="contracts">
   <h2><span class="pre">&sect; 10</span>Contracts &amp; manifests &mdash; the seams between packages</h2>
   <p>The three package workspaces are coupled through frozen JSON manifests, not in-process imports. The control plane owns the canonical Pydantic schemas and validators; the data and backtest workspaces currently carry compatible local/vendored models and must stay contract-conformant through tests. The local shape is <code>packages/trading_assistant</code>, <code>packages/trading_assistant_data</code>, and <code>packages/trading_assistant_backtest</code>, each with package-local <code>pyproject.toml</code>, <code>src/</code>, and <code>tests/</code>; legacy pre-package checkout paths are historical/migration-only and are normalized by loaders where needed.</p>
+  <p>Loop-engineering adds a second contract plane inside the control package: <code>memory/loops/*.md</code> defines each recurring loop's cadence, authority, inputs, outputs, required checks, and stopping criteria; <code>memory/artifacts/registry.yaml</code> classifies which artifacts are binding, advisory, diagnostics-only, generated, human-owned, or eligible for approval gates.</p>
 
   <div class="figwrap">
   <svg class="diagram" viewBox="0 0 1240 460" xmlns="http://www.w3.org/2000/svg">
@@ -1339,8 +1452,12 @@
 
   <h3>The validation chain (what the control plane checks)</h3>
   <ol>
+    <li><code>tools/check_loop_contracts.py</code> &mdash; validates scheduler-to-loop-contract alignment, authority boundaries, artifact registry coverage, delivered ledger/work-log evidence, diagnostics-only model-review rejection, outcome authority, and retired WFO wording.</li>
+    <li><code>tools/check_performance_learning_ledger.py</code> &mdash; validates source-backed performance-learning projections, strict source JSONL, stable event identity, stage separation, strategy/portfolio coverage, and relevance-scoped prompt summaries.</li>
     <li><code>skills/backtest_runner_client.py</code> &mdash; captures stdout/stderr/exit_status, requires <code>artifact_index.json</code>, enforces path containment, freshness vs <code>run_manifest.json</code>, JSON/JSONL parsability, manifest id echo, data bundle checksum echo.</li>
     <li><code>skills/monthly_optimizer_runner.py</code> &mdash; Phase-4 optimizer sequence: core artifacts, two-fold window alignment, search-brief consumption, candidate attempts, confirmatory rerank, rounds manifest, selected candidate lineage, runner contract version, structural parity, plugin maturity.</li>
+    <li><code>skills/artifact_authority_registry.py</code> &mdash; keeps advisory, diagnostics-only, generated, and human-owned artifacts out of actionable approval support while allowing deterministic binding and approval-gate evidence.</li>
+    <li><code>skills/monthly_evidence_verifier.py</code> &mdash; reads the packet, model-review validation, gate reports, deployment blockers, and evidence paths before approval routing; fail or <code>needs_human_review</code> suppresses automated approval readiness.</li>
     <li><code>contracts.validate_monthly_runner</code> + the conformance fixture &mdash; same checks must pass against the real backtest command before any approval routing.</li>
   </ol>
   <div class="callout ok">
@@ -1383,6 +1500,20 @@
           <td style="color:var(--bull)">schema + skill + ledger writes</td>
           <td>single source of strategy truth</td>
           <td><span class="badge ok">&bull; done</span></td>
+          <td class="crit"><span class="badge warn">med</span></td>
+        </tr>
+        <tr>
+          <td class="cap">loop contracts + work log projection</td>
+          <td style="color:var(--bull)">memory/loops + loop_run_ledger</td>
+          <td>checked contracts + generated recent-activity feed</td>
+          <td><span class="badge ok">&bull; done</span></td>
+          <td class="crit"><span class="badge neutral">low</span></td>
+        </tr>
+        <tr>
+          <td class="cap">performance learning projection</td>
+          <td style="color:var(--bull)">source-backed strategy/portfolio records</td>
+          <td>bounded lessons for priors + prompt context</td>
+          <td><span class="badge ok">&bull; projection/checks done</span></td>
           <td class="crit"><span class="badge warn">med</span></td>
         </tr>
         <tr>
@@ -1442,6 +1573,13 @@
           <td class="crit"><span class="badge neutral">low</span></td>
         </tr>
         <tr>
+          <td class="cap">independent verifier + artifact authority</td>
+          <td style="color:var(--bull)">MonthlyEvidenceVerifier + registry</td>
+          <td>read-only approval honesty check</td>
+          <td><span class="badge ok">&bull; done</span></td>
+          <td class="crit"><span class="badge warn">med</span></td>
+        </tr>
+        <tr>
           <td class="cap">authoritative outcome (monthly verdict)</td>
           <td style="color:var(--gilt)">monthly_outcome_measurer + scorer</td>
           <td>1m primary &middot; 3m follow-up</td>
@@ -1482,12 +1620,13 @@
 <!-- ====================== 12 ROADMAP ====================== -->
 <section id="roadmap">
   <h2><span class="pre">&sect; 12</span>Implementation roadmap status</h2>
-  <p>Mapped to the phases in the 2026-05-11 target-state plan, the 2026-05-30 data-repo plan, and the 2026-05-30 backtest-repo plan. Each row records what's done in the current repo and what's required next.</p>
+  <p>Mapped to the phases in the 2026-05-11 target-state plan, the 2026-05-30 data-repo plan, the 2026-05-30 backtest-repo plan, and the 2026-06-21/23 loop-engineering port and audit hardening. Each row records what's done in the current repo and what's required next.</p>
 
   <table>
     <thead><tr><th>phase</th><th>scope</th><th>status</th><th>next step</th></tr></thead>
     <tbody>
       <tr><td><span class="badge ok">P0</span></td><td>ADRs + authority labels (legacy WFO, AutoOutcomeMeasurer = early warning)</td><td><span class="badge ok">done</span></td><td>maintain ADR drift checks</td></tr>
+      <tr><td><span class="badge ok">P0B</span></td><td>loop-engineering operating substrate</td><td><span class="badge ok">done</span></td><td>keep <code>loop-contracts</code>, <code>loop-ledger</code>, <code>monthly-verifier</code>, <code>monthly-shadow-smoke</code>, and <code>approval-packet-smoke</code> green as loops evolve</td></tr>
       <tr><td><span class="badge ok">P1</span></td><td>attribution + telemetry contract</td><td><span class="badge ok">done</span></td><td>add runtime alert if field disappears mid-month</td></tr>
       <tr><td><span class="badge ok">P2</span></td><td>canonical market-data sync (<code>trading_assistant_data</code>)</td><td><span class="badge ok">full-family authority passed</span></td><td>keep source refresh, bundle reproduction, and slice-index reports current before each monthly cycle</td></tr>
       <tr><td><span class="badge ok">P3</span></td><td><code>StrategyChangeLedger</code></td><td><span class="badge ok">done</span></td><td>backfill prior approvals for full provenance</td></tr>
@@ -1506,22 +1645,22 @@
 
   <h3>Critical-path next three moves</h3>
   <div class="grid cols-3">
-    <div class="card"><h4 style="color:#2b7a8a">A. install live metadata</h4><p style="font-size:13.5px">Follow <code>docs/implementation.md</code>: call the runtime metadata emitter inside the live bot startup path, then replace local clean-checkout shadow snapshots with installed runtime/VPS-emitted metadata: non-local repo URL, deployed SHA, clean worktree proof, config hash, telemetry schema, runtime identity, and contract hash.</p></div>
+    <div class="card"><h4 style="color:#2b7a8a">A. install live metadata</h4><p style="font-size:13.5px">Follow <code>docs/plans/implementation.md</code>: call the runtime metadata emitter inside the live bot startup path, then replace local clean-checkout shadow snapshots with installed runtime/VPS-emitted metadata: non-local repo URL, deployed SHA, clean worktree proof, config hash, telemetry schema, runtime identity, and contract hash.</p></div>
     <div class="card"><h4 style="color:#b8862f">B. run scheduled shadow</h4><p style="font-size:13.5px">Run the now-green five-test and P6/P7 optimizer evidence path on a scheduled shadow cadence using live-emitted metadata and production-derived fixtures, then keep the audit report current.</p></div>
     <div class="card"><h4 style="color:#5e2750">C. promote one bridge</h4><p style="font-size:13.5px">Promote exactly one bridge from <code>shadow_validated</code> to <code>approval_ready</code> only after live metadata, fixture breadth, scheduled shadow evidence, data/parity/replay, and P6/P7 evidence all hold; rerun the approval-grade audit, then move that scope to <code>approval_gated</code>.</p></div>
   </div>
 
   <h3>Validation readiness ladder</h3>
-  <p>The repo has now carried out the requested validation tests against the active portfolio/strategy scopes. The consolidated matrix reports <code>all_validation_tests_runnable_for_all_scopes=true</code>, <code>runnable_validations_passed=true</code>, and <code>approval_remaining_gaps=6</code>. Data reproduction, incumbent replay, decision parity, round reproduction, and historical walk-forward all pass for k_stock OLR/KALCB, trading stock, trading momentum, trading swing, and the crypto portfolio. The remaining gaps are approval-readiness gates, not failures of the five validation tests. These are validation and shadow-optimizer evidence passes, not permission to adopt structural candidates. Structural approval still fails closed because every bridge remains <code>shadow_validated</code> and the installed deployment metadata is local/shadow-only rather than an artifact emitted by the live bot/VPS runtime through the new emitter.</p>
+  <p>The repo has now carried out the requested validation tests against the active portfolio/strategy scopes. The latest checked-in consolidated matrix reports <code>active_scope_count=5</code>, <code>all_validation_tests_runnable_for_all_scopes=true</code>, <code>runnable_validations_passed=true</code>, and <code>approval_remaining_gaps=5</code>. Data reproduction, incumbent replay, decision parity, round reproduction, and historical walk-forward all pass for k_stock OLR/KALCB, trading stock, trading momentum, trading swing, and the crypto portfolio. The remaining gaps are approval-readiness gates, not failures of the five validation tests. These are validation and shadow-optimizer evidence passes, not permission to adopt structural candidates. Structural approval still fails closed because every bridge remains <code>shadow_validated</code> and the installed deployment metadata is local/shadow-only rather than an artifact emitted by the live bot/VPS runtime through the new emitter.</p>
 
   <table>
     <thead><tr><th>test</th><th>readiness</th><th>why</th><th>next action</th></tr></thead>
     <tbody>
-      <tr><td>Data Reproduction Test</td><td><span class="badge ok">complete; pass</span></td><td>The 2026-06-04 all-scope rerun refreshed production-source data and reproduced <code>13</code> frozen bundle reports covering <code>3423</code> slices. The scope-level inventory includes crypto phased optimizer, k_stock OLR/KALCB across March/April/May, trading stock, trading momentum, and trading swing.</td><td>Keep source refresh, slice-index, and reproduction reports current before each monthly cycle.</td></tr>
-      <tr><td>Decision Parity Test</td><td><span class="badge ok">complete; pass</span></td><td>The 2026-06-04 rerun passes formal artifact-producing decision parity for crypto trend/momentum/breakout with <code>4</code> fixtures each, plus k_stock OLR/KALCB and trading stock/momentum/swing family bridges with <code>2</code> fixtures each. K_stock/trading validation uses clean local pinned checkouts. The validation test passes, but approval remains blocked until plugin maturity becomes <code>approval_ready</code>.</td><td>Use runtime/VPS-emitted deployment metadata, production fixtures, and scheduled shadow evidence to promote one bridge only when the approval audit can turn fully green.</td></tr>
-      <tr><td>Incumbent Replay Test</td><td><span class="badge ok">complete; pass</span></td><td>The 2026-06-04 replay-evidence run reproduces latest accepted configs within tolerance for all five active scopes.</td><td>Keep latest accepted configs and frozen diagnostics refreshed as production runs accumulate.</td></tr>
-      <tr><td>Round Reproduction Test</td><td><span class="badge ok">complete; pass</span></td><td>The 2026-06-04 replay-evidence run reproduces the latest phased-auto round winner/config class for all five active scopes.</td><td>Keep rerunning from frozen baselines after each approved live change.</td></tr>
-      <tr><td>Historical Walk-Forward Meta-Test</td><td><span class="badge ok">complete; pass</span></td><td>The 2026-06-04 replay-evidence run passes historical walk-forward for k_stock OLR/KALCB, trading stock, trading momentum, trading swing, and crypto.</td><td>Keep multi-month windows refreshed and rerun after material data, strategy, or portfolio-rule changes.</td></tr>
+      <tr><td>Data Reproduction Test</td><td><span class="badge ok">complete; pass</span></td><td>The checked-in matrix references <code>7</code> active data-reproduction artifact paths covering <code>2185</code> active validation slices: crypto phased optimizer (18), k_stock OLR/KALCB across March/April/May (1548), trading stock (611), trading momentum (2), and trading swing (6).</td><td>Keep source refresh, slice-index, and reproduction reports current before each monthly cycle.</td></tr>
+      <tr><td>Decision Parity Test</td><td><span class="badge ok">complete; pass</span></td><td>The checked-in parity artifacts pass formal artifact-producing decision parity for crypto trend/momentum/breakout with <code>4</code> evidence fixtures each, plus k_stock OLR/KALCB and trading stock/momentum/swing family bridges with <code>2</code> evidence fixtures each. K_stock/trading validation uses clean local pinned checkouts. The validation test passes, but approval remains blocked until plugin maturity becomes <code>approval_ready</code>.</td><td>Use runtime/VPS-emitted deployment metadata, production fixtures, and scheduled shadow evidence to promote one bridge only when the approval audit can turn fully green.</td></tr>
+      <tr><td>Incumbent Replay Test</td><td><span class="badge ok">complete; pass</span></td><td>The checked-in replay-evidence artifacts reproduce latest accepted configs within tolerance for all five active scopes.</td><td>Keep latest accepted configs and frozen diagnostics refreshed as production runs accumulate.</td></tr>
+      <tr><td>Round Reproduction Test</td><td><span class="badge ok">complete; pass</span></td><td>The checked-in replay-evidence artifacts reproduce the latest phased-auto round winner/config class for all five active scopes.</td><td>Keep rerunning from frozen baselines after each approved live change.</td></tr>
+      <tr><td>Historical Walk-Forward Meta-Test</td><td><span class="badge ok">complete; pass</span></td><td>The checked-in replay-evidence artifacts pass historical walk-forward for k_stock OLR/KALCB, trading stock, trading momentum, trading swing, and crypto.</td><td>Keep multi-month windows refreshed and rerun after material data, strategy, or portfolio-rule changes.</td></tr>
     </tbody>
   </table>
 </section>
@@ -1568,6 +1707,7 @@
       <ul>
         <li>Clean three-package boundary with contract-driven seams; the current supported checkout is <code>packages/trading_assistant</code>, <code>packages/trading_assistant_data</code>, and <code>packages/trading_assistant_backtest</code>, each independently versionable with package-local <code>pyproject.toml</code>, <code>src/</code>, and <code>tests/</code></li>
         <li>Ledger triad (Proposal &middot; Suggestion &middot; ChangeLedger) is complete</li>
+        <li>Loop-engineering substrate is in place: checked loop contracts, generated loop-run ledger/work log, source-backed performance-learning projection, artifact authority registry, independent monthly evidence verifier, and loop-focused workspace checks</li>
         <li>Daily + weekly cadences run, with proper authority limits</li>
         <li>Monthly orchestrator + <code>BacktestRunnerClient</code> + <code>MonthlyOptimizerRunner</code> validators are real implementations (off by default)</li>
         <li>Outcome priors, search-brief, model review, harness benchmark already in code</li>
@@ -1575,6 +1715,7 @@
         <li>Backtest workspace: contract loader, artifact writer, manifest loader, observability, candidate-workspace manager, deterministic planner, retained phase/repair runner, shadow monthly cycle, data-reproduction runner, formal shadow parity for crypto/k_stock/trading bridges, runtime deployment metadata emitter/installer, structural selection gate, replay evidence artifacts, and a validation matrix that passes all five validation tests while blocking non-approval-ready contracts from structural approval are real</li>
         <li>Optimizer evidence: two-fold in-sample scoring, selection-OOS evaluation, repair trigger/checkpoint, confirmatory rerank, and round_N+1 no-adoption/recommendation artifacts now pass the approval audit's P6/P7 checks for every active scope</li>
         <li>Approval, comms, permission gates, and policy memory enforce safety</li>
+        <li>Post-refactor module owners are explicit in <code>docs/architecture/optimal-ownership-map-2026-07-01.md</code>: runtime assembly, loop/action handlers, prompt evidence, detector behavior, monthly artifacts, data slices, source refresh, monthly backtest execution, and architecture enforcement each have a named owner</li>
       </ul>
     </div>
     <div class="card">
@@ -1586,24 +1727,27 @@
         <li>Broader production-derived decision-level parity fixtures beyond the current shadow fixture sets</li>
         <li>Set <code>MONTHLY_VALIDATION_MODE=shadow</code> for scheduled runs, then promote one strategy to <code>approval_gated</code> only after the approval-grade audit reports that scope green</li>
         <li>Let real monthly outcomes accumulate so the prior layer becomes load-bearing</li>
+        <li>Keep polishing non-blocking architecture edges: migrate detector callers away from <code>StrategyEngine</code> compatibility wrappers, and continue moving data rules out of the large normalization command surface into the slice product</li>
       </ul>
     </div>
   </div>
 
   <div class="callout ok">
-    <strong>Bottom line:</strong> the architecture is the one described in the target-state plan, and the previous big gaps are now addressed at the shadow-ready validation-spine level: portfolio data reproduction passes for crypto, k_stock, trading stock, trading momentum, and trading swing; phase/repair artifacts have deterministic fail-closed implementations; formal shadow parity passes across the active bridge surfaces; incumbent replay, round reproduction, and historical walk-forward pass across active scopes; P6/P7 optimizer evidence now passes for every active scope; and runtime deployment metadata can now be emitted and installed through dedicated fail-closed tooling. The production-source validation and local monthly optimizer evidence questions can now be answered for the active validation lanes. Structural approval is still correctly blocked because every bridge remains <code>shadow_validated</code>, not <code>approval_ready</code>, the live bots have not yet emitted and installed runtime metadata through the new emitter, and the monthly optimizer is not yet allowed to adopt candidates. The weekly learning loop should rotate through k_stock/trading-stock, trading-momentum, trading-swing, and crypto, while monthly phased-auto/OOS repair remains the authoritative optimization lane.
+    <strong>Bottom line:</strong> the architecture is the one described in the target-state plan, and the current owner map makes the module architecture explicit: <code>MonthlyArtifactContract</code>, runtime assembly, loop/action handlers, detector catalog, <code>DataSliceProduct</code>, and <code>monthly_execution</code> are the intended owners. The previous big gaps are now addressed at the shadow-ready validation-spine and loop-operating-substrate level: portfolio data reproduction passes for crypto, k_stock, trading stock, trading momentum, and trading swing; phase/repair artifacts have deterministic fail-closed implementations; formal shadow parity passes across the active bridge surfaces; incumbent replay, round reproduction, and historical walk-forward pass across active scopes; P6/P7 optimizer evidence now passes for every active scope; loop contracts, work-log projection, performance-learning projection, artifact authority, and independent verification are checked; and runtime deployment metadata can now be emitted and installed through dedicated fail-closed tooling. The production-source validation and local monthly optimizer evidence questions can now be answered for the active validation lanes. Structural approval is still correctly blocked because every bridge remains <code>shadow_validated</code>, not <code>approval_ready</code>, the live bots have not yet emitted and installed runtime metadata through the new emitter, and the monthly optimizer is not yet allowed to adopt candidates. The weekly learning loop should rotate through k_stock/trading-stock, trading-momentum, trading-swing, and crypto, while monthly phased-auto/OOS repair remains the authoritative optimization lane.
   </div>
 </section>
 
 <div class="footer">
-  Refreshed after scoped authority, formal shadow parity, replay-evidence, validation-matrix hardening, P6/P7 optimizer-evidence verification, runtime metadata emitter/installer wiring, deployment-runbook cleanup, and final package-layout planning on <span class="mono">2026-06-04</span><br/>
-  Compiled from current repo state at <span class="mono">2026-06-04</span> &middot; references:<br/>
-  <span class="mono">docs/2026-05-11-workflow-learning-loop-target-state.md</span> &middot;
-  <span class="mono">docs/2026-05-30-trading-assistant-data-repo-implementation-plan.md</span> &middot;
-  <span class="mono">docs/2026-05-30-trading-assistant-backtest-repo-implementation-plan.md</span> &middot;
-  <span class="mono">docs/2026-06-02-approval-grade-monthly-learning-loop-implementation-plan.md</span> &middot;
-  <span class="mono">docs/2026-06-04-final-monorepo-package-structure-implementation-plan.md</span> &middot;
-  <span class="mono">docs/implementation.md</span>
+  Refreshed after loop-contract, loop-ledger, performance-learning, artifact-authority, independent-verifier, scoped authority, formal shadow parity, replay-evidence, validation-matrix hardening, P6/P7 optimizer-evidence verification, immutable score-profile alignment, runtime metadata emitter/installer wiring, final package-layout planning, and post-refactor ownership-map alignment on <span class="mono">2026-07-01</span><br/>
+  Compiled from current repo state at <span class="mono">2026-07-01</span> &middot; references:<br/>
+  <span class="mono">docs/architecture/workflow-learning-loop-target-state.md</span> &middot;
+  <span class="mono">docs/plans/2026-05-30-trading-assistant-data-repo-implementation-plan.md</span> &middot;
+  <span class="mono">docs/plans/2026-05-30-trading-assistant-backtest-repo-implementation-plan.md</span> &middot;
+  <span class="mono">docs/plans/2026-06-02-approval-grade-monthly-learning-loop-implementation-plan.md</span> &middot;
+  <span class="mono">docs/plans/2026-06-04-final-monorepo-package-structure-implementation-plan.md</span> &middot;
+  <span class="mono">docs/architecture/optimal-ownership-map-2026-07-01.md</span> &middot;
+  <span class="mono">docs/loop-engineering-port-report-and-implementation-plan.md</span> &middot;
+  <span class="mono">docs/plans/implementation.md</span>
 </div>
 
 </div>

@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 import pytest
 from trading_assistant.orchestrator.memory_consolidator import MemoryConsolidator
-from trading_assistant.schemas.memory import MemoryIndex
 
 def _write_entries(path: Path, entries: list[dict]) -> None:
     lines = [json.dumps(e) for e in entries]

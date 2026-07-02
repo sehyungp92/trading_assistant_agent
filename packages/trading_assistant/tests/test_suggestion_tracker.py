@@ -1,8 +1,10 @@
 # tests/test_suggestion_tracker.py
 """Tests for SuggestionTracker — records and measures suggestion outcomes."""
 import json
+import time
 from pathlib import Path
 
+from trading_assistant.orchestrator.jsonl_store import write_json_projection
 from trading_assistant.schemas.suggestion_tracking import (
     SuggestionRecord,
     SuggestionOutcome,
@@ -60,6 +62,51 @@ class TestSuggestionTracker:
         suggestions = tracker.load_all()
         match = [s for s in suggestions if s["suggestion_id"] == "s001"]
         assert match[0]["status"] == SuggestionStatus.DEPLOYED.value
+
+    def test_index_projection_tracks_lifecycle_updates(self, tmp_path):
+        tracker = SuggestionTracker(store_dir=tmp_path)
+        tracker.record(SuggestionRecord(
+            suggestion_id="s001",
+            bot_id="bot1",
+            title="Widen stop",
+            tier="parameter",
+            source_report_id="weekly-2026-02-24",
+        ))
+        projection_path = Path(str(tmp_path / "suggestions.jsonl") + ".index.json")
+        assert projection_path.exists()
+
+        tracker.accept("s001", approval_request_id="req-1")
+        projection = json.loads(projection_path.read_text(encoding="utf-8"))
+        assert projection["s001"]["status"] == SuggestionStatus.ACCEPTED.value
+        assert projection["s001"]["approval_request_id"] == "req-1"
+
+    def test_projection_backed_update_large_history_latency(self, tmp_path):
+        path = tmp_path / "suggestions.jsonl"
+        records = [
+            SuggestionRecord(
+                suggestion_id=f"s{i}",
+                bot_id="bot1",
+                title=f"Suggestion {i}",
+                tier="parameter",
+                source_report_id="daily-2026-06-22",
+            ).model_dump(mode="json")
+            for i in range(1_500)
+        ]
+        path.write_text(
+            "\n".join(json.dumps(record, default=str) for record in records) + "\n",
+            encoding="utf-8",
+        )
+        write_json_projection(path, key_field="suggestion_id", records=records)
+
+        tracker = SuggestionTracker(store_dir=tmp_path)
+        started = time.perf_counter()
+        tracker.accept("s1499", approval_request_id="req-1499")
+        elapsed = time.perf_counter() - started
+
+        assert elapsed < 3.0
+        projection = json.loads((Path(str(path) + ".index.json")).read_text(encoding="utf-8"))
+        assert projection["s1499"]["status"] == SuggestionStatus.ACCEPTED.value
+        assert projection["s1499"]["approval_request_id"] == "req-1499"
 
     def test_record_outcome(self, tmp_path):
         tracker = SuggestionTracker(store_dir=tmp_path)

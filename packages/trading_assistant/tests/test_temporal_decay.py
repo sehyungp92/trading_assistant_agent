@@ -4,9 +4,9 @@ from __future__ import annotations
 import json
 import pytest
 from datetime import datetime, timezone, timedelta
-from pathlib import Path
 
-from trading_assistant.analysis.context_builder import ContextBuilder, _apply_temporal_window
+from trading_assistant.analysis.context_builder import ContextBuilder, _apply_temporal_window, _safe_jsonl
+from trading_assistant.orchestrator.jsonl_store import read_jsonl_tail
 
 
 @pytest.fixture
@@ -80,6 +80,28 @@ def test_entries_without_timestamp_included_last():
 def test_empty_findings_handled_gracefully():
     result = _apply_temporal_window([])
     assert result == []
+
+
+def test_safe_jsonl_reads_bounded_tail(memory_dir):
+    path = memory_dir / "findings" / "corrections.jsonl"
+    lines = [json.dumps({"id": i}) for i in range(1105)]
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+    records = _safe_jsonl(path)
+
+    assert len(records) == 1000
+    assert records[0]["id"] == 105
+    assert records[-1]["id"] == 1104
+
+
+def test_jsonl_tail_seeks_from_end_with_small_chunks(memory_dir):
+    path = memory_dir / "findings" / "corrections.jsonl"
+    lines = [json.dumps({"id": i, "payload": "x" * 80}) for i in range(200)]
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+    records = read_jsonl_tail(path, max_records=5, chunk_size=64)
+
+    assert [record["id"] for record in records] == [195, 196, 197, 198, 199]
 
 
 def test_load_corrections_applies_temporal_window(memory_dir):

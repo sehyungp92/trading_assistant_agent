@@ -2,9 +2,7 @@
 """Tests for the adaptive hypothesis library lifecycle."""
 from __future__ import annotations
 
-import json
 
-import pytest
 
 from trading_assistant.skills.hypothesis_library import (
     HypothesisLibrary,

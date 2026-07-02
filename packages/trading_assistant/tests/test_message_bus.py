@@ -1,10 +1,9 @@
 """Tests for async message bus (M1)."""
 from __future__ import annotations
 import asyncio
-import pytest
 from trading_assistant.comms.message_bus import MessageBus
 from trading_assistant.comms.bus_events import InboundMessage, OutboundMessage
-from trading_assistant.schemas.notifications import NotificationPayload, NotificationPriority
+from trading_assistant.schemas.notifications import NotificationPayload
 
 class TestMessageBus:
     async def test_put_and_get_inbound(self):

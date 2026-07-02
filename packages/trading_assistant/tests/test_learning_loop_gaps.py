@@ -6,7 +6,6 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-import pytest
 
 from trading_assistant.analysis.response_validator import ResponseValidator
 from trading_assistant.schemas.agent_response import AgentPrediction, AgentSuggestion, ParsedAnalysis

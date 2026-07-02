@@ -14,6 +14,11 @@ import pandas as pd
 from trading_assistant_backtest.auto.types import Candidate, CandidateEvaluation
 from trading_assistant_backtest.contract_models import DataBundleManifest, MonthlyRunManifest
 from trading_assistant_backtest.replay.types import ReplayResult, WindowSpec
+from trading_assistant_backtest.scoring.immutable import (
+    compact_score_payload,
+    resolve_score_profile,
+    score_replay,
+)
 from trading_assistant_backtest.strategies.approval import adoption_enabled_for_manifest
 from trading_assistant_backtest.strategies.plugin_semantics import (
     build_confirmatory_variants_for_scope,
@@ -95,6 +100,8 @@ class TradingMomentumReplayPlugin:
             "max_drawdown": replay.max_drawdown,
             "profit_factor": replay.profit_factor,
             "objective_score": replay.objective_score,
+            "objective_profile_id": replay.diagnostics.get("objective_profile_id", ""),
+            "immutable_score": compact_score_payload(replay.diagnostics.get("immutable_score")),
             "coverage": replay.diagnostics.get("coverage", []),
             "symbols": replay.diagnostics.get("symbols", []),
             "timeframes": replay.diagnostics.get("timeframes", []),
@@ -330,7 +337,20 @@ def _run_futures_replay(
     wins = [value for value in returns if value > 0]
     losses = [-value for value in returns if value < 0]
     profit_factor = sum(wins) / sum(losses) if losses else (sum(wins) if wins else 0.0)
-    objective_score = net_return - max_drawdown
+    score = score_replay(
+        profile=resolve_score_profile(
+            family="trading_momentum_family",
+            plugin_id=manifest.strategy_plugin_id,
+            strategy_id=manifest.strategy_id,
+        ),
+        trades=trades,
+        coverage=coverage,
+        window=window,
+        net_return=net_return,
+        max_drawdown=max_drawdown,
+        profit_factor=profit_factor,
+        component_cap=manifest.score_component_cap,
+    )
     return ReplayResult(
         run_id=manifest.run_id,
         window=window,
@@ -338,7 +358,7 @@ def _run_futures_replay(
         net_return=net_return,
         max_drawdown=max_drawdown,
         profit_factor=profit_factor,
-        objective_score=objective_score,
+        objective_score=score.objective_score,
         trades=trades,
         orders=orders,
         diagnostics={
@@ -354,6 +374,8 @@ def _run_futures_replay(
             "threshold_bps": threshold_bps,
             "position_weight": position_weight,
             "max_contracts": max_contracts,
+            "objective_profile_id": score.profile.profile_id,
+            "immutable_score": score.to_payload(),
             **(patch_payload or {}),
             "trade_hash": _stable_hash(trades),
             "order_hash": _stable_hash(orders),
@@ -540,6 +562,8 @@ def _replay_summary(result: ReplayResult) -> dict[str, Any]:
         "max_drawdown": result.max_drawdown,
         "profit_factor": result.profit_factor,
         "objective_score": result.objective_score,
+        "objective_profile_id": result.diagnostics.get("objective_profile_id", ""),
+        "immutable_score": compact_score_payload(result.diagnostics.get("immutable_score")),
         "trade_hash": result.diagnostics.get("trade_hash", ""),
         "order_hash": result.diagnostics.get("order_hash", ""),
         "coverage": result.diagnostics.get("coverage", []),

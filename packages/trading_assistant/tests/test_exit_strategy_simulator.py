@@ -1,6 +1,5 @@
 # tests/test_exit_strategy_simulator.py
 """Tests for exit strategy comparison simulator."""
-import pytest
 
 from trading_assistant.schemas.exit_simulation import ExitStrategyType, ExitStrategyConfig, ExitSimulationResult
 from tests.factories import make_trade

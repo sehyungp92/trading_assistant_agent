@@ -8,14 +8,11 @@ These tests verify the full loop: learn → inject → detect with learned thres
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
 from pathlib import Path
 
-import pytest
 
 from trading_assistant.analysis.strategy_engine import StrategyEngine
 from trading_assistant.schemas.detection_context import DetectionContext
-from trading_assistant.schemas.suggestion_tracking import SuggestionRecord, SuggestionOutcome
 from trading_assistant.schemas.weekly_metrics import BotWeeklySummary, FilterWeeklySummary
 from trading_assistant.skills.threshold_learner import ThresholdLearner
 
@@ -490,7 +487,7 @@ class TestAdaptiveIntegration:
             win_count=30, loss_count=20,
             avg_win=100.0, avg_loss=-20.0,
         )
-        tight_stop_result = engine.analyze_parameters(summary)
+        engine.analyze_parameters(summary)
         # The learner should have adjusted the threshold from 0.3
 
         # filter_cost: no learned data → uses default 0.0

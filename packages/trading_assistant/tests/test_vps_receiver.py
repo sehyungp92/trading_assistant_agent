@@ -146,6 +146,52 @@ class TestVPSReceiver:
         assert pending[0]["payload"].startswith("{")
         assert pending[0]["exchange_timestamp"] == "2026-03-01T14:00:00+00:00"
 
+    async def test_pull_merges_canonical_envelope_identity_into_payload(
+        self, fake_relay, relay_app, local_queue,
+    ):
+        fake_relay.events.append({
+            "event_id": "canonical1",
+            "bot_id": "crypto_trader",
+            "event_type": "trade",
+            "schema_version": "assistant_event_v1",
+            "family_id": "crypto_perps",
+            "portfolio_id": "default",
+            "strategy_id": "momentum",
+            "assistant_strategy_id": "MomentumPullback_M15",
+            "payload_hash": "payload-hash-1",
+            "priority": "normal",
+            "source": {"relay": "vps"},
+            "event_ref": "event-ref-1",
+            "intent_id": "intent-1",
+            "risk_decision_id": "risk-1",
+            "payload": {
+                "trade_id": "t1",
+                "symbol": "BTC",
+                "timestamp": "2026-03-01T14:00:00+00:00",
+            },
+        })
+
+        receiver = _make_receiver(relay_app, local_queue)
+        pulled = await receiver.pull_and_store()
+
+        assert pulled == 1
+        pending = await local_queue.peek(limit=10)
+        payload = json.loads(pending[0]["payload"])
+        assert payload["event_id"] == "canonical1"
+        assert payload["event_type"] == "trade"
+        assert payload["bot_id"] == "crypto_trader"
+        assert payload["schema_version"] == "assistant_event_v1"
+        assert payload["family_id"] == "crypto_perps"
+        assert payload["portfolio_id"] == "default"
+        assert payload["strategy_id"] == "momentum"
+        assert payload["assistant_strategy_id"] == "MomentumPullback_M15"
+        assert payload["payload_hash"] == "payload-hash-1"
+        assert payload["priority"] == "normal"
+        assert payload["source"] == {"relay": "vps"}
+        assert payload["event_ref"] == "event-ref-1"
+        assert payload["intent_id"] == "intent-1"
+        assert payload["risk_decision_id"] == "risk-1"
+
     async def test_ack_after_pull(self, fake_relay, relay_app, local_queue):
         fake_relay.seed(count=2)
 
@@ -155,6 +201,102 @@ class TestVPSReceiver:
         # Second pull should find nothing (acked)
         pulled = await receiver.pull_and_store()
         assert pulled == 0
+
+    async def test_malformed_relay_event_is_quarantined_without_blocking_later_valid(
+        self, fake_relay, relay_app, local_queue,
+    ):
+        fake_relay.events.extend([
+            {
+                "event_id": "bad1",
+                "bot_id": "bot1",
+                "event_type": "trade",
+            },
+            {
+                "event_id": "good1",
+                "bot_id": "bot1",
+                "event_type": "trade",
+                "payload": json.dumps({"trade_id": "t-good"}),
+                "exchange_timestamp": "2026-03-01T14:00:00+00:00",
+            },
+        ])
+
+        receiver = _make_receiver(relay_app, local_queue, allowed_bot_ids={"bot1"})
+        pulled = await receiver.pull_and_store()
+
+        assert pulled == 1
+        pending = await local_queue.peek(limit=10)
+        assert [event["event_id"] for event in pending] == ["good1"]
+        quarantine = await local_queue.get_relay_quarantine()
+        assert len(quarantine) == 1
+        assert quarantine[0]["raw_event_id"] == "bad1"
+        assert "Missing required event field" in quarantine[0]["reason"]
+        classifications = await local_queue.get_relay_ingest_classifications(limit=10)
+        by_raw_id = {row["raw_event_id"]: row["classification"] for row in classifications}
+        assert by_raw_id == {"bad1": "quarantined", "good1": "enqueued"}
+        assert await local_queue.get_watermark("relay") == "good1"
+
+    async def test_unknown_relay_bot_is_quarantined(
+        self, fake_relay, relay_app, local_queue,
+    ):
+        fake_relay.events.append({
+            "event_id": "unknown-bot",
+            "bot_id": "bot-x",
+            "event_type": "trade",
+            "payload": json.dumps({"trade_id": "tx"}),
+            "exchange_timestamp": "2026-03-01T14:00:00+00:00",
+        })
+
+        receiver = _make_receiver(relay_app, local_queue, allowed_bot_ids={"bot1"})
+        pulled = await receiver.pull_and_store()
+
+        assert pulled == 0
+        assert await local_queue.peek(limit=10) == []
+        quarantine = await local_queue.get_relay_quarantine()
+        assert len(quarantine) == 1
+        assert quarantine[0]["raw_event_id"] == "unknown-bot"
+        assert "Unknown bot_id" in quarantine[0]["reason"]
+        classifications = await local_queue.get_relay_ingest_classifications(limit=10)
+        assert classifications[0]["classification"] == "quarantined"
+        assert classifications[0]["raw_event_id"] == "unknown-bot"
+        assert await local_queue.get_watermark("relay") == "unknown-bot"
+
+    async def test_duplicate_relay_events_are_classified_before_ack(
+        self, fake_relay, relay_app, local_queue,
+    ):
+        await local_queue.enqueue({
+            "event_id": "dupe1",
+            "bot_id": "bot1",
+            "event_type": "trade",
+            "payload": json.dumps({"trade_id": "already-local"}),
+            "exchange_timestamp": "2026-03-01T14:00:00+00:00",
+            "received_at": "2026-03-01T14:00:01+00:00",
+        })
+        fake_relay.events.extend([
+            {
+                "event_id": "dupe1",
+                "bot_id": "bot1",
+                "event_type": "trade",
+                "payload": json.dumps({"trade_id": "already-local"}),
+                "exchange_timestamp": "2026-03-01T14:00:00+00:00",
+            },
+            {
+                "event_id": "fresh1",
+                "bot_id": "bot1",
+                "event_type": "trade",
+                "payload": json.dumps({"trade_id": "fresh"}),
+                "exchange_timestamp": "2026-03-01T14:01:00+00:00",
+            },
+        ])
+
+        receiver = _make_receiver(relay_app, local_queue, allowed_bot_ids={"bot1"})
+        pulled = await receiver.pull_and_store()
+
+        assert pulled == 1
+        classifications = await local_queue.get_relay_ingest_classifications(limit=10)
+        by_event_id = {row["event_id"]: row["classification"] for row in classifications}
+        assert by_event_id["dupe1"] == "duplicate"
+        assert by_event_id["fresh1"] == "enqueued"
+        assert await local_queue.get_watermark("relay") == "fresh1"
 
 
 class TestWatermarkPersistence:
@@ -208,7 +350,8 @@ class TestPollRetry:
         )
         result = await receiver.poll()
         assert result == 0
-        assert receiver._consecutive_failures == 1
+        assert receiver.consecutive_failures == 1
+        assert receiver.is_healthy is False
 
     async def test_poll_handles_http_error(self, local_queue):
         """Relay returns 500 → returns 0, no exception."""
@@ -229,7 +372,8 @@ class TestPollRetry:
         )
         result = await receiver.poll()
         assert result == 0
-        assert receiver._consecutive_failures == 1
+        assert receiver.consecutive_failures == 1
+        assert receiver.is_healthy is False
 
     async def test_poll_resets_failure_count_on_success(self, relay_app, local_queue):
         receiver = _make_receiver(relay_app, local_queue)
@@ -237,7 +381,8 @@ class TestPollRetry:
 
         result = await receiver.poll()
         assert result == 0  # empty relay, but no error
-        assert receiver._consecutive_failures == 0
+        assert receiver.consecutive_failures == 0
+        assert receiver.is_healthy is True
 
 
 class TestLatencyRecording:
@@ -331,7 +476,8 @@ class TestApiKeyAuth:
         )
         result = await receiver.poll()
         assert result == 0
-        assert receiver._consecutive_failures == 1
+        assert receiver.consecutive_failures == 1
+        assert receiver.is_healthy is False
 
     async def test_make_client_includes_api_key(self):
         """_make_client() sets X-Api-Key header when api_key is provided."""
@@ -388,3 +534,21 @@ class TestDrain:
         # batch_size=1, max_batches=3 → should only get 3 events
         total = await receiver.drain(batch_size=1, max_batches=3)
         assert total == 3
+
+    async def test_drain_marks_receiver_unhealthy_on_relay_failure(self, local_queue):
+        async def error_handler(request):
+            return PlainTextResponse("Internal Server Error", status_code=500)
+
+        error_app = Starlette(routes=[Route("/events", error_handler)])
+        transport = ASGITransport(app=error_app)
+        receiver = VPSReceiver(
+            relay_url="http://relay",
+            local_queue=local_queue,
+            _client_factory=lambda: AsyncClient(transport=transport, base_url="http://relay"),
+        )
+
+        total = await receiver.drain()
+
+        assert total == 0
+        assert receiver.consecutive_failures == 1
+        assert receiver.is_healthy is False

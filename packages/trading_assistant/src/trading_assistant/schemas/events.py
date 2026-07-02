@@ -6,12 +6,15 @@ These define the data contracts between VPS bots, the relay, and the orchestrato
 from __future__ import annotations
 
 import hashlib
+import json
 import uuid
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
 from pydantic import BaseModel, Field, computed_field, model_validator
+
+from trading_assistant.schemas.canonical_envelope import CANONICAL_ENVELOPE_PAYLOAD_FIELDS
 
 
 _CRYPTO_STRATEGY_ID_ALIASES = {
@@ -29,16 +32,69 @@ def normalize_strategy_id(bot_id: str, strategy_id: object) -> str:
     return value
 
 
+def _has_value(value: object) -> bool:
+    return value not in (None, "")
+
+
+def _copy_identity_fields(target: dict, source: dict) -> None:
+    for key in CANONICAL_ENVELOPE_PAYLOAD_FIELDS:
+        value = source.get(key)
+        if _has_value(value) and not _has_value(target.get(key)):
+            target[key] = value
+
+
+def _first_identity_value(data: dict, key: str) -> object:
+    value = data.get(key)
+    if _has_value(value):
+        return value
+    for container_key in ("metadata", "event_metadata", "lineage"):
+        container = data.get(container_key)
+        if isinstance(container, dict):
+            value = container.get(key)
+            if _has_value(value):
+                return value
+    return ""
+
+
 def _copy_metadata_identity(data: Any) -> Any:
     if not isinstance(data, dict):
         return data
-    normalized = dict(data)
-    metadata = normalized.get("metadata")
-    if isinstance(metadata, dict):
-        if not normalized.get("bot_id") and metadata.get("bot_id"):
-            normalized["bot_id"] = metadata["bot_id"]
-        if not normalized.get("strategy_id") and metadata.get("strategy_id"):
-            normalized["strategy_id"] = metadata["strategy_id"]
+
+    source = dict(data)
+    payload = source.get("payload")
+    if isinstance(payload, str):
+        try:
+            parsed_payload = json.loads(payload)
+        except json.JSONDecodeError:
+            parsed_payload = None
+        if isinstance(parsed_payload, dict):
+            payload = parsed_payload
+    if isinstance(payload, dict):
+        normalized = dict(payload)
+        _copy_identity_fields(normalized, source)
+    else:
+        normalized = dict(source)
+
+    for container_key in ("metadata", "event_metadata", "lineage"):
+        container = normalized.get(container_key)
+        if isinstance(container, dict):
+            _copy_identity_fields(normalized, container)
+
+    bot_id = _first_identity_value(normalized, "bot_id")
+    if _has_value(bot_id) and not _has_value(normalized.get("bot_id")):
+        normalized["bot_id"] = bot_id
+
+    assistant_strategy_id = _first_identity_value(normalized, "assistant_strategy_id")
+    source_strategy_id = _first_identity_value(normalized, "strategy_id")
+    if _has_value(assistant_strategy_id):
+        normalized["assistant_strategy_id"] = str(assistant_strategy_id)
+        normalized["strategy_id"] = str(assistant_strategy_id)
+    elif _has_value(source_strategy_id):
+        normalized["strategy_id"] = str(source_strategy_id)
+
+    if not _has_value(normalized.get("pair")) and _has_value(normalized.get("symbol")):
+        normalized["pair"] = normalized["symbol"]
+
     if normalized.get("strategy_id"):
         normalized["strategy_id"] = normalize_strategy_id(
             str(normalized.get("bot_id", "")), normalized["strategy_id"],
@@ -79,11 +135,46 @@ class EventMetadata(BaseModel):
     bot_id: str
     exchange_timestamp: datetime
     local_timestamp: datetime
-    data_source_id: str
+    data_source_id: str = ""
+    data_source: str = ""
     event_type: str
-    payload_key: str
+    payload_key: str = ""
+    schema_version: str = ""
+    priority: str | int | None = None
+    payload_hash: str = ""
+    family_id: str = ""
+    portfolio_id: str = ""
+    account_alias: str = ""
+    strategy_id: str = ""
+    assistant_strategy_id: str = ""
+    logical_event_id: str = ""
+    deployment_id: str = ""
+    config_version: str = ""
+    code_sha: str = ""
+    event_ref: str = ""
+    source: dict[str, Any] | str | None = None
+    source_stream: str = ""
+    lineage: dict[str, Any] = Field(default_factory=dict)
     bar_id: Optional[str] = None
     trace_id: str = Field(default_factory=lambda: uuid.uuid4().hex[:16])
+
+    @model_validator(mode="before")
+    @classmethod
+    def _from_reference_metadata(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+        normalized = dict(data)
+        if not normalized.get("data_source_id") and normalized.get("data_source"):
+            normalized["data_source_id"] = normalized["data_source"]
+        if not normalized.get("assistant_strategy_id"):
+            assistant_strategy_id = _first_identity_value(normalized, "assistant_strategy_id")
+            if _has_value(assistant_strategy_id):
+                normalized["assistant_strategy_id"] = assistant_strategy_id
+        if normalized.get("strategy_id"):
+            normalized["strategy_id"] = normalize_strategy_id(
+                str(normalized.get("bot_id", "")), normalized["strategy_id"],
+            )
+        return normalized
 
     @computed_field  # type: ignore[prop-decorator]
     @property
@@ -121,6 +212,22 @@ class TradeEvent(BaseModel):
     trade_id: str
     bot_id: str
     strategy_id: str = ""  # identifies strategy within multi-strategy bots
+    assistant_strategy_id: str = ""
+    family_id: str = ""
+    portfolio_id: str = ""
+    account_alias: str = ""
+    schema_version: str = ""
+    priority: str | int | None = None
+    payload_hash: str = ""
+    logical_event_id: str = ""
+    revision: int | None = None
+    event_ref: str = ""
+    payload_key: str = ""
+    data_source: str = ""
+    data_source_id: str = ""
+    source: dict[str, Any] | str | None = None
+    source_stream: str = ""
+    lineage: dict[str, Any] | None = None
     pair: str
     event_metadata: Optional[EventMetadata] = None
     market_snapshot: Optional[MarketSnapshot] = None
@@ -170,6 +277,54 @@ class TradeEvent(BaseModel):
     entry_fill_details: dict | None = None
     exit_fill_details: dict | None = None
 
+    # Cross-repo execution join keys from canonical bot envelopes
+    entry_decision_id: str = ""
+    exit_decision_id: str = ""
+    entry_signal_id: str = ""
+    entry_bar_id: str = ""
+    exit_bar_id: str = ""
+    entry_order_ids: list[str] = Field(default_factory=list)
+    exit_order_ids: list[str] = Field(default_factory=list)
+    order_ids: list[str] = Field(default_factory=list)
+    entry_fill_ids: list[str] = Field(default_factory=list)
+    exit_fill_ids: list[str] = Field(default_factory=list)
+    fill_ids: list[str] = Field(default_factory=list)
+    entry_order_event_refs: list[str] = Field(default_factory=list)
+    exit_order_event_refs: list[str] = Field(default_factory=list)
+    client_order_ids: list[str] = Field(default_factory=list)
+    exchange_order_ids: list[str] = Field(default_factory=list)
+    intent_id: str = ""
+    idempotency_key: str = ""
+    order_id: str = ""
+    entry_order_id: str = ""
+    exit_order_id: str = ""
+    client_order_id: str = ""
+    broker_order_id: str = ""
+    original_order_id: str = ""
+    oms_order_id: str = ""
+    kis_order_id: str = ""
+    kis_order_date: str = ""
+    kis_exec_id: str = ""
+    decision_id: str = ""
+    decision_ref: dict[str, Any] | None = None
+    action_ref: dict[str, Any] | None = None
+    provisional_order_ref: str = ""
+    portfolio_decision_ref: dict[str, Any] | None = None
+    portfolio_rule_event_id: str = ""
+    risk_decision_id: str = ""
+    artifact_hash: str = ""
+    source_artifact_hash: str = ""
+    source_fingerprint: str = ""
+    candidate_hash: str = ""
+    resource_plan_hash: str = ""
+    kis_resource_plan_hash: str = ""
+    portfolio_policy_hash: str = ""
+    state_hash: str = ""
+    plan_hash: str = ""
+    snapshot_id: str = ""
+    runtime_join: dict[str, Any] | None = None
+    join_completeness: dict[str, Any] | None = None
+
     # stock_trader execution quality fields
     fees_paid: float = 0.0
     entry_slippage_bps: float = 0.0
@@ -204,6 +359,18 @@ class TradeEvent(BaseModel):
     market_conditions_at_entry: dict | None = None
 
     # Crypto perpetual fields (populated by bots that trade leveraged perpetuals)
+    notional_usd: float = 0.0
+    price_pnl_gross: float = 0.0
+    total_fees: float = 0.0
+    price_pnl_after_funding: float = 0.0
+    realized_pnl_net: float = 0.0
+    r_multiple: float | None = None
+    realized_r_net: float | None = None
+    geometric_r: float | None = None
+    commission: float = 0.0
+    slippage_pct: float = 0.0
+    latency_ms: float = 0.0
+    liquidity: str = ""
     funding_paid: float = 0.0  # cumulative funding cost during trade hold
     setup_grade: str = ""  # A/B/C or A+/A/B from bot's confluence scoring
     confluences: list[str] = []  # list of confluence factors that fired at entry
@@ -232,6 +399,12 @@ class TradeEvent(BaseModel):
         if not isinstance(data, dict):
             return data
         normalized = dict(data)
+        if not normalized.get("trade_id"):
+            normalized["trade_id"] = (
+                normalized.get("logical_event_id")
+                or normalized.get("event_id")
+                or ""
+            )
         market_context = normalized.get("market_context")
         if isinstance(market_context, dict):
             if not normalized.get("bias_direction") and market_context.get("bias_direction"):
@@ -250,9 +423,37 @@ class MissedOpportunityEvent(BaseModel):
     market_snapshot: Optional[MarketSnapshot] = None
     bot_id: str
     strategy_id: str = ""  # identifies strategy within multi-strategy bots
+    assistant_strategy_id: str = ""
+    family_id: str = ""
+    portfolio_id: str = ""
+    account_alias: str = ""
+    schema_version: str = ""
+    priority: str | int | None = None
+    payload_hash: str = ""
+    opportunity_id: str = ""
+    logical_event_id: str = ""
+    revision: int = 0
+    supersedes_event_id: str = ""
+    event_ref: str = ""
+    payload_key: str = ""
+    data_source: str = ""
+    data_source_id: str = ""
+    source: dict[str, Any] | str | None = None
+    source_stream: str = ""
+    lineage: dict[str, Any] | None = None
     pair: str
+    symbol: str = ""
+    timeframe: str = ""
+    bar_id: str = ""
     signal: str
     signal_strength: float = 0.0
+    signal_id: str = ""
+    decision_id: str = ""
+    portfolio_rule_event_id: str = ""
+    risk_decision_id: str = ""
+    blocking_rule_type: str = ""
+    blocked_scope: str = ""
+    resource_conflict_type: str = ""
     blocked_by: str = ""
     hypothetical_entry: float = 0.0
     outcome_1h: Optional[float] = None
@@ -265,7 +466,6 @@ class MissedOpportunityEvent(BaseModel):
     margin_pct: float | None = None  # how close to filter threshold (requires bot B4)
 
     # stock_trader extras
-    signal_id: str = ""
     block_reason: str = ""  # freetext explanation (vs blocked_by = filter name)
     backfill_status: str = ""  # e.g. "completed", "pending", "failed"
     simulation_confidence: float = 0.0  # counterfactual sim confidence (vs confidence = signal confidence)
@@ -289,6 +489,10 @@ class MissedOpportunityEvent(BaseModel):
 class DailySnapshot(BaseModel):
     date: str  # YYYY-MM-DD
     bot_id: str
+    family_id: str = ""
+    portfolio_id: str = ""
+    account_alias: str = ""
+    schema_version: str = ""
     total_trades: int = 0
     win_count: int = 0
     loss_count: int = 0
@@ -310,6 +514,9 @@ class DailySnapshot(BaseModel):
     avg_process_quality: float = 100.0
     root_cause_distribution: dict = {}
     per_strategy_summary: dict = {}
+    strategy_summaries: dict = {}
+    family_summary: dict | None = None
+    portfolio_summary: dict | None = None
     overlay_state_summary: dict | None = None
     experiment_breakdown: dict | None = None  # 1.4: swing_multi_01 per-experiment A/B stats
     lineage_summary: dict | None = None
@@ -329,6 +536,10 @@ class DailySnapshot(BaseModel):
             return data
         normalized = dict(data)
         bot_id = str(normalized.get("bot_id", ""))
+        if not normalized.get("per_strategy_summary") and isinstance(
+            normalized.get("strategy_summaries"), dict,
+        ):
+            normalized["per_strategy_summary"] = normalized["strategy_summaries"]
         normalized["per_strategy_summary"] = _normalize_strategy_keyed_dict(
             bot_id, normalized.get("per_strategy_summary", {}),
         )
@@ -388,6 +599,11 @@ class HealthReportSnapshot(BaseModel):
     error_count_24h: int = 0
     severity: str = ""
     notes: str = ""
+
+    @model_validator(mode="before")
+    @classmethod
+    def _from_reference_payload(cls, data: Any) -> Any:
+        return _copy_metadata_identity(data)
 
 
 class RegimeTransitionEvent(BaseModel):

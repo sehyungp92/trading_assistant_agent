@@ -11,7 +11,6 @@ import pytest
 from trading_assistant.schemas.learning_ledger import (
     DiscardItem,
     GroundTruthSnapshot,
-    LearningLedgerEntry,
     RetrospectiveSynthesis,
     SynthesisItem,
 )

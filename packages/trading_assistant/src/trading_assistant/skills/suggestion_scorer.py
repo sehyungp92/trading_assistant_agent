@@ -147,11 +147,11 @@ class SuggestionScorer:
 
             if total_weight > 0:
                 positive_weight = sum(
-                    w for o, w in zip(group_outcomes, weights) if is_positive_outcome(o)
+                    w for o, w in zip(group_outcomes, weights, strict=False) if is_positive_outcome(o)
                 )
                 win_rate = positive_weight / total_weight
                 avg_pnl = (
-                    sum(self._outcome_pnl_delta(o) * w for o, w in zip(group_outcomes, weights))
+                    sum(self._outcome_pnl_delta(o) * w for o, w in zip(group_outcomes, weights, strict=False))
                     / total_weight
                 )
             else:
@@ -398,7 +398,7 @@ class SuggestionScorer:
                 continue
 
             positive_weight = sum(
-                w for o, w in zip(group_outcomes, weights) if is_positive_outcome(o)
+                w for o, w in zip(group_outcomes, weights, strict=False) if is_positive_outcome(o)
             )
             # Bayesian posterior → confidence multiplier (same formula as scorecard)
             posterior = (positive_weight + 1) / (total_weight + 2)
@@ -482,7 +482,7 @@ class SuggestionScorer:
         top_categories = {k for k, _ in sorted_cats[:3]}
 
         # Group suggestions by ISO week
-        from datetime import datetime, timezone
+        from datetime import datetime
         weekly: dict[str, list[dict]] = {}
         for s in suggestions:
             ts = s.get("proposed_at", "") or s.get("timestamp", "") or s.get("created_at", "")

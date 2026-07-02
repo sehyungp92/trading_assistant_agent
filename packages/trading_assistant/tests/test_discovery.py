@@ -11,8 +11,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -395,10 +394,10 @@ class TestHandleDiscoveryAnalysis:
             tmp_path, run_history_path=tmp_path / "runs" / "history.jsonl",
         )
         runner.invoke.return_value = self._make_agent_result(tmp_path, sample_discoveries)
-        action = _make_action()
+        _make_action()
 
         # Patch HypothesisLibrary to track calls
-        with patch("trading_assistant.orchestrator.handlers.HypothesisLibrary", create=True) as MockLib:
+        with patch("trading_assistant.orchestrator.handlers.HypothesisLibrary", create=True):
             # Actually let the real code run, but track add_candidate calls
             # Since the import is inside the handler, we need to patch at usage point
             pass

@@ -14,9 +14,9 @@ from trading_assistant_data.normalization import (
     CRYPTO_ADJUSTMENT_POLICY,
     _manifest_for_partition,
     _rel,
-    _update_slice_index,
 )
 from trading_assistant_data.repo import git_commit_sha
+from trading_assistant_data.slices.writer import update_slice_index
 from trading_assistant_data.sources.hyperliquid.downloader import INTERVALS, HyperliquidDownloader
 from trading_assistant_data.sources.hyperliquid.store import canonicalize_candles, canonicalize_funding
 
@@ -183,7 +183,7 @@ def sync_hyperliquid(
             operations.append(operation)
 
     if writes:
-        _update_slice_index(repo, writes)
+        update_slice_index(repo, writes)
     return {
         "source": "hyperliquid",
         "dry_run": dry_run,

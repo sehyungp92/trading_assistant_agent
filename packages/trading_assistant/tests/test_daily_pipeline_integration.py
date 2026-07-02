@@ -6,7 +6,6 @@ quality gate -> prompt assembly. Validates every stage produces correct output.
 import json
 from pathlib import Path
 
-import pytest
 
 from trading_assistant.schemas.events import TradeEvent, MissedOpportunityEvent
 from trading_assistant.skills.build_daily_metrics import DailyMetricsBuilder

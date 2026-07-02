@@ -28,5 +28,14 @@ market_data/
 trading_data/
 backtest_artifacts/
 _references/
-memory/findings/
+memory/findings/*
+!memory/findings/loop_run_ledger.jsonl
+!memory/findings/loop_projection_acceptance/
+!memory/findings/loop_projection_acceptance/**
+!memory/findings/proposal_ledger.jsonl
+!memory/findings/strategy_change_ledger.jsonl
+!memory/findings/portfolio_outcomes.jsonl
+!memory/findings/performance_learning_ledger.jsonl
+!memory/findings/performance_learning_acceptance/
+!memory/findings/performance_learning_acceptance/**
 *.log

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import pytest
 
@@ -63,7 +62,7 @@ class TestBatchLoadPipeline:
     """5c: Batch-load suggestions in autonomous pipeline."""
 
     async def test_process_new_suggestions_batch_loads(self, tmp_path):
-        from unittest.mock import MagicMock, AsyncMock
+        from unittest.mock import MagicMock
         from trading_assistant.skills.autonomous_pipeline import AutonomousPipeline
 
         store = tmp_path / "findings"

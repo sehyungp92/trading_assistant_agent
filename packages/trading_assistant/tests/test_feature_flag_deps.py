@@ -1,11 +1,9 @@
 """Tests for feature flag dependency handling (Task 7)."""
 from __future__ import annotations
 
-from pathlib import Path
 
 import pytest
 
-from trading_assistant.schemas.deployment_monitoring import DeploymentStatus
 from trading_assistant.skills.deployment_monitor import DeploymentMonitor
 
 

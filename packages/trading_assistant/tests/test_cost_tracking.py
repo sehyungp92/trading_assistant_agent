@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from unittest.mock import AsyncMock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -13,10 +13,7 @@ from trading_assistant.orchestrator.cost_tracker import CostTracker
 from trading_assistant.orchestrator.event_stream import EventStream
 from trading_assistant.orchestrator.session_store import SessionStore
 from trading_assistant.schemas.agent_preferences import (
-    AgentPreferences,
     AgentProvider,
-    AgentSelection,
-    AgentWorkflow,
     ProviderReadiness,
 )
 from trading_assistant.schemas.cost_tracking import CostRecord, CostSummary

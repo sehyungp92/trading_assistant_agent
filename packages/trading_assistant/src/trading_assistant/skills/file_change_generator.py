@@ -377,7 +377,7 @@ class FileChangeGenerator:
 
             if not isinstance(value, ast.Dict):
                 continue
-            for key_node, item_node in zip(value.keys, value.values):
+            for key_node, item_node in zip(value.keys, value.values, strict=False):
                 if (
                     isinstance(key_node, ast.Constant)
                     and isinstance(key_node.value, str)

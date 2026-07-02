@@ -4,13 +4,10 @@ from __future__ import annotations
 import json
 
 import pytest
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock
-from datetime import datetime, timezone
+from unittest.mock import AsyncMock
 
 from trading_assistant.orchestrator.event_stream import EventStream
 from trading_assistant.orchestrator.handlers import Handlers
-from trading_assistant.orchestrator.orchestrator_brain import Action, ActionType
 from trading_assistant.schemas.notifications import NotificationPreferences
 
 

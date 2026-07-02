@@ -1,4 +1,4 @@
-"""Orchestrator FastAPI entry point — wires all components together.
+"""Orchestrator FastAPI entry point - wires all components together.
 
 Run with: uvicorn trading_assistant.orchestrator.app:app --reload
 For production, use create_app() factory to configure paths.
@@ -6,237 +6,70 @@ For production, use create_app() factory to configure paths.
 
 from __future__ import annotations
 
-import asyncio
-import hashlib
 import json
 import logging
-import threading
-from contextlib import asynccontextmanager
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from starlette.responses import JSONResponse
 
 from trading_assistant.comms.dispatcher import NotificationDispatcher
-from trading_assistant.comms.telegram_handlers import TelegramCallbackResponse, TelegramCallbackRouter
-from trading_assistant.comms.telegram_renderer import TelegramRenderer
-from trading_assistant.orchestrator.adapters.vps_receiver import VPSReceiver
-from trading_assistant.orchestrator.agent_runner import AgentRunner
 from trading_assistant.orchestrator.agent_preferences import WORKFLOW_ORDER
-from trading_assistant.orchestrator.cost_tracker import CostTracker
-from trading_assistant.orchestrator.catchup import StartupCatchup, bootstrap_run_store_from_history
-from trading_assistant.orchestrator.latency_tracker import LatencyTracker
 from trading_assistant.orchestrator.config import AppConfig
-from trading_assistant.orchestrator.conversation_tracker import ConversationTracker
-from trading_assistant.orchestrator.data_paths import resolve_data_dirs
-from trading_assistant.orchestrator.db.queue import EventQueue
-from trading_assistant.orchestrator.event_stream import AuditTrailConsumer, EventStream
-from trading_assistant.orchestrator.handlers import Handlers
-from trading_assistant.orchestrator.input_sanitizer import InputSanitizer
-from trading_assistant.orchestrator.memory_consolidator import MemoryConsolidator
-from trading_assistant.orchestrator.monitoring import MonitoringCheck, MonitoringLoop
-from trading_assistant.orchestrator.orchestrator_brain import Action, ActionType, OrchestratorBrain
-from trading_assistant.orchestrator.scheduler import (
-    SchedulerConfig,
-    ScheduledJobRunner,
-    ScheduledJobSpec,
-    build_scheduled_job_specs,
-    job_specs_to_scheduler_jobs,
+from trading_assistant.orchestrator.event_validation import (
+    QueueEventValidationError,
+    normalize_queue_event,
 )
-from trading_assistant.orchestrator.scheduled_runs import ScheduledRunStore
-from trading_assistant.orchestrator.session_store import SessionStore
-from trading_assistant.orchestrator.skills_registry import SkillsRegistry
-from trading_assistant.orchestrator.subagent import CapacityExceeded, SubagentManager
-from trading_assistant.orchestrator.task_registry import TaskRegistry
-from trading_assistant.orchestrator.worker import Worker
+from trading_assistant.orchestrator.input_sanitizer import InputSanitizer
+from trading_assistant.orchestrator.runtime_validation import (
+    runtime_config_summary,
+    validate_auth_config,
+)
+from trading_assistant.orchestrator.runtime import (
+    RuntimeBuildHooks,
+    build_control_plane_runtime,
+)
+from trading_assistant.orchestrator.runtime_callbacks import register_runtime_callbacks
+from trading_assistant.orchestrator.runtime_dispatch import wire_worker_dispatch
+from trading_assistant.orchestrator.runtime_jobs import build_runtime_scheduler_wiring
+from trading_assistant.orchestrator.runtime_scheduled_callbacks import (
+    build_runtime_job_callbacks,
+    expire_approvals_with_notification as _expire_approvals_with_notification,
+    requires_monthly_outcome as _requires_monthly_outcome,
+)
+from trading_assistant.orchestrator.runtime_lifespan import build_runtime_lifespan
 from trading_assistant.schemas.agent_preferences import (
     AgentPreferences,
     AgentProvider,
     AgentSelection,
     AgentWorkflow,
 )
+from trading_assistant.schemas.tasks import TaskStatus
 from trading_assistant.schemas.notifications import (
-    ChannelConfig,
     NotificationChannel,
-    NotificationPayload,
     NotificationPreferences,
-    NotificationPriority,
 )
 
 logger = logging.getLogger(__name__)
 
-
-def _run_coroutine_in_thread(coro):
-    box: dict[str, object] = {}
-
-    def runner() -> None:
-        try:
-            box["result"] = asyncio.run(coro)
-        except Exception as exc:  # pragma: no cover - defensive bridge for optional LLM review
-            box["error"] = exc
-
-    thread = threading.Thread(target=runner, daemon=True)
-    thread.start()
-    thread.join()
-    if "error" in box:
-        raise box["error"]  # type: ignore[misc]
-    return box.get("result", {"actions": []})
-
-
-def _extract_json_object(text: str) -> dict:
-    raw = str(text or "").strip()
-    if not raw:
-        return {"actions": []}
-    try:
-        parsed = json.loads(raw)
-        return parsed if isinstance(parsed, dict) else {"actions": []}
-    except json.JSONDecodeError:
-        start = raw.find("{")
-        end = raw.rfind("}")
-        if start >= 0 and end > start:
-            try:
-                parsed = json.loads(raw[start:end + 1])
-                return parsed if isinstance(parsed, dict) else {"actions": []}
-            except json.JSONDecodeError:
-                return {"actions": []}
-    return {"actions": []}
+__all__ = [
+    "app",
+    "create_app",
+    "_expire_approvals_with_notification",
+    "_requires_monthly_outcome",
+]
 
 
 def _utc_now() -> datetime:
     return datetime.now(timezone.utc).replace(microsecond=0)
 
 
-def _scope_token(scope_key: str) -> str:
-    return hashlib.sha256(scope_key.encode("utf-8")).hexdigest()[:10]
-
-
-def _build_scheduled_event(
-    *,
-    job_key: str,
-    scope_key: str,
-    scheduled_for: datetime,
-    event_type: str,
-    bot_id: str,
-    payload: dict,
-) -> dict:
-    scheduled_for = scheduled_for.astimezone(timezone.utc).replace(microsecond=0)
-    received_at = _utc_now()
-    event_id = (
-        f"{job_key}-{_scope_token(scope_key)}-"
-        f"{scheduled_for.strftime('%Y%m%dT%H%M')}"
-    )
-    payload = dict(payload)
-    # Embed scheduled-run identity so handlers can signal cron completion (P1-3).
-    payload.setdefault("__scheduled_run__", {
-        "job_key": job_key,
-        "scope_key": scope_key,
-        "scheduled_for": scheduled_for.isoformat(),
-    })
-    return {
-        "event_id": event_id,
-        "bot_id": bot_id,
-        "event_type": event_type,
-        "payload": json.dumps(payload),
-        "exchange_timestamp": scheduled_for.isoformat(),
-        "received_at": received_at.isoformat(),
-    }
-
-
-# P1-4: hard cap on /ingest payload size. 256 KB is generous for any single
-# event we expect; bigger payloads are almost always bugs or attacks.
-_MAX_INGEST_PAYLOAD_BYTES = 256 * 1024
-
-# bot_ids that are allowed to ingest events even when not in config.bot_ids.
-# These are system-internal sources (scheduler triggers, user feedback, etc.).
-_SYSTEM_BOT_IDS = frozenset({"system", "scheduler", "user", "orchestrator"})
-
-
-def _check_ingest_payload_size(payload: str) -> None:
-    payload_bytes = len(payload.encode("utf-8"))
-    if payload_bytes > _MAX_INGEST_PAYLOAD_BYTES:
-        raise HTTPException(
-            status_code=413,
-            detail=(
-                f"Payload too large: {payload_bytes} bytes "
-                f"(max {_MAX_INGEST_PAYLOAD_BYTES})"
-            ),
-        )
-
-
 def _normalize_queue_event(event: dict, allowed_bot_ids: set[str] | None = None) -> dict:
-    normalized = dict(event)
-    missing = [
-        field for field in ("event_id", "bot_id", "event_type", "payload")
-        if field not in normalized
-    ]
-    if missing:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Missing required event field(s): {', '.join(missing)}",
-        )
-
-    for field in ("event_id", "bot_id", "event_type"):
-        if not isinstance(normalized[field], str) or not normalized[field].strip():
-            raise HTTPException(
-                status_code=400,
-                detail=f"'{field}' must be a non-empty string",
-            )
-
-    bot_id = normalized["bot_id"]
-    if allowed_bot_ids is not None:
-        permitted = allowed_bot_ids | _SYSTEM_BOT_IDS
-        if bot_id not in permitted:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Unknown bot_id: {bot_id!r}",
-            )
-
-    payload = normalized["payload"]
-    if isinstance(payload, (dict, list)):
-        normalized["payload"] = json.dumps(payload)
-    elif not isinstance(payload, str):
-        raise HTTPException(
-            status_code=400,
-            detail="'payload' must be a JSON string, object, or array",
-        )
-
-    _check_ingest_payload_size(normalized["payload"])
-
-    if normalized.get("event_type") == "user_feedback":
-        try:
-            feedback_payload = json.loads(normalized["payload"])
-        except json.JSONDecodeError:
-            raise HTTPException(
-                status_code=400,
-                detail="user_feedback payload must be a JSON object",
-            )
-        if not isinstance(feedback_payload, dict):
-            raise HTTPException(
-                status_code=400,
-                detail="user_feedback payload must be a JSON object",
-            )
-        feedback_text = feedback_payload.get("text")
-        if feedback_text is None or not str(feedback_text).strip():
-            raise HTTPException(
-                status_code=400,
-                detail="user_feedback payload requires non-empty text",
-            )
-        sanitized = InputSanitizer().sanitize(str(feedback_text), source="ingest")
-        if not sanitized.safe:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Feedback rejected: {sanitized.reason}",
-            )
-        feedback_payload["text"] = sanitized.content
-        feedback_payload.setdefault("intent", sanitized.intent)
-        normalized["payload"] = json.dumps(feedback_payload)
-
-    _check_ingest_payload_size(normalized["payload"])
-
-    received_at = normalized.setdefault("received_at", _utc_now().isoformat())
-    normalized.setdefault("exchange_timestamp", received_at)
-    return normalized
+    try:
+        return normalize_queue_event(event, allowed_bot_ids=allowed_bot_ids)
+    except QueueEventValidationError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
 
 
 def _load_notification_prefs(prefs_path: Path) -> NotificationPreferences:
@@ -272,7 +105,7 @@ def _seed_agent_preferences(config: AppConfig) -> AgentPreferences:
     default_selection = _selection_from_env(
         config.agent_default_provider,
         config.agent_default_model,
-    ) or AgentSelection(provider=AgentProvider.CLAUDE_MAX)
+    ) or AgentSelection(provider=AgentProvider.CODEX_PRO)
 
     overrides: dict[AgentWorkflow, AgentSelection | None] = {}
     workflow_env_map = (
@@ -287,6 +120,11 @@ def _seed_agent_preferences(config: AppConfig) -> AgentPreferences:
             AgentWorkflow.MONTHLY_MODEL_REVIEW,
             config.monthly_model_review_agent_provider,
             config.monthly_model_review_agent_model,
+        ),
+        (
+            AgentWorkflow.MONTHLY_VERIFIER,
+            config.monthly_verifier_agent_provider,
+            config.monthly_verifier_agent_model,
         ),
         (AgentWorkflow.TRIAGE, config.triage_agent_provider, config.triage_agent_model),
     )
@@ -354,49 +192,6 @@ def _legacy_agent_workflows(payload: dict) -> list[str]:
     return sorted(legacy)
 
 
-def _requires_monthly_outcome(suggestion: dict) -> bool:
-    """Return True for material strategy/config changes.
-
-    Daily and weekly outcome measurement can still provide early-warning
-    context, but material changes wait for monthly validation before the
-    suggestion lifecycle is finalized.
-    """
-    tier = str(suggestion.get("tier") or "").lower()
-    category = str(suggestion.get("category") or "").lower()
-    change_kind = str(suggestion.get("change_kind") or suggestion.get("kind") or "").lower()
-    risk = str(
-        (suggestion.get("implementation_context") or {}).get("risk_classification")
-        or suggestion.get("risk_classification")
-        or ""
-    ).lower()
-    has_config_change = bool(
-        suggestion.get("param_name")
-        or suggestion.get("param_changes")
-        or suggestion.get("planned_files")
-        or suggestion.get("strategy_id")
-    )
-    material_tokens = {
-        "parameter",
-        "parameter_change",
-        "filter",
-        "filter_threshold",
-        "strategy_variant",
-        "structural",
-        "position_sizing",
-        "regime_gate",
-        "stop_loss",
-        "exit_timing",
-        "signal",
-    }
-    return (
-        has_config_change
-        or tier in material_tokens
-        or category in material_tokens
-        or change_kind in material_tokens
-        or risk in {"medium", "high", "critical"}
-    )
-
-
 def _register_channel_adapters(
     config: AppConfig,
     dispatcher: NotificationDispatcher,
@@ -449,1988 +244,71 @@ def _register_channel_adapters(
     return adapters
 
 
-async def _expire_approvals_with_notification(
-    approval_tracker,
-    telegram_bot,
-    dispatcher,
-    notification_prefs,
-) -> None:
-    """Expire old approvals and send notification for each expired request."""
-    expired_ids = approval_tracker.expire_old(max_age_days=7)
-    if not expired_ids and telegram_bot is None:
-        return
-    for rid in expired_ids:
-        logger.info("Approval request %s expired", rid)
-        if telegram_bot is not None:
-            try:
-                req = approval_tracker.get_by_id(rid)
-                params = ", ".join(
-                    pc.get("param_name", "?") for pc in (req.param_changes if req else [])
-                )
-                text = (
-                    f"\u23f0 Approval Expired: {rid}\n"
-                    f"Bot: {req.bot_id if req else '?'}\n"
-                    f"Params: {params}\n"
-                    f"Request was pending for >7 days."
-                )
-                await telegram_bot.send_message(text)
-                # Also edit the original card if message_id exists
-                if req and req.message_id:
-                    try:
-                        await telegram_bot.edit_message(
-                            req.message_id,
-                            f"Suggestion {rid}\nBot: {req.bot_id}\n\u23f0 EXPIRED — pending >7 days",
-                        )
-                    except Exception:
-                        pass
-            except Exception:
-                logger.warning("Failed to send expiry notification for %s", rid)
-
-
-_LOOPBACK_HOSTS = {"127.0.0.1", "::1", "localhost"}
-
-
 def _enforce_public_bind_requires_auth(config: AppConfig) -> None:
-    """Refuse to start without API auth unless local dev explicitly opts out.
-
-    P0-2: the auth middleware short-circuits when ORCHESTRATOR_API_KEY is empty.
-    That is now allowed only for an explicit loopback-only dev configuration.
-    """
-    host = (config.bind_host or "").strip().lower()
-    if config.orchestrator_api_key:
-        return
-    if config.allow_unauthenticated_local and host in _LOOPBACK_HOSTS:
-        return
-    raise RuntimeError(
-        "Orchestrator refusing to start without ORCHESTRATOR_API_KEY. Set an "
-        "API key, or for local-only development set "
-        "ALLOW_UNAUTHENTICATED_LOCAL=true and bind to 127.0.0.1/localhost. "
-        f"Current BIND_HOST={config.bind_host!r}."
-    )
+    """Backward-compatible wrapper for auth startup validation."""
+    validate_auth_config(config)
 
 
 def create_app(db_dir: str | None = None, config: AppConfig | None = None) -> FastAPI:
     """Factory function. Tests inject a temp directory for DB files."""
-    if config is None:
-        config = AppConfig.from_env()
-    _enforce_public_bind_requires_auth(config)
-    if db_dir is None:
-        db_dir = config.data_dir
-
-    db_path = Path(db_dir)
-    data_dirs = resolve_data_dirs(db_path)
-    raw_data_dir = data_dirs.raw_data_dir
-    curated_dir = data_dirs.curated_dir
+    runtime = build_control_plane_runtime(
+        config=config,
+        db_dir=db_dir,
+        hooks=RuntimeBuildHooks(
+            load_notification_preferences=_load_notification_prefs,
+            save_notification_preferences=_save_notification_prefs,
+            load_agent_preferences=_load_agent_preferences,
+            register_channel_adapters=_register_channel_adapters,
+        ),
+    )
+    config = runtime.config
+    db_path = runtime.db_path
+    memory_dir = runtime.memory_dir
+    queue = runtime.queue
+    registry = runtime.registry
+    worker = runtime.worker
+    event_stream = runtime.event_stream
+    session_store = runtime.session_store
+    subagent_mgr = runtime.subagent_mgr
+    agent_runner = runtime.agent_runner
+    brain = runtime.brain
+    handlers = runtime.handlers
+    prefs_path = runtime.prefs_path
+    agent_prefs_path = runtime.agent_prefs_path
+    callback_router = runtime.telegram_callback_router
+    telegram_renderer = runtime.telegram_renderer
+    vps_receiver = runtime.vps_receiver
+    latency_tracker = runtime.latency_tracker
+    structural_experiment_tracker = runtime.structural_experiment_tracker
+    curated_dir = runtime.curated_dir
+    raw_data_dir = runtime.raw_data_dir
+    hypothesis_library = runtime.hypothesis_library
+    data_dirs = runtime.data_dirs
     logger.info(
         "Resolved data dirs: db=%s raw=%s curated=%s legacy_curated=%s",
-        db_path, raw_data_dir, curated_dir, data_dirs.legacy_curated_dir,
-    )
-    queue = EventQueue(db_path=str(db_path / "events.db"))
-    registry = TaskRegistry(db_path=str(db_path / "tasks.db"))
-    scheduled_run_store = ScheduledRunStore(db_path=str(db_path / "scheduled_runs.db"))
-    brain = OrchestratorBrain()
-    event_stream = EventStream()
-    conversation_tracker = ConversationTracker()
-    worker = Worker(
-        queue=queue, registry=registry, brain=brain,
-        event_stream=event_stream, conversation_tracker=conversation_tracker,
-        raw_data_dir=raw_data_dir,
-        bot_configs=config.bot_configs,
-    )
-    session_store = SessionStore(base_dir=str(db_path / ".assistant" / "sessions"))
-    subagent_mgr = SubagentManager()
-
-    # Latency tracker — shared across VPSReceiver, monitoring, and /metrics
-    latency_tracker = LatencyTracker()
-    prefs_path = db_path / "data" / "notification_prefs.json"
-    notification_prefs = _load_notification_prefs(prefs_path)
-    agent_prefs_path = db_path / "data" / "agent_preferences.json"
-    agent_preferences = _load_agent_preferences(agent_prefs_path, config)
-
-    # Integration layer components
-    dispatcher = NotificationDispatcher()
-    skills_registry = SkillsRegistry()
-    cost_tracker = CostTracker(db_path / "data" / "cost_log.jsonl")
-    from trading_assistant.orchestrator.run_index import RunIndex
-    run_index = RunIndex(db_path / "data" / "run_index.db")
-    from trading_assistant.skills.learning_write_coordinator import LearningWriteCoordinator
-    write_coordinator = LearningWriteCoordinator(
-        findings_dir=db_path / "memory" / "findings",
-        event_stream=event_stream,
-    )
-    agent_runner = AgentRunner(
-        runs_dir=db_path / "runs",
-        session_store=session_store,
-        claude_command=config.claude_command,
-        claude_command_args=config.claude_command_args,
-        codex_command=config.codex_command,
-        codex_command_args=config.codex_command_args,
-        skills_registry=skills_registry,
-        preferences=agent_preferences,
-        zai_api_key=config.zai_api_key,
-        openrouter_api_key=config.openrouter_api_key,
-        event_stream=event_stream,
-        cost_tracker=cost_tracker,
-        run_index=run_index,
-    )
-    monitoring_loop = MonitoringLoop(
-        checks=[MonitoringCheck(
-            registry=registry,
-            heartbeat_dir=str(db_path / "heartbeats"),
-            queue=queue,
-            brain=brain,
-            heartbeat_md_path=str(db_path / "memory" / "heartbeat.md"),
-            relay_url=config.relay_url,
-            latency_tracker=latency_tracker,
-        )],
-        event_stream=event_stream,
+        db_path,
+        raw_data_dir,
+        curated_dir,
+        data_dirs.legacy_curated_dir,
     )
 
-    # Register channel adapters from config
-    channel_adapters = _register_channel_adapters(config, dispatcher)
-
-    # Auto-seed notification preferences from registered adapters if empty
-    if not notification_prefs.channels and dispatcher.adapters:
-        seeded_channels = []
-        for channel in dispatcher.adapters:
-            chat_id = ""
-            if channel == NotificationChannel.TELEGRAM:
-                chat_id = config.telegram_chat_id or ""
-            elif channel == NotificationChannel.EMAIL:
-                chat_id = config.email_to or ""
-            seeded_channels.append(ChannelConfig(channel=channel, enabled=True, chat_id=chat_id))
-        notification_prefs = NotificationPreferences(channels=seeded_channels)
-        _save_notification_prefs(notification_prefs, prefs_path)
-        logger.info("Auto-seeded notification preferences from %d registered adapters", len(seeded_channels))
-
-    # Extract Telegram adapter reference (needed for autonomous pipeline)
-    telegram_adapter = None
-    for adapter in channel_adapters:
-        from trading_assistant.comms.telegram_bot import TelegramBotAdapter as _TBA
-        if isinstance(adapter, _TBA):
-            telegram_adapter = adapter
-            break
-
-    callback_router = TelegramCallbackRouter() if telegram_adapter is not None else None
-    telegram_renderer = TelegramRenderer() if telegram_adapter is not None else None
-
-    # SuggestionTracker — shared path with ContextBuilder (memory/findings/)
-    from trading_assistant.skills.suggestion_tracker import SuggestionTracker
-
-    suggestion_tracker = SuggestionTracker(store_dir=db_path / "memory" / "findings")
-
-    # ProposalLedger — unified record of every proposal the system produces.
-    # Sits alongside SuggestionTracker; handlers write into both so existing
-    # consumers (autonomous pipeline, approval flow) keep working unchanged.
-    from trading_assistant.skills.proposal_ledger import ProposalLedger
-
-    proposal_ledger = ProposalLedger(store_dir=db_path / "memory" / "findings")
-
-    # Shared approval / PR infrastructure. The legacy autonomous suggestion
-    # processor is still feature-flagged, but monthly approval-gated validation
-    # and deployment monitoring also need this plumbing.
-    autonomous_pipeline = None
-    approval_tracker = None
-    approval_handler = None
-    config_registry = None
-    file_change_gen = None
-    pr_builder = None
-    repo_workspace_manager = None
-    repo_task_runner = None
-    calibration_tracker = None
-    telegram_bot = telegram_adapter
-    shared_approval_enabled = (
-        config.autonomous_enabled
-        or config.monthly_validation_mode == "approval_gated"
-        or config.deployment_monitoring_enabled
-    )
-    if shared_approval_enabled:
-        from trading_assistant.orchestrator.repo_task_runner import RepoTaskRunner
-        from trading_assistant.skills.approval_handler import ApprovalHandler
-        from trading_assistant.skills.approval_tracker import ApprovalTracker
-        from trading_assistant.skills.config_registry import ConfigRegistry as _ConfigRegistry
-        from trading_assistant.skills.file_change_generator import FileChangeGenerator
-        from trading_assistant.skills.github_pr import PRBuilder
-        from trading_assistant.skills.repo_workspace import RepoWorkspaceManager
-
-        config_registry = _ConfigRegistry(Path(config.bot_config_dir))
-        approval_tracker = ApprovalTracker(db_path / "memory" / "findings" / "approvals.jsonl")
-        file_change_gen = FileChangeGenerator()
-        pr_builder = PRBuilder(dry_run=False, github_token=config.github_token)
-        repo_workspace_manager = RepoWorkspaceManager(
-            cache_root=Path(config.bot_repo_cache_dir),
-            task_root=db_path / "runs" / "repo_tasks",
-        )
-        repo_task_runner = RepoTaskRunner(agent_runner)
-
-        approval_handler = ApprovalHandler(
-            approval_tracker=approval_tracker,
-            suggestion_tracker=suggestion_tracker,
-            file_change_generator=file_change_gen,
-            pr_builder=pr_builder,
-            config_registry=config_registry,
-            event_stream=event_stream,
-            telegram_bot=telegram_bot,
-            repo_workspace_manager=repo_workspace_manager,
-            repo_task_runner=repo_task_runner,
-            # structural_experiment_tracker wired after creation below
-            # hypothesis_library wired after creation below
-        )
-
-    if config.autonomous_enabled:
-        from trading_assistant.skills.autonomous_pipeline import AutonomousPipeline
-        from trading_assistant.skills.suggestion_backtester import SuggestionBacktester
-
-        if not shared_approval_enabled or approval_tracker is None or config_registry is None:
-            logger.warning(
-                "Autonomous pipeline requested but shared approval infrastructure "
-                "was unavailable; autonomous pipeline disabled"
-            )
-        else:
-            backtester = SuggestionBacktester(config_registry, db_path)
-
-            # Parameter searcher for iterative neighborhood exploration
-            from trading_assistant.skills.parameter_searcher import ParameterSearcher
-            from trading_assistant.skills.backtest_calibration_tracker import BacktestCalibrationTracker
-            from trading_assistant.skills.cost_model import CostModel
-            from trading_assistant.skills.backtest_simulator import BacktestSimulator as _BacktestSim
-
-            _cost_cfg = getattr(config, "cost_model_config", None)
-            if _cost_cfg:
-                _cost_model = CostModel(_cost_cfg)
-                _simulator = _BacktestSim(_cost_model)
-                parameter_searcher = ParameterSearcher(
-                    config_registry=config_registry,
-                    simulator=_simulator,
-                    cost_model=_cost_model,
-                )
-            else:
-                parameter_searcher = None
-
-            calibration_tracker = BacktestCalibrationTracker(
-                store_dir=db_path / "memory" / "findings",
-            )
-
-            autonomous_pipeline = AutonomousPipeline(
-                config_registry=config_registry,
-                backtester=backtester,
-                approval_tracker=approval_tracker,
-                suggestion_tracker=suggestion_tracker,
-                telegram_bot=telegram_bot,
-                telegram_renderer=telegram_renderer,
-                event_stream=event_stream,
-                parameter_searcher=parameter_searcher,
-                experiment_config_generator=None,
-                proposal_ledger=proposal_ledger,
-                calibration_tracker=calibration_tracker,
-                search_log_dir=db_path / "memory" / "findings",
-                curated_dir=curated_dir,
-            )
-            logger.info("Autonomous pipeline enabled")
-
-    # PR review check function (needs shared approval_tracker + pr_builder)
-    async def _check_pr_reviews() -> None:
-        """Check PR reviews for approved requests and notify on attention needed."""
-        if approval_tracker is None:
-            return
-        try:
-            if pr_builder is None:
-                return
-            _pr_builder = pr_builder
-            approved_with_prs = approval_tracker.get_approved_with_prs()
-            for req in approved_with_prs:
-                if not req.pr_url:
-                    continue
-                profile = None
-                if config_registry is not None:
-                    profile = config_registry.get_profile(req.bot_id)
-                repo_dir = Path(profile.repo_dir) if profile else db_path
-                status = await _pr_builder.check_pr_reviews(req.pr_url, repo_dir)
-                if status and status.needs_attention:
-                    msg = (
-                        f"\U0001f50d PR Review Needs Attention\n"
-                        f"PR: {status.pr_url}\n"
-                        f"State: {status.review_state.value}\n"
-                        f"Reviewers: {', '.join(status.reviewers) or 'none'}\n"
-                    )
-                    if status.actionable_comments:
-                        msg += f"Comments: {len(status.actionable_comments)}\n"
-                    if telegram_adapter is not None:
-                        try:
-                            await telegram_adapter.send_message(msg)
-                        except Exception:
-                            logger.warning("Failed to send PR review notification")
-                    if event_stream:
-                        event_stream.broadcast("pr_review_needs_attention", {
-                            "request_id": req.request_id,
-                            "pr_url": req.pr_url,
-                            "review_state": status.review_state.value,
-                        })
-        except Exception:
-            logger.exception("PR review check failed")
-
-    # ThresholdLearner — adaptive threshold learning (feature-flagged)
-    threshold_learner = None
-    if config.adaptive_thresholds_enabled:
-        from trading_assistant.skills.threshold_learner import ThresholdLearner
-
-        threshold_learner = ThresholdLearner(findings_dir=db_path / "memory" / "findings")
-        logger.info("Adaptive threshold learning enabled")
-
-    # Deployment monitor (feature-flagged)
-    deployment_monitor = None
-    if config.deployment_monitoring_enabled:
-        from trading_assistant.skills.deployment_monitor import DeploymentMonitor
-
-        if pr_builder is None or config_registry is None or file_change_gen is None:
-            logger.warning(
-                "deployment_monitoring_enabled=True but shared approval "
-                "infrastructure is unavailable: rollback PRs will not work"
-            )
-        deployment_monitor = DeploymentMonitor(
-            findings_dir=db_path / "memory" / "findings",
-            curated_dir=curated_dir,
-            pr_builder=pr_builder,
-            config_registry=config_registry,
-            event_stream=event_stream,
-            file_change_generator=file_change_gen,
-        )
-        logger.info("Deployment monitoring enabled")
-
-    # Experiment manager (feature-flagged)
-    experiment_manager = None
-    experiment_config_gen = None
-    if config.ab_testing_enabled:
-        from trading_assistant.skills.experiment_manager import ExperimentManager
-        from trading_assistant.skills.experiment_config_generator import ExperimentConfigGenerator
-
-        experiment_manager = ExperimentManager(
-            findings_dir=db_path / "memory" / "findings",
-        )
-        experiment_config_gen = ExperimentConfigGenerator(
-            config_registry=config_registry,
-        )
-        logger.info("A/B testing enabled")
-
-    # ReliabilityTracker — tracks bug fix interventions and recurrence
-    from trading_assistant.skills.reliability_tracker import ReliabilityTracker
-
-    reliability_tracker = ReliabilityTracker(store_dir=db_path / "memory" / "findings")
-
-    # StructuralExperimentTracker — tracks structural experiment lifecycle
-    from trading_assistant.skills.structural_experiment_tracker import StructuralExperimentTracker
-
-    structural_experiment_tracker = StructuralExperimentTracker(
-        store_dir=db_path / "memory" / "findings",
+    runtime_dispatch = wire_worker_dispatch(runtime)
+    _reconcile_linked_subagent_tasks = runtime_dispatch.reconcile_linked_subagent_tasks
+    callback_router = register_runtime_callbacks(
+        runtime,
+        save_agent_preferences=_save_agent_preferences,
     )
 
-    # Wire structural_experiment_tracker into approval_handler (created before tracker)
-    if approval_handler is not None:
-        approval_handler._structural_experiment_tracker = structural_experiment_tracker
-
-    handlers = Handlers(
-        agent_runner=agent_runner,
-        event_stream=event_stream,
-        dispatcher=dispatcher,
-        notification_prefs=notification_prefs,
-        curated_dir=curated_dir,
-        raw_data_dir=raw_data_dir,
-        memory_dir=db_path / "memory",
-        runs_dir=db_path / "runs",
-        source_root=db_path,
-        bots=config.bot_ids,
-        heartbeat_dir=db_path / "heartbeats",
-        failure_log_path=db_path / "data" / "failure_log.jsonl",
-        worker=worker,
-        brain=brain,
-        suggestion_tracker=suggestion_tracker,
-        autonomous_pipeline=autonomous_pipeline,
-        approval_handler=approval_handler,
-        approval_tracker=approval_tracker,
-        pr_builder=pr_builder,
-        config_registry=config_registry,
-        repo_workspace_manager=repo_workspace_manager,
-        deployment_monitor=deployment_monitor,
-        threshold_learner=threshold_learner,
-        experiment_manager=experiment_manager,
-        experiment_config_gen=experiment_config_gen,
-        bot_configs=config.bot_configs,
-        reliability_tracker=reliability_tracker,
-        structural_experiment_tracker=structural_experiment_tracker,
-        strategy_registry=config.strategy_registry,
-        run_index=run_index,
-        proposal_ledger=proposal_ledger,
-        calibration_tracker=calibration_tracker,
-        scheduled_run_store=scheduled_run_store,
-        market_data_root=config.market_data_root,
-        backtest_repo_path=config.backtest_repo_path,
-        backtest_artifact_root=config.backtest_artifact_root,
-        monthly_validation_mode=config.monthly_validation_mode,
-        monthly_optimizer_sequence_enabled=config.monthly_optimizer_sequence_enabled,
-        monthly_backtest_command=config.monthly_backtest_command,
-        monthly_workflow_contract_path=config.monthly_workflow_contract_path,
-        monthly_workflow_contract_version=config.monthly_workflow_contract_version,
-        monthly_strategy_plugin_contract_path=config.monthly_strategy_plugin_contract_path,
-        market_data_required_coverage_ratio=config.market_data_required_coverage_ratio,
-        telemetry_required_lineage_ratio=config.telemetry_required_lineage_ratio,
-        backtest_command_timeout_seconds=config.backtest_command_timeout_seconds,
+    scheduler_wiring = build_runtime_scheduler_wiring(
+        runtime,
+        build_runtime_job_callbacks(
+            runtime,
+            reconcile_linked_subagent_tasks=_reconcile_linked_subagent_tasks,
+        ),
     )
+    scheduled_job_specs = scheduler_wiring.job_specs
 
-    # Late-wire experiment components into autonomous pipeline (defined after pipeline creation)
-    if config.autonomous_enabled and autonomous_pipeline is not None:
-        autonomous_pipeline._experiment_tracker = structural_experiment_tracker
-        if experiment_config_gen is not None:
-            autonomous_pipeline._experiment_config_generator = experiment_config_gen
-        if experiment_manager is not None:
-            autonomous_pipeline._experiment_manager = experiment_manager
-
-    # Wire handler slots on worker
-    worker.on_alert = handlers.handle_alert
-    worker.on_heartbeat = handlers.handle_heartbeat
-    worker.on_notification = handlers.handle_notification
-
-    async def _spawn_or_raise(agent_type: str, coro):
-        agent_id = await subagent_mgr.spawn(agent_type, coro)
-        if agent_id is None:
-            running = len(subagent_mgr.get_running())
-            raise CapacityExceeded(
-                f"No subagent slot for {agent_type} "
-                f"({running}/{subagent_mgr.max_concurrent} in use)"
-            )
-        return agent_id
-
-    # Long-running handlers are spawned via SubagentManager. CapacityExceeded
-    # propagates to the worker so the trigger event is nacked and retried
-    # rather than silently acked.
-    worker.on_triage = lambda action: _spawn_or_raise(
-        "triage", lambda a=action: handlers.handle_triage(a))
-    worker.on_daily_analysis = lambda action: _spawn_or_raise(
-        "daily_analysis", lambda a=action: handlers.handle_daily_analysis(a))
-    worker.on_weekly_analysis = lambda action: _spawn_or_raise(
-        "weekly_analysis", lambda a=action: handlers.handle_weekly_analysis(a))
-    worker.on_monthly_validation = lambda action: _spawn_or_raise(
-        "monthly_validation", lambda a=action: handlers.handle_monthly_validation(a))
-    worker.on_feedback = handlers.handle_feedback
-
-    def _store_agent_preferences(preferences: AgentPreferences) -> None:
-        agent_runner.update_preferences(preferences)
-        _save_agent_preferences(preferences, agent_prefs_path)
-        try:
-            app.state.agent_preferences = agent_runner.get_preferences()
-        except NameError:
-            pass
-
-    def _render_agent_settings_response(
-        scope: AgentWorkflow | str | None,
-        *,
-        edit_message: bool,
-        answer: str,
-    ) -> TelegramCallbackResponse:
-        if telegram_renderer is None:
-            return TelegramCallbackResponse(text="Telegram settings are unavailable.", answer=answer)
-        text, keyboard = telegram_renderer.render_agent_settings(
-            agent_runner.get_preferences_view(),
-            scope=scope,
-        )
-        return TelegramCallbackResponse(
-            text=text,
-            keyboard=keyboard,
-            answer=answer,
-            edit_message=edit_message,
-        )
-
-    async def _settings_command(**kwargs) -> TelegramCallbackResponse:
-        return _render_agent_settings_response(
-            None,
-            edit_message=False,
-            answer="Agent settings",
-        )
-
-    async def _settings_home(**kwargs) -> TelegramCallbackResponse:
-        return _render_agent_settings_response(
-            None,
-            edit_message=True,
-            answer="Agent settings",
-        )
-
-    async def _settings_scope(scope_name: str) -> TelegramCallbackResponse:
-        if scope_name == "global":
-            return _render_agent_settings_response(
-                "global",
-                edit_message=True,
-                answer="Global provider",
-            )
-        try:
-            workflow = AgentWorkflow(scope_name)
-        except ValueError as exc:
-            return TelegramCallbackResponse(text=f"Unknown settings scope: {exc}", answer="Invalid scope")
-        if workflow not in WORKFLOW_ORDER:
-            return TelegramCallbackResponse(text="Unknown settings scope.", answer="Invalid scope")
-        return _render_agent_settings_response(
-            workflow,
-            edit_message=True,
-            answer=f"{scope_name} settings",
-        )
-
-    async def _settings_set(payload: str) -> TelegramCallbackResponse:
-        scope_name, provider_name = (payload.split("|", 1) + [""])[:2]
-        try:
-            provider = AgentProvider(provider_name)
-        except ValueError:
-            return TelegramCallbackResponse(text="Unknown provider.", answer="Invalid provider")
-
-        prefs = agent_runner.get_preferences()
-        if scope_name == "global":
-            prefs.default = AgentSelection(provider=provider)
-            render_scope: AgentWorkflow | str | None = "global"
-        else:
-            try:
-                workflow = AgentWorkflow(scope_name)
-            except ValueError:
-                return TelegramCallbackResponse(text="Unknown workflow.", answer="Invalid workflow")
-            if workflow not in WORKFLOW_ORDER:
-                return TelegramCallbackResponse(text="Unknown workflow.", answer="Invalid workflow")
-            prefs.overrides[workflow] = AgentSelection(provider=provider)
-            render_scope = workflow
-
-        try:
-            _store_agent_preferences(prefs)
-        except ValueError as exc:
-            return TelegramCallbackResponse(text=str(exc), answer="Provider unavailable")
-
-        return _render_agent_settings_response(
-            render_scope,
-            edit_message=True,
-            answer="Provider updated",
-        )
-
-    async def _settings_clear(scope_name: str) -> TelegramCallbackResponse:
-        try:
-            workflow = AgentWorkflow(scope_name)
-        except ValueError:
-            return TelegramCallbackResponse(text="Unknown workflow.", answer="Invalid workflow")
-        if workflow not in WORKFLOW_ORDER:
-            return TelegramCallbackResponse(text="Unknown workflow.", answer="Invalid workflow")
-
-        prefs = agent_runner.get_preferences()
-        prefs.overrides.pop(workflow, None)
-        _store_agent_preferences(prefs)
-        return _render_agent_settings_response(
-            workflow,
-            edit_message=True,
-            answer="Override cleared",
-        )
-
-    if callback_router is not None:
-        callback_router.register("cmd_settings", _settings_command)
-        callback_router.register("agent_settings_home", _settings_home)
-        callback_router.register("agent_settings_scope_", _settings_scope)
-        callback_router.register("agent_settings_set_", _settings_set)
-        callback_router.register("agent_settings_clear_", _settings_clear)
-        telegram_adapter.set_callback_router(callback_router)
-
-    # Register Telegram approval callbacks when autonomous pipeline is enabled
-    if approval_handler is not None:
-        callback_router = callback_router or TelegramCallbackRouter()
-
-        async def _on_approve_callback(request_id: str) -> str:
-            response = await approval_handler.handle_approve(request_id)
-            # Auto-create deployment record if PR was created and monitoring is enabled
-            if deployment_monitor and "PR created:" in response:
-                req = approval_tracker.get_by_id(request_id)
-                if req and req.pr_url:
-                    try:
-                        import hashlib
-                        dep_id = hashlib.sha256(
-                            f"dep-{request_id}".encode(),
-                        ).hexdigest()[:16]
-                        deployment_monitor.create_deployment(
-                            deployment_id=dep_id,
-                            approval_request_id=request_id,
-                            suggestion_id=req.suggestion_id,
-                            pr_url=req.pr_url,
-                            bot_id=req.bot_id,
-                            param_changes=req.param_changes,
-                            pr_number=0,
-                        )
-                        logger.info(
-                            "Created deployment record %s for PR %s",
-                            dep_id, req.pr_url,
-                        )
-                    except Exception:
-                        logger.warning(
-                            "Failed to create deployment record for %s",
-                            request_id,
-                        )
-            return response
-
-        async def _on_reject_callback(request_id: str) -> str:
-            return await approval_handler.handle_reject(request_id)
-
-        async def _on_detail_callback(request_id: str) -> str:
-            return await approval_handler.handle_detail(request_id)
-
-        # Register prefix-based callbacks
-        callback_router.register("approve_suggestion_", _on_approve_callback)
-        callback_router.register("reject_suggestion_", _on_reject_callback)
-        callback_router.register("detail_suggestion_", _on_detail_callback)
-
-        # Register /pending command
-        async def _pending_command(**kwargs) -> str:
-            pending = approval_tracker.get_pending()
-            if not pending:
-                return "No pending approval requests"
-            lines = ["Pending approval requests:"]
-            for r in pending:
-                lines.append(f"  [{r.request_id}] {r.bot_id}: {', '.join(pc.get('param_name', '?') for pc in r.param_changes)}")
-            return "\n".join(lines)
-
-        callback_router.register("cmd_pending", _pending_command)
-
-        logger.info("Telegram approval callbacks registered")
-
-    # Register experiment Telegram callbacks (independent of autonomous pipeline)
-    if experiment_manager is not None and telegram_adapter is not None:
-        callback_router = callback_router or TelegramCallbackRouter()
-
-        async def _on_start_experiment(experiment_id: str) -> str:
-            try:
-                experiment_manager.activate_experiment(experiment_id)
-                exp = experiment_manager.get_by_id(experiment_id)
-                return f"\u25b6\ufe0f Experiment started: {exp.title if exp else experiment_id}"
-            except Exception as e:
-                return f"Failed to start experiment: {e}"
-
-        async def _on_cancel_experiment(experiment_id: str) -> str:
-            try:
-                experiment_manager.cancel_experiment(experiment_id)
-                return f"\u274c Experiment cancelled: {experiment_id}"
-            except Exception as e:
-                return f"Failed to cancel experiment: {e}"
-
-        callback_router.register("start_experiment_", _on_start_experiment)
-        callback_router.register("cancel_experiment_", _on_cancel_experiment)
-
-        logger.info("Experiment Telegram callbacks registered")
-
-    # Relay polling — only active when RELAY_URL is configured
-    vps_receiver: VPSReceiver | None = None
-    if config.relay_url:
-        vps_receiver = VPSReceiver(
-            relay_url=config.relay_url,
-            local_queue=queue,
-            api_key=config.relay_api_key,
-            latency_tracker=latency_tracker,
-        )
-
-    # ProactiveScanner for morning/evening notifications
-    from trading_assistant.skills.proactive_scanner import ProactiveScanner
-
-    scanner = ProactiveScanner()
-
-    async def _morning_scan(
-        bot_ids: list[str] | None = None,
-        scheduled_for: datetime | None = None,
-    ) -> None:
-        """Gather overnight data and dispatch morning scan notifications."""
-        from trading_assistant.orchestrator.tz_utils import bot_trading_date
-
-        reference_time = (scheduled_for or _utc_now()).astimezone(timezone.utc)
-        scan_bots = bot_ids or config.bot_ids
-        errors: list[dict] = []
-        unusual_losses: list[dict] = []
-
-        # Check dead-letter queue for errors
-        try:
-            dead_letters = await queue.get_dead_letters(limit=20)
-            for dl in dead_letters:
-                if isinstance(dl, dict):
-                    errors.append(dl)
-        except Exception:
-            logger.warning("Morning scan: could not read dead-letter queue")
-
-        # Check each bot's most recent completed trading day (per-bot timezone)
-        for bot_id in scan_bots:
-            if config.bot_configs and bot_id in config.bot_configs:
-                tz = config.bot_configs[bot_id].timezone
-            else:
-                tz = "UTC"
-            # "yesterday" in the bot's local timezone
-            yesterday = bot_trading_date(tz, reference_time - timedelta(days=1))
-            summary_path = curated_dir / yesterday / bot_id / "summary.json"
-            if summary_path.exists():
-                try:
-                    summary = json.loads(summary_path.read_text(encoding="utf-8"))
-                    pnl = summary.get("net_pnl", 0)
-                    if pnl < 0:
-                        unusual_losses.append({
-                            "bot_id": bot_id,
-                            "date": yesterday,
-                            "pnl": pnl,
-                            "reason": f"Loss on {yesterday}",
-                        })
-                except Exception:
-                    logger.warning("Morning scan: could not read summary for %s/%s", bot_id, yesterday)
-
-        result = scanner.morning_scan(events=[], errors=errors, unusual_losses=unusual_losses)
-        hour_utc = reference_time.hour
-        for payload in result.payloads:
-            try:
-                await dispatcher.dispatch(payload, notification_prefs, hour_utc)
-            except Exception:
-                logger.exception("Morning scan dispatch failed")
-
-    async def _evening_report(
-        bot_ids: list[str] | None = None,
-        scheduled_for: datetime | None = None,
-    ) -> None:
-        """Check if daily report is ready and send evening notification."""
-        from trading_assistant.orchestrator.tz_utils import bot_trading_date
-
-        reference_time = (scheduled_for or _utc_now()).astimezone(timezone.utc)
-        scan_bots = bot_ids or config.bot_ids
-        daily_report_ready = False
-        date = reference_time.strftime("%Y-%m-%d")
-        if scan_bots:
-            for bot_id in scan_bots:
-                if config.bot_configs and bot_id in config.bot_configs:
-                    tz = config.bot_configs[bot_id].timezone
-                else:
-                    tz = "UTC"
-                bot_date = bot_trading_date(tz, reference_time)
-                if (curated_dir / bot_date / bot_id / "summary.json").exists():
-                    daily_report_ready = True
-                    break
-
-        result = scanner.evening_scan(date=date, daily_report_ready=daily_report_ready)
-        hour_utc = reference_time.hour
-        for payload in result.payloads:
-            try:
-                await dispatcher.dispatch(payload, notification_prefs, hour_utc)
-            except Exception:
-                logger.exception("Evening report dispatch failed")
-
-    # HypothesisLibrary — shared for outcome linking
-    from trading_assistant.skills.hypothesis_library import HypothesisLibrary
-
-    hypothesis_library = HypothesisLibrary(db_path / "memory" / "findings")
-
-    # Wire hypothesis_library into approval_handler (created before library)
-    if approval_handler is not None:
-        approval_handler._hypothesis_library = hypothesis_library
-
-    # AutoOutcomeMeasurer — runs weekly to measure suggestion outcomes
-    from trading_assistant.skills.auto_outcome_measurer import AutoOutcomeMeasurer
-    from trading_assistant.schemas.suggestion_tracking import SuggestionStatus
-
-    outcome_measurer = AutoOutcomeMeasurer(
-        curated_dir=curated_dir,
-        findings_dir=db_path / "memory" / "findings",
-        hypothesis_library=hypothesis_library,
-        proposal_ledger=proposal_ledger,
-    )
-
-    def _lookup_proposal_id(
-        suggestion_id: str = "",
-        experiment_id: str = "",
-    ) -> str:
-        """Find a ProposalLedger id from an existing suggestion or experiment link."""
-        if suggestion_id:
-            try:
-                for suggestion in suggestion_tracker.load_all():
-                    if (
-                        suggestion.get("suggestion_id") == suggestion_id
-                        and suggestion.get("proposal_id")
-                    ):
-                        return suggestion["proposal_id"]
-            except Exception:
-                logger.warning("Failed to lookup proposal id for suggestion %s", suggestion_id)
-        if experiment_id or suggestion_id:
-            try:
-                for record in proposal_ledger.list_all():
-                    candidate = record.candidate
-                    if experiment_id and candidate.experiment_id == experiment_id:
-                        return candidate.proposal_id
-                    if suggestion_id and candidate.suggestion_id == suggestion_id:
-                        return candidate.proposal_id
-            except Exception:
-                logger.warning("Failed to lookup proposal id for experiment %s", experiment_id)
-        return ""
-
-    def _experiment_result_delta(result, experiment) -> float:
-        metrics = {m.variant_name: m for m in getattr(result, "variant_metrics", [])}
-        variants = getattr(experiment, "variants", []) or []
-        if len(variants) >= 2:
-            control = metrics.get(variants[0].name)
-            treatment = metrics.get(variants[1].name)
-            metric_attr = {
-                "pnl": "avg_pnl",
-                "sharpe": "sharpe",
-                "win_rate": "win_rate",
-                "profit_factor": "profit_factor",
-            }.get(getattr(experiment, "success_metric", "pnl"), "avg_pnl")
-            if control is not None and treatment is not None:
-                return float(
-                    (getattr(treatment, metric_attr, 0.0) or 0.0)
-                    - (getattr(control, metric_attr, 0.0) or 0.0)
-                )
-        return float(getattr(result, "effect_size", 0.0) or 0.0)
-
-    def _structural_objective_delta(gt_before, gt_after, actual_values: list[float]) -> float:
-        before_composite = getattr(gt_before, "composite_score", None)
-        after_composite = getattr(gt_after, "composite_score", None)
-        if before_composite is not None and after_composite is not None:
-            return float(after_composite - before_composite)
-        values = [float(v) for v in actual_values if v is not None]
-        return sum(values) / len(values) if values else 0.0
-
-    def _record_proposal_outcome(
-        *,
-        proposal_id: str,
-        objective_delta: float,
-        verdict: str,
-        measurement_path: Path,
-        outcome_source: str = "early_warning",
-    ) -> None:
-        if not proposal_id:
-            return
-        try:
-            from trading_assistant.schemas.proposal_ledger import ProposalOutcome
-
-            proposal_ledger.record_outcome(
-                proposal_id,
-                ProposalOutcome(
-                    proposal_id=proposal_id,
-                    objective_delta=float(objective_delta or 0.0),
-                    verdict=verdict,
-                    measurement_path=str(measurement_path),
-                    outcome_source=outcome_source,
-                ),
-            )
-        except Exception:
-            logger.warning("Failed to record proposal outcome for %s", proposal_id)
-
-    async def _measure_outcomes(scheduled_for: datetime | None = None) -> None:
-        """Measure outcomes of deployed suggestions and link to hypotheses."""
-        suggestions = suggestion_tracker.load_all()
-        deployed = [
-            s for s in suggestions
-            if s.get("status") == SuggestionStatus.DEPLOYED.value
-        ]
-        # Check which suggestions already have outcomes
-        existing_outcomes = suggestion_tracker.load_outcomes()
-        measured_ids = {o.get("suggestion_id") for o in existing_outcomes}
-
-        for s in deployed:
-            sid = s.get("suggestion_id", "")
-            if sid in measured_ids:
-                continue
-            # Portfolio suggestions are measured separately below
-            if s.get("bot_id") == "PORTFOLIO":
-                continue
-            anchor_date = (s.get("deployed_at") or "")[:10]
-            if not anchor_date:
-                continue
-            try:
-                result = outcome_measurer.measure_progressive(
-                    suggestion_id=sid,
-                    bot_id=s.get("bot_id", ""),
-                    implemented_date=anchor_date,
-                )
-                if result:
-                    detection_context = s.get("detection_context") or {}
-                    if not isinstance(detection_context, dict):
-                        detection_context = {}
-                    result = result.model_copy(update={
-                        "bot_id": s.get("bot_id", ""),
-                        "category": s.get("category", ""),
-                        "source_run_id": s.get("source_report_id", ""),
-                        "source_provider": detection_context.get("source_provider", ""),
-                        "source_model": detection_context.get("source_model", ""),
-                    })
-
-                    # Persist the full enhanced measurement to outcomes.jsonl
-                    enhanced_path = db_path / "memory" / "findings" / "outcomes.jsonl"
-                    enhanced_path.parent.mkdir(parents=True, exist_ok=True)
-                    with open(enhanced_path, "a", encoding="utf-8") as f:
-                        f.write(result.model_dump_json() + "\n")
-
-                    outcome_measurer.record_measurement_feedback(result)
-                    suggestion_tracker.mark_measured(
-                        sid,
-                        source="early_warning",
-                        final=not _requires_monthly_outcome(s),
-                    )
-
-                    verdict_str = result.verdict.value if hasattr(result.verdict, "value") else str(result.verdict)
-
-                    # Promote linked patterns on positive outcome
-                    if verdict_str == "positive":
-                        try:
-                            from trading_assistant.skills.pattern_library import PatternLibrary
-                            from trading_assistant.schemas.pattern_library import PatternStatus as _PS
-                            pat_lib = PatternLibrary(db_path / "memory" / "findings")
-                            for p in pat_lib.load_all():
-                                if p.linked_suggestion_id == sid and p.status == _PS.PROPOSED:
-                                    pat_lib.validate_pattern(p.pattern_id)
-                                    logger.info("Promoted pattern %s to VALIDATED", p.pattern_id)
-                        except Exception:
-                            logger.warning("Failed to promote pattern for suggestion %s", sid)
-            except Exception:
-                logger.warning("Outcome measurement failed for %s", sid)
-
-        # --- Portfolio-level outcome measurement ---
-        try:
-            from trading_assistant.skills.portfolio_outcome_measurer import PortfolioOutcomeMeasurer
-
-            portfolio_measurer = PortfolioOutcomeMeasurer(
-                findings_dir=db_path / "memory" / "findings",
-                curated_dir=curated_dir,
-            )
-            portfolio_outcomes = portfolio_measurer.measure_deployed()
-            for po in portfolio_outcomes:
-                po_sid = po.get("suggestion_id", "")
-                if po_sid:
-                    suggestion_tracker.mark_measured(
-                        po_sid,
-                        source="early_warning",
-                        final=False,
-                    )
-                    # Link hypothesis outcome if suggestion has hypothesis_id
-                    po_verdict = po.get("verdict", "")
-                    po_hyp_id = None
-                    po_proposal_id = None
-                    for s in deployed:
-                        if s.get("suggestion_id") == po_sid:
-                            po_hyp_id = s.get("hypothesis_id")
-                            po_proposal_id = s.get("proposal_id")
-                            break
-                    if po_hyp_id and po_verdict in ("positive", "negative"):
-                        try:
-                            hypothesis_library.record_outcome(
-                                po_hyp_id, positive=(po_verdict == "positive"),
-                            )
-                        except Exception:
-                            logger.warning(
-                                "Failed to record hypothesis outcome for portfolio %s",
-                                po_hyp_id,
-                            )
-                    _record_proposal_outcome(
-                        proposal_id=po_proposal_id or "",
-                        objective_delta=float(po.get("composite_delta", 0.0) or 0.0),
-                        verdict=po_verdict or "inconclusive",
-                        measurement_path=(
-                            db_path / "memory" / "findings" / "portfolio_outcomes.jsonl"
-                        ),
-                        outcome_source="early_warning",
-                    )
-            if portfolio_outcomes:
-                logger.info("Measured %d portfolio outcomes", len(portfolio_outcomes))
-        except Exception:
-            logger.warning("Portfolio outcome measurement failed")
-
-        # Evaluate predictions against actual curated data
-        try:
-            from trading_assistant.skills.prediction_tracker import PredictionTracker
-
-            pred_tracker = PredictionTracker(db_path / "memory" / "findings")
-            predictions = pred_tracker.load_predictions()
-            if predictions:
-                # Get unique weeks and evaluate un-evaluated ones
-                weeks = {p.week for p in predictions}
-                for week in sorted(weeks):
-                    evaluation = pred_tracker.evaluate_predictions(week, curated_dir)
-                    if evaluation.total > 0:
-                        logger.info(
-                            "Prediction evaluation for %s: %d/%d correct (%.0f%%)",
-                            week, evaluation.correct, evaluation.total, evaluation.accuracy * 100,
-                        )
-        except Exception:
-            logger.warning("Prediction evaluation failed during outcome measurement")
-
-        # Causal outcome reasoning — invoke Claude to analyze WHY outcomes happened
-        try:
-            from trading_assistant.analysis.outcome_reasoning_prompt import OutcomeReasoningAssembler
-
-            # Load recent outcomes that haven't been reasoned about yet
-            outcomes_path = db_path / "memory" / "findings" / "outcomes.jsonl"
-            reasoning_path = db_path / "memory" / "findings" / "outcome_reasonings.jsonl"
-            if outcomes_path.exists():
-                import json as _json
-                recent_outcomes = []
-                reasoned_ids: set[str] = set()
-                if reasoning_path.exists():
-                    for line in reasoning_path.read_text(encoding="utf-8").strip().splitlines():
-                        if line.strip():
-                            try:
-                                reasoned_ids.add(_json.loads(line).get("suggestion_id", ""))
-                            except _json.JSONDecodeError:
-                                pass
-                for line in outcomes_path.read_text(encoding="utf-8").strip().splitlines():
-                    if line.strip():
-                        try:
-                            o = _json.loads(line)
-                            if o.get("suggestion_id", "") not in reasoned_ids:
-                                recent_outcomes.append(o)
-                        except _json.JSONDecodeError:
-                            pass
-
-                if recent_outcomes:
-                    assembler = OutcomeReasoningAssembler(
-                        memory_dir=db_path / "memory",
-                        curated_dir=curated_dir,
-                        bot_configs=config.bot_configs,
-                    )
-                    reasoning_pkg = assembler.assemble(
-                        recent_outcomes,
-                        session_store=agent_runner.session_store,
-                    )
-                    reasoning_result = await agent_runner.invoke(
-                        agent_type="outcome_reasoning",
-                        prompt_package=reasoning_pkg,
-                        run_id=f"reasoning-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}",
-                        allowed_tools=["Read"],
-                        max_turns=5,
-                    )
-                    if reasoning_result.success:
-                        from trading_assistant.analysis.response_parser import parse_response as _parse
-
-                        parsed_reasoning = _parse(reasoning_result.response)
-                        if parsed_reasoning.raw_structured and "reasonings" in parsed_reasoning.raw_structured:
-                            reasonings = parsed_reasoning.raw_structured["reasonings"]
-                            date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
-                            # Enrich reasoning records with timestamp
-                            enriched = [
-                                {**r, "reasoned_at": datetime.now(timezone.utc).isoformat()}
-                                for r in reasonings
-                            ]
-
-                            # Collect spurious + recalibration records
-                            suggestion_lookup = {s.get("suggestion_id", ""): s for s in deployed}
-                            spurious_records: list[dict] = []
-                            recalib_records: list[dict] = []
-
-                            # Transfer proposals stay in-loop (self-contained, uses _tpb)
-                            findings = db_path / "memory" / "findings"
-                            _tpb = None
-                            for r in reasonings:
-                                sid = r.get("suggestion_id", "")
-                                # Transferable patterns → cross-bot transfer proposals
-                                if r.get("transferable") and sid:
-                                    try:
-                                        if _tpb is None:
-                                            from trading_assistant.skills.pattern_library import PatternLibrary
-                                            from trading_assistant.skills.transfer_proposal_builder import TransferProposalBuilder
-                                            _tpb = TransferProposalBuilder(
-                                                pattern_library=PatternLibrary(findings),
-                                                curated_dir=curated_dir,
-                                                bots=config.bot_ids,
-                                                findings_dir=findings,
-                                            )
-                                        _tpb.create_from_reasoning(r, source_bot=r.get("bot_id", ""))
-                                    except Exception:
-                                        logger.warning("Transfer proposal from reasoning failed for %s", sid)
-                                # Collect spurious
-                                if r.get("genuine_effect") is False and sid:
-                                    spurious_records.append({
-                                        "suggestion_id": sid,
-                                        "bot_id": suggestion_lookup.get(sid, {}).get("bot_id", ""),
-                                        "mechanism": r.get("mechanism", ""),
-                                        "confounders": r.get("confounders", []),
-                                        "recorded_at": datetime.now(timezone.utc).isoformat(),
-                                    })
-                                # Collect recalibrations
-                                revised = r.get("revised_confidence")
-                                if revised is not None and sid:
-                                    sugg_rec = suggestion_lookup.get(sid, {})
-                                    recalib_records.append({
-                                        "suggestion_id": sid,
-                                        "bot_id": sugg_rec.get("bot_id", ""),
-                                        "category": sugg_rec.get("category", ""),
-                                        "revised_confidence": revised,
-                                        "lessons_learned": r.get("lessons_learned", ""),
-                                        "recorded_at": datetime.now(timezone.utc).isoformat(),
-                                    })
-
-                            # Batch-write via coordinator
-                            group = write_coordinator.begin(
-                                source_workflow="outcome_reasoning",
-                                source_run_id=f"reasoning-{date_str}",
-                            )
-                            write_coordinator.add_jsonl_append(
-                                group, "record_reasonings",
-                                "outcome_reasonings.jsonl", enriched,
-                            )
-                            if spurious_records:
-                                write_coordinator.add_jsonl_append(
-                                    group, "record_spurious",
-                                    "spurious_outcomes.jsonl", spurious_records,
-                                )
-                            if recalib_records:
-                                write_coordinator.add_jsonl_append(
-                                    group, "record_recalibrations",
-                                    "recalibrations.jsonl", recalib_records,
-                                )
-                            wc_result = write_coordinator.execute(group)
-                            logger.info(
-                                "Outcome reasoning writes: group=%s, all_ok=%s, ops=%d",
-                                wc_result.group_id, wc_result.all_succeeded,
-                                len(wc_result.operations),
-                            )
-        except Exception:
-            logger.warning("Outcome reasoning failed — skipping", exc_info=True)
-
-        # Best-effort card ingestion after learning artifacts are written
-        try:
-            from trading_assistant.skills.learning_card_store import LearningCardStore as _LCS
-            _card_count = _LCS(db_path / "memory" / "findings").ingest_from_existing()
-            if _card_count:
-                logger.info("Ingested %d new learning cards after outcome reasoning", _card_count)
-        except Exception:
-            logger.warning("Learning card ingestion after outcome reasoning failed", exc_info=True)
-
-    # TransferOutcomeMeasurer — runs weekly to measure cross-bot transfer outcomes
-    async def _measure_transfer_outcomes(scheduled_for: datetime | None = None) -> None:
-        """Measure outcomes of cross-bot pattern transfers."""
-        try:
-            from trading_assistant.skills.pattern_library import PatternLibrary
-            from trading_assistant.skills.transfer_proposal_builder import TransferProposalBuilder
-
-            lib = PatternLibrary(db_path / "memory" / "findings")
-            builder = TransferProposalBuilder(
-                pattern_library=lib,
-                curated_dir=curated_dir,
-                bots=config.bot_ids,
-                findings_dir=db_path / "memory" / "findings",
-            )
-            outcomes = builder.measure_transfer_outcomes()
-            if outcomes:
-                logger.info("Measured %d transfer outcomes", len(outcomes))
-        except Exception:
-            logger.exception("Transfer outcome measurement failed")
-
-    async def _verify_reliability(scheduled_for: datetime | None = None) -> None:
-        """Auto-verify reliability interventions past observation window."""
-        try:
-            verified = reliability_tracker.verify_completed()
-            if verified:
-                logger.info("Auto-verified %d reliability interventions", len(verified))
-                # Create hypothesis candidates from chronic bug classes
-                summary = reliability_tracker.compute_summary()
-                if summary.chronic_bug_classes:
-                    created = hypothesis_library.create_from_reliability(summary)
-                    if created:
-                        logger.info(
-                            "Created %d reliability hypothesis candidates", len(created),
-                        )
-        except Exception:
-            logger.exception("Reliability verification failed")
-
-    # Discovery analysis — runs Saturday to find novel patterns in raw data
-    async def _discovery_analysis(scheduled_for: datetime | None = None) -> None:
-        """Run discovery agent to find novel patterns not covered by detectors."""
-        try:
-            date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-            action = Action(
-                type=ActionType.LOG_UNKNOWN,
-                event_id=f"discovery-{date}",
-                bot_id="",
-                details={"date": date, "bots": config.bot_ids},
-            )
-            await handlers.handle_discovery_analysis(action)
-        except Exception:
-            logger.exception("Discovery analysis failed")
-
-    # Learning cycle — runs Sunday 11:00 UTC after outcome measurement
-    def _learning_review_structured_reviewer():
-        if config.learning_review_mode != "llm_review":
-            return None
-
-        def reviewer(payload: dict) -> dict:
-            async def invoke() -> dict:
-                from trading_assistant.schemas.prompt_package import PromptPackage
-
-                package = PromptPackage(
-                    system_prompt=(
-                        "You are a bounded post-run learning reviewer. Return JSON only. "
-                        "You may propose advisory learning actions, never policy edits, "
-                        "approval, deployment, or trading-logic changes."
-                    ),
-                    task_prompt=json.dumps(payload, indent=2, default=str),
-                    instructions=(
-                        "Return an object shaped as {\"actions\": [...]}. Every action must use "
-                        "one of allowed_action_types and cite safe evidence_paths from the payload."
-                    ),
-                    metadata={"workflow": "learning_review", "mode": "llm_review"},
-                )
-                result = await agent_runner.invoke(
-                    "weekly_analysis",
-                    package,
-                    run_id=f"learning-review-{payload.get('week_end') or 'latest'}",
-                    max_turns=3,
-                    allowed_tools=[],
-                )
-                if not result.success:
-                    return {"actions": []}
-                return _extract_json_object(result.response)
-
-            return _run_coroutine_in_thread(invoke())
-
-        return reviewer
-
-    async def _run_learning_cycle(scheduled_for: datetime | None = None) -> None:
-        """Run the autonomous weekly learning cycle."""
-        try:
-            from trading_assistant.skills.learning_cycle import LearningCycle
-            from datetime import timedelta
-
-            now = datetime.now(timezone.utc)
-            week_end = now.strftime("%Y-%m-%d")
-            week_start = (now - timedelta(days=7)).strftime("%Y-%m-%d")
-
-            cycle = LearningCycle(
-                curated_dir=curated_dir,
-                memory_dir=db_path / "memory",
-                runs_dir=db_path / "runs",
-                bots=config.bot_ids,
-                suggestion_tracker=suggestion_tracker,
-                hypothesis_library=hypothesis_library,
-                experiment_tracker=structural_experiment_tracker,
-                prediction_tracker=None,  # not needed for cycle
-                calibration_tracker=calibration_tracker,
-                learning_review_mode=config.learning_review_mode,
-                learning_review_disabled_workflows=config.learning_review_disabled_workflows,
-                learning_review_structured_reviewer=_learning_review_structured_reviewer(),
-            )
-            entry = await cycle.run(week_start, week_end)
-
-            event_stream.broadcast("learning_cycle_completed", {
-                "week_start": week_start,
-                "week_end": week_end,
-                "net_improvement": entry.net_improvement,
-                "composite_delta": entry.composite_delta,
-                "lessons": entry.lessons_for_next_week[:3],
-            })
-
-            logger.info(
-                "Learning cycle complete: net_improvement=%s",
-                entry.net_improvement,
-            )
-        except Exception:
-            logger.exception("Learning cycle failed")
-
-    # PlaybookGenerator — evidence-backed advisory playbooks
-    from trading_assistant.skills.playbook_generator import PlaybookGenerator
-
-    playbook_generator = PlaybookGenerator(memory_dir=db_path / "memory")
-
-    # MemoryConsolidator — rebuilds index.json and consolidates old findings
-    consolidator = MemoryConsolidator(
-        findings_dir=db_path / "memory" / "findings",
-        base_dir=db_path,
-    )
-
-    async def _consolidate_memory(scheduled_for: datetime | None = None) -> None:
-        """Rebuild memory index and conditionally consolidate findings."""
-        try:
-            consolidator.rebuild_index()
-            if consolidator.needs_consolidation("corrections.jsonl"):
-                consolidator.consolidate("corrections.jsonl")
-            if consolidator.needs_consolidation("failure-log.jsonl"):
-                consolidator.consolidate("failure-log.jsonl")
-            # Promote candidate hypotheses that have been proposed multiple times
-            promoted = hypothesis_library.promote_candidates()
-            if promoted:
-                logger.info("Promoted %d candidate hypotheses to active", promoted)
-        except Exception:
-            logger.exception("Memory consolidation failed")
-
-        # Best-effort card ingestion after consolidation
-        try:
-            from trading_assistant.skills.learning_card_store import LearningCardStore as _LCS
-            _card_count = _LCS(db_path / "memory" / "findings").ingest_from_existing()
-            if _card_count:
-                logger.info("Ingested %d new learning cards after consolidation", _card_count)
-        except Exception:
-            logger.warning("Learning card ingestion after consolidation failed", exc_info=True)
-
-        # Retire ineffective playbooks
-        try:
-            retired = playbook_generator.retire_ineffective()
-            if retired:
-                logger.info("Retired %d ineffective playbooks", retired)
-        except Exception:
-            logger.warning("Playbook retirement failed", exc_info=True)
-
-        # Sweep retired-strategy records into archive/<date>.jsonl so prompt
-        # context stays clean as strategies are added/removed in the references.
-        try:
-            from trading_assistant.skills.archive_retired_strategies import archive_retired
-            from trading_assistant.orchestrator.strategy_registry_loader import load_strategy_registry
-            registry = load_strategy_registry()
-            archive_summary = archive_retired(
-                db_path / "memory" / "findings", registry,
-            )
-            if archive_summary:
-                logger.info(
-                    "Archived retired-strategy records: %s",
-                    ", ".join(f"{name}={n}" for name, n in archive_summary.items()),
-                )
-        except Exception:
-            logger.warning("Retired-strategy archive sweep failed", exc_info=True)
-
-    # Experiment check function (for scheduler)
-    async def _check_experiments() -> None:
-        """Check active experiments for auto-conclusion."""
-        if experiment_manager is not None:
-            try:
-                active = experiment_manager.get_active()
-                for exp in active:
-                    if experiment_manager.check_auto_conclusion(exp.experiment_id):
-                        result = experiment_manager.analyze_experiment(exp.experiment_id)
-                        experiment_manager.conclude_experiment(exp.experiment_id, result)
-                        logger.info(
-                            "Auto-concluded experiment %s: %s",
-                            exp.experiment_id, result.recommendation,
-                        )
-                        event_stream.broadcast("experiment_concluded", {
-                            "experiment_id": exp.experiment_id,
-                            "recommendation": result.recommendation,
-                            "winner": result.winner,
-                            "p_value": result.p_value,
-                        })
-                        proposal_verdict = {
-                            "adopt_treatment": "positive",
-                            "keep_control": "negative",
-                        }.get(result.recommendation, "inconclusive")
-                        _record_proposal_outcome(
-                            proposal_id=_lookup_proposal_id(
-                                suggestion_id=getattr(exp, "source_suggestion_id", "") or "",
-                                experiment_id=exp.experiment_id,
-                            ),
-                            objective_delta=_experiment_result_delta(result, exp),
-                            verdict=proposal_verdict,
-                            measurement_path=(
-                                db_path / "memory" / "findings" / "experiment_results.jsonl"
-                            ),
-                        )
-                        # Escalate: link back to suggestion and hypothesis
-                        if result.recommendation == "adopt_treatment":
-                            if getattr(exp, "source_suggestion_id", None) and suggestion_tracker:
-                                try:
-                                    suggestion_tracker.accept(exp.source_suggestion_id)
-                                    logger.info(
-                                        "Auto-accepted suggestion %s (experiment %s passed)",
-                                        exp.source_suggestion_id, exp.experiment_id,
-                                    )
-                                except Exception:
-                                    logger.warning("Failed to auto-accept suggestion %s", exp.source_suggestion_id)
-                            if getattr(exp, "hypothesis_id", None):
-                                try:
-                                    hypothesis_library.record_outcome(exp.hypothesis_id, positive=True)
-                                    logger.info(
-                                        "Recorded positive outcome for hypothesis %s",
-                                        exp.hypothesis_id,
-                                    )
-                                except Exception:
-                                    logger.warning("Failed to record hypothesis outcome %s", exp.hypothesis_id)
-                        elif result.recommendation == "keep_control":
-                            if getattr(exp, "hypothesis_id", None):
-                                try:
-                                    hypothesis_library.record_outcome(exp.hypothesis_id, positive=False)
-                                except Exception:
-                                    pass
-                        if telegram_adapter is not None:
-                            try:
-                                from trading_assistant.comms.telegram_renderer import TelegramRenderer
-                                renderer = TelegramRenderer()
-                                text = renderer.render_experiment_result(exp, result)
-                                await telegram_adapter.send_message(text)
-                            except Exception:
-                                logger.warning("Failed to send experiment result notification")
-            except Exception:
-                logger.exception("Experiment check failed")
-
-        # Evaluate mature structural experiments
-        try:
-            from trading_assistant.skills.ground_truth_computer import GroundTruthComputer
-
-            # Metric name mapping: common names → GroundTruthSnapshot field names
-            _METRIC_FIELD_MAP = {
-                "sharpe": "sharpe_ratio_30d",
-                "sharpe_ratio": "sharpe_ratio_30d",
-                "sharpe_ratio_30d": "sharpe_ratio_30d",
-                "win_rate": "win_rate",
-                "drawdown": "max_drawdown_pct",
-                "max_drawdown": "max_drawdown_pct",
-                "max_drawdown_pct": "max_drawdown_pct",
-                "process_quality": "avg_process_quality",
-                "avg_process_quality": "avg_process_quality",
-                "composite": "composite_score",
-                "composite_score": "composite_score",
-                "pnl": "pnl_total",
-                "pnl_total": "pnl_total",
-                "net_pnl": "pnl_total",
-                "calmar": "calmar_ratio_30d",
-                "calmar_ratio": "calmar_ratio_30d",
-                "calmar_ratio_30d": "calmar_ratio_30d",
-                "profit_factor": "profit_factor",
-                "expectancy": "expectancy",
-                "expected_r": "expected_total_r",
-                "expected_total_r": "expected_total_r",
-                "trade_count": "trade_count",
-            }
-
-            gt = GroundTruthComputer(curated_dir)
-            evaluable = structural_experiment_tracker.get_evaluable_experiments()
-            for exp in evaluable:
-                try:
-                    activated_date = exp.activated_at.strftime("%Y-%m-%d") if exp.activated_at else ""
-                    now_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-                    if not activated_date:
-                        continue
-                    gt_before = gt.compute_snapshot(exp.bot_id, activated_date)
-                    gt_after = gt.compute_snapshot(exp.bot_id, now_date)
-
-                    # Check trade sufficiency before evaluating
-                    max_min_trades = max(
-                        (getattr(c, "minimum_trade_count", 20) or 20)
-                        for c in exp.acceptance_criteria
-                    ) if exp.acceptance_criteria else 20
-                    actual_trades = getattr(gt_after, "trade_count", None)
-                    if actual_trades is not None and actual_trades < max_min_trades:
-                        logger.info(
-                            "Experiment %s: insufficient trades (%d < %d), skipping evaluation",
-                            exp.experiment_id, actual_trades, max_min_trades,
-                        )
-                        continue
-
-                    # Evaluate each acceptance criterion
-                    criteria_met: list[bool] = []
-                    actual_values: list[float] = []
-                    for criterion in exp.acceptance_criteria:
-                        field = _METRIC_FIELD_MAP.get(criterion.metric, criterion.metric)
-                        before_val = getattr(gt_before, field, None)
-                        after_val = getattr(gt_after, field, None)
-                        if before_val is None or after_val is None:
-                            criteria_met.append(False)
-                            actual_values.append(0.0)
-                            continue
-                        delta = after_val - before_val
-                        actual_values.append(round(delta, 4))
-                        if criterion.direction == "improve":
-                            met = delta >= criterion.minimum_change
-                        else:  # not_degrade
-                            met = delta >= -criterion.minimum_change
-                        if met and getattr(criterion, "baseline_value", None) is not None:
-                            met = after_val is not None and after_val >= criterion.baseline_value
-                        criteria_met.append(met)
-
-                    structural_experiment_tracker.resolve(
-                        exp.experiment_id, criteria_met, actual_values,
-                    )
-                    passed = all(criteria_met) if criteria_met else False
-                    logger.info(
-                        "Resolved structural experiment %s: %s",
-                        exp.experiment_id, "PASSED" if passed else "FAILED",
-                    )
-
-                    # Update hypothesis lifecycle
-                    if exp.hypothesis_id:
-                        try:
-                            hypothesis_library.record_outcome(exp.hypothesis_id, positive=passed)
-                        except Exception:
-                            logger.warning("Failed to record hypothesis outcome for %s", exp.hypothesis_id)
-                    _record_proposal_outcome(
-                        proposal_id=_lookup_proposal_id(
-                            suggestion_id=exp.suggestion_id or "",
-                            experiment_id=exp.experiment_id,
-                        ),
-                        objective_delta=_structural_objective_delta(
-                            gt_before, gt_after, actual_values,
-                        ),
-                        verdict="positive" if passed else "negative",
-                        measurement_path=(
-                            db_path / "memory" / "findings" / "structural_experiments.jsonl"
-                        ),
-                    )
-                except Exception:
-                    logger.exception("Failed to evaluate structural experiment %s", exp.experiment_id)
-        except Exception:
-            logger.exception("Structural experiment check failed")
-
-    # AuditTrailConsumer — persists SSE events to JSONL
-    audit_consumer = AuditTrailConsumer(log_dir=db_path / "logs")
-
-
-    def _bot_scope_key(bot_ids: list[str]) -> str:
-        if not bot_ids:
-            return "global"
-        return f"bots:{','.join(sorted(bot_ids))}"
-
-    async def _worker_job(scheduled_for: datetime | None = None) -> None:
-        # P1-2: drain until empty or time budget exhausted instead of capping
-        # at the legacy 10-events-per-minute default.
-        await worker.drain(
-            batch_size=config.worker_batch_size,
-            time_budget_seconds=config.worker_drain_seconds,
-        )
-
-    async def _monitoring_job(scheduled_for: datetime | None = None) -> None:
-        await monitoring_loop.run_all()
-
-    async def _relay_job(scheduled_for: datetime | None = None) -> None:
-        if vps_receiver is None:
-            await _noop_relay()
-            return
-        await vps_receiver.poll()
-
-    async def _stale_recovery_job(scheduled_for: datetime | None = None) -> None:
-        await queue.recover_stale()
-
-    async def _weekly_summary_trigger(scheduled_for: datetime | None = None) -> None:
-        run_at = (scheduled_for or _utc_now()).astimezone(timezone.utc).replace(microsecond=0)
-        week_end = run_at.date()
-        week_start = week_end - timedelta(days=6)
-        await queue.enqueue(_build_scheduled_event(
-            job_key="weekly_summary",
-            scope_key="global",
-            scheduled_for=run_at,
-            event_type="weekly_summary_trigger",
-            bot_id="system",
-            payload={
-                "week_start": week_start.isoformat(),
-                "week_end": week_end.isoformat(),
-            },
-        ))
-
-    async def _approval_expiry_job(scheduled_for: datetime | None = None) -> None:
-        if approval_tracker is None:
-            return
-        await _expire_approvals_with_notification(
-            approval_tracker,
-            telegram_adapter,
-            dispatcher,
-            notification_prefs,
-        )
-
-    async def _pr_review_job(scheduled_for: datetime | None = None) -> None:
-        await _check_pr_reviews()
-
-    async def _deployment_check_job(scheduled_for: datetime | None = None) -> None:
-        if deployment_monitor is None:
-            return
-        await handlers._check_deployments()
-
-    async def _threshold_learning_job(scheduled_for: datetime | None = None) -> None:
-        if threshold_learner is None:
-            return
-        await asyncio.to_thread(threshold_learner.learn_thresholds)
-
-    async def _experiment_check_job(scheduled_for: datetime | None = None) -> None:
-        await _check_experiments()
-
-    scheduler_config = SchedulerConfig(
-        market_data_sync_day_of_month=config.market_data_sync_day_of_month,
-        market_data_sync_hour=config.market_data_sync_hour,
-        market_data_sync_minute=config.market_data_sync_minute,
-        monthly_validation_day_of_month=config.monthly_validation_day_of_month,
-        monthly_validation_hour=config.monthly_validation_hour,
-        monthly_validation_minute=config.monthly_validation_minute,
-    )
-    scheduled_job_runner = ScheduledJobRunner(scheduled_run_store)
-    scheduled_job_specs: list[ScheduledJobSpec]
-    tracked_daily_fns: list[dict] | None = None
-    tracked_morning_fns: list[dict] | None = None
-    tracked_evening_fns: list[dict] | None = None
-    tracked_monthly_validation_fns: list[dict] | None = None
-    tracked_daily_fn = None
-    tracked_morning_fn = None
-    tracked_evening_fn = None
-
-    if config.bot_configs:
-        from trading_assistant.orchestrator.tz_utils import (
-            bot_trading_date as _bot_trading_date,
-            group_bots_by_analysis_time as _group_bots_by_analysis_time,
-            market_close_utc as _market_close_utc,
-        )
-
-        tracked_daily_fns = []
-        tracked_morning_fns = []
-        tracked_evening_fns = []
-        tracked_groups = _group_bots_by_analysis_time(config.bot_configs)
-
-        for time_key, bot_list in tracked_groups.items():
-            trigger_hour, trigger_minute = (int(value) for value in time_key.split(":"))
-            scope_key = _bot_scope_key(bot_list)
-            suffix = time_key.replace(":", "")
-            tz_name = config.bot_configs[bot_list[0]].timezone
-            cfg0 = config.bot_configs[bot_list[0]]
-            close_utc = _market_close_utc(cfg0.timezone, cfg0.market_close_local)
-            morning_utc = close_utc - timedelta(hours=9)
-            evening_utc = close_utc + timedelta(hours=1)
-
-            def _make_daily_trigger(bots: list[str], tz_name: str, scope_key: str):
-                async def _trigger(scheduled_for: datetime | None = None) -> None:
-                    run_at = (scheduled_for or _utc_now()).astimezone(timezone.utc).replace(microsecond=0)
-                    await queue.enqueue(_build_scheduled_event(
-                        job_key="daily_analysis",
-                        scope_key=scope_key,
-                        scheduled_for=run_at,
-                        event_type="daily_analysis_trigger",
-                        bot_id="system",
-                        payload={
-                            "bots": bots,
-                            "date": _bot_trading_date(tz_name, run_at),
-                            "run_scope": scope_key,
-                        },
-                    ))
-
-                return _trigger
-
-            def _make_morning_trigger(bots: list[str]):
-                async def _trigger(scheduled_for: datetime | None = None) -> None:
-                    await _morning_scan(bot_ids=bots, scheduled_for=scheduled_for)
-
-                return _trigger
-
-            def _make_evening_trigger(bots: list[str]):
-                async def _trigger(scheduled_for: datetime | None = None) -> None:
-                    await _evening_report(bot_ids=bots, scheduled_for=scheduled_for)
-
-                return _trigger
-
-            tracked_daily_fns.append({
-                "fn": _make_daily_trigger(bot_list, tz_name, scope_key),
-                "hour": trigger_hour,
-                "minute": trigger_minute,
-                "name_suffix": suffix,
-                "scope_key": scope_key,
-            })
-            tracked_morning_fns.append({
-                "fn": _make_morning_trigger(bot_list),
-                "hour": morning_utc.hour,
-                "minute": morning_utc.minute,
-                "name_suffix": suffix,
-                "scope_key": scope_key,
-            })
-            tracked_evening_fns.append({
-                "fn": _make_evening_trigger(bot_list),
-                "hour": evening_utc.hour,
-                "minute": evening_utc.minute,
-                "name_suffix": suffix,
-                "scope_key": scope_key,
-            })
-    else:
-        scope_key = _bot_scope_key(config.bot_ids)
-
-        async def _global_daily_trigger(scheduled_for: datetime | None = None) -> None:
-            run_at = (scheduled_for or _utc_now()).astimezone(timezone.utc).replace(microsecond=0)
-            await queue.enqueue(_build_scheduled_event(
-                job_key="daily_analysis",
-                scope_key=scope_key,
-                scheduled_for=run_at,
-                event_type="daily_analysis_trigger",
-                bot_id="system",
-                payload={
-                    "bots": config.bot_ids,
-                    "date": run_at.strftime("%Y-%m-%d"),
-                    "run_scope": scope_key,
-                },
-            ))
-
-        async def _global_morning_trigger(scheduled_for: datetime | None = None) -> None:
-            await _morning_scan(bot_ids=config.bot_ids or None, scheduled_for=scheduled_for)
-
-        async def _global_evening_trigger(scheduled_for: datetime | None = None) -> None:
-            await _evening_report(bot_ids=config.bot_ids or None, scheduled_for=scheduled_for)
-
-        tracked_daily_fn = _global_daily_trigger
-        tracked_morning_fn = _global_morning_trigger
-        tracked_evening_fn = _global_evening_trigger
-
-    if config.monthly_validation_enabled and config.bot_ids:
-        tracked_monthly_validation_fns = []
-        for bot_id in config.bot_ids:
-            scope_key = f"bot:{bot_id}"
-
-            def _make_monthly_validation_trigger(bot_id: str, scope_key: str):
-                async def _trigger(scheduled_for: datetime | None = None) -> None:
-                    run_at = (scheduled_for or _utc_now()).astimezone(timezone.utc).replace(microsecond=0)
-                    await queue.enqueue(_build_scheduled_event(
-                        job_key="monthly_validation",
-                        scope_key=scope_key,
-                        scheduled_for=run_at,
-                        event_type="monthly_validation_trigger",
-                        bot_id=bot_id,
-                        payload={
-                            "bot_id": bot_id,
-                            "run_month": "",
-                            "shadow": config.monthly_validation_mode != "approval_gated",
-                            "optimizer_sequence_enabled": config.monthly_optimizer_sequence_enabled,
-                            "backtest_command": config.monthly_backtest_command,
-                            "workflow_contract_path": config.monthly_workflow_contract_path,
-                            "workflow_contract_version": config.monthly_workflow_contract_version,
-                        },
-                    ))
-
-                return _trigger
-
-            tracked_monthly_validation_fns.append({
-                "fn": _make_monthly_validation_trigger(bot_id, scope_key),
-                "name_suffix": bot_id,
-                "scope_key": scope_key,
-            })
-
-    async def _market_data_sync_job(scheduled_for: datetime | None = None) -> None:
-        if not config.monthly_validation_enabled:
-            return
-        from trading_assistant.orchestrator.market_data_jobs import MarketDataSyncJob
-        from trading_assistant.skills.monthly_validation_orchestrator import latest_completed_month
-
-        run_month = latest_completed_month(scheduled_for)
-        job = MarketDataSyncJob(
-            market_data_root=Path(config.market_data_root) if config.market_data_root else db_path / "market_data",
-            strategy_registry=config.strategy_registry,
-            event_stream=event_stream,
-            required_coverage_ratio=config.market_data_required_coverage_ratio,
-        )
-        await asyncio.to_thread(job.run, run_month=run_month, bot_ids=config.bot_ids)
-
-    async def _lineage_audit_job(scheduled_for: datetime | None = None) -> None:
-        from trading_assistant.orchestrator.lineage_audit import LineageAuditor
-        from trading_assistant.skills.monthly_validation_orchestrator import latest_completed_month, month_window
-
-        run_month = latest_completed_month(scheduled_for)
-        window_start, window_end = month_window(run_month)
-        auditor = LineageAuditor(
-            curated_dir=curated_dir,
-            findings_dir=db_path / "memory" / "findings",
-            required_lineage_ratio=config.telemetry_required_lineage_ratio,
-            proposal_ledger=proposal_ledger,
-        )
-        for bot_id in config.bot_ids:
-            await asyncio.to_thread(
-                auditor.audit,
-                bot_id=bot_id,
-                window_start=window_start,
-                window_end=window_end,
-            )
-
-    scheduled_job_specs = build_scheduled_job_specs(
-        config=scheduler_config,
-        worker_fn=_worker_job,
-        monitoring_fn=_monitoring_job,
-        relay_fn=_relay_job,
-        daily_analysis_fn=tracked_daily_fn,
-        daily_analysis_fns=tracked_daily_fns,
-        weekly_analysis_fn=_weekly_summary_trigger,
-        stale_event_recovery_fn=_stale_recovery_job,
-        morning_scan_fn=tracked_morning_fn,
-        evening_report_fn=tracked_evening_fn,
-        morning_scan_fns=tracked_morning_fns,
-        evening_report_fns=tracked_evening_fns,
-        outcome_measurement_fn=_measure_outcomes,
-        memory_consolidation_fn=_consolidate_memory,
-        transfer_outcome_fn=_measure_transfer_outcomes,
-        approval_expiry_fn=_approval_expiry_job if approval_tracker else None,
-        pr_review_check_fn=_pr_review_job if approval_tracker else None,
-        deployment_check_fn=_deployment_check_job if deployment_monitor else None,
-        threshold_learning_fn=_threshold_learning_job if threshold_learner else None,
-        experiment_check_fn=_experiment_check_job,
-        reliability_verification_fn=_verify_reliability,
-        discovery_fn=_discovery_analysis,
-        learning_cycle_fn=_run_learning_cycle,
-        lineage_audit_fn=_lineage_audit_job if config.monthly_validation_enabled else None,
-        market_data_sync_fn=_market_data_sync_job if config.monthly_validation_enabled else None,
-        monthly_validation_fn=None,
-        monthly_validation_fns=tracked_monthly_validation_fns,
-    )
-    scheduler_jobs = job_specs_to_scheduler_jobs(scheduled_job_specs, scheduled_job_runner)
-
-    @asynccontextmanager
-    async def lifespan(app: FastAPI):
-        # P1-5: refuse to start a second orchestrator process against the
-        # same data directory. JSONL stores and scheduler state are
-        # single-writer; a second process would duplicate cron firings,
-        # interleave append-rewrite cycles, and cause silent data loss.
-        from filelock import FileLock, Timeout as _LockTimeout
-        lock_path = db_path / ".orchestrator.lock"
-        lock_path.parent.mkdir(parents=True, exist_ok=True)
-        process_lock = FileLock(str(lock_path))
-        try:
-            process_lock.acquire(timeout=0)
-        except _LockTimeout:
-            raise RuntimeError(
-                f"Another orchestrator is already running against {db_path}. "
-                f"Lockfile: {lock_path}. Refusing to start a second process — "
-                "this system is single-writer by design."
-            )
-        app.state.process_lock = process_lock
-        try:
-            await queue.initialize()
-            await registry.initialize()
-            await scheduled_run_store.initialize()
-
-            # Recover events stranded in 'processing' from a prior crash so they
-            # don't sit invisible until the next periodic recovery tick.
-            try:
-                recovered = await queue.recover_stale(timeout_seconds=300)
-                if recovered:
-                    logger.info("Startup: recovered %d stale events", recovered)
-            except Exception:
-                logger.warning("Startup recover_stale failed", exc_info=True)
-
-            # Validate bot timezones (fail fast on invalid IANA zones)
-            for bid, cfg in (config.bot_configs or {}).items():
-                try:
-                    from zoneinfo import ZoneInfo
-                    ZoneInfo(cfg.timezone)
-                except Exception:
-                    raise ValueError(f"Invalid timezone '{cfg.timezone}' for bot '{bid}'")
-
-            # Start channel adapters
-            for adapter in channel_adapters:
-                try:
-                    await adapter.start()
-                except Exception:
-                    logger.warning("Failed to start %s adapter", type(adapter).__name__)
-
-            # Start Telegram update polling (for callback queries and slash commands)
-            app.state.telegram_healthy = True
-            if telegram_adapter is not None and telegram_adapter._callback_router is not None:
-                try:
-                    await telegram_adapter.start_polling()
-                except Exception:
-                    logger.error("Failed to start Telegram polling — feedback loop disabled", exc_info=True)
-                    app.state.telegram_healthy = False
-                    # Surface to operators via remaining channels (Discord, email).
-                    try:
-                        degraded_payload = NotificationPayload(
-                            notification_type="telegram_polling_failure",
-                            priority=NotificationPriority.CRITICAL,
-                            title="Telegram polling offline",
-                            body=(
-                                "Telegram polling failed at startup — suggestion "
-                                "approve/reject feedback is offline until restart."
-                            ),
-                        )
-                        await dispatcher.dispatch(
-                            degraded_payload,
-                            notification_prefs,
-                            _utc_now().hour,
-                        )
-                    except Exception:
-                        logger.exception("Failed to dispatch Telegram degradation alert")
-
-            # Start audit trail consumer
-            audit_consumer.start(event_stream)
-
-            # Catch up on events buffered while PC was off
-            if vps_receiver:
-                try:
-                    await vps_receiver.drain()
-                except Exception:
-                    logger.warning("Startup drain failed — will retry via scheduler")
-
-            # Catch up on missed scheduled jobs (e.g., laptop was off)
-            run_history_path = db_path / "data" / "run_history.jsonl"
-            try:
-                seeded_baseline = None
-                store_was_empty = await scheduled_run_store.is_empty()
-                if store_was_empty:
-                    seeded_baseline = await bootstrap_run_store_from_history(
-                        scheduled_run_store,
-                        scheduled_job_specs,
-                        run_history_path,
-                    )
-                if store_was_empty and await scheduled_run_store.get_baseline() is None:
-                    await scheduled_run_store.set_baseline(seeded_baseline or _utc_now())
-
-                catchup = StartupCatchup(
-                    job_specs=scheduled_job_specs,
-                    run_store=scheduled_run_store,
-                )
-                for occurrence in await catchup.build_plan(now=_utc_now()):
-                    logger.info(
-                        "Startup catch-up: running %s (%s @ %s)",
-                        occurrence.spec.job_key,
-                        occurrence.spec.scope_key,
-                        occurrence.scheduled_for.isoformat(),
-                    )
-                    try:
-                        await asyncio.wait_for(
-                            scheduled_job_runner.run(
-                                occurrence.spec,
-                                scheduled_for=occurrence.scheduled_for,
-                            ),
-                            timeout=600,
-                        )
-                    except asyncio.TimeoutError:
-                        logger.warning(
-                            "Scheduled catch-up timed out after 600s for %s (%s) — moving on",
-                            occurrence.spec.job_key,
-                            occurrence.spec.scope_key,
-                        )
-                    except Exception:
-                        logger.warning(
-                            "Scheduled catch-up failed for %s (%s)",
-                            occurrence.spec.job_key,
-                            occurrence.spec.scope_key,
-                            exc_info=True,
-                        )
-            except Exception:
-                logger.warning("Startup catch-up failed", exc_info=True)
-
-            # Start scheduler (graceful degradation if it fails)
-            try:
-                scheduler = _create_scheduler(scheduler_jobs)
-            except Exception:
-                logger.error("Failed to create scheduler", exc_info=True)
-                scheduler = None
-            app.state.scheduler = scheduler
-
-        except Exception as exc:
-            logger.critical("Startup failed: %s", exc, exc_info=True)
-            # Best-effort crash notification
-            try:
-                payload = NotificationPayload(
-                    notification_type="system_alert",
-                    priority=NotificationPriority.CRITICAL,
-                    title="Trading Assistant Startup Failed",
-                    body=f"Startup failure: {exc}",
-                )
-                await dispatcher.dispatch(payload, notification_prefs, 0)
-            except Exception:
-                pass
-            raise
-
-        yield
-
-        # Shutdown
-        await audit_consumer.stop()
-        if hasattr(app.state, "scheduler") and app.state.scheduler:
-            app.state.scheduler.shutdown(wait=False)
-        await subagent_mgr.cancel_all()
-
-        # Stop channel adapters
-        for adapter in channel_adapters:
-            try:
-                await adapter.stop()
-            except Exception:
-                logger.warning("Failed to stop %s adapter", type(adapter).__name__)
-
-        await queue.close()
-        await registry.close()
-        await scheduled_run_store.close()
-        run_index.close()
-        # P1-5: release the single-process lock last so a restart isn't
-        # blocked by a leaked lock file.
-        try:
-            process_lock.release()
-        except Exception:
-            logger.warning("Failed to release orchestrator lockfile", exc_info=True)
+    lifespan = build_runtime_lifespan(runtime, scheduler_wiring)
 
     app = FastAPI(title="Trading Assistant Orchestrator", lifespan=lifespan)
     app.state.start_time = datetime.now(timezone.utc)
@@ -2439,7 +317,7 @@ def create_app(db_dir: str | None = None, config: AppConfig | None = None) -> Fa
     async def _require_api_key(request: Request, call_next):
         """Protect the control plane when ORCHESTRATOR_API_KEY is configured."""
         required_key = config.orchestrator_api_key
-        if not required_key or request.url.path == "/health":
+        if not required_key or request.url.path in {"/health", "/live", "/ready"}:
             return await call_next(request)
 
         provided_key = request.headers.get("X-Api-Key", "")
@@ -2448,55 +326,61 @@ def create_app(db_dir: str | None = None, config: AppConfig | None = None) -> Fa
 
         return await call_next(request)
 
-    # Expose on app.state so test fixtures can manually initialize/close
-    # (httpx ASGITransport does not trigger lifespan events)
-    app.state.queue = queue
-    app.state.registry = registry
-    app.state.scheduled_run_store = scheduled_run_store
-    app.state.scheduled_job_specs = scheduled_job_specs
-    app.state.worker = worker
-    app.state.event_stream = event_stream
-    app.state.session_store = session_store
-    app.state.subagent_mgr = subagent_mgr
-    app.state.dispatcher = dispatcher
-    app.state.agent_runner = agent_runner
-    app.state.agent_preferences = agent_runner.get_preferences()
-    app.state.brain = brain
-    app.state.handlers = handlers
-    app.state.monitoring_loop = monitoring_loop
-    app.state.notification_preferences = notification_prefs
-    app.state.vps_receiver = vps_receiver
-    app.state.latency_tracker = latency_tracker
-    app.state.config = config
-    app.state.consolidator = consolidator
-    app.state.audit_consumer = audit_consumer
-    app.state.conversation_tracker = conversation_tracker
-    app.state.skills_registry = skills_registry
-    app.state.autonomous_pipeline = autonomous_pipeline
-    app.state.approval_tracker = approval_tracker
-    app.state.approval_handler = approval_handler
-    app.state.repo_task_runner = repo_task_runner
-    app.state.deployment_monitor = deployment_monitor
-    app.state.threshold_learner = threshold_learner
-    app.state.experiment_manager = experiment_manager
-    app.state.experiment_config_gen = experiment_config_gen
-    app.state.telegram_callback_router = callback_router
-    app.state.telegram_renderer = telegram_renderer
+    runtime.collaborators.update({
+        "scheduled_job_specs": scheduled_job_specs,
+        "reconcile_linked_subagent_tasks": _reconcile_linked_subagent_tasks,
+        "telegram_callback_router": callback_router,
+        "telegram_renderer": telegram_renderer,
+        "vps_receiver": vps_receiver,
+        "agent_preferences": agent_runner.get_preferences(),
+    })
+    runtime.attach_state(app)
 
-    @app.get("/health")
-    async def health():
-        # P3-2: don't just check that the scheduler attribute exists — also
-        # confirm APScheduler reports itself as running.
+    def _health_payload() -> dict:
         scheduler_obj = getattr(app.state, "scheduler", None) if hasattr(app.state, "scheduler") else None
         scheduler_ok = bool(scheduler_obj) and bool(getattr(scheduler_obj, "running", False))
         telegram_healthy = getattr(app.state, "telegram_healthy", True)
-        all_ok = scheduler_ok and telegram_healthy
+        relay_receiver = getattr(app.state, "vps_receiver", None)
+        relay_ready = (
+            bool(relay_receiver) and bool(getattr(relay_receiver, "is_healthy", False))
+            if config.relay_url
+            else True
+        )
+        relay_consecutive_failures = (
+            int(getattr(relay_receiver, "consecutive_failures", 0))
+            if relay_receiver is not None
+            else 0
+        )
+        all_ok = scheduler_ok and telegram_healthy and relay_ready
         return {
             "status": "ok" if all_ok else "degraded",
             "scheduler": "running" if scheduler_ok else "unavailable",
             "telegram_healthy": telegram_healthy,
+            "relay": "configured" if config.relay_url else "disabled",
+            "relay_ready": relay_ready,
+            "relay_consecutive_failures": relay_consecutive_failures,
+            **runtime_config_summary(config),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
+
+    @app.get("/health")
+    async def health():
+        return _health_payload()
+
+    @app.get("/live")
+    async def live():
+        return {
+            "status": "ok",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+
+    @app.get("/ready")
+    async def ready():
+        payload = _health_payload()
+        return JSONResponse(
+            status_code=200 if payload["status"] == "ok" else 503,
+            content=payload,
+        )
 
     @app.get("/metrics")
     async def metrics():
@@ -2533,7 +417,7 @@ def create_app(db_dir: str | None = None, config: AppConfig | None = None) -> Fa
 
     @app.post("/ingest")
     async def ingest_event(event: dict):
-        """Direct event ingest — bypasses relay, useful for testing.
+        """Direct event ingest - bypasses relay, useful for testing.
 
         Validates envelope (P1-4): bot_id must be in config.bot_ids or a
         known system source; payload must fit within 256 KB.
@@ -2554,7 +438,6 @@ def create_app(db_dir: str | None = None, config: AppConfig | None = None) -> Fa
     @app.get("/tasks")
     async def list_tasks(status: str | None = None):
         if status:
-            from trading_assistant.schemas.tasks import TaskStatus
             return [t.model_dump(mode="json") for t in await registry.list_by_status(TaskStatus(status))]
         return []
 
@@ -2703,11 +586,11 @@ def create_app(db_dir: str | None = None, config: AppConfig | None = None) -> Fa
 
     @app.get("/learning/dashboard")
     async def learning_dashboard():
-        """Learning system dashboard — ground truth, lessons, experiments, scorecard."""
+        """Learning system dashboard - ground truth, lessons, experiments, scorecard."""
         from trading_assistant.skills.learning_ledger import LearningLedger
         from trading_assistant.skills.suggestion_scorer import SuggestionScorer
 
-        findings_dir = db_path / "memory" / "findings"
+        findings_dir = memory_dir / "findings"
         ledger = LearningLedger(findings_dir)
         scorer = SuggestionScorer(findings_dir)
 
@@ -2749,7 +632,7 @@ def create_app(db_dir: str | None = None, config: AppConfig | None = None) -> Fa
         prediction_accuracy = {}
         try:
             from trading_assistant.analysis.context_builder import ContextBuilder
-            ctx = ContextBuilder(db_path / "memory")
+            ctx = ContextBuilder(memory_dir)
             pkg = ctx.base_package()
             prediction_accuracy = pkg.data.get("prediction_accuracy_by_metric", {})
         except Exception:
@@ -2767,56 +650,6 @@ def create_app(db_dir: str | None = None, config: AppConfig | None = None) -> Fa
         }
 
     return app
-
-
-def _create_scheduler(jobs: list[dict]) -> object | None:
-    """Create and start an AsyncIOScheduler from job definitions.
-
-    Returns None if APScheduler is not installed (e.g., during testing).
-    """
-    try:
-        from apscheduler.schedulers.asyncio import AsyncIOScheduler
-        from apscheduler.triggers.interval import IntervalTrigger
-        from apscheduler.triggers.cron import CronTrigger
-    except ImportError:
-        logger.warning("APScheduler not installed — scheduler disabled")
-        return None
-
-    scheduler = AsyncIOScheduler()
-    for job in jobs:
-        job = dict(job)  # shallow copy to avoid mutating the original
-        trigger_type = job.pop("trigger")
-        func = job.pop("func")
-        name = job.pop("name")
-
-        # Extract APScheduler add_job kwargs before building trigger
-        misfire_grace_time = job.pop("misfire_grace_time", None)
-        coalesce = job.pop("coalesce", None)
-
-        if trigger_type == "interval":
-            trigger = IntervalTrigger(seconds=job.pop("seconds"))
-        elif trigger_type == "cron":
-            trigger = CronTrigger(**job)
-            job = {}
-        else:
-            logger.warning("Unknown trigger type %s for job %s", trigger_type, name)
-            continue
-
-        add_kwargs: dict = {}
-        if misfire_grace_time is not None:
-            add_kwargs["misfire_grace_time"] = misfire_grace_time
-        if coalesce is not None:
-            add_kwargs["coalesce"] = coalesce
-
-        scheduler.add_job(func, trigger, id=name, name=name, **add_kwargs, **job)
-
-    scheduler.start()
-    return scheduler
-
-
-async def _noop_relay() -> None:
-    """Placeholder relay poll — replace with actual relay client."""
-    pass
 
 
 # Default app instance for `uvicorn trading_assistant.orchestrator.app:app`

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from trading_assistant.schemas.learning_card import CardType, LearningCard
+from trading_assistant.schemas.learning_card import CardType
 from trading_assistant.skills.learning_card_store import LearningCardStore
 
 

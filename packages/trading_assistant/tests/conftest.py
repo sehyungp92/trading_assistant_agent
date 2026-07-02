@@ -7,6 +7,8 @@ import pytest
 import aiosqlite
 
 os.environ.setdefault("ALLOW_UNAUTHENTICATED_LOCAL", "true")
+os.environ.setdefault("BIND_HOST", "127.0.0.1")
+os.environ.setdefault("ENVIRONMENT", "development")
 
 # Import shared fixtures so they are available to all test files.
 # pytest auto-discovers fixtures defined in conftest.py or imported here.

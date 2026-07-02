@@ -298,7 +298,7 @@ class TransferProposalBuilder:
             return 0.0
 
         best_score = 0.0
-        for _strat_id, profile in target_strategies.items():
+        for _strat_id, _profile in target_strategies.items():
             target_arch = self._strategy_registry.archetype_for_strategy(_strat_id)
             if source_arch == target_arch:
                 base = 0.75

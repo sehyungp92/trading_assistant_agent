@@ -8,7 +8,6 @@ from trading_assistant.schemas.harness_learning import HarnessExecutionInput, Ha
 from trading_assistant.schemas.learning_card import CardType, LearningCard
 from trading_assistant.skills.harness_execution_runner import HarnessExecutionRunner
 from trading_assistant.skills.learning_card_store import LearningCardStore
-from trading_assistant.skills.playbook_generator import PlaybookGenerator
 
 
 def _memory(tmp_path: Path) -> Path:

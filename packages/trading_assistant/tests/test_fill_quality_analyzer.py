@@ -1,7 +1,6 @@
 """Tests for FillQualityAnalyzer — fill quality schemas and analyzer logic."""
 from __future__ import annotations
 
-import pytest
 
 from trading_assistant.schemas.fill_quality import FillQualityReport, FillStats, SymbolFillQuality
 from trading_assistant.skills.fill_quality_analyzer import FillQualityAnalyzer

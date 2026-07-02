@@ -1,6 +1,5 @@
 # tests/test_strategy_proportion_optimizer.py
 """Tests for the strategy proportion optimizer skill."""
-import pytest
 
 from trading_assistant.schemas.proportion_optimization import (
     StrategyAllocationRecommendation,

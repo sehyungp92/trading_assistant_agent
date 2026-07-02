@@ -14,7 +14,7 @@ from __future__ import annotations
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock
 
 import pytest
 
@@ -661,7 +661,6 @@ class TestUnconditionalSimulations:
 
         # Track which bots _load_trades_for_week is called for
         called_bots: list[str] = []
-        original_load = handlers._load_trades_for_week
 
         def tracking_load(bot_id, week_start, week_end):
             called_bots.append(bot_id)

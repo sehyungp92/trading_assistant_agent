@@ -1,7 +1,6 @@
 """End-to-end notification delivery tests — verifies rendered text arrives at BaseChannel adapters."""
 from __future__ import annotations
 
-import pytest
 
 from trading_assistant.comms.base_channel import BaseChannel
 from trading_assistant.comms.dispatcher import NotificationDispatcher

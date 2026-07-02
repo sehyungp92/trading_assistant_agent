@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
 from pathlib import Path
-from unittest.mock import MagicMock
 
 import pytest
 
@@ -13,6 +11,7 @@ from trading_assistant.schemas.engine_metrics import (
     EngineMetrics,
     RegimeEngineStats,
 )
+from trading_assistant.schemas.events import TradeEvent
 from trading_assistant.schemas.strategy_profile import StrategyProfile, StrategyRegistry
 from trading_assistant.skills.engine_decomposer import EngineDecomposer
 from tests.factories import make_trade

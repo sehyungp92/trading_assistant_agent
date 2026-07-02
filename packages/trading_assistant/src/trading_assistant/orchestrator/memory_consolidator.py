@@ -201,12 +201,12 @@ class MemoryConsolidator:
 
     def _write_markdown(self, summary: ConsolidationSummary, path: Path) -> None:
         lines = [
-            f"# Memory Consolidation Summary",
-            f"",
+            "# Memory Consolidation Summary",
+            "",
             f"Consolidated at: {summary.consolidated_at.isoformat()}",
             f"Source: {summary.source_file}",
             f"Total entries: {summary.total_entries}",
-            f"",
+            "",
         ]
 
         if summary.top_bots:

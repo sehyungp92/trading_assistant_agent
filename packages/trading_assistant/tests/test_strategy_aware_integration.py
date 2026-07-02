@@ -12,7 +12,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
 
 from trading_assistant.schemas.agent_response import AgentSuggestion, ParsedAnalysis
 from trading_assistant.schemas.strategy_suggestions import StrategySuggestion, SuggestionTier

@@ -13,17 +13,16 @@ Phase D: Daily Context Enrichment
 from __future__ import annotations
 
 import json
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 from trading_assistant.analysis.context_builder import ContextBuilder
 from trading_assistant.analysis.feedback_handler import FeedbackHandler
 from trading_assistant.schemas.corrections import CorrectionType
-from trading_assistant.schemas.forecast_tracking import AccuracyTrend, ForecastMetaAnalysis, ForecastRecord
+from trading_assistant.schemas.forecast_tracking import AccuracyTrend, ForecastRecord
 from trading_assistant.schemas.memory import ConsolidationSummary, PatternCount
-from trading_assistant.schemas.suggestion_tracking import SuggestionRecord, SuggestionStatus
+from trading_assistant.schemas.suggestion_tracking import SuggestionRecord
 from trading_assistant.skills.forecast_tracker import ForecastTracker
 from trading_assistant.skills.suggestion_tracker import SuggestionTracker
 
@@ -45,7 +44,7 @@ class TestPathAlignment:
         findings_dir.mkdir(parents=True)
 
         tracker = SuggestionTracker(store_dir=findings_dir)
-        ctx = ContextBuilder(memory_dir)
+        ContextBuilder(memory_dir)
 
         # Record a suggestion via tracker
         tracker.record(SuggestionRecord(
@@ -706,13 +705,13 @@ class TestPrescriptiveConsolidation:
         # Write enough entries to trigger consolidation
         path = tmp_path / "corrections.jsonl"
         entries = []
-        for i in range(5):
+        for _i in range(5):
             entries.append(json.dumps({
                 "bot_id": "bot1", "root_cause": "regime_mismatch",
                 "correction_type": "trade_reclassify",
             }))
         # Add more for high root cause count
-        for i in range(10):
+        for _i in range(10):
             entries.append(json.dumps({
                 "bot_id": "bot1", "root_cause": "regime_mismatch",
             }))
@@ -787,7 +786,6 @@ class TestHypothesisLibrary:
 class TestTransferProposals:
     def _make_pattern_library(self, tmp_path, patterns):
         from trading_assistant.skills.pattern_library import PatternLibrary
-        from trading_assistant.schemas.pattern_library import PatternEntry, PatternStatus, PatternCategory
 
         lib = PatternLibrary(tmp_path)
         for p in patterns:

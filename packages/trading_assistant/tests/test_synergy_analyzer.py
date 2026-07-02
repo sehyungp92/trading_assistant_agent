@@ -1,10 +1,8 @@
 # tests/test_synergy_analyzer.py
 """Tests for the synergy analyzer skill."""
-import pytest
 
 from trading_assistant.schemas.synergy_analysis import (
     StrategyPairAnalysis,
-    StrategyMarginalContribution,
     SynergyReport,
 )
 from trading_assistant.schemas.weekly_metrics import StrategyWeeklySummary

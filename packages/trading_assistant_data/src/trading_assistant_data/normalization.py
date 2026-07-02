@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -13,17 +12,26 @@ import pandas as pd
 import yaml
 
 from .calendars import CalendarDefinition
-from .calendars.cme import calendar_definition as cme_calendar
-from .calendars.crypto import calendar_definition as crypto_calendar
-from .calendars.krx import calendar_definition as krx_calendar
-from .calendars.krx import kis_intraday_calendar_definition as krx_kis_intraday_calendar
-from .calendars.us_equities import calendar_definition as us_equities_calendar
 from .checksums import parquet_content_checksum, stable_row_hashes
 from .io import read_json, write_json
-from .manifests import MarketDataManifest, load_market_manifest, write_model
+from .manifests import MarketDataManifest, load_market_manifest
 from .repo import git_commit_sha, is_git_commit_sha
+from .slices import (
+    CanonicalSlice,
+    DataSliceProduct,
+    SliceRequest,
+    SliceWrite,
+    timestamps_sorted_unique_utc,
+)
+from .slices.writer import update_slice_index
+from .slices.market_rules import (
+    cme_calendar,
+    crypto_calendar,
+    krx_calendar,
+    krx_kis_intraday_calendar,
+    us_equities_calendar,
+)
 from .sources.hyperliquid.store import canonicalize_candles, canonicalize_funding
-from .validation import coverage_counts
 
 
 DEFAULT_FEE_MODEL = "fees_v1"
@@ -34,13 +42,6 @@ KRX_ADJUSTMENT_POLICY = "krx_split_adjusted_policy_v1"
 US_EQUITY_ADJUSTMENT_POLICY = "us_equity_raw_adjustment_policy_v1"
 KRX_FLOW_ADJUSTMENT_POLICY = "krx_flow_panel_policy_v1"
 REGIME_SEED_ADJUSTMENT_POLICY = "global_macro_regime_seed_policy_v1"
-
-
-@dataclass(frozen=True)
-class SliceWrite:
-    manifest_path: Path
-    canonical_paths: list[Path]
-    manifest: MarketDataManifest
 
 
 def normalize_all(repo_root: Path, *, snapshot: str = "2026-05-30", dry_run: bool = False) -> dict:
@@ -121,7 +122,7 @@ def normalize_crypto(repo_root: Path, *, snapshot: str, dry_run: bool = False) -
             errors.append(f"{source_path}: {exc}")
 
     if not dry_run:
-        _update_slice_index(repo_root, writes)
+        update_slice_index(repo_root, writes)
     return {
         "name": "crypto_hyperliquid",
         "dry_run": dry_run,
@@ -176,7 +177,7 @@ def normalize_reference_trading_bars(repo_root: Path, *, snapshot: str, dry_run:
         except Exception as exc:
             errors.append(f"{source_path}: {exc}")
     if not dry_run:
-        _update_slice_index(repo_root, writes)
+        update_slice_index(repo_root, writes)
     return {
         "name": "trading_ibkr_raw",
         "dry_run": dry_run,
@@ -260,7 +261,7 @@ def normalize_krx_intraday(
         except Exception as exc:
             errors.append(f"{symbol} {timeframe}: {exc}")
     if not dry_run:
-        _update_slice_index(repo_root, writes)
+        update_slice_index(repo_root, writes)
     return {
         "name": "krx_kis_intraday",
         "dry_run": dry_run,
@@ -402,7 +403,7 @@ def normalize_krx_daily(repo_root: Path, *, snapshot: str, dry_run: bool = False
             errors.append(f"{sector_path}: {exc}")
 
     if not dry_run:
-        _update_slice_index(repo_root, writes)
+        update_slice_index(repo_root, writes)
     return {
         "name": "krx_lrs_daily_and_flow",
         "dry_run": dry_run,
@@ -492,7 +493,7 @@ def normalize_us_equity_stock_raw(repo_root: Path, *, snapshot: str, dry_run: bo
         except Exception as exc:
             errors.append(f"{source_path}: {exc}")
     if not dry_run:
-        _update_slice_index(repo_root, writes)
+        update_slice_index(repo_root, writes)
     return {
         "name": "trading_stock_ibkr_raw",
         "dry_run": dry_run,
@@ -536,11 +537,19 @@ def _write_archived_us_equity_stock_slice_and_manifest(
     use_rth = bool(download.get("use_rth", timeframe in {"1d", "daily"}))
     calendar = us_equities_calendar()
     if timeframe in {"1d", "daily"} or use_rth:
-        expected, actual, missing = coverage_counts(
-            output["timestamp_utc"],
-            timeframe,
-            calendar,
-            exchange_timestamps=output.get("timestamp_exchange"),
+        coverage = _slice_coverage_report(
+            repo_root=repo_root,
+            frame=output,
+            source="ibkr",
+            market="us_equity",
+            symbol=symbol.upper(),
+            timeframe=timeframe,
+            calendar=calendar,
+        )
+        expected, actual, missing = (
+            coverage.expected,
+            coverage.actual,
+            coverage.missing_ranges,
         )
     else:
         expected = len(output)
@@ -615,10 +624,7 @@ def _write_archived_us_equity_stock_slice_and_manifest(
         usable_for_authoritative_validation=not blocking_reasons and expected > 0 and actual > 0,
         blocking_reasons=blocking_reasons,
     )
-    manifest_path = _slice_manifest_path(repo_root, manifest)
-    if not dry_run:
-        write_model(manifest_path, manifest)
-    return [SliceWrite(manifest_path=manifest_path, canonical_paths=[canonical_path], manifest=manifest)]
+    return [_write_slice_product(repo_root, manifest, [canonical_path], dry_run=dry_run)]
 
 
 def _existing_archived_trading_stock_write(
@@ -816,8 +822,7 @@ def _trading_stock_requirement_keys(repo_root: Path) -> set[tuple[str, str]]:
 def _timestamps_sorted_unique_utc(frame: pd.DataFrame) -> bool:
     if "timestamp_utc" not in frame:
         return False
-    timestamps = pd.DatetimeIndex(pd.to_datetime(frame["timestamp_utc"], utc=True))
-    return bool(timestamps.is_monotonic_increasing and timestamps.is_unique)
+    return timestamps_sorted_unique_utc(frame["timestamp_utc"])
 
 
 def _illegal_us_equity_intraday_timestamp_count(frame: pd.DataFrame, use_rth: bool) -> int:
@@ -987,7 +992,7 @@ def normalize_trading_seed_data(repo_root: Path, *, snapshot: str, dry_run: bool
         reference_paths.append(_rel(target, repo_root))
 
     if not dry_run:
-        _update_slice_index(repo_root, writes)
+        update_slice_index(repo_root, writes)
     return {
         "name": "trading_swing_momentum_regime_seeds",
         "dry_run": dry_run,
@@ -1136,7 +1141,7 @@ def normalize_krx_intraday_frames(
     source_files = source_files or [""] * len(frames)
     canonical_frames: list[pd.DataFrame] = []
     tz = ZoneInfo("Asia/Seoul")
-    for frame, source_file in zip(frames, source_files):
+    for frame, source_file in zip(frames, source_files, strict=False):
         if "timestamp" not in frame.columns:
             raise ValueError("KRX intraday frame requires timestamp column")
         timestamp = pd.to_datetime(frame["timestamp"])
@@ -1574,10 +1579,7 @@ def _write_static_reference_slice_and_manifest(
         usable_for_authoritative_validation=not blocking_reasons and len(frame) > 0,
         blocking_reasons=blocking_reasons,
     )
-    manifest_path = _slice_manifest_path(repo_root, manifest)
-    if not dry_run:
-        write_model(manifest_path, manifest)
-    return SliceWrite(manifest_path=manifest_path, canonical_paths=[canonical_path], manifest=manifest)
+    return _write_slice_product(repo_root, manifest, [canonical_path], dry_run=dry_run)
 
 
 def _static_reference_path(*, repo_root: Path, market: str, source: str, kind: str) -> Path:
@@ -1590,6 +1592,29 @@ def _static_reference_path(*, repo_root: Path, market: str, source: str, kind: s
         / f"source={source}"
         / f"kind={kind}"
         / "part.parquet"
+    )
+
+
+def _slice_coverage_report(
+    *,
+    repo_root: Path,
+    frame: pd.DataFrame,
+    source: str,
+    market: str,
+    symbol: str,
+    timeframe: str,
+    calendar: CalendarDefinition,
+):
+    return DataSliceProduct(repo_root).coverage_for_request(
+        calendar=calendar,
+        request=SliceRequest(
+            market=market,
+            source=source,
+            symbol=symbol,
+            timeframe=timeframe,
+        ),
+        timestamps=frame["timestamp_utc"],
+        exchange_timestamps=frame.get("timestamp_exchange"),
     )
 
 
@@ -1618,11 +1643,19 @@ def _manifest_for_partition(
         session_calendar = ""
         timezone_name = "UTC"
     else:
-        expected, actual, missing = coverage_counts(
-            frame["timestamp_utc"],
-            timeframe,
-            calendar,
-            exchange_timestamps=frame.get("timestamp_exchange"),
+        coverage = _slice_coverage_report(
+            repo_root=repo_root,
+            frame=frame,
+            source=source,
+            market=market,
+            symbol=symbol,
+            timeframe=timeframe,
+            calendar=calendar,
+        )
+        expected, actual, missing = (
+            coverage.expected,
+            coverage.actual,
+            coverage.missing_ranges,
         )
         session_calendar = calendar.calendar_id
         timezone_name = calendar.timezone
@@ -1696,10 +1729,7 @@ def _manifest_for_partition(
         usable_for_authoritative_validation=authoritative,
         blocking_reasons=blocking_reasons,
     )
-    manifest_path = _slice_manifest_path(repo_root, manifest)
-    if not dry_run:
-        write_model(manifest_path, manifest)
-    return SliceWrite(manifest_path=manifest_path, canonical_paths=canonical_paths, manifest=manifest)
+    return _write_slice_product(repo_root, manifest, canonical_paths, dry_run=dry_run)
 
 
 def _diagnostic_lineage(
@@ -1986,70 +2016,37 @@ def _snapshot_id_from_source_files(source_files: list[str]) -> str:
     return "unknown_snapshot"
 
 
-def _slice_manifest_path(repo_root: Path, manifest: MarketDataManifest) -> Path:
-    start = manifest.start_ts.strftime("%Y%m%dT%H%M%SZ")
-    end = manifest.end_ts.strftime("%Y%m%dT%H%M%SZ")
-    return (
-        Path(repo_root)
-        / "data"
-        / "manifests"
-        / "slices"
-        / manifest.source
-        / manifest.market
-        / manifest.symbol
-        / manifest.timeframe
-        / f"{start}_{end}.market_data_manifest.json"
+
+
+def _write_slice_product(
+    repo_root: Path,
+    manifest: MarketDataManifest,
+    canonical_paths: list[Path],
+    *,
+    dry_run: bool,
+) -> SliceWrite:
+    """Normalization-owned compatibility adapter; remove when sources call DataSliceProduct directly."""
+    product = DataSliceProduct(repo_root)
+    if dry_run:
+        return SliceWrite(
+            manifest_path=product.manifest_path(manifest),
+            canonical_paths=canonical_paths,
+            manifest=manifest,
+        )
+    return product.write_slice(
+        CanonicalSlice(
+            request=SliceRequest(
+                market=manifest.market,
+                source=manifest.source,
+                symbol=manifest.symbol,
+                timeframe=manifest.timeframe,
+            ),
+            canonical_paths=canonical_paths,
+            manifest=manifest,
+        )
     )
 
 
-def _update_slice_index(
-    repo_root: Path,
-    writes: list[SliceWrite],
-) -> None:
-    if not writes:
-        return
-    index_path = Path(repo_root) / "data" / "manifests" / "slices" / "slice_index.json"
-    if index_path.exists():
-        try:
-            payload = read_json(index_path)
-        except ValueError:
-            payload = {"schema_version": "slice_index_v1", "slices": []}
-    else:
-        payload = {"schema_version": "slice_index_v1", "slices": []}
-    entries_by_id = {}
-    for write in writes:
-        manifest = write.manifest
-        entries_by_id[manifest.manifest_id] = {
-            "manifest_id": manifest.manifest_id,
-            "manifest_path": _rel(write.manifest_path, repo_root),
-            "source": manifest.source,
-            "market": manifest.market,
-            "symbol": manifest.symbol,
-            "timeframe": manifest.timeframe,
-            "checksum": manifest.checksum,
-            "canonical_paths": [_rel(path, repo_root) for path in write.canonical_paths],
-        }
-        family = str((manifest.lineage or {}).get("strategy_data_family") or "").strip()
-        if family:
-            entries_by_id[manifest.manifest_id]["strategy_data_family"] = family
-    entries = list(entries_by_id.values())
-    manifest_ids = {entry["manifest_id"] for entry in entries}
-    manifest_paths = {entry["manifest_path"] for entry in entries}
-    canonical_paths = {path for entry in entries for path in entry.get("canonical_paths", [])}
-    payload["slices"] = [
-        item
-        for item in payload.get("slices", [])
-        if item.get("manifest_id") not in manifest_ids
-        and item.get("manifest_path") not in manifest_paths
-        and not canonical_paths.intersection(item.get("canonical_paths", []))
-    ]
-    payload["slices"].extend(entries)
-    by_manifest_path = {}
-    for item in payload["slices"]:
-        by_manifest_path[item["manifest_path"]] = item
-    payload["slices"] = list(by_manifest_path.values())
-    payload["slices"].sort(key=lambda item: (item["source"], item["market"], item["symbol"], item["timeframe"], item["manifest_path"]))
-    write_json(index_path, payload)
 
 
 def _parse_trading_raw_name(stem: str) -> tuple[str, str, str]:

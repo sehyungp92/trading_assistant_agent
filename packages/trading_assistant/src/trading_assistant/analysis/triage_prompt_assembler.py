@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from trading_assistant.analysis.context_builder import ContextBuilder
+from trading_assistant.analysis.evidence_memory import EvidenceMemory
 from trading_assistant.schemas.bug_triage import BugComplexity, BugSeverity
 from trading_assistant.schemas.prompt_package import PromptPackage
 from trading_assistant.skills.triage_context_builder import TriageContext
@@ -31,7 +32,8 @@ class TriagePromptAssembler:
 
     def __init__(self, memory_dir: Path) -> None:
         self._memory_dir = memory_dir
-        self._ctx = ContextBuilder(memory_dir)
+        self._evidence = EvidenceMemory(memory_dir)
+        self._ctx = ContextBuilder(memory_dir, evidence_memory=self._evidence)
 
     def assemble(
         self,
